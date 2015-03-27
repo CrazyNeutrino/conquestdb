@@ -1,0 +1,15 @@
+<Context>
+	<ResourceLink global="ds/conquest_ds" name="ds/conquest_ds" type="javax.sql.DataSource" />
+
+	<!-- <Resource name="mail/Session" auth="Container" type="javax.mail.Session" mail.transport.protocol="smtp" 
+		mail.smtp.host="smtp.gmail.com" mail.smtp.port="587" mail.smtp.starttls.enable="true" mail.smtp.user="conquestdb@gmail.com" 
+		mail.smtp.auth="true" password="tr0Y3s29" /> -->
+
+	<Resource name="mail/Session" auth="Container" type="javax.mail.Session" mail.smtp.host="smtp.gmail.com"
+		mail.smtp.port="465" mail.smtp.socketFactory.port="465" mail.smtp.socketFactory.class="javax.net.ssl.SSLSocketFactory"
+		mail.smtp.user="conquestdb@gmail.com" mail.smtp.auth="true" password="tr0Y3s29" />
+
+	<Resource name="BeanManager" auth="Container" type="javax.enterprise.inject.spi.BeanManager"
+		factory="org.jboss.weld.resources.ManagerObjectFactory" />
+
+</Context>

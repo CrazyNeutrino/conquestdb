@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/WEB-INF/template/ui.xhtml">
+	
+	<ui:define name="head">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.4/typeahead.bundle.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/pagedown/1.0/Markdown.Converter.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/pagedown/1.0/Markdown.Sanitizer.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.string/3.0.2/underscore.string.min.js"></script>
+		
+		<h:outputStylesheet name="css/jquery-ui.min.css" />				
+	</ui:define>
+
+	<ui:define name="content">			
+		<h:outputScript library="javax.faces" name="jsf.js" target="head" />
+		<!-- <h:outputScript name="js/bootstrap-slider.min.js" target="head" /> -->
+		<h:outputScript name="js/jquery-ui.min.js" target="head" />
+		<h:outputScript name="js/chart.min.js" target="head" />
+		<h:outputScript name="js/moment-timezone-with-data.js" target="head" />
+		<h:outputScript name="js/conquest.js" target="head" />
+		<h:outputScript name="js/handlebars-helpers.js" target="head" />
+		<h:outputScript name="js/handlebars-templates.js" target="head" />
+		<h:outputScript name="js/deck.js" target="head" />
+		<h:outputScript name="js/deck.private.js" target="head" />
+		<!-- <h:outputStylesheet name="css/bootstrap-slider.css" /> -->		
+		<h:outputScript target="head">
+			conquest.static.language = '#{localeCtrl.language}';
+			conquest.static.contextPath = '#{facesContext.externalContext.request.contextPath}';
+			conquest.static.restPath = '#{facesContext.externalContext.request.contextPath}/rest';
+			conquest.static.imagePath = '/image';
+			conquest.static.user = #{bootstrapCtrl.user};
+			conquest.dict.messages = #{bootstrapCtrl.messagesData};
+			conquest.dict.cards = #{bootstrapCtrl.cardsData};
+			conquest.dict.sets = #{bootstrapCtrl.cardSetsData};
+			conquest.dict.factions = #{bootstrapCtrl.factionsData};
+			conquest.dict.cardTypes = #{bootstrapCtrl.cardTypesData};
+			conquest.dict.traits = #{bootstrapCtrl.domainTraitData};
+			conquest.dict.keywords = #{bootstrapCtrl.domainKeywordData};
+			conquest.dict.initialize();
+		</h:outputScript>
+			
+		<!-- <h:outputText value="#{bootstrapCtrl.decksBootstrapData}" escape="false" /> -->
+	</ui:define>
+
+</ui:composition>

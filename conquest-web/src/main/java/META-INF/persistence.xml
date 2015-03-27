@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="conquest-pu" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<jta-data-source>java:comp/env/ds/conquest_ds</jta-data-source>
+
+		<class>org.meb.conquest.db.model.DomainBase</class>
+		<class>org.meb.conquest.db.model.DomainLang</class>
+		<class>org.meb.conquest.db.model.CycleBase</class>
+		<class>org.meb.conquest.db.model.CycleLang</class>
+		<class>org.meb.conquest.db.model.CardSetBase</class>
+		<class>org.meb.conquest.db.model.CardSetLang</class>
+		<class>org.meb.conquest.db.model.CardBase</class>
+		<class>org.meb.conquest.db.model.CardLang</class>
+		<class>org.meb.conquest.db.model.User</class>
+		<class>org.meb.conquest.db.model.UserSession</class>
+		<class>org.meb.conquest.db.model.Deck</class>
+		<class>org.meb.conquest.db.model.DeckMember</class>
+		<class>org.meb.conquest.db.model.DeckLink</class>
+		<class>org.meb.conquest.db.model.DeckComment</class>
+		<class>org.meb.conquest.db.model.loc.Cycle</class>
+		<class>org.meb.conquest.db.model.loc.Domain</class>
+		<class>org.meb.conquest.db.model.loc.CardSet</class>
+		<class>org.meb.conquest.db.model.loc.Card</class>
+
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.max_fetch_depth" value="3" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />
+			<!-- <property name="hibernate.cache.use_second_level_cache" value="true" />
+			<property name="hibernate.cache.use_query_cache" value="true" />
+			<property name="hibernate.cache.region.factory_class" value="net.sf.ehcache.hibernate.EhCacheRegionFactory" /> -->
+		</properties>
+	</persistence-unit>
+</persistence>

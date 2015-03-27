@@ -1,0 +1,79 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+	<url-mapping id="home0">
+		<pattern value="/" />
+		<view-id value="/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="home1">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }" />
+		<view-id value="/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="deck0">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/deck" />
+		<view-id value="/deck/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="deck1">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/deck/*" />
+		<view-id value="/deck/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="card0">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/card" />
+		<view-id value="/card/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="card1">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/card/*" />
+		<view-id value="/card/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="register">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/account/register" />
+		<view-id value="/account/signup.jsf" />
+	</url-mapping>
+
+	<url-mapping id="activate">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/account/activate" />
+		<query-param name="code">#{accountCtrl.activationCode}</query-param>
+		<view-id value="/account/activate.jsf" />
+		<action onPostback="false">#{accountCtrl.activateUser}</action>
+	</url-mapping>
+
+	<url-mapping id="signin">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/account/signin" />
+		<view-id value="/account/signin.jsf" />
+	</url-mapping>
+
+	<url-mapping id="signout">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/account/signout" />
+		<view-id value="/index.jsf" />
+		<action onPostback="false">#{accountCtrl.signOutUser}</action>
+	</url-mapping>
+
+	<url-mapping id="resetPassword">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/account/resetpassword" />
+		<query-param name="code">#{resetPasswordCtrl.resetPasswordCode}</query-param>
+		<view-id value="/account/resetPassword.jsf" />
+	</url-mapping>
+
+	<url-mapping id="resetPasswordMessage">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/account/resetpasswordm" />
+		<view-id value="/account/resetPasswordMessage.jsf" />
+	</url-mapping>
+
+	<url-mapping id="publicDeck0">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/public/deck" />
+		<view-id value="/publicDeck/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="publicDeck1">
+		<pattern value="/#{ /(en)|(pl)/ localeCtrl.language }/public/deck/*" />
+		<view-id value="/publicDeck/index.jsf" />
+	</url-mapping>
+
+</pretty-config>

@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" template="/WEB-INF/template/ui.xhtml">
+	
+	<ui:define name="content">	
+		<h:outputScript target="head">
+			ga('send', 'pageview');
+		</h:outputScript>		
+	
+		<div class="jumbotron">
+			<h2>Welcome to <a href="http://www.fantasyflightgames.com/edge_minisite.asp?eidm=261">Warhammer 40,000: Conquest</a> deck builder and database.</h2>
+			<br />
+			<p>Go to <a href="/#{localeCtrl.language}/deck" rel="nofollow">deck builder</a> to
+				<span><span class="glyphicon glyphicon-plus small"></span>&#xa0;create</span> 
+				 | <span><span class="glyphicon glyphicon-pencil small"></span>&#xa0;edit</span>
+				 | <span><span class="glyphicon glyphicon-eye-open small"></span>&#xa0;view</span>
+				 | <span><span class="glyphicon glyphicon-import small"></span>&#xa0;import</span>
+				 | <span><span class="glyphicon glyphicon-export small"></span>&#xa0;export</span> 
+				 | <span><span class="glyphicon glyphicon-align-justify small"></span>&#xa0;browse</span>
+				 your decks (login required). 
+				<br />
+				Go to <a href="/#{localeCtrl.language}/card/search" rel="nofollow">card database</a> to search cards.</p>
+			<p>This site is under construction. More mobile &amp; tablet friendly UI will come as well. Be patient.</p>
+		</div>
+	</ui:define>
+
+</ui:composition>

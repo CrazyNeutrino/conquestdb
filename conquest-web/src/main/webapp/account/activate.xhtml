@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces" template="/WEB-INF/template/ui.xhtml">
+
+	<ui:define name="content">
+		<h:outputScript target="head">
+			ga('send', 'pageview');
+		</h:outputScript>
+		
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<h3>#{m['core.activation']}</h3>
+				<div class="row plain-form-wrapper">
+					<div class="col-md-10 col-md-offset-1">
+						<h:messages errorClass="message-error" infoClass="messages-group" styleClass="messages-group"/>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>

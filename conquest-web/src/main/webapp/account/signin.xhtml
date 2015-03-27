@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces" template="/WEB-INF/template/ui.xhtml">
+
+	<ui:define name="content">
+		<h:outputScript target="head">
+			ga('send', 'pageview');
+		</h:outputScript>
+	
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<h3>#{m['core.signIn']}</h3>
+				<div class="row plain-form-wrapper">
+					<div class="col-md-8">
+						<!-- <div class="row">
+							<div class="col-md-7 col-md-offset-5">
+								<h:messages errorClass="message-error" globalOnly="true" styleClass="messages-group" />
+							</div>
+						</div> -->
+						<h:form id="signInForm" class="plain-form">
+							<div class="form-group row">
+								<label for="name" class="col-md-5 required control-label">#{m['core.username']}</label>
+								<div class="col-md-7">
+									<h:inputText id="name" value="#{accountCtrl.name}" class="form-control" required="true"
+										requiredMessage="#{m['error.username.required']}" binding="#{accountCtrl.nameUIInput}">
+									</h:inputText>
+									<h:message for="name" errorClass="message-error" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="password" class="col-md-5 required control-label">#{m['core.password']}</label>
+								<div class="col-md-7">
+									<h:inputSecret id="password" value="#{accountCtrl.password}" class="form-control"
+										required="true" requiredMessage="#{m['error.password.required']}"
+										binding="#{accountCtrl.passwordUIInput}">
+									</h:inputSecret>
+									<h:message for="password" errorClass="message-error" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-7 col-md-offset-5">
+									<h:commandButton class="btn btn-primary form-control" action="#{accountCtrl.signInUser}"
+										value="#{m['core.signIn']}" />
+								</div>
+							</div>
+						</h:form>
+					</div>
+					<div class="col-md-4" style="padding-left: 30px;">
+						<p>
+							<pretty:link mappingId="register">
+								<f:param value="#{localeCtrl.language}" />
+								<h:outputText value="#{m['core.iWantToRegister']}" />
+							</pretty:link>
+						</p>
+						<p>
+							<pretty:link mappingId="resetPassword">
+								<f:param value="#{localeCtrl.language}" />
+								<h:outputText value="#{m['core.iForgotMyPassword']}" />
+							</pretty:link>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h:outputScript>
+		$(document).ready(function() {
+			$("#signInForm\\:name").focus();
+		});
+		</h:outputScript>
+	</ui:define>
+
+</ui:composition>
