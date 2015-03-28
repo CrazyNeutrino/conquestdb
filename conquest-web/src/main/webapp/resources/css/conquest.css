@@ -336,17 +336,21 @@ label.required:after {
 	margin-bottom: 10px;
 }
 
-.deck-container .footer .value:not(:last-child) {
+/* .deck-container .footer .value:not(:last-child) {
 	margin-right: 10px;
 }
 
 .deck-container .footer .key {
 	font-weight: bold;
-}
+} */
 
 /*
  * decks list charts
  */
+
+.charts-container {
+	display: table;
+}
 
 .chart-container {
 	position: relative;
@@ -354,6 +358,7 @@ label.required:after {
 	height: 100px;
 	margin-right: 15px;
 	margin-bottom: 10px;
+	display: table-cell;
 }
 
 .chart-container:last-child {
@@ -451,8 +456,8 @@ label.required:after {
 }
 
 .secondary-text {
-	font-size: 0.8em;
-	color: gray;
+	font-size: 0.9em;
+	color: #777;
 }
 
 .block {
@@ -573,11 +578,6 @@ table.table-with-btn > tbody > tr > td {
 
 .comment .user {
 	font-weight: bold;	
-}
-
-.comment .secondary {
-	color: #bbb;
-	font-size: 0.9em;
 }
 
 .comment .comment-body {

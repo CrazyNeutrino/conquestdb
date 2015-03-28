@@ -19,8 +19,8 @@ $(function() {
 			var template = Handlebars.templates['deck-stats-table.hbs']({
 				stats: stats
 			});
-			this.$el.find('.deck-stats').html(template);
-			this.$el.find('.deck-stats [data-toggle="tooltip"]').tooltip({
+			this.$el.find('.deck-stats-container').html(template);
+			this.$el.find('.deck-stats-container [data-toggle="tooltip"]').tooltip({
 				container: 'body',
 				trigger: 'hover click'
 			});

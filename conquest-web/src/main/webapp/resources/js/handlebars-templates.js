@@ -829,7 +829,7 @@ templates['deck-list-data-view.hbs'] = template({"1":function(depth0,helpers,par
     + "\">\r\n				<div class=\"deck\">\r\n					<div class=\"row\">\r\n						";
   stack1 = helpers['with'].call(depth0, (depth0 && depth0.deck), {"name":"with","hash":{},"fn":this.programWithDepth(12, data, depth0),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n					</div>\r\n					<div class=\"row\">\r\n						<div class=\"col-xs-12\">\r\n							<div class=\"pull-left\">\r\n								<table class=\"deck-stats-table\">\r\n									<thead>\r\n										<tr>\r\n											<th></th>\r\n											<th><span data-toggle=\"tooltip\" title=\""
+  buffer += "\r\n					</div>\r\n					<div class=\"row\">\r\n						<div class=\"col-xs-12\">\r\n							<div class=\"deck-stats-container pull-left\">\r\n								<table class=\"deck-stats-table\">\r\n									<thead>\r\n										<tr>\r\n											<th></th>\r\n											<th><span data-toggle=\"tooltip\" title=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.cardsQuantity", {"name":"loc","hash":{},"data":data})))
     + "\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.cardsQuantity.sh", {"name":"loc","hash":{},"data":data})))
@@ -844,20 +844,20 @@ templates['deck-list-data-view.hbs'] = template({"1":function(depth0,helpers,par
     + "</span></th>\r\n										</tr>\r\n									</thead>\r\n									<tbody>\r\n										";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.stats), {"name":"each","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n									</tbody>\r\n								</table>\r\n							</div>\r\n							<div class=\"chart-container factions pull-left\" data-deck-id=\""
+  buffer += "\r\n									</tbody>\r\n								</table>\r\n							</div>\r\n							<div class=\"charts-container pull-left\">\r\n								<div class=\"chart-container factions\" data-deck-id=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">\r\n								<div class=\"legend\"></div>\r\n								<canvas class=\"chart\" width=\"100\" height=\"100\"></canvas>\r\n							</div>\r\n							<div class=\"chart-container types pull-left\" data-deck-id=\""
+    + "\">\r\n									<div class=\"legend\"></div>\r\n									<canvas class=\"chart\" width=\"80\" height=\"80\"></canvas>\r\n								</div>\r\n								<div class=\"chart-container types\" data-deck-id=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">\r\n								<div class=\"legend\"></div>\r\n								<canvas class=\"chart\" width=\"100\" height=\"100\"></canvas>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"row hidden members\">\r\n						<div class=\"col-xs-12\">\r\n							";
+    + "\">\r\n									<div class=\"legend\"></div>\r\n									<canvas class=\"chart\" width=\"80\" height=\"80\"></canvas>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"row hidden members\">\r\n						<div class=\"col-xs-12\">\r\n							";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.membersGroups), {"name":"each","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n						</div>\r\n					</div>\r\n					<div class=\"row footer\">\r\n						<div class=\"col-xs-12 text-right\">\r\n							<small>\r\n								";
+  buffer += "\r\n						</div>\r\n					</div>\r\n					<div class=\"row footer\">\r\n						<div class=\"col-xs-12 text-right\">\r\n							<span class=\"secondary-text\">\r\n								";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.published), {"name":"if","hash":{},"fn":this.program(23, data),"inverse":this.program(25, data),"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n								";
   stack1 = (helper = helpers.unlessEqual || (depth0 && depth0.unlessEqual) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.createDate), ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.modifyDate), {"name":"unlessEqual","hash":{},"fn":this.program(27, data),"inverse":this.noop,"data":data}));
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "\r\n							</small>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		";
+  return buffer + "\r\n							</span>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		";
 },"12":function(depth0,helpers,partials,data,depth1) {
   var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, buffer = "\r\n						<div class=\"col-xs-12\">\r\n							<div class=\"pull-right\">\r\n								";
   stack1 = helpers['if'].call(depth0, (depth1 && depth1.published), {"name":"if","hash":{},"fn":this.program(13, data),"inverse":this.program(15, data),"data":data});
@@ -920,32 +920,30 @@ templates['deck-list-data-view.hbs'] = template({"1":function(depth0,helpers,par
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</li>\r\n										";
 },"23":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "\r\n								<span class=\"key\">"
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.author", {"name":"loc","hash":{},"data":data})))
-    + ":</span>&nbsp;\r\n								<span class=\"value\">"
+  var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing;
+  return "\r\n								<span class=\"value\">"
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.username)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</span>\r\n								<span class=\"key\">"
+    + "</span>\r\n								<span class=\"separator\">&nbsp;&#8226;&nbsp;</span>\r\n								<span class=\"value\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.published", {"name":"loc","hash":{},"data":data})))
-    + ":</span>&nbsp;\r\n								<span class=\"value\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\""
+    + ": "
     + escapeExpression((helper = helpers.moment || (depth0 && depth0.moment) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.createDate), {"name":"moment","hash":{},"data":data})))
     + "\">\r\n									"
     + escapeExpression((helper = helpers.momentFromNow || (depth0 && depth0.momentFromNow) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.createDate), {"name":"momentFromNow","hash":{},"data":data})))
     + "\r\n								</span>\r\n								";
 },"25":function(depth0,helpers,partials,data) {
   var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "\r\n								<span class=\"key\">"
+  return "\r\n								<span class=\"value\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.created", {"name":"loc","hash":{},"data":data})))
-    + ":</span>&nbsp;\r\n								<span class=\"value\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\""
+    + ": "
     + escapeExpression((helper = helpers.moment || (depth0 && depth0.moment) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.createDate), {"name":"moment","hash":{},"data":data})))
     + "\">\r\n									"
     + escapeExpression((helper = helpers.momentFromNow || (depth0 && depth0.momentFromNow) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.createDate), {"name":"momentFromNow","hash":{},"data":data})))
     + "\r\n								</span>\r\n								";
 },"27":function(depth0,helpers,partials,data) {
   var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "\r\n								<span class=\"key\">"
+  return "\r\n								<span class=\"separator\">&nbsp;&#8226;&nbsp;</span>\r\n								<span class=\"value\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.modified", {"name":"loc","hash":{},"data":data})))
-    + ":</span>&nbsp;\r\n								<span class=\"value\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\""
+    + ": "
     + escapeExpression((helper = helpers.moment || (depth0 && depth0.moment) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.modifyDate), {"name":"moment","hash":{},"data":data})))
     + "\">\r\n									"
     + escapeExpression((helper = helpers.momentFromNow || (depth0 && depth0.momentFromNow) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.modifyDate), {"name":"momentFromNow","hash":{},"data":data})))
@@ -1667,7 +1665,7 @@ templates['user-deck-edit-view.hbs'] = template({"1":function(depth0,helpers,par
     + escapeExpression((helper = helpers.cardUrl || (depth0 && depth0.cardUrl) || helperMissing,helper.call(depth0, ((stack1 = ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.warlord)),stack1 == null || stack1 === false ? stack1 : stack1.id), {"name":"cardUrl","hash":{},"data":data})))
     + "\" target=\"_blank\"><img src=\""
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.warlordId), {"name":"cardImagePath","hash":{},"data":data})))
-    + "\" class=\"card-sm\" /></a>\r\n			</div>\r\n			<div class=\"deck-stats col-xs-6\">				\r\n			</div>\r\n		</div>		\r\n		<div class=\"mg-container\"></div>		\r\n	</div>\r\n	<div class=\"col-md-8 col-lg-8\">\r\n		<ul class=\"nav nav-tabs\" role=\"tablist\" id=\"tabs1ul\">\r\n			<li role=\"presentation\" class=\"active\"><a href=\"#deckDeckTab\" aria-controls=\"deck\" role=\"tab\" data-toggle=\"tab\">"
+    + "\" class=\"card-sm\" /></a>\r\n			</div>\r\n			<div class=\"deck-stats-container col-xs-6\">				\r\n			</div>\r\n		</div>		\r\n		<div class=\"mg-container\"></div>		\r\n	</div>\r\n	<div class=\"col-md-8 col-lg-8\">\r\n		<ul class=\"nav nav-tabs\" role=\"tablist\" id=\"tabs1ul\">\r\n			<li role=\"presentation\" class=\"active\"><a href=\"#deckDeckTab\" aria-controls=\"deck\" role=\"tab\" data-toggle=\"tab\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.deck", {"name":"loc","hash":{},"data":data})))
     + "</a></li>\r\n			<li role=\"presentation\"><a href=\"#deckDescriptionTab\" aria-controls=\"description\" role=\"tab\" data-toggle=\"tab\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.description", {"name":"loc","hash":{},"data":data})))
@@ -1766,7 +1764,7 @@ templates['pub-deck-view.hbs'] = template({"1":function(depth0,helpers,partials,
     + "</span>\r\n				";
   stack1 = (helper = helpers.ifUserDeck || (depth0 && depth0.ifUserDeck) || helperMissing,helper.call(depth0, (depth0 && depth0.deck), {"name":"ifUserDeck","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data}));
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n				<span class=\"secondary\">\r\n					&nbsp;\r\n					<span class=\"deck-user\">"
+  buffer += "\r\n				<span class=\"secondary-text\">\r\n					&nbsp;\r\n					<span class=\"deck-user\">"
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.username)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</span>\r\n					&nbsp;&#8226;&nbsp;\r\n					<span class=\"deck-user\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
     + escapeExpression((helper = helpers.moment || (depth0 && depth0.moment) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.create), {"name":"moment","hash":{},"data":data})))
@@ -1782,7 +1780,7 @@ templates['pub-deck-view.hbs'] = template({"1":function(depth0,helpers,partials,
     + escapeExpression((helper = helpers.cardUrl || (depth0 && depth0.cardUrl) || helperMissing,helper.call(depth0, ((stack1 = ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.warlord)),stack1 == null || stack1 === false ? stack1 : stack1.id), {"name":"cardUrl","hash":{},"data":data})))
     + "\" target=\"_blank\"><img src=\""
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.warlordId), {"name":"cardImagePath","hash":{},"data":data})))
-    + "\" class=\"card-sm\" /></a>\r\n				</div>\r\n				<div class=\"deck-stats col-xs-6\">				\r\n				</div>\r\n			</div>		\r\n			<div class=\"mg-container\"></div>		\r\n		</div>\r\n		<div class=\"col-md-8 col-lg-8\" role=\"tabpanel\">\r\n			<ul class=\"nav nav-tabs\" role=\"tablist\" id=\"tabs1ul\">\r\n				<li role=\"presentation\" class=\"active\">\r\n					<a href=\"#deckDeckTab\" aria-controls=\"deck\" role=\"tab\" data-toggle=\"tab\">"
+    + "\" class=\"card-sm\" /></a>\r\n				</div>\r\n				<div class=\"deck-stats-container col-xs-6\">				\r\n				</div>\r\n			</div>		\r\n			<div class=\"mg-container\"></div>		\r\n		</div>\r\n		<div class=\"col-md-8 col-lg-8\" role=\"tabpanel\">\r\n			<ul class=\"nav nav-tabs\" role=\"tablist\" id=\"tabs1ul\">\r\n				<li role=\"presentation\" class=\"active\">\r\n					<a href=\"#deckDeckTab\" aria-controls=\"deck\" role=\"tab\" data-toggle=\"tab\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.deck", {"name":"loc","hash":{},"data":data})))
     + "</a>\r\n				</li>\r\n				<li role=\"presentation\">\r\n					<a href=\"#deckDescriptionTab\" aria-controls=\"description\" role=\"tab\" data-toggle=\"tab\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.description", {"name":"loc","hash":{},"data":data})))
