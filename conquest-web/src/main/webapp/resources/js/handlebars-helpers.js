@@ -194,7 +194,7 @@ Handlebars.registerHelper('searchLinkTrait', function(card, options) {
 		trait = s.trim(trait.replace('.', ''));
 		result += '<a href="/' + conquest.static.language + '/card/search?trait=' + trait + '">' + trait + '.</a>';
 		if (index < traits.length - 1) {
-			result += '&nbsp;';
+			result += ' ';
 		}
 	});
 	return new Handlebars.SafeString(result);
