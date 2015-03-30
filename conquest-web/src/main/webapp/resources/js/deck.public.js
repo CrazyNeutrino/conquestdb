@@ -145,8 +145,8 @@ $(function() {
 					}), 'techName')
 				});
 
-				view.membersListView = new conquest.deck.MemberListView({
-					el: '.members-list-container'
+				view.membersListView = new conquest.deck.MembersListView({
+					el: '.members-container'
 				});
 				view.membersListView.listenTo(view.deck.get('filteredMembers'), 'reset', function(filteredMembers) {
 					this.render(filteredMembers, {

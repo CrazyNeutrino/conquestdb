@@ -78,10 +78,6 @@ table.faction-image-container-md>tbody>tr>td {vertical-align: middle; /* line-he
 .btn-group.btn-group-qty .btn.active:first-child { color: white; background-color: #d9534f;	border-color: #d43f3a; }
 .btn-group.btn-group-qty .btn.active:not(:first-child) { color: white; background-color: #5cb85c; border-color: #4cae4c; }
 .btn-group.filter-faction .btn { padding: 0px; }
-/*
-.btn-group.filter-selected .btn:first-child { color: white; background-color: #d9534f; border-color: #d43f3a; }
-.btn-group.filter-selected .btn:not(:first-child) { color: white; background-color: #5cb85c; border-color: #4cae4c; }
-*/
 .btn-group.btn-group-layout>.btn { padding: 5px 10px 4px; }
 .btn-group.btn-group-layout>.btn>.glyphicon { font-size: 18px; }
 
@@ -129,7 +125,19 @@ tr.highlight td {
 	background-color: #eee !important;
 }
 
-.members-grid {
+.members-grid.row { margin: 0 -5px; }
+.members-grid.members-grid-md .members-grid-item:not(.text) { height: 300px; }
+.members-grid.members-grid-md .members-grid-item.text { height: 240px; }
+.members-grid.members-grid-sm .members-grid-item:not(.text) { height: 210px; }
+.members-grid.members-grid-sm .members-grid-item.text { height: 150px; }
+.members-grid .members-grid-item { padding: 0 5px; }
+.members-grid .members-grid-item .btn-group-qty { margin-bottom: 5px; }
+.members-grid .members-grid-item > * { display: table; }
+.members-grid .members-grid-item > table > tbody > tr > td { vertical-align: top; }
+.members-grid .members-grid-item > table > tbody > tr > td:nth-child(2) { padding-left: 5px; width: 100%; }
+
+
+/* .members-grid {
 	width: 100%;
 	margin: 0 -5px;
 }
@@ -171,14 +179,8 @@ tr.highlight td {
 	width: 100%;
 }
 
-.members-grid-item>table>tbody>tr>td {
-	vertical-align: top;
-}
 
-.members-grid-item>table>tbody>tr>td:nth-child(2) {
-	padding-left: 5px;
-	width: 100%;
-}
+*/
 
 label.required:after {
 	content: " *";
@@ -456,7 +458,7 @@ label.required:after {
 }
 
 .secondary-text {
-	font-size: 0.9em;
+	font-size: 0.8em;
 	color: #777;
 }
 
@@ -602,4 +604,21 @@ table.table-with-btn > tbody > tr > td {
 .social {
 	margin: 5px;
 	cursor: pointer;
+}
+
+.members-list-item { padding: 2px 0px; }
+.members-list-item:nth-child(even) { background-color: #f9f9f9; }
+.members-list-item:not(:last-child) { border-bottom: 1px solid #ddd; }
+.members-list-item > div > div > div { display: table; }
+.members-list-item > div > div > div > div { display: table-cell; }
+.members-list-item .quantity-col { width: 7em; display: table; }
+.members-list-item .name-col { width: 100%; }
+.members-list-item .type-col { width: 6em; }
+.members-list-item .faction-col { width: 3em; }
+
+.deck-list-filter-container > div, 
+.deck-list-filter-container > label,
+.members-list-filter-container > div,
+.members-list-filter-container > label {
+	margin-bottom: 5px;
 }

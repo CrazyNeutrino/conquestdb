@@ -468,8 +468,8 @@ conquest.deck = conquest.deck || {};
 		}
 	});
 
-	_deck.MemberListView = Backbone.View.extend({
-		el: '.members-list-container',
+	_deck.MembersListView = Backbone.View.extend({
+		el: '.members-container',
 		render: function(members, options) {
 			var templateName = undefined;
 			if (options.layout === 'grid-2') {
