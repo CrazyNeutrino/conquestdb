@@ -373,7 +373,9 @@ $(function() {
 					}, {
 						parse: true
 					});
-					view.groupsView.render(deck.get('members'));
+					view.groupsView.render(deck.get('members'), {
+						readOnly: false
+					});
 				}
 
 				if (errors.length == 0) {
@@ -852,7 +854,16 @@ $(function() {
 							quantity: quantity
 						});
 						if (options.batchChange !== true) {
-							view.groupsView.render(member.collection);
+							view.groupsView.render(member.collection, {
+								readOnly: false
+							});
+							var $members = view.membersListView.$el.find('.members-list-item, .members-grid-item');
+							var $buttons = $members.filter('[data-card-id="' + member.get('cardId') + '"]').find('.btn-group-qty .btn');
+							$buttons.filter('[data-quantity="' + member.get('quantity') + '"]').addClass('active').siblings().removeClass('active');
+							// view.membersListView.render(view.deck.get('filteredMembers'), {
+							// 	layout: view.config.get('layout'),
+							// 	readOnly: false
+							// });
 							view.updateStats();
 						}
 					});
@@ -878,7 +889,9 @@ $(function() {
 							layout: view.config.get('layout'),
 							readOnly: false
 						});
-						view.groupsView.render(view.deck.get('members'));
+						view.groupsView.render(view.deck.get('members'), {
+							readOnly: false
+						});
 						view.updateStats();
 					});
 				view.listenTo(view.config, 'change:filter', function(config) {
@@ -1275,7 +1288,9 @@ $(function() {
 					});
 				});
 
-				view.groupsView.render(view.deck.get('members'));
+				view.groupsView.render(view.deck.get('members'), {
+					readOnly: false
+				});
 
 				filter();
 			};

@@ -71,7 +71,8 @@ table.faction-image-container-md>tbody>tr>td {vertical-align: middle; /* line-he
 	margin-bottom: 10px;
 }
 
-.btn-group.btn-group-qty .btn {
+.members-grid-item .btn-group.btn-group-qty .btn,
+.members-list-item .btn-group.btn-group-qty .btn {
 	padding: 0px 4px;
 }
 
@@ -620,6 +621,6 @@ table.table-with-btn > tbody > tr > td {
 .members-list-filter-container > div,
 .members-list-filter-container > label,
 .actions-container > div,
-.actions-container > a, {
+.actions-container > a {
 	margin-bottom: 5px;
 }

@@ -75,6 +75,43 @@ conquest.deck = conquest.deck || {};
 		$modal.modal();
 	};
 
+	_deck.showDeckMemberModal = function(member, options) {
+
+		var $modal = $('#deckMemberModal');
+		if ($modal.length > 0) {
+			$modal.data('bs.modal', null);
+		}
+		$modal = $(Handlebars.templates['deck-member-modal.hbs']({
+			member: member.toJSON(),
+			readOnly: options.readOnly
+		}));
+
+		var $buttons = $modal.find('.btn-group-qty .btn');
+		var $active = $buttons.eq(member.get('quantity')).addClass('active');
+		if (member.get('fixedQuantity') === true) {
+			$active.siblings().attr('disabled', 'disabled');
+		}
+
+		if (options.readOnly === false) {
+			$buttons.click(function() {
+				var $button = $(this);
+				$button.addClass('active').siblings().removeClass('active');
+				member.set({
+					quantity: parseInt($button.text())
+				});
+			});
+		}
+
+		if (options.buttonYes && options.buttonYes.handler) {
+			$modal.find('#messageButtonYes').click(options.buttonYes.handler);
+		}
+		if (options.buttonNo && options.buttonNo.handler) {
+			$modal.find('#messageButtonNo').click(options.buttonNo.handler);
+		}
+
+		$modal.modal();
+	};
+
 	_deck.prepareExportModalDialog = function(deck, options) {
 
 		var $modal = $('#exportModal');
@@ -352,7 +389,9 @@ conquest.deck = conquest.deck || {};
 
 	_deck.MemberGroupsView = Backbone.View.extend({
 		el: '.mg-container',
-		render: function(members) {
+		render: function(members, options) {
+			options = options || {};
+
 			var view = this;
 			if (_.isUndefined(view.groupKey)) {
 				view.groupKey = 'typeDisplay';
@@ -380,7 +419,7 @@ conquest.deck = conquest.deck || {};
 				view.render(members);
 			});
 
-			view.$el.find('a[data-image-base]').popover({
+			var $popovers = view.$el.find('a[data-image-base]').popover({
 				html: true,
 				trigger: 'hover',
 				content: function() {
@@ -388,6 +427,13 @@ conquest.deck = conquest.deck || {};
 						class: 'card-md'
 					});
 				}
+			});
+
+			view.$el.find('a[data-card-id]').click(function() {
+				$popovers.popover('hide');
+				_deck.showDeckMemberModal(members.findWhere({
+					cardId: $(this).data('card-id')
+				}), options);
 			});
 		}
 	});
@@ -513,7 +559,7 @@ conquest.deck = conquest.deck || {};
 			this.$el.find('[data-toggle="tooltip"]').tooltip({
 				container: 'body'
 			});
-			this.$el.find('a[data-image-base]').popover({
+			var $popovers = this.$el.find('a[data-image-base]').popover({
 				html: true,
 				trigger: 'hover',
 				content: function() {
@@ -521,6 +567,13 @@ conquest.deck = conquest.deck || {};
 						class: 'card-md'
 					});
 				}
+			});
+
+			this.$el.find('a[data-card-id]').click(function() {
+				$popovers.popover('hide');
+				_deck.showDeckMemberModal(members.findWhere({
+					cardId: $(this).data('card-id')
+				}), options);
 			});
 		}
 	});

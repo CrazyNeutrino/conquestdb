@@ -349,7 +349,9 @@ $(function() {
 					}
 				});
 
-				view.groupsView.render(view.deck.get('members'));
+				view.groupsView.render(view.deck.get('members'), {
+					readOnly: true
+				});
 				filter();
 
 				$('.twitter.popup').click(function(event) {
