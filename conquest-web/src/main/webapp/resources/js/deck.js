@@ -1038,4 +1038,65 @@ conquest.deck = conquest.deck || {};
 		});
 	};
 
+	//
+	// card set filter popover
+	//
+	_deck.CardSetFilterPopoverView = Backbone.View.extend({
+		initialize: function(options) {
+			this.filter = options.filter;
+		},
+		render: function() {
+			var view = this;
+
+			var filterContent = Handlebars.templates['card-set-filter-popover-view.hbs']({
+				tree: conquest.dict.buildCardSetTree(),
+			});
+			var $filterTrigger = view.$el.find('#filterTrigger').popover({
+				html: true,
+				trigger: 'click focus',
+				placement: 'bottom',
+				animation: false,
+				title: conquest.dict.messages['core.filters'],
+				content: filterContent
+			});
+
+			$filterTrigger.on('shown.bs.popover', function() {
+				var sets = view.filter.get('sets');
+				var cycles = view.filter.get('cycles');
+				var $filterContent = view.$el.find('#filterContent');
+				var $sets = $filterContent.find('li:not(:has(ul)) input[type="checkbox"]');
+				var $cycles = $filterContent.find('li:has(ul) > input[type="checkbox"]');
+				$sets.each(function() {
+					var $this = $(this);
+					$this.prop('checked', sets && sets.indexOf($this.val()) > -1);
+				});
+				$cycles.each(function() {
+					var $this = $(this);
+					$this.prop('checked', cycles && cycles.indexOf($this.val()) > -1);
+					$this.click(function() {
+						$this.siblings().filter('ul').find('input[type="checkbox"]').prop('checked', $this.prop('checked'));
+					});
+				});
+				$filterContent.find('#filterApply').click(function() {
+					$filterTrigger.popover('hide');
+					var sets = [];
+					$sets.filter(':checked').each(function() {
+						sets.push($(this).val());
+					});
+					var cycles = [];
+					$cycles.filter(':checked').each(function() {
+						cycles.push($(this).val());
+					});
+					view.filter.set({
+						sets: sets,
+						cycles: cycles
+					});
+				});
+				$filterContent.find('#filterCancel').click(function() {
+					$filterTrigger.popover('hide');
+				});
+			});
+		}
+	};
+
 })(conquest.deck);

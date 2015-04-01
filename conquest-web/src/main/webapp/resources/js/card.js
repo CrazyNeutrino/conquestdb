@@ -189,39 +189,43 @@ $(function() {
 			//
 			// filter: sets
 			//
-			var sets = view.filter.get('setTechName');
-			var cycles = view.filter.get('cycleTechName');
-			var $cardSetFilter = view.$el.find('#cardSetFilter');
-			var $sets = $cardSetFilter.find('li[data-node-type="set"] > input[type="checkbox"]');
-			var $cycles = $cardSetFilter.find('li[data-node-type="cycle"] > input[type="checkbox"]');
+			// var sets = view.filter.get('setTechName');
+			// var cycles = view.filter.get('cycleTechName');
+			// var $cardSetFilter = view.$el.find('#cardSetFilter');
+			// var $sets = $cardSetFilter.find('li[data-node-type="set"] > input[type="checkbox"]');
+			// var $cycles = $cardSetFilter.find('li[data-node-type="cycle"] > input[type="checkbox"]');
 
-			$sets.each(function() {
-				var $this = $(this);
-				$this.prop('checked', sets && sets.indexOf($this.val()) > -1);
-				$this.click(function() {
-					view.filter.set({
-						setTechName: $cardSetFilter.find('li[data-node-type="set"] > input[type="checkbox"]:checked').map(function() {
-							return $(this).val();
-						}).get()
-					});
-				});
-			});
+			// $sets.each(function() {
+			// 	var $this = $(this);
+			// 	$this.prop('checked', sets && sets.indexOf($this.val()) > -1);
+			// 	$this.click(function() {
+			// 		view.filter.set({
+			// 			setTechName: $cardSetFilter.find('li[data-node-type="set"] > input[type="checkbox"]:checked').map(function() {
+			// 				return $(this).val();
+			// 			}).get()
+			// 		});
+			// 	});
+			// });
 
-			$cycles.each(function() {
-				var $this = $(this);
-				$this.prop('checked', cycles && cycles.indexOf($this.val()) > -1);
-				$this.click(function() {
-					$this.siblings().filter('ul').find('li[data-node-type="set"] > input[type="checkbox"]').prop('checked', $this.prop('checked'));
-					view.filter.set({
-						setTechName: $cardSetFilter.find('li[data-node-type="set"] > input[type="checkbox"]:checked').map(function() {
-							return $(this).val();
-						}).get(),
-						cycleTechName: $cardSetFilter.find('li[data-node-type="cycle"] > input[type="checkbox"]:checked').map(function() {
-							return $(this).val();
-						}).get()
-					});
-				});
-			});
+			// $cycles.each(function() {
+			// 	var $this = $(this);
+			// 	$this.prop('checked', cycles && cycles.indexOf($this.val()) > -1);
+			// 	$this.click(function() {
+			// 		$this.siblings().filter('ul').find('li[data-node-type="set"] > input[type="checkbox"]').prop('checked', $this.prop('checked'));
+			// 		view.filter.set({
+			// 			setTechName: $cardSetFilter.find('li[data-node-type="set"] > input[type="checkbox"]:checked').map(function() {
+			// 				return $(this).val();
+			// 			}).get(),
+			// 			cycleTechName: $cardSetFilter.find('li[data-node-type="cycle"] > input[type="checkbox"]:checked').map(function() {
+			// 				return $(this).val();
+			// 			}).get()
+			// 		});
+			// 	});
+			// });
+			var filter = new Backbone.Model();
+			new _deck.CardSetFilterPopoverView({
+				filter: filter
+			}).render();
 
 			//
 			// filter: factions

@@ -54,40 +54,8 @@ templates['card-search-view.hbs'] = template({"1":function(depth0,helpers,partia
     + "\">\r\n						<span>"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "</span>\r\n					</label>\r\n					";
-},"7":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, buffer = "\r\n				<li data-node-type=\""
-    + escapeExpression(((helper = helpers.type || (depth0 && depth0.type)),(typeof helper === functionType ? helper.call(depth0, {"name":"type","hash":{},"data":data}) : helper)))
-    + "\"><input type=\"checkbox\" value=\""
-    + escapeExpression(((helper = helpers.techName || (depth0 && depth0.techName)),(typeof helper === functionType ? helper.call(depth0, {"name":"techName","hash":{},"data":data}) : helper)))
-    + "\" ";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.released), {"name":"if","hash":{},"fn":this.program(8, data),"inverse":this.noop,"data":data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += ">"
-    + escapeExpression(((helper = helpers.name || (depth0 && depth0.name)),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "\r\n				";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.nodes), {"name":"if","hash":{},"fn":this.program(10, data),"inverse":this.noop,"data":data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "\r\n				</li>\r\n			";
-},"8":function(depth0,helpers,partials,data) {
-  return "checked=\"checked\"";
-  },"10":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "\r\n					<ul class=\"tree-node\">\r\n					";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.nodes), {"name":"each","hash":{},"fn":this.program(11, data),"inverse":this.noop,"data":data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "\r\n					</ul>\r\n				";
-},"11":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, buffer = "\r\n						<li data-node-type=\""
-    + escapeExpression(((helper = helpers.type || (depth0 && depth0.type)),(typeof helper === functionType ? helper.call(depth0, {"name":"type","hash":{},"data":data}) : helper)))
-    + "\"><input type=\"checkbox\" value=\""
-    + escapeExpression(((helper = helpers.techName || (depth0 && depth0.techName)),(typeof helper === functionType ? helper.call(depth0, {"name":"techName","hash":{},"data":data}) : helper)))
-    + "\" ";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.released), {"name":"if","hash":{},"fn":this.program(8, data),"inverse":this.noop,"data":data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + ">"
-    + escapeExpression(((helper = helpers.name || (depth0 && depth0.name)),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "</li>\r\n					";
 },"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"row card-search-view\">	\r\n	<div class=\"col-xs-9\">\r\n		<div id=\"textFilter\" class=\"input-group\" style=\"margin-bottom: 10px;\">\r\n			<input class=\"form-control\" id=\"mainSearchInput\" type=\"text\" placeholder=\""
+  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"row card-search-view\">	\r\n	<div class=\"col-xs-12\">\r\n		<div id=\"textFilter\" class=\"input-group\" style=\"margin-bottom: 10px;\">\r\n			<input class=\"form-control\" id=\"mainSearchInput\" type=\"text\" placeholder=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.nameOrTraitOrKeyword", {"name":"loc","hash":{},"data":data})))
     + "\" value=\"\" />\r\n			<span class=\"input-group-btn\">\r\n        		<button class=\"btn btn-default\" type=\"button\"><span class=\"glyphicon glyphicon-search\"></span></button>\r\n      		</span>\r\n		</div>\r\n		<div class=\"row\">\r\n			<div class=\"col-xs-12\">\r\n				\r\n				<div id=\"factionFilter\" class=\"btn-group select-many filter-faction\" style=\"margin-bottom: 10px;\">\r\n					";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.filter)),stack1 == null || stack1 === false ? stack1 : stack1.factions), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
@@ -98,20 +66,52 @@ templates['card-search-view.hbs'] = template({"1":function(depth0,helpers,partia
   buffer += "\r\n				</div>\r\n				<div id=\"quantityFilter\" class=\"btn-group select-many\" style=\"margin-bottom: 10px;\">\r\n					";
   stack1 = (helper = helpers['for'] || (depth0 && depth0['for']) || helperMissing,helper.call(depth0, 1, 4, 1, {"name":"for","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data}));
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n				</div>\r\n			</div>			\r\n		</div>\r\n		<div class=\"card-search-results-container\">			\r\n		</div>\r\n	</div>\r\n	<div class=\"col-xs-3\">\r\n		<div class=\"side-filter-group\">\r\n			<table class=\"stats-filter-group\">\r\n				<tbody>\r\n					<tr>\r\n						<td><input type=\"checkbox\"></td>\r\n						<td class=\"slider-container disabled\">\r\n							<div class=\"header\">"
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.cost.sh", {"name":"loc","hash":{},"data":data})))
-    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n							<div id=\"costSlider\" class=\"slider\" data-filter-key=\"cost\" data-slider-min=\"0\" data-slider-max=\"8\" />	\r\n						</td>\r\n					</tr>\r\n					<tr>\r\n						<td><input type=\"checkbox\"></td>\r\n						<td class=\"slider-container disabled\">\r\n							<div class=\"header\">"
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.commandIcons.sh", {"name":"loc","hash":{},"data":data})))
-    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n							<div id=\"commandSlider\" class=\"slider\" data-filter-key=\"command\" data-slider-min=\"0\" data-slider-max=\"4\" />\r\n						</td>\r\n					</tr>\r\n					<tr>\r\n						<td><input type=\"checkbox\"></td>\r\n						<td class=\"slider-container disabled\">\r\n							<div class=\"header\">"
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.shieldIcons.sh", {"name":"loc","hash":{},"data":data})))
-    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n							<div id=\"shieldSlider\" class=\"slider\" data-filter-key=\"shield\" data-slider-min=\"0\" data-slider-max=\"3\" />\r\n						</td>\r\n					</tr>\r\n					<tr>\r\n						<td><input type=\"checkbox\"></td>\r\n						<td class=\"slider-container disabled\">\r\n							<div class=\"header\">"
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.attack.sh", {"name":"loc","hash":{},"data":data})))
-    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n							<div id=\"attackSlider\" class=\"slider\" data-filter-key=\"attack\" data-slider-min=\"0\" data-slider-max=\"9\" />\r\n						</td>\r\n					</tr>\r\n					<tr>\r\n						<td><input type=\"checkbox\"></td>\r\n						<td class=\"slider-container disabled\">\r\n							<div class=\"header\">"
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.hp.sh", {"name":"loc","hash":{},"data":data})))
-    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n							<div id=\"hpSlider\" class=\"slider\" data-filter-key=\"hitPoints\" data-slider-min=\"0\" data-slider-max=\"9\" />\r\n						</td>\r\n					</tr>\r\n					\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n		<div class=\"side-filter-group\">\r\n			<ul id=\"cardSetFilter\" class=\"tree-node\">\r\n			";
-  stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.tree)),stack1 == null || stack1 === false ? stack1 : stack1.nodes), {"name":"each","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
+  return buffer + "\r\n				</div>\r\n				<label id=\"filterTrigger\" class=\"btn btn-default btn-standard\"><span class=\"glyphicon glyphicon-filter\"></span></label>\r\n			</div>			\r\n		</div>\r\n		<div class=\"card-search-results-container\">			\r\n		</div>\r\n	</div>\r\n	\r\n</div>\r\n";
+},"useData":true});
+templates['card-set-filter-popover-view.hbs'] = template({"1":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, buffer = "\r\n		<li ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.type), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "		\r\n			</ul>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+  buffer += "><input type=\"checkbox\" value=\""
+    + escapeExpression(((helper = helpers.techName || (depth0 && depth0.techName)),(typeof helper === functionType ? helper.call(depth0, {"name":"techName","hash":{},"data":data}) : helper)))
+    + "\" ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.released), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += ">"
+    + escapeExpression(((helper = helpers.name || (depth0 && depth0.name)),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + "\r\n		";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.nodes), {"name":"if","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  return buffer + "\r\n		</li>\r\n	";
+},"2":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", escapeExpression=this.escapeExpression;
+  return "data-node-type=\""
+    + escapeExpression(((helper = helpers.type || (depth0 && depth0.type)),(typeof helper === functionType ? helper.call(depth0, {"name":"type","hash":{},"data":data}) : helper)))
+    + "\"";
+},"4":function(depth0,helpers,partials,data) {
+  return "checked=\"checked\"";
+  },"6":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "\r\n			<ul class=\"tree-node\">\r\n			";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.nodes), {"name":"each","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  return buffer + "\r\n			</ul>\r\n		";
+},"7":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, buffer = "\r\n				<li ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.type), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "><input type=\"checkbox\" value=\""
+    + escapeExpression(((helper = helpers.techName || (depth0 && depth0.techName)),(typeof helper === functionType ? helper.call(depth0, {"name":"techName","hash":{},"data":data}) : helper)))
+    + "\" ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.released), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  return buffer + ">"
+    + escapeExpression(((helper = helpers.name || (depth0 && depth0.name)),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + "</li>\r\n			";
+},"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "<div id=\"filterContent\">\r\n	<ul class=\"tree-node\">\r\n	";
+  stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.tree)),stack1 == null || stack1 === false ? stack1 : stack1.nodes), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  return buffer + "		\r\n	</ul>\r\n	<a id=\"filterApply\" class=\"btn btn-default btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span></a>\r\n	<a id=\"filterCancel\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-remove\"></span></a>\r\n</div>";
 },"useData":true});
 templates['card-view.hbs'] = template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function", buffer = "\r\n	<div class=\"col-md-3 col-md-offset-2\">\r\n		<img src=\""
