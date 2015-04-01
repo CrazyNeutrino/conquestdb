@@ -12,16 +12,14 @@ table.faction-image-container-md>tbody>tr>td {vertical-align: middle; /* line-he
 	padding-bottom: 7em;
 }
 
-#footer {
-	position: relative;
-	margin-top: -7em;
-	height: 7em;
-	padding-top: 1em;
-	clear: both;
-	color: gray;
-	background-color: #f5f5f5;
-	border-top: 1px solid #ddd;
+footer.footer {
+	color: #777;
+	background-color: #f8f8f8;
+	border-top: 1px solid #e7e7e7;
 	font-size: 0.8em;
+}
+footer.footer > .container > p:first-child {
+	margin-top: 10px;
 }
 
 .mg-container .mg {
@@ -596,6 +594,10 @@ table.table-with-btn > tbody > tr > td {
 	border-bottom: 1px solid #ddd;
 }
 
+.pub-deck .deck-header .secondary-text {
+	font-size: 0.5em;
+}
+
 .pub-deck .deck-header .secondary {
 	font-size: 0.5em;
 	color: #bbb;
@@ -606,15 +608,23 @@ table.table-with-btn > tbody > tr > td {
 	cursor: pointer;
 }
 
+.members-list-header { border-bottom: 2px solid #ddd; font-weight: bold; }
 .members-list-item { padding: 2px 0px; }
 .members-list-item:nth-child(even) { background-color: #f9f9f9; }
 .members-list-item:not(:last-child) { border-bottom: 1px solid #ddd; }
+.members-list-header > div > div > div,
 .members-list-item > div > div > div { display: table; }
+.members-list-header > div > div > div > div,
 .members-list-item > div > div > div > div { display: table-cell; }
-.members-list-item .quantity-col { width: 7em; display: table; }
-.members-list-item .name-col { width: 100%; }
+/* .members-list-item .quantity-col { width: 7em; display: table; } */
+/* .members-list-header .name-col,
+.members-list-item .name-col { width: 100%; } */
+.members-list-header .type-col,
 .members-list-item .type-col { width: 6em; }
+.members-list-header .faction-col,
 .members-list-item .faction-col { width: 3em; }
+.members-list-header .stat-col,
+.members-list-item .stat-col { width: 2em; }
 
 .deck-list-filter-container > div, 
 .deck-list-filter-container > label,

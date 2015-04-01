@@ -18,6 +18,7 @@ public class JsonCard {
 	private String techName;
 	private String name;
 	private String nameEn;
+//	private String text;
 	private String imageBase;
 	private String faction;
 	private String factionDisplay;
@@ -45,6 +46,7 @@ public class JsonCard {
 		techName = card.getTechName();
 		name = card.getName();
 		nameEn = card.getNameEn();
+//		text = card.getText();
 		imageBase = Utils.imageBase(card, true);
 		faction = new FactionConverter().convertToDatabaseColumn(card.getFaction());
 		factionDisplay = card.getFactionDisplay();

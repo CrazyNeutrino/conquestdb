@@ -250,3 +250,11 @@ Handlebars.registerHelper('ifPublicSnapshot', function(deck, options) {
 Handlebars.registerHelper('language', function(options) {
 	return conquest.static.language;
 });
+
+Handlebars.registerHelper('cardText', function(text, options) {
+	if (text) {
+		return text.replace('\n', '<br />');
+	} else {
+		return '';
+	}
+});
