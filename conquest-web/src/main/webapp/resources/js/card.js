@@ -222,9 +222,13 @@ $(function() {
 			// 		});
 			// 	});
 			// });
-			var filter = new Backbone.Model();
-			new _deck.CardSetFilterPopoverView({
-				filter: filter
+			// var filter = new Backbone.Model();
+			// filter.on('change', function(a) {
+			// 	console.log(a);
+			// });
+			new conquest.card.CardSetFilterPopoverView({
+				filter: view.filter,
+				$trigger: view.$el.find('#filterTrigger')
 			}).render();
 
 			//

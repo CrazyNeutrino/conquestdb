@@ -1085,7 +1085,7 @@ $(function() {
 				//
 				// filter popover
 				//
-				var filterContent = Handlebars.templates['card-set-filter-popover.hbs']({
+				var filterContent = Handlebars.templates['deck-filter.hbs']({
 					tree: conquest.dict.buildCardSetTree(),
 				});
 				var $filterTrigger = view.$el.find('#filterTrigger').popover({

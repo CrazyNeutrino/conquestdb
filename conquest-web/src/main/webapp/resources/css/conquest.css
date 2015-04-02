@@ -254,17 +254,12 @@ label.required:after {
 	margin-right: 5px;
 }
 
-.card-view .card-info-header {
-	margin-bottom: 20px;
+.card-view .panel-body {
+	font-size: 0.9em;
 }
 
-.card-view .faction-image {
-	margin-top: 20px;
-}
-
-.card-view .card-image {
-	margin-top: 10px;
-	width: 100%;
+.card-view .panel-body .key {
+	font-weight: bold;
 }
 
 .row-dense>div,.col-dense {
@@ -626,10 +621,18 @@ table.table-with-btn > tbody > tr > td {
 .members-list-header .stat-col,
 .members-list-item .stat-col { width: 2em; }
 
-.deck-list-filter-container > div, 
+/* .deck-list-filter-container > div, 
 .deck-list-filter-container > label,
 .members-list-filter-container > div,
 .members-list-filter-container > label,
+.actions-container > div,
+.actions-container > a {
+	margin-bottom: 5px;
+} */
+
+.deck-list-filter-container .filter-group, 
+.card-search-filter-container .filter-group,
+.members-list-filter-container .filter-group,
 .actions-container > div,
 .actions-container > a {
 	margin-bottom: 5px;

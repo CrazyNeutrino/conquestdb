@@ -1117,3 +1117,71 @@ conquest.util = conquest.util || {};
 	};
 
 })(conquest);
+
+//
+// card
+// 
+conquest.card = conquest.card || {};
+(function(_card) {
+	//
+	// card set filter popover
+	//
+	_card.CardSetFilterPopoverView = Backbone.View.extend({
+		initialize: function(options) {
+			this.filter = options.filter;
+			this.$trigger = options.$trigger;
+		},
+		render: function() {
+			var view = this;
+
+			var filterContent = Handlebars.templates['card-set-filter-popover-view.hbs']({
+				tree: conquest.dict.buildCardSetTree(),
+			});
+			view.$trigger.popover({
+				html: true,
+				trigger: 'click focus',
+				placement: 'bottom',
+				animation: false,
+				content: filterContent
+			});
+
+			view.$trigger.on('shown.bs.popover', function() {
+				var sets = view.filter.get('setTechName');
+				var cycles = view.filter.get('cycleTechName');
+				var $content = view.$trigger.parent().find('.filter-content');
+				var $sets = $content.find('li:not(:has(ul)) input[type="checkbox"]');
+				var $cycles = $content.find('li:has(ul) > input[type="checkbox"]');
+				$sets.each(function() {
+					var $this = $(this);
+					$this.prop('checked', sets && sets.indexOf($this.val()) > -1);
+				});
+				$cycles.each(function() {
+					var $this = $(this);
+					$this.prop('checked', cycles && cycles.indexOf($this.val()) > -1);
+					$this.click(function() {
+						$this.siblings().filter('ul').find('input[type="checkbox"]').prop('checked', $this.prop('checked'));
+					});
+				});
+				$content.find('.filter-apply').click(function() {
+					view.$trigger.popover('hide');
+					var sets = [];
+					$sets.filter(':checked').each(function() {
+						sets.push($(this).val());
+					});
+					var cycles = [];
+					$cycles.filter(':checked').each(function() {
+						cycles.push($(this).val());
+					});
+					view.filter.set({
+						setTechName: sets,
+						cycleTechName: cycles
+					});
+				});
+				$content.find('.filter-cancel').click(function() {
+					view.$trigger.popover('hide');
+				});
+			});
+		}
+	});
+
+})(conquest.card);

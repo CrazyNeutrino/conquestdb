@@ -182,6 +182,11 @@ Handlebars.registerHelper('na', function(context, options) {
 	}
 });
 
+Handlebars.registerHelper('searchLinkFaction', function(card, options) {
+	return new Handlebars.SafeString('<a href="/' + conquest.static.language 
+			+ '/card/search?faction='  + card.faction + '">' + card.factionDisplay + '</a>');
+});
+
 Handlebars.registerHelper('searchLinkSetName', function(card, options) {
 	return new Handlebars.SafeString('<a href="/' + conquest.static.language 
 			+ '/card/search?set='  + card.setTechName + '">' + card.setName + '</a>');

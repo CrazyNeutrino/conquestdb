@@ -12,13 +12,13 @@ templates['card-search-results-grid-4.hbs'] = template({"1":function(depth0,help
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, (depth0 && depth0.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
     + "\" class=\"card-md "
     + escapeExpression(((helper = helpers.type || (depth0 && depth0.type)),(typeof helper === functionType ? helper.call(depth0, {"name":"type","hash":{},"data":data}) : helper)))
-    + "\" />\r\n		</a>\r\n		<strong>"
+    + "\" />\r\n		</a>\r\n		<strong style=\"display: table;\">"
     + escapeExpression(((helper = helpers.setName || (depth0 && depth0.setName)),(typeof helper === functionType ? helper.call(depth0, {"name":"setName","hash":{},"data":data}) : helper)))
     + "</strong>\r\n	</div>\r\n	";
 },"2":function(depth0,helpers,partials,data) {
   return "col-xs-12 col-sm-12 col-md-6";
   },"4":function(depth0,helpers,partials,data) {
-  return "col-xs-12 col-sm-6 col-md-4";
+  return "col-xs-12 col-sm-6 col-md-4 col-lg-3";
   },"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
   var stack1, buffer = "<div class=\"row card-search-results-grid-4\">\r\n	";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.results)),stack1 == null || stack1 === false ? stack1 : stack1.cards), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
@@ -55,18 +55,20 @@ templates['card-search-view.hbs'] = template({"1":function(depth0,helpers,partia
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "</span>\r\n					</label>\r\n					";
 },"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"row card-search-view\">	\r\n	<div class=\"col-xs-12\">\r\n		<div id=\"textFilter\" class=\"input-group\" style=\"margin-bottom: 10px;\">\r\n			<input class=\"form-control\" id=\"mainSearchInput\" type=\"text\" placeholder=\""
+  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"row card-search-view\">	\r\n	<div class=\"col-xs-12 card-search-filter-container\">\r\n		<div id=\"textFilter\" class=\"input-group\" style=\"margin-bottom: 10px;\">\r\n			<input class=\"form-control\" id=\"mainSearchInput\" type=\"text\" placeholder=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.nameOrTraitOrKeyword", {"name":"loc","hash":{},"data":data})))
-    + "\" value=\"\" />\r\n			<span class=\"input-group-btn\">\r\n        		<button class=\"btn btn-default\" type=\"button\"><span class=\"glyphicon glyphicon-search\"></span></button>\r\n      		</span>\r\n		</div>\r\n		<div class=\"row\">\r\n			<div class=\"col-xs-12\">\r\n				\r\n				<div id=\"factionFilter\" class=\"btn-group select-many filter-faction\" style=\"margin-bottom: 10px;\">\r\n					";
+    + "\" value=\"\" />\r\n			<span class=\"input-group-btn\">\r\n        		<button class=\"btn btn-default\" type=\"button\"><span class=\"glyphicon glyphicon-search\"></span></button>\r\n      		</span>\r\n		</div>\r\n		<div class=\"row\">\r\n			<div class=\"col-xs-12\">\r\n				<div id=\"factionFilter\" class=\"btn-group select-many filter-faction filter-group\">\r\n					";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.filter)),stack1 == null || stack1 === false ? stack1 : stack1.factions), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n				</div>\r\n				<div id=\"cardTypeFilter\" class=\"btn-group select-many\" style=\"margin-bottom: 10px;\">\r\n					";
+  buffer += "\r\n				</div>\r\n				<div id=\"cardTypeFilter\" class=\"btn-group select-many filter-group\">\r\n					";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.filter)),stack1 == null || stack1 === false ? stack1 : stack1.cardTypes), {"name":"each","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n				</div>\r\n				<div id=\"quantityFilter\" class=\"btn-group select-many\" style=\"margin-bottom: 10px;\">\r\n					";
+  buffer += "\r\n				</div>\r\n				<div id=\"quantityFilter\" class=\"btn-group select-many filter-group\">\r\n					";
   stack1 = (helper = helpers['for'] || (depth0 && depth0['for']) || helperMissing,helper.call(depth0, 1, 4, 1, {"name":"for","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data}));
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "\r\n				</div>\r\n				<label id=\"filterTrigger\" class=\"btn btn-default btn-standard\"><span class=\"glyphicon glyphicon-filter\"></span></label>\r\n			</div>			\r\n		</div>\r\n		<div class=\"card-search-results-container\">			\r\n		</div>\r\n	</div>\r\n	\r\n</div>\r\n";
+  return buffer + "\r\n				</div>\r\n				<label id=\"filterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n					<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.sets", {"name":"loc","hash":{},"data":data})))
+    + "\r\n				</label>\r\n			</div>			\r\n		</div>\r\n		<div class=\"card-search-results-container\">			\r\n		</div>\r\n	</div>\r\n	\r\n</div>\r\n";
 },"useData":true});
 templates['card-set-filter-popover-view.hbs'] = template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, buffer = "\r\n		<li ";
@@ -108,31 +110,27 @@ templates['card-set-filter-popover-view.hbs'] = template({"1":function(depth0,he
     + escapeExpression(((helper = helpers.name || (depth0 && depth0.name)),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "</li>\r\n			";
 },"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div id=\"filterContent\">\r\n	<ul class=\"tree-node\">\r\n	";
+  var stack1, buffer = "<div class=\"filter-content\">\r\n	<ul class=\"tree-node\">\r\n	";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.tree)),stack1 == null || stack1 === false ? stack1 : stack1.nodes), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "		\r\n	</ul>\r\n	<a id=\"filterApply\" class=\"btn btn-default btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span></a>\r\n	<a id=\"filterCancel\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-remove\"></span></a>\r\n</div>";
+  return buffer + "		\r\n	</ul>\r\n	<label class=\"btn btn-default btn-primary filter-apply\"><span class=\"glyphicon glyphicon-ok\"></span></label>\r\n	<label class=\"btn btn-default filter-cancel\"><span class=\"glyphicon glyphicon-remove\"></span></label>\r\n</div>";
 },"useData":true});
 templates['card-view.hbs'] = template({"1":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function", buffer = "\r\n	<div class=\"col-md-3 col-md-offset-2\">\r\n		<img src=\""
-    + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, (depth0 && depth0.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
-    + "\" class=\"card-image\" style=\"margin-bottom: 10px;\" />\r\n	</div>\r\n	<div class=\"col-md-5 card-info\">\r\n		<div class=\"row row-dense card-info-header\">\r\n			<div class=\"col-md-3 text-center\">\r\n				<a href=\""
-    + escapeExpression(((helper = helpers.rootUrl || (depth0 && depth0.rootUrl)),(typeof helper === functionType ? helper.call(depth0, {"name":"rootUrl","hash":{},"data":data}) : helper)))
-    + "search?faction="
-    + escapeExpression(((helper = helpers.faction || (depth0 && depth0.faction)),(typeof helper === functionType ? helper.call(depth0, {"name":"faction","hash":{},"data":data}) : helper)))
-    + "\">\r\n					<img src=\""
-    + escapeExpression((helper = helpers.factionImagePathLg || (depth0 && depth0.factionImagePathLg) || helperMissing,helper.call(depth0, (depth0 && depth0.faction), {"name":"factionImagePathLg","hash":{},"data":data})))
-    + "\" class=\"faction-image\" />\r\n				</a>\r\n			</div>\r\n			<div class=\"col-md-9\">\r\n				<h3><strong>"
+  var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, buffer = "	\r\n	\r\n	<div class=\"col-sm-6 col-md-4 col-md-offset-2 card-info\">\r\n		\r\n		<div class=\"panel panel-default\">\r\n			<div class=\"panel-heading\">\r\n				<h3 class=\"panel-title\">\r\n					<strong>"
     + escapeExpression(((helper = helpers.name || (depth0 && depth0.name)),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "</strong>&nbsp;<small>"
+    + "</strong>\r\n				</h3>\r\n			</div>\r\n			<div class=\"panel-body\">				\r\n				<span class=\"key\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.faction", {"name":"loc","hash":{},"data":data})))
+    + ":</span>\r\n				<span class=\"value\">"
+    + escapeExpression((helper = helpers.searchLinkFaction || (depth0 && depth0.searchLinkFaction) || helperMissing,helper.call(depth0, depth0, {"name":"searchLinkFaction","hash":{},"data":data})))
+    + "</span>\r\n				<br />\r\n				<span class=\"key\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.type", {"name":"loc","hash":{},"data":data})))
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression((helper = helpers.searchLinkType || (depth0 && depth0.searchLinkType) || helperMissing,helper.call(depth0, depth0, {"name":"searchLinkType","hash":{},"data":data})))
-    + "</small></h3>\r\n				<h5><strong>"
+    + "</span>\r\n				<br />\r\n				<span class=\"key\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.traits", {"name":"loc","hash":{},"data":data})))
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression((helper = helpers.searchLinkTrait || (depth0 && depth0.searchLinkTrait) || helperMissing,helper.call(depth0, depth0, {"name":"searchLinkTrait","hash":{},"data":data})))
-    + "</strong></h5>\r\n			</div>			\r\n		</div>\r\n\r\n		<div class=\"row card-info-content\">\r\n			<div class=\"col-md-12\">\r\n				<dl class=\"dl-horizontal\">\r\n					<dt>"
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.set", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
-    + escapeExpression((helper = helpers.searchLinkSetName || (depth0 && depth0.searchLinkSetName) || helperMissing,helper.call(depth0, depth0, {"name":"searchLinkSetName","hash":{},"data":data})))
-    + "</dd>\r\n					<br />\r\n				";
+    + "</span>\r\n				<br />\r\n				";
   stack1 = (helper = helpers.smartIf || (depth0 && depth0.smartIf) || helperMissing,helper.call(depth0, (depth0 && depth0.cost), {"name":"smartIf","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data}));
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n				";
@@ -156,84 +154,90 @@ templates['card-view.hbs'] = template({"1":function(depth0,helpers,partials,data
   buffer += "\r\n				";
   stack1 = helpers.unless.call(depth0, (depth0 && depth0.startingHandSize), {"name":"unless","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n					<br />\r\n					<dt>"
+  buffer += "								\r\n				<br />\r\n				<br />\r\n				<span class=\"key\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.set", {"name":"loc","hash":{},"data":data})))
+    + ":</span>\r\n				<span class=\"value\">"
+    + escapeExpression((helper = helpers.searchLinkSetName || (depth0 && depth0.searchLinkSetName) || helperMissing,helper.call(depth0, depth0, {"name":"searchLinkSetName","hash":{},"data":data})))
+    + "</span>\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.number", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\" style=\"margin-right: 10px;\">"
     + escapeExpression(((helper = helpers.number || (depth0 && depth0.number)),(typeof helper === functionType ? helper.call(depth0, {"name":"number","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n					<dt>"
+    + "</span>\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.quantity", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression(((helper = helpers.quantity || (depth0 && depth0.quantity)),(typeof helper === functionType ? helper.call(depth0, {"name":"quantity","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n				";
+    + "</span>\r\n				";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.illustrator), {"name":"if","hash":{},"fn":this.program(21, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "\r\n				</dl>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	";
+  return buffer + "\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"col-sm-6 col-md-4\">\r\n		<img src=\""
+    + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, (depth0 && depth0.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
+    + "\" class=\"card-image\" style=\"margin-bottom: 10px;\" />\r\n	</div>\r\n\r\n	";
 },"2":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "		\r\n					<dt>"
+  return "\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.cost", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression(((helper = helpers.cost || (depth0 && depth0.cost)),(typeof helper === functionType ? helper.call(depth0, {"name":"cost","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n				";
+    + "</span>\r\n				";
 },"4":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "\r\n					<dt>"
+  return "\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.shieldIcons", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression(((helper = helpers.shield || (depth0 && depth0.shield)),(typeof helper === functionType ? helper.call(depth0, {"name":"shield","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n				";
+    + "</span>\r\n				";
 },"6":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "\r\n					<dt>"
+  return "\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.commandIcons", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression(((helper = helpers.command || (depth0 && depth0.command)),(typeof helper === functionType ? helper.call(depth0, {"name":"command","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n				";
+    + "</span>\r\n				";
 },"8":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "\r\n					<dt>"
+  return "\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.attack", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression(((helper = helpers.attack || (depth0 && depth0.attack)),(typeof helper === functionType ? helper.call(depth0, {"name":"attack","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n				";
+    + "</span>\r\n				";
 },"10":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "\r\n					<dt>"
+  return "\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.hp", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression(((helper = helpers.hitPoints || (depth0 && depth0.hitPoints)),(typeof helper === functionType ? helper.call(depth0, {"name":"hitPoints","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n				";
+    + "</span>\r\n				";
 },"12":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "\r\n					<dt>"
+  return "\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.startingHandSize", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression(((helper = helpers.startingHandSize || (depth0 && depth0.startingHandSize)),(typeof helper === functionType ? helper.call(depth0, {"name":"startingHandSize","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n				";
+    + "</span>\r\n				";
 },"14":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "\r\n					<dt>"
+  return "\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.startingResources", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression(((helper = helpers.startingResources || (depth0 && depth0.startingResources)),(typeof helper === functionType ? helper.call(depth0, {"name":"startingResources","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n				";
+    + "</span>\r\n				";
 },"16":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "\r\n					<dt>"
+  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.unique", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>				\r\n					<dd>";
+    + ":</span>				\r\n				<span class=\"value\">";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.unique), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.program(19, data),"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</dd>\r\n					<dt>"
+  buffer += "</span>\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.loyal", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>				\r\n					<dd>";
+    + ":</span>				\r\n				<span class=\"value\">";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.loyal), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.program(19, data),"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</dd>		\r\n					<dt>"
+  buffer += "</span>		\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.signatureSquad", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>				\r\n					<dd>";
+    + ":</span>				\r\n				<span class=\"value\">";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.warlordId), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.program(19, data),"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "</dd>\r\n				";
+  return buffer + "</span>\r\n				";
 },"17":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.yes", {"name":"loc","hash":{},"data":data})));
@@ -242,39 +246,39 @@ templates['card-view.hbs'] = template({"1":function(depth0,helpers,partials,data
   return escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.no", {"name":"loc","hash":{},"data":data})));
   },"21":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "\r\n					<dt>"
+  return "\r\n				<br />\r\n				<span class=\"key\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.illustrator", {"name":"loc","hash":{},"data":data})))
-    + ":</dt>\r\n					<dd>"
+    + ":</span>\r\n				<span class=\"value\">"
     + escapeExpression(((helper = helpers.illustrator || (depth0 && depth0.illustrator)),(typeof helper === functionType ? helper.call(depth0, {"name":"illustrator","hash":{},"data":data}) : helper)))
-    + "</dd>\r\n				";
+    + "</span>\r\n				";
 },"23":function(depth0,helpers,partials,data) {
   var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "<a href=\""
+  return "<div class=\"col-xs-6 col-sm-3\">						\r\n				<a href=\""
     + escapeExpression((helper = helpers.cardUrl || (depth0 && depth0.cardUrl) || helperMissing,helper.call(depth0, (depth0 && depth0.warlord), {"name":"cardUrl","hash":{},"data":data})))
     + "\" data-image-base=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.warlord)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">\r\n			<img src=\""
+    + "\">\r\n					<img src=\""
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.warlord)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
-    + "\" class=\"card-sm\" style=\"margin: 0px 10px 10px 0px;\" />\r\n		</a>\r\n		";
+    + "\" class=\"img-responsive\" style=\"margin: 0px 10px 10px 0px;\" />\r\n				</a>				\r\n			</div>	\r\n			";
 },"25":function(depth0,helpers,partials,data) {
   var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
-  return "<a href=\""
+  return "<div class=\"col-xs-6 col-sm-3\">\r\n				<a href=\""
     + escapeExpression((helper = helpers.cardUrl || (depth0 && depth0.cardUrl) || helperMissing,helper.call(depth0, depth0, {"name":"cardUrl","hash":{},"data":data})))
     + "\" data-image-base=\""
     + escapeExpression(((helper = helpers.imageBase || (depth0 && depth0.imageBase)),(typeof helper === functionType ? helper.call(depth0, {"name":"imageBase","hash":{},"data":data}) : helper)))
-    + "\">\r\n			<img src=\""
+    + "\">\r\n					<img src=\""
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, (depth0 && depth0.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
-    + "\" class=\"card-sm\" style=\"margin: 0px 10px 10px 0px;\" />\r\n		</a>\r\n		";
+    + "\" class=\"img-responsive\" style=\"margin: 0px 10px 10px 0px;\" />\r\n				</a>\r\n			</div>			\r\n			";
 },"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
   var stack1, buffer = "<div class=\"row card-view\">\r\n	";
   stack1 = helpers['with'].call(depth0, (depth0 && depth0.card), {"name":"with","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n	<div class=\"col-md-8 col-md-offset-2\">\r\n		";
+  buffer += "\r\n	<div class=\"col-sm-12 col-md-8 col-md-offset-2\">\r\n		<div class=\"row\">\r\n			";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.warlord), {"name":"if","hash":{},"fn":this.program(23, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   stack1 = helpers.each.call(depth0, (depth0 && depth0.signSquadCards), {"name":"each","hash":{},"fn":this.program(25, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "</div>	\r\n</div>\r\n";
+  return buffer + "</div>\r\n	</div>	\r\n</div>\r\n";
 },"useData":true});
 templates['commons-ul-tree.hbs'] = template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, buffer = "\r\n	<li ";
@@ -961,12 +965,12 @@ templates['deck-list-data-view.hbs'] = template({"1":function(depth0,helpers,par
   return buffer;
 },"useData":true});
 templates['deck-list-filter-view.hbs'] = template({"1":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"btn-group btn-group-filter filter-faction select-many primary\">\r\n	";
+  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"btn-group btn-group-filter filter-faction filter-group select-many primary\">\r\n	";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.factions), {"name":"each","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "</div>\r\n<label id=\"searchButton\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-search\"></span>&nbsp;"
+  return buffer + "</div>\r\n<label id=\"searchButton\" class=\"btn btn-primary filter-group\"><span class=\"glyphicon glyphicon-search\"></span>&nbsp;"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.search", {"name":"loc","hash":{},"data":data})))
-    + "</label>\r\n<label id=\"moreButton\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-menu-right\"></span>&nbsp;"
+    + "</label>\r\n<label id=\"moreButton\" class=\"btn btn-default filter-group\"><span class=\"glyphicon glyphicon-menu-right\"></span>&nbsp;"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.more", {"name":"loc","hash":{},"data":data})))
     + "</label>\r\n";
 },"2":function(depth0,helpers,partials,data) {
@@ -1074,7 +1078,11 @@ templates['deck-member-modal.hbs'] = template({"1":function(depth0,helpers,parti
   if(stack1 || stack1 === 0) { buffer += stack1; }
   return buffer + "\r\n				</div>\r\n				<img src=\""
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, ((stack1 = ((stack1 = (depth0 && depth0.member)),stack1 == null || stack1 === false ? stack1 : stack1.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
-    + "\" class=\"card-md\" />\r\n			</div>\r\n			<div class=\"modal-footer\">\r\n				<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"exportCloseButton\">\r\n					<span class=\"glyphicon glyphicon-remove\"></span>&nbsp;"
+    + "\" class=\"card-md\" />\r\n			</div>\r\n			<div class=\"modal-footer\">\r\n				<a href=\""
+    + escapeExpression((helper = helpers.cardUrl || (depth0 && depth0.cardUrl) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.member)),stack1 == null || stack1 === false ? stack1 : stack1.card), {"name":"cardUrl","hash":{},"data":data})))
+    + "\" class=\"btn btn-default\" target=\"_blank\">\r\n					<span class=\"glyphicon glyphicon-search\"></span>&nbsp;"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.gotoCardPage", {"name":"loc","hash":{},"data":data})))
+    + "\r\n				</a>\r\n				<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"exportCloseButton\">\r\n					<span class=\"glyphicon glyphicon-remove\"></span>&nbsp;"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.close", {"name":"loc","hash":{},"data":data})))
     + "\r\n				</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 },"useData":true});
@@ -1085,7 +1093,7 @@ templates['deck-members-grid-2.hbs'] = template({"1":function(depth0,helpers,par
     + escapeExpression(((helper = helpers.cardId || (depth0 && depth0.cardId)),(typeof helper === functionType ? helper.call(depth0, {"name":"cardId","hash":{},"data":data}) : helper)))
     + "\" data-image-base=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">\r\n							<img src=\""
+    + "\" style=\"cursor: pointer;\">\r\n							<img src=\""
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
     + "\" class=\"card-sm\" />\r\n						</a>\r\n					</td>\r\n					<td>\r\n						<div class=\"btn-group btn-group-qty\">\r\n							";
   stack1 = (helper = helpers['for'] || (depth0 && depth0['for']) || helperMissing,helper.call(depth0, 0, (depth0 && depth0.availableQuantity), 1, {"name":"for","hash":{},"fn":this.programWithDepth(2, data, depth1),"inverse":this.noop,"data":data}));
@@ -1138,7 +1146,7 @@ templates['deck-members-grid-3.hbs'] = template({"1":function(depth0,helpers,par
     + escapeExpression(((helper = helpers.cardId || (depth0 && depth0.cardId)),(typeof helper === functionType ? helper.call(depth0, {"name":"cardId","hash":{},"data":data}) : helper)))
     + "\" data-image-base=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">\r\n							<img src=\""
+    + "\" style=\"cursor: pointer;\">\r\n							<img src=\""
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
     + "\" class=\"card-xs\" />\r\n						</a>\r\n					</td>\r\n					<td>\r\n						<div class=\"btn-group btn-group-qty\">\r\n							";
   stack1 = (helper = helpers['for'] || (depth0 && depth0['for']) || helperMissing,helper.call(depth0, 0, (depth0 && depth0.availableQuantity), 1, {"name":"for","hash":{},"fn":this.programWithDepth(2, data, depth1),"inverse":this.noop,"data":data}));
@@ -1194,7 +1202,7 @@ templates['deck-members-grid-4.hbs'] = template({"1":function(depth0,helpers,par
     + escapeExpression(((helper = helpers.cardId || (depth0 && depth0.cardId)),(typeof helper === functionType ? helper.call(depth0, {"name":"cardId","hash":{},"data":data}) : helper)))
     + "\" data-image-base=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">\r\n			<img src=\""
+    + "\" style=\"cursor: pointer;\">\r\n			<img src=\""
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
     + "\" class=\"card-sm\" style=\"margin-bottom: 5px;\" />\r\n		</a>\r\n		<small><strong>"
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
@@ -1226,7 +1234,7 @@ templates['deck-members-grid-6.hbs'] = template({"1":function(depth0,helpers,par
     + escapeExpression(((helper = helpers.cardId || (depth0 && depth0.cardId)),(typeof helper === functionType ? helper.call(depth0, {"name":"cardId","hash":{},"data":data}) : helper)))
     + "\" data-image-base=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">\r\n			<img src=\""
+    + "\" style=\"cursor: pointer;\">\r\n			<img src=\""
     + escapeExpression((helper = helpers.cardImagePath || (depth0 && depth0.cardImagePath) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase), {"name":"cardImagePath","hash":{},"data":data})))
     + "\" class=\"card-xs\" style=\"margin-bottom: 5px;\" />\r\n		</a>\r\n		<small><strong>"
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
@@ -1258,7 +1266,7 @@ templates['deck-members-list.hbs'] = template({"1":function(depth0,helpers,parti
     + escapeExpression(((helper = helpers.cardId || (depth0 && depth0.cardId)),(typeof helper === functionType ? helper.call(depth0, {"name":"cardId","hash":{},"data":data}) : helper)))
     + "\" data-image-base=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.imageBase)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">"
+    + "\" style=\"cursor: pointer;\">"
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.card)),stack1 == null || stack1 === false ? stack1 : stack1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</a>\r\n					<br />\r\n					<span class=\"secondary-text\">"
     + escapeExpression((helper = helpers.searchLinkSetName || (depth0 && depth0.searchLinkSetName) || helperMissing,helper.call(depth0, (depth0 && depth0.card), {"name":"searchLinkSetName","hash":{},"data":data})))
@@ -1721,17 +1729,17 @@ templates['user-deck-edit-view.hbs'] = template({"1":function(depth0,helpers,par
     + "</a></li>\r\n			";
   stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.id), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</ul>\r\n\r\n		<div class=\"tab-content\">\r\n    		\r\n    		<div id=\"deckDeckTab\" role=\"tabpanel\" class=\"tab-pane active\">\r\n				<div class=\"members-list-filter-container\">\r\n					<div class=\"btn-group btn-group-layout\">\r\n						<label class=\"btn btn-default\" data-layout=\"list\"><span class=\"glyphicon glyphicon-align-justify\"></span></label>\r\n						<label class=\"btn btn-default\" data-layout=\"grid-6\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n						<label class=\"btn btn-default\" data-layout=\"grid-4\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n						<label class=\"btn btn-default\" data-layout=\"grid-3\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n						<label class=\"btn btn-default\" data-layout=\"grid-2\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n					</div>					\r\n					<div class=\"btn-group btn-group-filter filter-faction select-many\">\r\n						";
+  buffer += "</ul>\r\n\r\n		<div class=\"tab-content\">\r\n    		\r\n    		<div id=\"deckDeckTab\" role=\"tabpanel\" class=\"tab-pane active\">\r\n				<div class=\"members-list-filter-container\">\r\n					<div class=\"btn-group btn-group-layout filter-group\">\r\n						<label class=\"btn btn-default\" data-layout=\"list\"><span class=\"glyphicon glyphicon-align-justify\"></span></label>\r\n						<label class=\"btn btn-default\" data-layout=\"grid-6\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n						<label class=\"btn btn-default\" data-layout=\"grid-4\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n						<label class=\"btn btn-default\" data-layout=\"grid-3\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n						<label class=\"btn btn-default\" data-layout=\"grid-2\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n					</div>					\r\n					<div class=\"btn-group btn-group-filter filter-faction filter-group select-many\">\r\n						";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.filter)),stack1 == null || stack1 === false ? stack1 : stack1.factions), {"name":"each","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n					</div>\r\n					<div class=\"btn-group btn-group-filter filter-type select-many\">\r\n						";
+  buffer += "\r\n					</div>\r\n					<div class=\"btn-group btn-group-filter filter-type filter-group select-many\">\r\n						";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.filter)),stack1 == null || stack1 === false ? stack1 : stack1.cardTypes), {"name":"each","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n					</div>\r\n					<div class=\"btn-group btn-group-filter filter-selection select-many\">\r\n						<label class=\"btn btn-default\" data-selection=\"not-selected\" data-toggle=\"tooltip\" title=\""
+  buffer += "\r\n					</div>\r\n					<div class=\"btn-group btn-group-filter filter-selection filter-group select-many\">\r\n						<label class=\"btn btn-default\" data-selection=\"not-selected\" data-toggle=\"tooltip\" title=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.notSelected", {"name":"loc","hash":{},"data":data})))
     + "\"><span>0</span></label>\r\n						<label class=\"btn btn-default\" data-selection=\"selected\" data-toggle=\"tooltip\" title=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.selected", {"name":"loc","hash":{},"data":data})))
-    + "\"><span>1+</span></label>\r\n					</div>\r\n					<label id=\"filterTrigger\" class=\"btn btn-default btn-standard\"><span class=\"glyphicon glyphicon-filter\"></span></label>\r\n					<label id=\"configTrigger\" class=\"btn btn-default btn-standard\"><span class=\"glyphicon glyphicon-cog\"></span></label>\r\n\r\n					<input id=\"search\" type=\"text\" class=\"form-control\" placeholder=\""
+    + "\"><span>1+</span></label>\r\n					</div>\r\n					<label id=\"filterTrigger\" class=\"btn btn-default btn-standard filter-group\"><span class=\"glyphicon glyphicon-filter\"></span></label>\r\n					<label id=\"configTrigger\" class=\"btn btn-default btn-standard filter-group\"><span class=\"glyphicon glyphicon-cog\"></span></label>\r\n\r\n					<input id=\"search\" type=\"text\" class=\"form-control filter-group\" placeholder=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.nameOrTraitOrKeyword", {"name":"loc","hash":{},"data":data})))
     + "\" style=\"margin-top: 10px;\">\r\n				</div>\r\n				<div class=\"members-container\"></div>\r\n			</div>\r\n\r\n			<div id=\"deckDescriptionTab\" role=\"tabpanel\" class=\"tab-pane\">\r\n				<div class=\"deck-description-view\"></div>\r\n			</div>\r\n			\r\n			<div id=\"deckUtilitiesTab\" role=\"tabpanel\" class=\"tab-pane\">\r\n				<div class=\"block folding-block\">\r\n					<div class=\"block-header\">\r\n						<div class=\"block-header-text\">\r\n							<span class=\"glyphicon glyphicon-random\"></span>\r\n							&nbsp;"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.draw.simulator", {"name":"loc","hash":{},"data":data})))
@@ -1838,13 +1846,13 @@ templates['pub-deck-view.hbs'] = template({"1":function(depth0,helpers,partials,
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.utilities", {"name":"loc","hash":{},"data":data})))
     + "</a>\r\n				</li>\r\n				<li role=\"presentation\">\r\n					<a href=\"#deckVersionsTab\" aria-controls=\"versions\" role=\"tab\" data-toggle=\"tab\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.versions", {"name":"loc","hash":{},"data":data})))
-    + "</a>\r\n				</li>\r\n			</ul>\r\n\r\n			<div class=\"tab-content\">\r\n	    		<div id=\"deckDeckTab\" role=\"tabpanel\" class=\"tab-pane active\">\r\n					<div class=\"members-list-filter-container\">\r\n						<div class=\"btn-group btn-group-layout\">\r\n							<label class=\"btn btn-default\" data-layout=\"list\"><span class=\"glyphicon glyphicon-align-justify\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-6\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-4\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-3\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-2\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n						</div>					\r\n						<div class=\"btn-group btn-group-filter filter-faction select-many\">\r\n							";
+    + "</a>\r\n				</li>\r\n			</ul>\r\n\r\n			<div class=\"tab-content\">\r\n	    		<div id=\"deckDeckTab\" role=\"tabpanel\" class=\"tab-pane active\">\r\n					<div class=\"members-list-filter-container\">\r\n						<div class=\"btn-group btn-group-layout filter-group\">\r\n							<label class=\"btn btn-default\" data-layout=\"list\"><span class=\"glyphicon glyphicon-align-justify\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-6\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-4\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-3\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-2\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n						</div>					\r\n						<div class=\"btn-group btn-group-filter filter-faction filter-group select-many\">\r\n							";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.filter)),stack1 == null || stack1 === false ? stack1 : stack1.factions), {"name":"each","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n						</div>\r\n						<div class=\"btn-group btn-group-filter filter-type select-many\">\r\n							";
+  buffer += "\r\n						</div>\r\n						<div class=\"btn-group btn-group-filter filter-type filter-group select-many\">\r\n							";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.filter)),stack1 == null || stack1 === false ? stack1 : stack1.cardTypes), {"name":"each","hash":{},"fn":this.program(8, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n						</div>\r\n						\r\n\r\n						<input id=\"search\" type=\"text\" class=\"form-control\" placeholder=\""
+  buffer += "\r\n						</div>\r\n						\r\n						\r\n\r\n						<input id=\"search\" type=\"text\" class=\"form-control filter-group\" placeholder=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.nameOrTraitOrKeyword", {"name":"loc","hash":{},"data":data})))
     + "\" style=\"margin-top: 10px;\">\r\n					</div>\r\n					<div class=\"members-container\"></div>\r\n				</div>\r\n\r\n				<div id=\"deckDescriptionTab\" role=\"tabpanel\" class=\"tab-pane\">\r\n					\r\n					\r\n					<h2>";
   stack1 = (helper = helpers.markdown || (depth0 && depth0.markdown) || helperMissing,helper.call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.name), {"name":"markdown","hash":{},"data":data}));
