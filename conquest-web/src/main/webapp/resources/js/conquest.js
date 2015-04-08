@@ -577,6 +577,7 @@ conquest.filter = conquest.filter || {};
 	_filter.FD_TYPE_SET = 'set';
 	_filter.FD_TYPE_SIMPLE = 'simple';
 	_filter.FD_TYPE_RANGE = 'range';
+	_filter.FD_TYPE_RANGE_STAT = 'range-stat';
 
 	_filter.fds = [{
 		key: 'setTechName',
@@ -625,23 +626,23 @@ conquest.filter = conquest.filter || {};
 	}, {
 		key: 'cost',
 		queryStringKey: 'cost',
-		type: _filter.FD_TYPE_RANGE
+		type: _filter.FD_TYPE_RANGE_STAT
 	}, {
 		key: 'shield',
 		queryStringKey: 'shield',
-		type: _filter.FD_TYPE_RANGE
+		type: _filter.FD_TYPE_RANGE_STAT
 	}, {
 		key: 'command',
 		queryStringKey: 'command',
-		type: _filter.FD_TYPE_RANGE
+		type: _filter.FD_TYPE_RANGE_STAT
 	}, {
 		key: 'attack',
 		queryStringKey: 'attack',
-		type: _filter.FD_TYPE_RANGE
+		type: _filter.FD_TYPE_RANGE_STAT
 	}, {
 		key: 'hitPoints',
 		queryStringKey: 'hp',
-		type: _filter.FD_TYPE_RANGE
+		type: _filter.FD_TYPE_RANGE_STAT
 	}, {
 		key: 'warlordTechName',
 		queryStringKey: 'warlord',
@@ -688,10 +689,14 @@ conquest.filter = conquest.filter || {};
 					parts.push(fd.queryStringKey + '=' + value);
 				} else if (fd.type == _filter.FD_TYPE_RANGE && _.isArray(value) && !_.isEmpty(value)) {
 					var hasNonEmptyValue = _.some(value, function(v) {
-						return !_.isEmpty(v);
+						return !_.isUndefined(v) && v !== '';
 					});
 					if (hasNonEmptyValue) {
 						parts.push(fd.queryStringKey + '=' + value.join());
+					}
+				} else if (fd.type == _filter.FD_TYPE_RANGE_STAT && _.isArray(value) && !_.isEmpty(value)) {
+					if (value[2] === false) {
+						parts.push(fd.queryStringKey + '=' + value.join());	
 					}
 				}
 			}
@@ -732,6 +737,9 @@ conquest.filter = conquest.filter || {};
 						filter[fd.key] = value;
 					} else if (fd.type === _filter.FD_TYPE_RANGE) {
 						filter[fd.key] = value.split(',');
+					} else if (fd.type === _filter.FD_TYPE_RANGE_STAT) {
+						var values = value.split(',')
+						filter[fd.key] = [ parseInt(values[0]), parseInt(values[1]), values[2] == 'true' ];
 					}
 				}
 			});
@@ -1123,6 +1131,60 @@ conquest.util = conquest.util || {};
 // 
 conquest.card = conquest.card || {};
 (function(_card) {
+
+	_card.CardsFilter = Backbone.Model.extend({
+		isNotEmpty: function() {
+			return !_.isEmpty(this.toJSON());
+		},
+		filter: function(cards) {
+			var filter = this;
+
+			var db = TAFFY(cards);
+			var query = {};
+			var query2;
+
+			_.each(conquest.filter.fds, function(fd) {
+				var value = filter.get(fd.key);
+				if (fd.type === conquest.filter.FD_TYPE_SET) {					
+					if (value && value.length > 0) {
+						query[fd.key] = value;
+					}
+				} else if (fd.type === conquest.filter.FD_TYPE_RANGE_STAT) {
+					if (value && (value.length == 2 || value.length === 3 && value[2] !== true)) {
+						query[fd.key] = {
+							gte: value[0],
+							lte: value[1]
+						};
+					}
+				} else if (fd.type === conquest.filter.FD_TYPE_SIMPLE && fd.key != 'text') {
+					if (value) {
+						var obj = {};
+						obj[fd.oper] = value;
+						query[fd.key] = obj;
+					}
+				}
+			});
+
+			var text = this.get('text');
+			if (text && !(query.techName || query.keyword || query.trait)) {
+				query2 = [];
+				_.each(['name', 'keyword', 'trait'], function(key) {
+					var obj = {};
+					obj[key] = { 
+						likenocase: text
+					};
+					query2.push(obj);
+				});				
+			}
+
+			if (query2) {
+				return db(query, query2).get();
+			} else {
+				return db(query).get();
+			}
+		}
+	});
+
 	//
 	// card set filter popover
 	//
@@ -1141,7 +1203,7 @@ conquest.card = conquest.card || {};
 				html: true,
 				trigger: 'click focus',
 				placement: 'bottom',
-				animation: false,
+				animation: true,
 				content: filterContent
 			});
 
@@ -1162,6 +1224,10 @@ conquest.card = conquest.card || {};
 						$this.siblings().filter('ul').find('input[type="checkbox"]').prop('checked', $this.prop('checked'));
 					});
 				});
+
+				//
+				// filter apply
+				//
 				$content.find('.filter-apply').click(function() {
 					view.$trigger.popover('hide');
 					var sets = [];
@@ -1177,6 +1243,98 @@ conquest.card = conquest.card || {};
 						cycleTechName: cycles
 					});
 				});
+				//
+				// filter cancel
+				//
+				$content.find('.filter-cancel').click(function() {
+					view.$trigger.popover('hide');
+				});
+			});
+		}
+	});
+
+	//
+	// card stats filter popover
+	//
+	_card.CardStatFilterPopoverView = Backbone.View.extend({
+		initialize: function(options) {
+			this.filter = options.filter;
+			this.$trigger = options.$trigger;
+		},
+		render: function() {
+			var view = this;
+
+			var filterContent = Handlebars.templates['card-stat-filter-popover-view.hbs']({});
+			view.$trigger.popover({
+				html: true,
+				trigger: 'click focus',
+				placement: 'bottom',
+				animation: true,
+				content: filterContent
+			});
+
+			view.$trigger.on('shown.bs.popover', function() {
+				var $content = view.$trigger.parent().find('.filter-content');
+
+				$content.find('.slider').slider({}).each(function() {
+					var $this = $(this);
+					var $labelMin = $this.siblings().find('.label-min');
+					var $labelMax = $this.siblings().find('.label-max');
+
+					var filterKey = $this.data('filter-key');
+					var filterValues = view.filter.get(filterKey);
+					var minInit = $this.data('slider-min');
+					var maxInit = $this.data('slider-max');
+					var disabled = true;
+					if (filterValues) {
+						minInit = filterValues[0] || minInit;
+						maxInit = filterValues[1] || maxInit;
+						disabled = filterValues[2] === true;
+					}
+
+					$labelMin.text(minInit);
+					$labelMax.text(maxInit);
+
+					if (disabled) {
+						$this.parent('td').addClass('disabled');
+					} else {
+						$this.parent('td').removeClass('disabled');
+					}
+					$this.parent('td').prev().find('input').prop('checked', !disabled);
+
+					$this.slider({
+						range: true,
+						min: $this.data('slider-min'),
+						max: $this.data('slider-max'),
+						values: [minInit, maxInit],
+						slide: function(event, ui) {
+							$labelMin.text(ui.values[0]);
+							$labelMax.text(ui.values[1]);
+						}
+					});
+				});
+
+				$('.stats-filter-group td:nth-child(1) input').click(function() {
+					$(this).parent('td').next().toggleClass('disabled');
+				});
+
+				//
+				// filter apply
+				//
+				$content.find('.filter-apply').click(function() {
+					view.$trigger.popover('hide');
+					var filter = {};
+					$content.find('.slider').each(function() {
+						var $this = $(this);
+						var values = $this.slider('values');
+						values.push($this.parent().hasClass('disabled'));
+						filter[$this.data('filter-key')] = values;	
+					});
+					view.filter.set(filter);
+				});
+				//
+				// filter cancel
+				//
 				$content.find('.filter-cancel').click(function() {
 					view.$trigger.popover('hide');
 				});

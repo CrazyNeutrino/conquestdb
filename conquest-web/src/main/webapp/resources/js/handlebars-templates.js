@@ -66,8 +66,10 @@ templates['card-search-view.hbs'] = template({"1":function(depth0,helpers,partia
   buffer += "\r\n				</div>\r\n				<div id=\"quantityFilter\" class=\"btn-group select-many filter-group\">\r\n					";
   stack1 = (helper = helpers['for'] || (depth0 && depth0['for']) || helperMissing,helper.call(depth0, 1, 4, 1, {"name":"for","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data}));
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "\r\n				</div>\r\n				<label id=\"filterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n					<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
+  return buffer + "\r\n				</div>\r\n				<label id=\"cardSetfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n					<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.sets", {"name":"loc","hash":{},"data":data})))
+    + "\r\n				</label>\r\n				<label id=\"cardStatfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n					<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.stats", {"name":"loc","hash":{},"data":data})))
     + "\r\n				</label>\r\n			</div>			\r\n		</div>\r\n		<div class=\"card-search-results-container\">			\r\n		</div>\r\n	</div>\r\n	\r\n</div>\r\n";
 },"useData":true});
 templates['card-set-filter-popover-view.hbs'] = template({"1":function(depth0,helpers,partials,data) {
@@ -113,7 +115,21 @@ templates['card-set-filter-popover-view.hbs'] = template({"1":function(depth0,he
   var stack1, buffer = "<div class=\"filter-content\">\r\n	<ul class=\"tree-node\">\r\n	";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.tree)),stack1 == null || stack1 === false ? stack1 : stack1.nodes), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "		\r\n	</ul>\r\n	<label class=\"btn btn-default btn-primary filter-apply\"><span class=\"glyphicon glyphicon-ok\"></span></label>\r\n	<label class=\"btn btn-default filter-cancel\"><span class=\"glyphicon glyphicon-remove\"></span></label>\r\n</div>";
+  return buffer + "		\r\n	</ul>\r\n	<div class=\"pull-right popover-buttons\">\r\n		<label class=\"btn btn-default btn-primary filter-apply\"><span class=\"glyphicon glyphicon-ok\"></span></label>\r\n		<label class=\"btn btn-default filter-cancel\"><span class=\"glyphicon glyphicon-remove\"></span></label>\r\n	</div>\r\n</div>";
+},"useData":true});
+templates['card-stat-filter-popover-view.hbs'] = template({"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
+  var helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<div class=\"filter-content\">\r\n	<table class=\"stats-filter-group\">\r\n		<tbody>\r\n			<tr>\r\n				<td><input type=\"checkbox\"></td>\r\n				<td class=\"slider-container disabled\">\r\n					<div class=\"header\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.cost.sh", {"name":"loc","hash":{},"data":data})))
+    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n					<div id=\"costSlider\" class=\"slider\" data-filter-key=\"cost\" data-slider-min=\"0\" data-slider-max=\"8\" />	\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td><input type=\"checkbox\"></td>\r\n				<td class=\"slider-container disabled\">\r\n					<div class=\"header\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.commandIcons.sh", {"name":"loc","hash":{},"data":data})))
+    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n					<div id=\"commandSlider\" class=\"slider\" data-filter-key=\"command\" data-slider-min=\"0\" data-slider-max=\"4\" />\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td><input type=\"checkbox\"></td>\r\n				<td class=\"slider-container disabled\">\r\n					<div class=\"header\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.shieldIcons.sh", {"name":"loc","hash":{},"data":data})))
+    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n					<div id=\"shieldSlider\" class=\"slider\" data-filter-key=\"shield\" data-slider-min=\"0\" data-slider-max=\"3\" />\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td><input type=\"checkbox\"></td>\r\n				<td class=\"slider-container disabled\">\r\n					<div class=\"header\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.attack.sh", {"name":"loc","hash":{},"data":data})))
+    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n					<div id=\"attackSlider\" class=\"slider\" data-filter-key=\"attack\" data-slider-min=\"0\" data-slider-max=\"9\" />\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td><input type=\"checkbox\"></td>\r\n				<td class=\"slider-container disabled\">\r\n					<div class=\"header\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.hp.sh", {"name":"loc","hash":{},"data":data})))
+    + " [<span class=\"label-min\"></span>, <span class=\"label-max\"></span>]</div>\r\n					<div id=\"hpSlider\" class=\"slider\" data-filter-key=\"hitPoints\" data-slider-min=\"0\" data-slider-max=\"9\" />\r\n				</td>\r\n			</tr>\r\n		</tbody>\r\n	</table>\r\n	<div class=\"pull-right popover-buttons\">\r\n		<label class=\"btn btn-default btn-primary filter-apply\"><span class=\"glyphicon glyphicon-ok\"></span></label>\r\n		<label class=\"btn btn-default filter-cancel\"><span class=\"glyphicon glyphicon-remove\"></span></label>\r\n	</div>\r\n</div>";
 },"useData":true});
 templates['card-view.hbs'] = template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, buffer = "	\r\n	\r\n	<div class=\"col-sm-6 col-md-4 col-md-offset-2 card-info\">\r\n		\r\n		<div class=\"panel panel-default\">\r\n			<div class=\"panel-heading\">\r\n				<h3 class=\"panel-title\">\r\n					<strong>"
@@ -569,7 +585,7 @@ templates['deck-config.hbs'] = template({"compiler":[5,">= 2.0.0"],"main":functi
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.coreSets", {"name":"loc","hash":{},"data":data})))
     + "</li>\r\n		<li class=\"no-wrap\"><input type=\"radio\" name=\"csQuantity\" value=\"3\">3&nbsp;"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.coreSets", {"name":"loc","hash":{},"data":data})))
-    + "</li>\r\n	</ul>\r\n	<a id=\"configApply\" class=\"btn btn-default btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span></a>\r\n	<a id=\"configCancel\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-remove\"></span></a>\r\n</div>";
+    + "</li>\r\n	</ul>\r\n	<div class=\"pull-right popover-buttons\">\r\n		<label id=\"configApply\" class=\"btn btn-default btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span></label>\r\n		<label id=\"configCancel\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-remove\"></span></label>\r\n	</div>\r\n</div>";
 },"useData":true});
 templates['deck-description-modal.hbs'] = template({"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
@@ -1739,7 +1755,11 @@ templates['user-deck-edit-view.hbs'] = template({"1":function(depth0,helpers,par
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.notSelected", {"name":"loc","hash":{},"data":data})))
     + "\"><span>0</span></label>\r\n						<label class=\"btn btn-default\" data-selection=\"selected\" data-toggle=\"tooltip\" title=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.selected", {"name":"loc","hash":{},"data":data})))
-    + "\"><span>1+</span></label>\r\n					</div>\r\n					<label id=\"filterTrigger\" class=\"btn btn-default btn-standard filter-group\"><span class=\"glyphicon glyphicon-filter\"></span></label>\r\n					<label id=\"configTrigger\" class=\"btn btn-default btn-standard filter-group\"><span class=\"glyphicon glyphicon-cog\"></span></label>\r\n\r\n					<input id=\"search\" type=\"text\" class=\"form-control filter-group\" placeholder=\""
+    + "\"><span>1+</span></label>\r\n					</div>\r\n					<label id=\"cardSetfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n						<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.sets", {"name":"loc","hash":{},"data":data})))
+    + "\r\n					</label>\r\n					<label id=\"cardStatfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n						<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.stats", {"name":"loc","hash":{},"data":data})))
+    + "\r\n					</label>\r\n					<label id=\"configTrigger\" class=\"btn btn-default btn-standard filter-group\"><span class=\"glyphicon glyphicon-cog\"></span></label>\r\n\r\n					<input id=\"search\" type=\"text\" class=\"form-control filter-group\" placeholder=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.nameOrTraitOrKeyword", {"name":"loc","hash":{},"data":data})))
     + "\" style=\"margin-top: 10px;\">\r\n				</div>\r\n				<div class=\"members-container\"></div>\r\n			</div>\r\n\r\n			<div id=\"deckDescriptionTab\" role=\"tabpanel\" class=\"tab-pane\">\r\n				<div class=\"deck-description-view\"></div>\r\n			</div>\r\n			\r\n			<div id=\"deckUtilitiesTab\" role=\"tabpanel\" class=\"tab-pane\">\r\n				<div class=\"block folding-block\">\r\n					<div class=\"block-header\">\r\n						<div class=\"block-header-text\">\r\n							<span class=\"glyphicon glyphicon-random\"></span>\r\n							&nbsp;"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.draw.simulator", {"name":"loc","hash":{},"data":data})))

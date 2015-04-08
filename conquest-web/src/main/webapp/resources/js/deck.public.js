@@ -371,18 +371,18 @@ $(function() {
 					return false;
 				});
 
-				$('.facebook.popup').click(function(event) {
-					// FB.ui({
-					//   method: 'share',
-					//   href: document.URL,
-					// }, function(response){});
+				// $('.facebook.popup').click(function(event) {
+				// 	// FB.ui({
+				// 	//   method: 'share',
+				// 	//   href: document.URL,
+				// 	// }, function(response){});
 
-					FB.ui({
-					  method: 'feed',
-					  link: 'https://developers.facebook.com/docs/',
-					  caption: 'An example caption',
-					}, function(response){});
-				});
+				// 	FB.ui({
+				// 	  method: 'feed',
+				// 	  link: 'https://developers.facebook.com/docs/',
+				// 	  caption: 'An example caption',
+				// 	}, function(response){});
+				// });
 			};
 
 			if (options.deck) {

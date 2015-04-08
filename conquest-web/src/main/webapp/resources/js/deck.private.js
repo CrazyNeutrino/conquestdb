@@ -475,11 +475,7 @@ $(function() {
 				layout: 'list',
 				filter: new Backbone.Model()
 			});
-		},
-		// config: new Backbone.Model({
-		// 	layout: 'list',
-		// 	filter: new Backbone.Model()
-		// }),		
+		},	
 		viewLinkClickHandler: function(event) {
 			var root = conquest.static.root;
 			var href = $(event.currentTarget).attr('href');
@@ -541,7 +537,7 @@ $(function() {
 				return $(this).data('selection');
 			}).get();
 
-			filter.setTechName = this.config.get('filter').get('sets');
+			filter = _.extend(filter, _.pick(this.config.get('filter').toJSON(), 'cost', 'shield', 'command', 'attack', 'hitPoints', 'setTechName'));
 
 			_.each(Object.keys(filter), function(key) {
 				var value = filter[key];
@@ -580,15 +576,8 @@ $(function() {
 					$this.addClass('active');
 				}
 			});
-
-			// this.$el.find('#filterContent li[data-node-type="set"] > input[type="checkbox"]').each(function() {
-			// 	var $this = $(this);
-			// 	$this.prop('checked', filter.setTechName && filter.setTechName.indexOf($this.val()) > -1);
-			// });
-			
-			this.config.get('filter').set({
-				sets: filter.setTechName
-			});
+		
+			this.config.get('filter').set(_.pick(filter, 'cost', 'shield', 'command', 'attack', 'hitPoints', 'setTechName'));
 		},
 		render: function(options) {
 			var view = this;
@@ -761,76 +750,72 @@ $(function() {
 				}));
 
 				var filter = function() {
-					var factions = $('.btn-group.btn-group-filter.filter-faction > .btn.active').map(function() {
-						return $(this).data('faction');
-					}).get();
-					if (factions.length == 0) {
-						factions = undefined;
-					}
-					var types = $('.btn-group.btn-group-filter.filter-type > .btn.active').map(function() {
-						return $(this).data('type');
-					}).get();
-					if (types.length == 0) {
-						types = undefined;
-					}
-					var selection = $('.btn-group.btn-group-filter.filter-selection > .btn.active').map(function() {
-						return $(this).data('selection');
-					}).get();
-					if (selection.length == 0) {
-						selection = undefined;
-					}
-					var sets = view.config.get('filter').get('sets');
-					if (sets.length == 0) {
-						sets = undefined;
-					}
+					var filter = new conquest.card.CardsFilter();
 
-					var cardName = undefined;
-					var cardTrait = undefined;
-					var cardKeyword = undefined;
-					var text = undefined;
-
+					var obj = {};
 					if (view.searchbar) {
 						var suggestion = view.searchbar.suggestion;
 						var dataset = view.searchbar.dataset;
-						text = view.searchbar.text;
 						if (suggestion && dataset) {
 							if (dataset == 'cards') {
-								cardName = suggestion.name;
+								obj.cardName = suggestion.name;
 							} else if (dataset == 'traits') {
-								cardTrait = suggestion.description;
+								obj.cardTrait = suggestion.description;
 							} else if (dataset == 'keywords') {
-								cardKeyword = suggestion.description;
+								obj.cardKeyword = suggestion.description;
 							}
+						} else {
+							obj.techName = undefined;
+							obj.trait = undefined;
+							obj.keyword = undefined;
 						}
 					}
 
-					var filteredMembers = view.deck.get('members').filter(function(member) {
-						var card = member.get('card');
-						var cardSelection = member.get('quantity') === 0 ? 'not-selected' : 'selected';
-						var matches = (!factions || factions.indexOf(card.faction) > -1) && (!types || types.indexOf(card.type) > -1) && (!sets || sets.indexOf(card.setTechName) > -1) && (!selection || selection.indexOf(cardSelection) > -1);
-						if (cardName) {
-							matches = matches && card.name == cardName;
-						} else if (cardTrait) {
-							matches = matches && card.trait && card.trait.indexOf(cardTrait) > -1;
-						} else if (cardKeyword) {
-							matches = matches && card.keyword && card.keyword.indexOf(cardKeyword) > -1;
-						} else if (text) {
-							text = text.toLowerCase();
-							matches = matches && (card.name.toLowerCase().indexOf(text) > -1 || card.trait && card.trait.toLowerCase().indexOf(text) > -1 || card.keyword && card.keyword.toLowerCase().indexOf(text) > -1);
+					filter.set({
+						faction: $('.btn-group.btn-group-filter.filter-faction > .btn.active').map(function() {
+							return $(this).data('faction');
+						}).get(),
+						type: $('.btn-group.btn-group-filter.filter-type > .btn.active').map(function() {
+							return $(this).data('type');
+						}).get(),
+						setTechName: view.config.get('filter').get('setTechName'),
+						cost: view.config.get('filter').get('cost'),
+						shield: view.config.get('filter').get('shield'),
+						command: view.config.get('filter').get('command'),
+						attack: view.config.get('filter').get('attack'),
+						hitPoints: view.config.get('filter').get('hitPoints'),
+						techName: obj.techName,
+						trait: obj.trait,
+						keyword: obj.keyword
+					});					
+
+					var quantities = $('.btn-group.btn-group-filter.filter-selection > .btn.active').map(function() {
+						var selection = $(this).data('selection');
+						if (selection === 'not-selected') {
+							return 0;
+						} else if (selection === 'selected') {
+							return [1, 2, 3, 4];
 						}
-						return matches;
-					});
+					}).get();
+					quantities = quantities.length == 0 ? undefined : _.flatten(quantities);
+
+					var cards = _.pluck(view.deck.get('members').toJSON(), 'card');
+					var ids = _.pluck(filter.filter(cards), 'id');
+					
+					var filteredMembers = view.deck.get('members').filter(function(member) {
+						return (!quantities || _.contains(quantities, member.get('quantity'))) && _.contains(ids, member.get('card').id);
+					});			
 
 					view.deck.get('filteredMembers').reset(filteredMembers);
 				};
 
-				if (!view.config.get('filter').get('sets')) {
+				if (!view.config.get('filter').get('setTechName')) {
 					var warlordSetId = view.deck.get('warlord').setId;
 					var sets = _.pluck(_.filter(conquest.dict.sets, function(set) {
 						return set.released === true || set.id == warlordSetId;
 					}), 'techName');
 					view.config.get('filter').set({
-						sets: sets
+						setTechName: sets
 					});
 				}
 
@@ -860,10 +845,6 @@ $(function() {
 							var $members = view.membersListView.$el.find('.members-list-item, .members-grid-item');
 							var $buttons = $members.filter('[data-card-id="' + member.get('cardId') + '"]').find('.btn-group-qty .btn');
 							$buttons.filter('[data-quantity="' + member.get('quantity') + '"]').addClass('active').siblings().removeClass('active');
-							// view.membersListView.render(view.deck.get('filteredMembers'), {
-							// 	layout: view.config.get('layout'),
-							// 	readOnly: false
-							// });
 							view.updateStats();
 						}
 					});
@@ -882,18 +863,21 @@ $(function() {
 						readOnly: false
 					});
 				});
-				view.listenTo(view.deck, 'change:configCsQuantity',
-					function(deck) {
-						deck.adjustQuantities();
-						view.membersListView.render(view.deck.get('filteredMembers'), {
-							layout: view.config.get('layout'),
-							readOnly: false
-						});
-						view.groupsView.render(view.deck.get('members'), {
-							readOnly: false
-						});
-						view.updateStats();
+				view.listenTo(view.deck, 'change:configCsQuantity', function(deck) {
+					deck.adjustQuantities();
+					view.membersListView.render(view.deck.get('filteredMembers'), {
+						layout: view.config.get('layout'),
+						readOnly: false
 					});
+					view.groupsView.render(view.deck.get('members'), {
+						readOnly: false
+					});
+					view.updateStats();
+				});
+
+				view.listenTo(view.config.get('filter'), 'change', function(fltr) {
+					filter();
+				});
 				view.listenTo(view.config, 'change:filter', function(config) {
 					filter();
 				});
@@ -1063,7 +1047,6 @@ $(function() {
 					trigger: 'click focus',
 					placement: 'bottom',
 					animation: false,
-					title: conquest.dict.messages['core.settings'],
 					content: Handlebars.templates['deck-config.hbs']({})
 				});
 
@@ -1083,59 +1066,20 @@ $(function() {
 				});
 
 				//
-				// filter popover
-				//
-				var filterContent = Handlebars.templates['deck-filter.hbs']({
-					tree: conquest.dict.buildCardSetTree(),
-				});
-				var $filterTrigger = view.$el.find('#filterTrigger').popover({
-					html: true,
-					trigger: 'click focus',
-					placement: 'bottom',
-					animation: false,
-					title: conquest.dict.messages['core.filters'],
-					content: filterContent
-				});
+				// filter: sets
+				// 
+				new conquest.card.CardSetFilterPopoverView({
+					filter: view.config.get('filter'),
+					$trigger: view.$el.find('#cardSetfilterTrigger')
+				}).render();
 
-				$filterTrigger.on('shown.bs.popover', function() {
-					var sets = view.config.get('filter').get('sets');
-					var cycles = view.config.get('filter').get('cycles');
-					var $filterContent = view.$el.find('#filterContent');
-					var $sets = $filterContent.find('li:not(:has(ul)) input[type="checkbox"]');
-					var $cycles = $filterContent.find('li:has(ul) > input[type="checkbox"]');
-					$sets.each(function() {
-						var $this = $(this);
-						$this.prop('checked', sets && sets.indexOf($this.val()) > -1);
-					});
-					$cycles.each(function() {
-						var $this = $(this);
-						$this.prop('checked', cycles && cycles.indexOf($this.val()) > -1);
-						$this.click(function() {
-							$this.siblings().filter('ul').find('input[type="checkbox"]').prop('checked', $this.prop('checked'));
-						});
-					});
-					$filterContent.find('#filterApply').click(function() {
-						$filterTrigger.popover('hide');
-						var sets = [];
-						$sets.filter(':checked').each(function() {
-							sets.push($(this).val());
-						});
-						var cycles = [];
-						$cycles.filter(':checked').each(function() {
-							cycles.push($(this).val());
-						});
-						view.config.get('filter').set({
-							sets: sets
-						});
-						view.config.get('filter').set({
-							cycles: cycles
-						});
-						view.config.trigger('change:filter', view.config);
-					});
-					$filterContent.find('#filterCancel').click(function() {
-						$filterTrigger.popover('hide');
-					});
-				});
+				//
+				// filter: stats
+				// 
+				new conquest.card.CardStatFilterPopoverView({
+					filter: view.config.get('filter'),
+					$trigger: view.$el.find('#cardStatfilterTrigger')
+				}).render();
 
 				//
 				// draw

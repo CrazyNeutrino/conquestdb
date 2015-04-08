@@ -2,60 +2,7 @@ $(function() {
 
 	$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 		options.url = conquest.static.restPath + options.url + '?language=' + conquest.static.language;
-	});
-
-	var CardsFilter = Backbone.Model.extend({
-		isNotEmpty: function() {
-			return !_.isEmpty(this.toJSON());
-		},
-		filter: function(cards) {
-			var filter = this;
-
-			var db = TAFFY(conquest.dict.cards);
-			var query = {};
-			var query2;
-
-			_.each(conquest.filter.fds, function(fd) {
-				var value = filter.get(fd.key);
-				if (fd.type === conquest.filter.FD_TYPE_SET) {					
-					if (value && value.length > 0) {
-						query[fd.key] = value;
-					}
-				} else if (fd.type === conquest.filter.FD_TYPE_RANGE) {
-					if (value && (value.length == 2 || value.length === 3 && value[2] !== true)) {
-						query[fd.key] = {
-							gte: value[0],
-							lte: value[1]
-						};
-					}
-				} else if (fd.type === conquest.filter.FD_TYPE_SIMPLE && fd.key != 'text') {
-					if (value) {
-						var obj = {};
-						obj[fd.oper] = value;
-						query[fd.key] = obj;
-					}
-				}
-			});
-
-			var text = this.get('text');
-			if (text && !(query.techName || query.keyword || query.trait)) {
-				query2 = [];
-				_.each(['name', 'keyword', 'trait'], function(key) {
-					var obj = {};
-					obj[key] = { 
-						likenocase: text
-					};
-					query2.push(obj);
-				});				
-			}
-
-			if (query2) {
-				return db(query, query2).get();
-			} else {
-				return db(query).get();
-			}
-		}
-	});
+	});	
 
 	var ViewBase = Backbone.View.extend({
 		el: '.content',
@@ -134,13 +81,13 @@ $(function() {
 		config: new Backbone.Model({
 			layout: 'grid-4'
 		}),
-		filter: new CardsFilter(),
+		filter: new conquest.card.CardsFilter(),
 		filteredCards: new conquest.model.Cards(),
 		render: function(queryString) {
 			var view = this;
 
 			if (queryString) {
-				view.filter = new CardsFilter(conquest.filter.queryStringToFilter(queryString));
+				view.filter = new conquest.card.CardsFilter(conquest.filter.queryStringToFilter(queryString));
 			}
 
 			var template = Handlebars.templates['card-search-view.hbs']({
@@ -185,51 +132,6 @@ $(function() {
 			// 		layout: $(this).data('layout')
 			// 	});
 			// });
-
-			//
-			// filter: sets
-			//
-			// var sets = view.filter.get('setTechName');
-			// var cycles = view.filter.get('cycleTechName');
-			// var $cardSetFilter = view.$el.find('#cardSetFilter');
-			// var $sets = $cardSetFilter.find('li[data-node-type="set"] > input[type="checkbox"]');
-			// var $cycles = $cardSetFilter.find('li[data-node-type="cycle"] > input[type="checkbox"]');
-
-			// $sets.each(function() {
-			// 	var $this = $(this);
-			// 	$this.prop('checked', sets && sets.indexOf($this.val()) > -1);
-			// 	$this.click(function() {
-			// 		view.filter.set({
-			// 			setTechName: $cardSetFilter.find('li[data-node-type="set"] > input[type="checkbox"]:checked').map(function() {
-			// 				return $(this).val();
-			// 			}).get()
-			// 		});
-			// 	});
-			// });
-
-			// $cycles.each(function() {
-			// 	var $this = $(this);
-			// 	$this.prop('checked', cycles && cycles.indexOf($this.val()) > -1);
-			// 	$this.click(function() {
-			// 		$this.siblings().filter('ul').find('li[data-node-type="set"] > input[type="checkbox"]').prop('checked', $this.prop('checked'));
-			// 		view.filter.set({
-			// 			setTechName: $cardSetFilter.find('li[data-node-type="set"] > input[type="checkbox"]:checked').map(function() {
-			// 				return $(this).val();
-			// 			}).get(),
-			// 			cycleTechName: $cardSetFilter.find('li[data-node-type="cycle"] > input[type="checkbox"]:checked').map(function() {
-			// 				return $(this).val();
-			// 			}).get()
-			// 		});
-			// 	});
-			// });
-			// var filter = new Backbone.Model();
-			// filter.on('change', function(a) {
-			// 	console.log(a);
-			// });
-			new conquest.card.CardSetFilterPopoverView({
-				filter: view.filter,
-				$trigger: view.$el.find('#filterTrigger')
-			}).render();
 
 			//
 			// filter: factions
@@ -292,71 +194,20 @@ $(function() {
 			});
 
 			//
-			// filter: cost, shield, command, attack, hp
+			// filter: sets
+			// 
+			new conquest.card.CardSetFilterPopoverView({
+				filter: view.filter,
+				$trigger: view.$el.find('#cardSetfilterTrigger')
+			}).render();
+
 			//
-			var setStatsFilter = function(options) {
-				var filter = {};
-				var values = [];
-				values.push(options.values[0]);
-				values.push(options.values[1]);
-				values.push(options.disabled);
-				filter[options.filterKey] = values;
-				view.filter.set(filter);
-			};
-
-			$('.slider').slider({});
-			$('.slider').each(function() {
-				var $this = $(this);
-				var $labelMin = $this.siblings().find('.label-min');
-				var $labelMax = $this.siblings().find('.label-max');
-
-				var filterKey = $this.data('filter-key');
-				var filterValues = view.filter.get(filterKey);
-				var minInit = $this.data('slider-min');
-				var maxInit = $this.data('slider-max');
-				var disabled = true;
-				if (filterValues) {
-					minInit = filterValues[0] || minInit;
-					maxInit = filterValues[1] || maxInit;
-					disabled = filterValues[2] === 'true';
-				}
-
-				$labelMin.text(minInit);
-				$labelMax.text(maxInit);
-
-				if (disabled) {
-					$this.parent('td').addClass('disabled');
-				} else {
-					$this.parent('td').removeClass('disabled');
-				}
-				$this.parent('td').prev().find('input').prop('checked', !disabled);
-
-				$this.slider({
-					range: true,
-					min: $this.data('slider-min'),
-					max: $this.data('slider-max'),
-					values: [minInit, maxInit],
-					slide: function(event, ui) {
-						$labelMin.text(ui.values[0]);
-						$labelMax.text(ui.values[1]);
-						setStatsFilter({
-							disabled: false,
-							filterKey: filterKey,
-							values: ui.values
-						});
-					}
-				});
-			});
-			$('.stats-filter-group td:nth-child(1) input').click(function() {
-				var $container = $(this).parent('td').next().toggleClass('disabled');
-				var $slider = $container.find('.slider');
-				var disabled = $container.hasClass('disabled');
-				setStatsFilter({
-					disabled: disabled,
-					filterKey: $slider.data('filter-key'),
-					values: $slider.slider('values')
-				});
-			});
+			// filter: stats
+			// 
+			new conquest.card.CardStatFilterPopoverView({
+				filter: view.filter,
+				$trigger: view.$el.find('#cardStatfilterTrigger')
+			}).render();
 
 			//
 			// filter: name/trait/keyword search bar
@@ -433,7 +284,7 @@ $(function() {
 			// listen to filter change event
 			//
 			view.filter.listenTo(view.filter, 'change', function(filter, options) {
-				view.filteredCards.reset(filter.filter.call(filter));
+				view.filteredCards.reset(filter.filter.call(filter, conquest.dict.cards));
 				var queryString = conquest.filter.filterToQueryString(filter.toJSON());
 				if (queryString && queryString.length > 0) {
 					queryString = '?' + queryString;
@@ -441,9 +292,6 @@ $(function() {
 					queryString = '';
 				}
 				conquest.router.navigate('search' + queryString);
-				// if (!options || options.ga !== false) {
-				// 	ga('send', 'pageview');
-				// }
 			});
 
 			if (view.filter.isNotEmpty()) {
