@@ -214,7 +214,6 @@ $(function() {
 			});
 			view.$el.find('.actions-container').append(actionsTemplate);
 
-
 			var sortItems = [];
 			_.each([
 				['publishDate', 'core.publishDate'],
@@ -537,7 +536,7 @@ $(function() {
 				return $(this).data('selection');
 			}).get();
 
-			filter = _.extend(filter, _.pick(this.config.get('filter').toJSON(), 'cost', 'shield', 'command', 'attack', 'hitPoints', 'setTechName'));
+			filter = _.extend(filter, _.pick(this.config.get('filter').toJSON(), 'cost', 'shield', 'command', 'attack', 'hitPoints', 'setTechName', 'name', 'trait', 'keyword'));
 
 			_.each(Object.keys(filter), function(key) {
 				var value = filter[key];
@@ -577,7 +576,7 @@ $(function() {
 				}
 			});
 		
-			this.config.get('filter').set(_.pick(filter, 'cost', 'shield', 'command', 'attack', 'hitPoints', 'setTechName'));
+			this.config.get('filter').set(_.pick(filter, 'cost', 'shield', 'command', 'attack', 'hitPoints', 'setTechName', 'name', 'trait', 'keyword'));
 		},
 		render: function(options) {
 			var view = this;
@@ -703,10 +702,30 @@ $(function() {
 						return allowedCardTypes.indexOf(cardType.techName) >= 0;
 					})
 				};
+		
+				var sortItems = [];
+				_.each([
+					['name', 'card.name'],
+					['factionDisplay', 'card.faction'],
+					['typeDisplay', 'card.type'],
+					['cost', 'card.cost.sh'],
+					['shield', 'card.shieldIcons.sh'],
+					['command', 'card.commandIcons.sh'],
+					['attack', 'card.attack.sh'],
+					['hitPoints', 'card.hp.sh'],
+					['setName', 'core.setName'],
+					['setNumber', 'core.setNumber']
+				], function(arr) {
+					sortItems.push({
+						value: arr[0],
+						label: conquest.dict.messages[arr[1]]
+					})
+				});
 
 				var template = Handlebars.templates['user-deck-edit-view.hbs']({
 					deck: view.deck.toJSON(),
-					filter: filter
+					filter: filter,
+					sortItems: sortItems
 				});
 				var f = view.buildFilterFromUI();
 				view.$el.html(template);
@@ -749,45 +768,26 @@ $(function() {
 					}
 				}));
 
-				var filter = function() {
-					var filter = new conquest.card.CardsFilter();
-
-					var obj = {};
-					if (view.searchbar) {
-						var suggestion = view.searchbar.suggestion;
-						var dataset = view.searchbar.dataset;
-						if (suggestion && dataset) {
-							if (dataset == 'cards') {
-								obj.cardName = suggestion.name;
-							} else if (dataset == 'traits') {
-								obj.cardTrait = suggestion.description;
-							} else if (dataset == 'keywords') {
-								obj.cardKeyword = suggestion.description;
-							}
-						} else {
-							obj.techName = undefined;
-							obj.trait = undefined;
-							obj.keyword = undefined;
-						}
-					}
-
-					filter.set({
+				var filterMembers = function() {
+					var cardsFilter = new conquest.card.CardsFilter();
+					var cardsFilterAttrs = {
 						faction: $('.btn-group.btn-group-filter.filter-faction > .btn.active').map(function() {
 							return $(this).data('faction');
 						}).get(),
 						type: $('.btn-group.btn-group-filter.filter-type > .btn.active').map(function() {
 							return $(this).data('type');
-						}).get(),
-						setTechName: view.config.get('filter').get('setTechName'),
-						cost: view.config.get('filter').get('cost'),
-						shield: view.config.get('filter').get('shield'),
-						command: view.config.get('filter').get('command'),
-						attack: view.config.get('filter').get('attack'),
-						hitPoints: view.config.get('filter').get('hitPoints'),
-						techName: obj.techName,
-						trait: obj.trait,
-						keyword: obj.keyword
-					});					
+						}).get()
+					};
+
+					var membersFilter = view.config.get('filter');
+					var attrNames = ['cost', 'shield', 'command', 'attack', 'hitPoints', 'techName', 'trait', 'keyword', 'setTechName'];
+					_.each(attrNames, function(attrName) {
+						cardsFilterAttrs[attrName] = membersFilter.get(attrName);
+					});
+					cardsFilter.set(cardsFilterAttrs);					
+
+					var cards = _.pluck(view.deck.get('members').toJSON(), 'card');
+					var ids = _.pluck(cardsFilter.filter(cards), 'id');
 
 					var quantities = $('.btn-group.btn-group-filter.filter-selection > .btn.active').map(function() {
 						var selection = $(this).data('selection');
@@ -798,13 +798,9 @@ $(function() {
 						}
 					}).get();
 					quantities = quantities.length == 0 ? undefined : _.flatten(quantities);
-
-					var cards = _.pluck(view.deck.get('members').toJSON(), 'card');
-					var ids = _.pluck(filter.filter(cards), 'id');
-					
 					var filteredMembers = view.deck.get('members').filter(function(member) {
 						return (!quantities || _.contains(quantities, member.get('quantity'))) && _.contains(ids, member.get('card').id);
-					});			
+					});
 
 					view.deck.get('filteredMembers').reset(filteredMembers);
 				};
@@ -876,10 +872,10 @@ $(function() {
 				});
 
 				view.listenTo(view.config.get('filter'), 'change', function(fltr) {
-					filter();
+					filterMembers();
 				});
 				view.listenTo(view.config, 'change:filter', function(config) {
-					filter();
+					filterMembers();
 				});
 
 				$('.btn-group.select-many > .btn').click(function(event) {
@@ -889,7 +885,7 @@ $(function() {
 					} else {
 						$this.toggleClass('active');
 					}
-					filter();
+					filterMembers();
 				});
 
 				$('.btn-group.btn-group-layout > .btn').click(function() {
@@ -902,6 +898,31 @@ $(function() {
 
 				var layout = view.config.get('layout');
 				$('.btn-group.btn-group-layout > .btn[data-layout="' + layout + '"]').addClass('active');
+
+
+				//
+				// sorting
+				//
+				$('.sort-control').change(function() {
+					var keys = [];
+					$('.sort-control').each(function() {
+						 var value = $(this).val();
+						 if (value) {
+						 	if (value.indexOf(',') == -1) {
+						 		keys.push(value);
+						 	} else {
+						 		keys.push({
+						 			property: value.split(',')[0],
+						 			descending: value.split(',')[1] == 'desc'
+						 		});
+						 	}
+						 }
+					});
+
+					view.deck.get('filteredMembers').comparator = conquest.util.buildMembersComparator(keys);
+					view.deck.get('filteredMembers').sort();
+					view.deck.get('filteredMembers').trigger('reset', view.deck.get('filteredMembers'));
+				});
 
 				//
 				// save deck
@@ -1081,6 +1102,8 @@ $(function() {
 					$trigger: view.$el.find('#cardStatfilterTrigger')
 				}).render();
 
+
+
 				//
 				// draw
 				//				
@@ -1192,51 +1215,73 @@ $(function() {
 					}
 				});
 
+				var setSearchbarFilter = function(options) {
+					if (options) {
+						var filter = view.config.get('filter');
+
+						var suggestion = options.suggestion;
+						var dataset = options.dataset;
+						var text = options.text;
+
+						var obj = {};
+						if (suggestion && dataset) {
+							if (dataset == 'cards') {
+								obj.techName = suggestion.card.techName;
+							} else if (dataset == 'traits') {
+								obj.trait = suggestion.description;
+							} else if (dataset == 'keywords') {
+								obj.keyword = suggestion.description;
+							}
+						} else if (text) {
+							if (!(filter.has('techName') || filter.has('trait') || filter.has('keyword'))) {
+								obj.text = text;
+							}
+						} else {
+							obj.techName = undefined;
+							obj.trait = undefined;
+							obj.keyword = undefined;
+							obj.text = undefined;
+						}
+
+						filter.set(obj, {
+							silent: true
+						});
+					}
+				};
+
 				$typeahead.on('typeahead:selected', function($event, suggestion, dataset) {
 					console.log('selected' + $event);
-					view.searchbar = {
+					setSearchbarFilter({
 						suggestion: suggestion,
 						dataset: dataset
-					};
+					});
 				}).on('typeahead:autocompleted', function($event, suggestion, dataset) {
 					console.log('autocompleted' + $event);
-					view.searchbar = {
+					setSearchbarFilter({
 						suggestion: suggestion,
 						dataset: dataset
-					};
+					});
 				}).on('typeahead:closed', function($event) {
 					console.log('closed' + $event);
-					view.searchbar.text = $('#search').typeahead('val');
+					setSearchbarFilter({
+						text: $('#search').typeahead('val')
+					});
 				}).on('typeahead:opened', function($event) {
 					console.log('opened' + $event);
-					view.searchbar = {};
+					setSearchbarFilter({});
 				}).on('keyup', function($event) {
 					if ($event.keyCode == 13) {
-						$('#search').typeahead('close');
-						filter();
+						$typeahead.typeahead('close');
+						// view.filter.trigger('change', view.filter);
+						filterMembers();
 					}
-				});
-
-				//
-				// sliders
-				//
-				// $('.slider').slider({});
-				$('.slider').each(function() {
-					var $this = $(this);
-					$this.slider({
-						range: true,
-						min: $this.data('slider-min'),
-						max: $this.data('slider-max'),
-						// values: [ $this.data('slider-min'), $this.data('slider-max') ]
-						values: [1, 3]
-					});
 				});
 
 				view.groupsView.render(view.deck.get('members'), {
 					readOnly: false
 				});
 
-				filter();
+				filterMembers();
 			};
 
 			if (options.deck) {

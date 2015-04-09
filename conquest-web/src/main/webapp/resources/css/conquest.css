@@ -626,6 +626,9 @@ table.table-with-btn > tbody > tr > td {
 	margin-bottom: 5px;
 }
 
+.members-list-filter-container .tt-input { margin-top: 0px; }
+.members-list-filter-container .sort-control { min-width: 180px; }
+
 .popover-buttons {
 	margin: 5px 0px;
 }

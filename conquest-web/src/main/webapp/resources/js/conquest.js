@@ -180,35 +180,6 @@ conquest.model = conquest.model || {};
 
 	_model.DeckMembers = Backbone.Collection.extend({
 		model: _model.DeckMember,
-		comparator: function(one, two) {
-			var result;
-			if (one.get('card').type === 'warlord') {
-				result = -1;
-			} else if (two.get('card').type === 'warlord') {
-				result = 1;
-			} else {
-				result = 0;
-			}
-
-			if (result === 0) {
-				if (!_.isUndefined(one.get('card').warlordId) && _.isUndefined(two.get('card').warlordId)) {
-					result = -1;
-				} else if (!_.isUndefined(two.get('card').warlordId) && _.isUndefined(one.get('card').warlordId)) {
-					result = 1;
-				} else {
-					result = 0;
-				};
-			}
-			
-			if (result === 0) {
-				result = one.get('card').factionDisplay.localeCompare(two.get('card').factionDisplay);
-			}
-
-			if (result === 0) {
-				result = one.get('card').name.localeCompare(two.get('card').name);
-			}
-			return result;
-		},
 		computeTotalQuantity: function() {
 			var total = 0;
 			this.each(function(member) {
@@ -341,10 +312,12 @@ conquest.model = conquest.model || {};
 			attributes.type = attributes.type || 'base';
 		},
 		parse: function(response) {			
+			response.warlord = _.clone(conquest.dict.findCard(parseInt(response.warlordId)));
 			response.createDateMillis = moment.tz(response.createDate, conquest.static.timezone).valueOf();
 			response.modifyDateMillis = moment.tz(response.modifyDate, conquest.static.timezone).valueOf();
 			response.members = new _model.DeckMembers(response.members, {
-				parse: true
+				parse: true,
+				comparator: conquest.util.buildMembersDefaultComparator(response.warlord.faction)
 			});
 			response.links = new _model.DeckLinks(response.links, {
 				parse: true,
@@ -898,6 +871,116 @@ conquest.util = conquest.util || {};
 			});
 		});
 		return _.shuffle(arr);
+	};
+
+	_util.buildMembersComparator = function(keys, faction) {
+		return _util.buildCardsComparator(keys, {
+			resolver: function(member) {
+				return member.get('card');
+			}
+		})
+	};
+
+	_util.buildMembersDefaultComparator = function(faction) {
+		return function(one, two) {
+			var result;
+			var cardOne = one.get('card');
+			var cardTwo = two.get('card');
+
+			if (cardOne.type == 'warlord') {
+				result = -1;
+			} else if (cardTwo.type == 'warlord') {
+				result = 1;
+			} else {
+				result = 0;
+			}
+
+			if (result == 0) {
+				if (_.isNumber(cardOne.warlordId) && _.isUndefined(cardTwo.warlordId)) {
+					result = -1;
+				} else if (_.isNumber(cardTwo.warlordId) && _.isUndefined(cardOne.warlordId)) {
+					result = 1;
+				} else {
+					result = 0;
+				};
+			}
+			
+			if (result == 0) {
+				if (cardOne.faction == faction && cardTwo.faction != faction) {
+					result = -1;
+				} else if (cardTwo.faction == faction && cardOne.faction != faction) {
+					result = 1;
+				} else {
+					result = cardOne.factionDisplay.localeCompare(cardTwo.factionDisplay);
+				}
+			}
+
+			if (result === 0) {
+				result = cardOne.name.localeCompare(cardTwo.name);
+			}
+			return result;
+		};
+	};
+
+	_util.buildCardsComparator = function(keys, options) {
+		var options = options || {};
+
+		var validKeys = [];
+		_.each(keys, function(key) {
+			if (key && key !== 'none' && key !== 'default') {
+				validKeys.push(key);
+			}
+		});
+		validKeys.push('setNumber');
+		validKeys.push('number');
+
+		var stringKeys = ['name', 'type', 'typeDisplay', 'faction', 'factionDisplay', 'setName'];
+		var numberKeys = ['memberQuantity', 'quantity', 'cost', 'shield', 'command', 'attack', 'hitPoints', 'setNumber', 'number'];
+
+		return function(one, two) {				
+			var result = 0;
+			$.each(validKeys, function(index, key) {
+				var property;
+				var descending;
+				if (_.isObject(key)) {
+					property = key.property;
+					descending = key.descending;
+				} else {
+					property = key;
+					descending = false;
+				}
+				var oneValue;
+				var twoValue;
+				if (property == 'memberQuantity') {
+					oneValue = one.get('quantity');
+					twoValue = two.get('quantity');
+				} else {
+					oneValue = (options.resolver ? options.resolver(one) : one)[property];
+					twoValue = (options.resolver ? options.resolver(two) : two)[property];
+				}
+
+				if (_.isUndefined(oneValue) && _.isUndefined(twoValue)) {
+					result = 0;
+				} else if (_.isUndefined(oneValue)) {
+					result = -1;
+				} else if (_.isUndefined(twoValue)) {
+					result = 1;
+				} else if (stringKeys.indexOf(property) > -1) {
+					result = oneValue.localeCompare(twoValue);
+				} else if (numberKeys.indexOf(property) > -1) {					
+					result = (oneValue == twoValue ? 0 : (oneValue < twoValue ? -1 : 1));
+				}
+
+				if (result != 0) {
+					if (descending === true) {
+						result *= -1;
+					}
+					return false;
+				}
+			});
+
+			return result;
+		};
 	};
 
 	_util.toCardUrl = function(input) {

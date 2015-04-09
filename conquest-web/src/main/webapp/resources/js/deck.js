@@ -743,24 +743,13 @@ conquest.deck = conquest.deck || {};
 			});
 			view.$el.find('#warlordFilter').html(warlordFilterTemplate);
 
-			var sortTemplate = Handlebars.templates['deck-sort-select.hbs']({
+			var sortTemplate = Handlebars.templates['commons-sort-select.hbs']({
 				sortItems: view.config.sortItems
 			});
 			var $container = view.$el.find('.deck-sort-container');
 			$container.append(sortTemplate);
 			$container.append(sortTemplate);
 			$container.append(sortTemplate);
-			// $container.find('.dropdown').each(function() {
-			// 	var $dropdown = $(this);
-			// 	$dropdown.find('.sort-asc, .sort-desc').click(function() {
-			// 		var $this = $(this);
-			// 		if ($this.hasClass('sort-asc')) {
-			// 			$dropdown.find('button > span:eq(0)').removeClass('glyphicon-sort glyphicon-sort-by-attributes-alt').addClass('glyphicon-sort-by-attributes');
-			// 		} else {
-			// 			$dropdown.find('button > span:eq(0)').removeClass('glyphicon-sort glyphicon-sort-by-attributes').addClass('glyphicon-sort-by-attributes-alt');
-			// 		}
-			// 	});
-			// });
 
 			view.applyFilterToUI(options.filter);
 
