@@ -94,6 +94,7 @@ footer.footer > .container > p:first-child {
 .icon-chaos { background-image: url('/image/faction/chaos-b-md.png'); }
 .icon-ork {	background-image: url('/image/faction/ork-b-md.png'); }
 .icon-tau {	background-image: url('/image/faction/tau-b-md.png'); }
+.icon-tyranid {	background-image: url('/image/faction/tyranid-b-md.png'); }
 
 .card-md {
 	width: 255px;
