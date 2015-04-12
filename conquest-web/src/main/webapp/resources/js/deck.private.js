@@ -535,6 +535,9 @@ $(function() {
 			filter.selection = this.$el.find('.btn-group-filter.filter-selection .btn.active').map(function() {
 				return $(this).data('selection');
 			}).get();
+			filter.sorting = this.$el.find('.sort-control').map(function() {
+				return $(this).val();
+			});
 
 			filter = _.extend(filter, _.pick(this.config.get('filter').toJSON(), 'cost', 'shield', 'command', 'attack', 'hitPoints', 'setTechName', 'name', 'trait', 'keyword'));
 
@@ -553,26 +556,31 @@ $(function() {
 		applyFilterToUI: function(filter) {
 			this.$el.find('.btn-group-layout .btn').each(function() {
 				var $this = $(this);
-				if (filter.layout && filter.layout.indexOf($this.data('layout')) > -1) {
+				if (_.contains(filter.layout, $this.data('layout'))) {
 					$this.addClass('active');
 				}
 			});
 			this.$el.find('.btn-group-filter.filter-faction .btn').each(function() {
 				var $this = $(this);
-				if (filter.faction && filter.faction.indexOf($this.data('faction')) > -1) {
+				if (_.contains(filter.faction, $this.data('faction'))) {
 					$this.addClass('active');
 				}
 			});
 			this.$el.find('.btn-group-filter.filter-type .btn').each(function() {
 				var $this = $(this);
-				if (filter.type && filter.type.indexOf($this.data('type')) > -1) {
+				if (_.contains(filter.type, $this.data('type'))) {
 					$this.addClass('active');
 				}
 			});
 			this.$el.find('.btn-group-filter.filter-selection .btn').each(function() {
 				var $this = $(this);
-				if (filter.selection && filter.selection.indexOf($this.data('selection')) > -1) {
+				if (_.contains(filter.selection, $this.data('selection'))) {
 					$this.addClass('active');
+				}
+			});
+			this.$el.find('.sort-control').each(function(index) {
+				if (filter.sorting && filter.sorting.length > index) {
+					$(this).val(filter.sorting[index]);
 				}
 			});
 		
@@ -706,6 +714,7 @@ $(function() {
 				var sortItems = [];
 				_.each([
 					['name', 'card.name'],
+					['number', 'card.number'],
 					['factionDisplay', 'card.faction'],
 					['typeDisplay', 'card.type'],
 					['cost', 'card.cost.sh'],
@@ -768,6 +777,36 @@ $(function() {
 					}
 				}));
 
+				var buildSortKeys = function() {
+					var sortKeys = [];
+					$('.sort-control').each(function() {
+						 var value = $(this).val();
+						 if (value) {
+						 	if (value.indexOf(',') == -1) {
+						 		sortKeys.push(value);
+						 	} else {
+						 		sortKeys.push({
+						 			property: value.split(',')[0],
+						 			descending: value.split(',')[1] == 'desc'
+						 		});
+						 	}
+						 }
+					});					
+					return sortKeys;
+				}; // end:buildSortKeys
+
+				var buildMembersComparator = function() {
+					var sortKeys = buildSortKeys();
+					var hasNonDefaultSortKeys = _.some(sortKeys, function(sortKey) {
+						return sortKey && sortKey != 'default';
+					});
+					if (hasNonDefaultSortKeys) {
+						return conquest.util.buildMembersComparator(sortKeys);
+					} else {
+						return conquest.util.buildMembersDefaultComparator(view.deck.get('warlord').faction);
+					}
+				}; // end:buildMembersComparator
+
 				var filterMembers = function() {
 					var cardsFilter = new conquest.card.CardsFilter();
 					var cardsFilterAttrs = {
@@ -802,8 +841,10 @@ $(function() {
 						return (!quantities || _.contains(quantities, member.get('quantity'))) && _.contains(ids, member.get('card').id);
 					});
 
+					view.deck.get('filteredMembers').comparator = buildMembersComparator();
 					view.deck.get('filteredMembers').reset(filteredMembers);
-				};
+
+				}; // end:filterMembers
 
 				if (!view.config.get('filter').get('setTechName')) {
 					var warlordSetId = view.deck.get('warlord').setId;
@@ -901,25 +942,10 @@ $(function() {
 
 
 				//
-				// sorting
+				// sorting change
 				//
-				$('.sort-control').change(function() {
-					var keys = [];
-					$('.sort-control').each(function() {
-						 var value = $(this).val();
-						 if (value) {
-						 	if (value.indexOf(',') == -1) {
-						 		keys.push(value);
-						 	} else {
-						 		keys.push({
-						 			property: value.split(',')[0],
-						 			descending: value.split(',')[1] == 'desc'
-						 		});
-						 	}
-						 }
-					});
-
-					view.deck.get('filteredMembers').comparator = conquest.util.buildMembersComparator(keys);
+				$('.sort-control').change(function() {					
+					view.deck.get('filteredMembers').comparator = buildMembersComparator();
 					view.deck.get('filteredMembers').sort();
 					view.deck.get('filteredMembers').trigger('reset', view.deck.get('filteredMembers'));
 				});

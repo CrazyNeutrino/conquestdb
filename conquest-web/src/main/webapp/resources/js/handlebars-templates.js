@@ -27,50 +27,66 @@ templates['card-search-results-grid-4.hbs'] = template({"1":function(depth0,help
 },"useData":true});
 templates['card-search-view.hbs'] = template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", escapeExpression=this.escapeExpression;
-  return "							\r\n					<label class=\"btn btn-default\" data-faction=\""
+  return "							\r\n				<label class=\"btn btn-default\" data-faction=\""
     + escapeExpression(((helper = helpers.techName || (depth0 && depth0.techName)),(typeof helper === functionType ? helper.call(depth0, {"name":"techName","hash":{},"data":data}) : helper)))
     + "\" data-toggle=\"tooltip\" title=\""
     + escapeExpression(((helper = helpers.name || (depth0 && depth0.name)),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "\"><div class=\"icon-faction icon-"
     + escapeExpression(((helper = helpers.techName || (depth0 && depth0.techName)),(typeof helper === functionType ? helper.call(depth0, {"name":"techName","hash":{},"data":data}) : helper)))
-    + "\"></div></label>\r\n					";
+    + "\"></div></label>\r\n				";
 },"3":function(depth0,helpers,partials,data) {
   var helper, functionType="function", escapeExpression=this.escapeExpression;
-  return "\r\n					<label class=\"btn btn-default\" data-type=\""
+  return "\r\n				<label class=\"btn btn-default\" data-type=\""
     + escapeExpression(((helper = helpers.techName || (depth0 && depth0.techName)),(typeof helper === functionType ? helper.call(depth0, {"name":"techName","hash":{},"data":data}) : helper)))
     + "\" data-toggle=\"tooltip\" title=\""
     + escapeExpression(((helper = helpers.name || (depth0 && depth0.name)),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "\"><span>"
     + escapeExpression(((helper = helpers.shortName || (depth0 && depth0.shortName)),(typeof helper === functionType ? helper.call(depth0, {"name":"shortName","hash":{},"data":data}) : helper)))
-    + "</span></label>\r\n					";
+    + "</span></label>\r\n				";
 },"5":function(depth0,helpers,partials,data) {
   var helper, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing;
-  return "\r\n					<label class=\"btn btn-default\" data-quantity=\""
+  return "\r\n				<label class=\"btn btn-default\" data-quantity=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "\" data-toggle=\"tooltip\" title=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "card.quantity", {"name":"loc","hash":{},"data":data})))
     + ": "
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "\">\r\n						<span>"
+    + "\">\r\n					<span>"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</span>\r\n					</label>\r\n					";
+    + "</span>\r\n				</label>\r\n				";
+},"7":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", escapeExpression=this.escapeExpression;
+  return "<option value=\""
+    + escapeExpression(((helper = helpers.value || (depth0 && depth0.value)),(typeof helper === functionType ? helper.call(depth0, {"name":"value","hash":{},"data":data}) : helper)))
+    + ",asc\">"
+    + escapeExpression(((helper = helpers.label || (depth0 && depth0.label)),(typeof helper === functionType ? helper.call(depth0, {"name":"label","hash":{},"data":data}) : helper)))
+    + "&nbsp;&#9650;</option>\r\n				<option value=\""
+    + escapeExpression(((helper = helpers.value || (depth0 && depth0.value)),(typeof helper === functionType ? helper.call(depth0, {"name":"value","hash":{},"data":data}) : helper)))
+    + ",desc\">"
+    + escapeExpression(((helper = helpers.label || (depth0 && depth0.label)),(typeof helper === functionType ? helper.call(depth0, {"name":"label","hash":{},"data":data}) : helper)))
+    + "&nbsp;&#9660;</option>\r\n				";
 },"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"row card-search-view\">	\r\n	<div class=\"col-xs-12 card-search-filter-container\">\r\n		<div id=\"textFilter\" class=\"input-group\" style=\"margin-bottom: 10px;\">\r\n			<input class=\"form-control\" id=\"mainSearchInput\" type=\"text\" placeholder=\""
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.nameOrTraitOrKeyword", {"name":"loc","hash":{},"data":data})))
-    + "\" value=\"\" />\r\n			<span class=\"input-group-btn\">\r\n        		<button class=\"btn btn-default\" type=\"button\"><span class=\"glyphicon glyphicon-search\"></span></button>\r\n      		</span>\r\n		</div>\r\n		<div class=\"row\">\r\n			<div class=\"col-xs-12\">\r\n				<div id=\"factionFilter\" class=\"btn-group select-many filter-faction filter-group\">\r\n					";
+  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"row card-search-view\">	\r\n	<div class=\"col-xs-12 card-search-filter-container\">		\r\n		<div class=\"form-inline\">\r\n			<div id=\"factionFilter\" class=\"btn-group select-many filter-faction filter-group\">\r\n				";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.filter)),stack1 == null || stack1 === false ? stack1 : stack1.factions), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n				</div>\r\n				<div id=\"cardTypeFilter\" class=\"btn-group select-many filter-group\">\r\n					";
+  buffer += "\r\n			</div>\r\n			<div id=\"cardTypeFilter\" class=\"btn-group select-many filter-group\">\r\n				";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 && depth0.filter)),stack1 == null || stack1 === false ? stack1 : stack1.cardTypes), {"name":"each","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n				</div>\r\n				<div id=\"quantityFilter\" class=\"btn-group select-many filter-group\">\r\n					";
+  buffer += "\r\n			</div>\r\n			<div id=\"quantityFilter\" class=\"btn-group select-many filter-group\">\r\n				";
   stack1 = (helper = helpers['for'] || (depth0 && depth0['for']) || helperMissing,helper.call(depth0, 1, 4, 1, {"name":"for","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data}));
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer + "\r\n				</div>\r\n				<label id=\"cardSetfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n					<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
+  buffer += "\r\n			</div>\r\n			<label id=\"cardSetfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n				<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.sets", {"name":"loc","hash":{},"data":data})))
-    + "\r\n				</label>\r\n				<label id=\"cardStatfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n					<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.stats", {"name":"loc","hash":{},"data":data})))
-    + "\r\n				</label>\r\n			</div>			\r\n		</div>\r\n		<div class=\"card-search-results-container\">			\r\n		</div>\r\n	</div>\r\n	\r\n</div>\r\n";
+    + "\r\n			</label>\r\n			<label id=\"cardStatfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n				<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.stats.sh", {"name":"loc","hash":{},"data":data})))
+    + "\r\n			</label>\r\n\r\n			<select class=\"form-control sort-control filter-group\">\r\n				<option value=\"default\">"
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.defaultSorting", {"name":"loc","hash":{},"data":data})))
+    + "</option>\r\n				";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.sortItems), {"name":"each","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  return buffer + "\r\n			</select>\r\n		</div>\r\n\r\n		<div class=\"form\">\r\n			<div id=\"textFilter\" class=\"input-group\" style=\"margin-bottom: 10px;\">\r\n				<input class=\"form-control\" id=\"mainSearchInput\" type=\"text\" placeholder=\""
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.nameOrTraitOrKeyword", {"name":"loc","hash":{},"data":data})))
+    + "\" value=\"\" />\r\n				<span class=\"input-group-btn\">\r\n					<button class=\"btn btn-default\" type=\"button\"><span class=\"glyphicon glyphicon-search\"></span></button>\r\n				</span>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"card-search-results-container\">			\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 },"useData":true});
 templates['card-set-filter-popover-view.hbs'] = template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", escapeExpression=this.escapeExpression, buffer = "\r\n		<li ";
@@ -1743,7 +1759,7 @@ templates['user-deck-edit-view.hbs'] = template({"1":function(depth0,helpers,par
     + "</a></li>\r\n			";
   stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.deck)),stack1 == null || stack1 === false ? stack1 : stack1.id), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</ul>\r\n\r\n		<div class=\"tab-content\">\r\n    		\r\n    		<div id=\"deckDeckTab\" role=\"tabpanel\" class=\"tab-pane active\">\r\n				<div class=\"members-list-filter-container\">\r\n					<div class=\"form-inline\">\r\n						<div class=\"btn-group btn-group-layout filter-group\">\r\n							<label class=\"btn btn-default\" data-layout=\"list\"><span class=\"glyphicon glyphicon-align-justify\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-6\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-4\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-3\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-2\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n						</div>\r\n						\r\n						<label id=\"configTrigger\" class=\"btn btn-default btn-standard filter-group\"><span class=\"glyphicon glyphicon-cog\"></span></label>\r\n\r\n						<select class=\"form-control sort-control filter-group\">\r\n							<option value=\"default\">"
+  buffer += "</ul>\r\n\r\n		<div class=\"tab-content\">\r\n    		\r\n    		<div id=\"deckDeckTab\" role=\"tabpanel\" class=\"tab-pane active\">\r\n				<div class=\"members-list-filter-container\">\r\n					<div class=\"form-inline\">\r\n						<div class=\"btn-group btn-group-layout filter-group\">\r\n							<label class=\"btn btn-default\" data-layout=\"list\"><span class=\"glyphicon glyphicon-align-justify\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-6\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-4\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-3\"><span class=\"glyphicon glyphicon-th\"></span></label>\r\n							<label class=\"btn btn-default\" data-layout=\"grid-2\"><span class=\"glyphicon glyphicon-th-large\"></span></label>\r\n						</div>\r\n						\r\n						<label id=\"configTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n							<span class=\"glyphicon glyphicon-cog\"></span>\r\n						</label>\r\n\r\n						<select class=\"form-control sort-control filter-group\">\r\n							<option value=\"default\">"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.defaultSorting", {"name":"loc","hash":{},"data":data})))
     + "</option>\r\n							";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.sortItems), {"name":"each","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
@@ -1766,7 +1782,7 @@ templates['user-deck-edit-view.hbs'] = template({"1":function(depth0,helpers,par
     + "\"><span>1+</span></label>\r\n						</div>\r\n\r\n						<label id=\"cardSetfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n							<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.sets", {"name":"loc","hash":{},"data":data})))
     + "\r\n						</label>\r\n\r\n						<label id=\"cardStatfilterTrigger\" class=\"btn btn-default btn-standard filter-group\">\r\n							<span class=\"glyphicon glyphicon-filter\"></span>&nbsp;"
-    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.stats", {"name":"loc","hash":{},"data":data})))
+    + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.stats.sh", {"name":"loc","hash":{},"data":data})))
     + "\r\n						</label>\r\n					</div>\r\n					\r\n					<div class=\"form\">\r\n						<input id=\"search\" type=\"text\" class=\"form-control filter-group\" placeholder=\""
     + escapeExpression((helper = helpers.loc || (depth0 && depth0.loc) || helperMissing,helper.call(depth0, "core.nameOrTraitOrKeyword", {"name":"loc","hash":{},"data":data})))
     + "\">\r\n					</div>\r\n				</div>\r\n				<div class=\"members-container\"></div>\r\n			</div>\r\n\r\n			<div id=\"deckDescriptionTab\" role=\"tabpanel\" class=\"tab-pane\">\r\n				<div class=\"deck-description-view\"></div>\r\n			</div>\r\n			\r\n			<div id=\"deckUtilitiesTab\" role=\"tabpanel\" class=\"tab-pane\">\r\n				<div class=\"block folding-block\">\r\n					<div class=\"block-header\">\r\n						<div class=\"block-header-text\">\r\n							<span class=\"glyphicon glyphicon-random\"></span>\r\n							&nbsp;"

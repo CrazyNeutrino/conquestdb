@@ -878,7 +878,7 @@ conquest.util = conquest.util || {};
 			resolver: function(member) {
 				return member.get('card');
 			}
-		})
+		});
 	};
 
 	_util.buildMembersDefaultComparator = function(faction) {

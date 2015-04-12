@@ -81,21 +81,41 @@ $(function() {
 		config: new Backbone.Model({
 			layout: 'grid-4'
 		}),
-		filter: new conquest.card.CardsFilter(),
+		cardsFilter: new conquest.card.CardsFilter(),
 		filteredCards: new conquest.model.Cards(),
 		render: function(queryString) {
 			var view = this;
 
 			if (queryString) {
-				view.filter = new conquest.card.CardsFilter(conquest.filter.queryStringToFilter(queryString));
+				view.cardsFilter = new conquest.card.CardsFilter(conquest.filter.queryStringToFilter(queryString));
 			}
 
+			var sortItems = [];
+			_.each([
+				['name', 'card.name'],
+				['number', 'card.number'],
+				['factionDisplay', 'card.faction'],
+				['typeDisplay', 'card.type'],
+				['cost', 'card.cost.sh'],
+				['shield', 'card.shieldIcons.sh'],
+				['command', 'card.commandIcons.sh'],
+				['attack', 'card.attack.sh'],
+				['hitPoints', 'card.hp.sh'],
+				['setName', 'core.setName'],
+				['setNumber', 'core.setNumber']
+			], function(arr) {
+				sortItems.push({
+					value: arr[0],
+					label: conquest.dict.messages[arr[1]]
+				})
+			});
+
 			var template = Handlebars.templates['card-search-view.hbs']({
-				tree: conquest.dict.buildCardSetTree(),
 				filter: {
 					factions: conquest.dict.factions,
 					cardTypes: conquest.dict.cardTypes
-				}
+				},
+				sortItems: sortItems
 			});
 
 			view.$el.html(template);
@@ -136,7 +156,7 @@ $(function() {
 			//
 			// filter: factions
 			//
-			var factions = view.filter.get('faction');
+			var factions = view.cardsFilter.get('faction');
 			var $factions = view.$el.find('#factionFilter > .btn');
 
 			$factions.each(function() {
@@ -145,7 +165,7 @@ $(function() {
 					$this.addClass('active');
 				}
 				$this.click(function(event) {
-					view.filter.set({
+					view.cardsFilter.set({
 						faction: $factions.filter('.active').map(function() {
 							return $(this).data('faction');
 						}).get()
@@ -156,7 +176,7 @@ $(function() {
 			//
 			// filter: types
 			//
-			var types = view.filter.get('type');
+			var types = view.cardsFilter.get('type');
 			var $types = view.$el.find('#cardTypeFilter > .btn');
 
 			$types.each(function() {
@@ -165,7 +185,7 @@ $(function() {
 					$this.addClass('active');
 				}
 				$this.click(function(event) {
-					view.filter.set({
+					view.cardsFilter.set({
 						type: $types.filter('.active').map(function() {
 							return $(this).data('type');
 						}).get()
@@ -176,7 +196,7 @@ $(function() {
 			//
 			// filter: quantities
 			//
-			var quantities = view.filter.get('quantity');
+			var quantities = view.cardsFilter.get('quantity');
 			var $quantities = view.$el.find('#quantityFilter > .btn');
 
 			$quantities.each(function() {
@@ -185,7 +205,7 @@ $(function() {
 					$this.addClass('active');
 				}
 				$this.click(function(event) {
-					view.filter.set({
+					view.cardsFilter.set({
 						quantity: $quantities.filter('.active').map(function() {
 							return $(this).data('quantity');
 						}).get()
@@ -197,7 +217,7 @@ $(function() {
 			// filter: sets
 			// 
 			new conquest.card.CardSetFilterPopoverView({
-				filter: view.filter,
+				filter: view.cardsFilter,
 				$trigger: view.$el.find('#cardSetfilterTrigger')
 			}).render();
 
@@ -205,7 +225,7 @@ $(function() {
 			// filter: stats
 			// 
 			new conquest.card.CardStatFilterPopoverView({
-				filter: view.filter,
+				filter: view.cardsFilter,
 				$trigger: view.$el.find('#cardStatfilterTrigger')
 			}).render();
 
@@ -233,7 +253,7 @@ $(function() {
 							obj['keyword'] = suggestion.description;
 						}
 					} else if (text) {
-						if (!(view.filter.has('techName') || view.filter.has('trait') || view.filter.has('keyword'))) {
+						if (!(view.cardsFilter.has('techName') || view.cardsFilter.has('trait') || view.cardsFilter.has('keyword'))) {
 							obj['text'] = text;
 						}
 					} else {
@@ -243,7 +263,7 @@ $(function() {
 						obj['text'] = undefined;
 					}
 
-					view.filter.set(obj, {
+					view.cardsFilter.set(obj, {
 						silent: true
 					});
 				}
@@ -272,20 +292,56 @@ $(function() {
 			}).on('keyup', function($event) {
 				if ($event.keyCode == 13) {
 					$typeahead.typeahead('close');
-					view.filter.trigger('change', view.filter);
+					view.cardsFilter.trigger('change', view.cardsFilter);
 				}
 			});
 
 			$('#textFilter .btn').click(function() {
-				view.filter.trigger('change', view.filter);
+				view.cardsFilter.trigger('change', view.cardsFilter);
+			});
+
+			var buildSortKeys = function() {
+				var sortKeys = [];
+				$('.sort-control').each(function() {
+					var value = $(this).val();
+					if (value) {
+						if (value.indexOf(',') == -1) {
+							sortKeys.push(value);
+						} else {
+							sortKeys.push({
+								property: value.split(',')[0],
+								descending: value.split(',')[1] == 'desc'
+							});
+						}
+					}
+				});
+				return sortKeys;
+			}; // end:buildSortKeys
+
+			var buildCardsComparator = function() {
+				return conquest.util.buildCardsComparator(buildSortKeys(), {
+					resolver: function(card) {
+						return card.attributes;
+					}
+				});
+			}; // end:buildMembersComparator
+
+			//
+			// sorting change
+			//
+			$('.sort-control').change(function() {					
+				view.filteredCards.comparator = buildCardsComparator();
+				view.filteredCards.sort();
+				view.filteredCards.trigger('reset', view.filteredCards);
 			});
 
 			//
 			// listen to filter change event
 			//
-			view.filter.listenTo(view.filter, 'change', function(filter, options) {
-				view.filteredCards.reset(filter.filter.call(filter, conquest.dict.cards));
-				var queryString = conquest.filter.filterToQueryString(filter.toJSON());
+			view.cardsFilter.listenTo(view.cardsFilter, 'change', function(cardsFilter, options) {
+				view.filteredCards.comparator = buildCardsComparator();
+				view.filteredCards.reset(cardsFilter.filter.call(cardsFilter, conquest.dict.cards));
+				var queryString = conquest.filter.filterToQueryString(cardsFilter.toJSON());
 				if (queryString && queryString.length > 0) {
 					queryString = '?' + queryString;
 				} else {
@@ -294,8 +350,8 @@ $(function() {
 				conquest.router.navigate('search' + queryString);
 			});
 
-			if (view.filter.isNotEmpty()) {
-				view.filter.trigger('change', view.filter, {
+			if (view.cardsFilter.isNotEmpty()) {
+				view.cardsFilter.trigger('change', view.cardsFilter, {
 					ga: false
 				});
 			}
