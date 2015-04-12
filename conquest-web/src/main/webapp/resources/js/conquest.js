@@ -173,7 +173,7 @@ conquest.model = conquest.model || {};
 	_model.DeckMember = Backbone.Model.extend({
 		parse: function(response) {
 			response.card = _.clone(conquest.dict.findCard(parseInt(response.cardId)));
-			response.fixedQuantity = response.card.type === 'warlord' || _.isNumber(response.card.warlordId);
+			response.fixedQuantity = response.card.type === 'warlord' || response.card.type === 'synapse' || _.isNumber(response.card.warlordId);
 			return response;
 		}
 	});
@@ -883,9 +883,21 @@ conquest.util = conquest.util || {};
 
 	_util.buildMembersDefaultComparator = function(faction) {
 		return function(one, two) {
-			var result;
+			var result = 0;
 			var cardOne = one.get('card');
 			var cardTwo = two.get('card');
+
+			$.each(['warlord', 'synapse'], function(index, type) {
+				if (cardOne.type == type && cardTwo.type != type) {
+					result = -1;
+					return false;
+				} else if (cardTwo.type == type && cardOne.type != type) {
+					result = 1;
+					return false;
+				} else {
+					result = 0;
+				}
+			});
 
 			if (cardOne.type == 'warlord') {
 				result = -1;
@@ -894,6 +906,16 @@ conquest.util = conquest.util || {};
 			} else {
 				result = 0;
 			}
+
+			if (result == 0) {
+			if (cardOne.type == 'synapse') {
+				result = -1;
+			} else if (cardTwo.type == 'synapse') {
+				result = 1;
+			} else {
+				result = 0;
+			}
+		}
 
 			if (result == 0) {
 				if (_.isNumber(cardOne.warlordId) && _.isUndefined(cardTwo.warlordId)) {
@@ -1131,24 +1153,24 @@ conquest.util = conquest.util || {};
 	c.getValidDeckFactions = function(factionTechName) {
 		var validDeckFactions = [];
 		var factions = c.dict.factions;
-		var ringFactions = _.filter(factions, function(faction) {
-			return faction.techName != 'neutral' && faction.techName != 'necrons' && faction.techName != 'tyranids';
+		var circleFactions = _.filter(factions, function(faction) {
+			return faction.techName != 'neutral' && faction.techName != 'necron' && faction.techName != 'tyranid';
 		});
 		var faction = _.findWhere(factions, {
 			techName: factionTechName
 		});
 
-		if (factionTechName == 'neutral') {
+		if (faction.techName == 'neutral') {
 			// no op
-		} else if (factionTechName == 'necrons') {
+		} else if (faction.techName == 'necrons') {
 			// no op
-		} else if (factionTechName == 'tyranids') {
-			// no op
-		} else {
-			var index = ringFactions.indexOf(faction);
+		} else if (faction.techName == 'tyranid') {
 			validDeckFactions.push(faction);
-			validDeckFactions.push(ringFactions[(index - 1 + ringFactions.length) % ringFactions.length]);
-			validDeckFactions.push(ringFactions[(index + 1) % ringFactions.length]);
+		} else {
+			var index = circleFactions.indexOf(faction);
+			validDeckFactions.push(faction);
+			validDeckFactions.push(circleFactions[(index - 1 + circleFactions.length) % circleFactions.length]);
+			validDeckFactions.push(circleFactions[(index + 1) % circleFactions.length]);
 			validDeckFactions.push(_.findWhere(factions, {
 				techName: 'neutral'
 			}));
