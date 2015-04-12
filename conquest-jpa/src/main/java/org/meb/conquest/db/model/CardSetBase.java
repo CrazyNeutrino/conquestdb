@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import org.hibernate.annotations.Type;
 import org.meb.conquest.db.converter.CardSetTypeConverter;
 
 @Getter
@@ -35,6 +36,9 @@ public class CardSetBase implements IBase<CardSetLang>{
 	private CardSetType typeCode;
 	private String recordState;
 	private Date releaseDate;
+	
+	@Type(type = "org.hibernate.type.YesNoType")
+	private Boolean released;
 	private Integer sequence;
 	private String techName;
 	

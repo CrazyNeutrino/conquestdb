@@ -28,6 +28,8 @@ public class DomainBase implements IBase<DomainLang> {
 	private String domain;
 	private String value;
 	private String recordState;
+	private Integer sequence;
+	
 
 	@OneToMany(mappedBy = "base", cascade = CascadeType.ALL)
 	@MapKey(name = "langCode")
