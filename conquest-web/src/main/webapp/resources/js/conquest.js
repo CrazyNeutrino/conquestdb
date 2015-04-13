@@ -173,7 +173,8 @@ conquest.model = conquest.model || {};
 	_model.DeckMember = Backbone.Model.extend({
 		parse: function(response) {
 			response.card = _.clone(conquest.dict.findCard(parseInt(response.cardId)));
-			response.fixedQuantity = response.card.type === 'warlord' || response.card.type === 'synapse' || _.isNumber(response.card.warlordId);
+			response.fixedQuantity = response.card.type === 'warlord' || _.isNumber(response.card.warlordId);
+			response.fixedMaxQuantity = response.card.type === 'warlord' || response.card.type === 'synapse' || _.isNumber(response.card.warlordId);
 			return response;
 		}
 	});
@@ -233,7 +234,7 @@ conquest.model = conquest.model || {};
 		},
 		adjustQuantities: function(csQuantity) {
 			this.each(function(member) {
-				if (member.get('fixedQuantity') === false) {
+				if (member.get('fixedMaxQuantity') === false) {
 					var availableQuantity = Math.min(3, member.get('card').quantity * csQuantity);
 					member.set({
 						availableQuantity: availableQuantity
@@ -340,7 +341,7 @@ conquest.model = conquest.model || {};
 			response.members.each(function(member) {
 				var cardQuantity = member.get('card').quantity;
 				var availableQuantity;
-				if (member.get('fixedQuantity') === true) {
+				if (member.get('fixedMaxQuantity') === true) {
 					availableQuantity = cardQuantity;
 				} else {
 					if (_.isUndefined(response.configCsQuantity)) {
@@ -435,6 +436,7 @@ conquest.model = conquest.model || {};
 				if (member.quantity && member.quantity > 0) {
 					delete member.availableQuantity;
 					delete member.fixedQuantity;
+					delete member.fixedMaxQuantity;
 					delete member.card;
 					json.members.push(member);
 				}
@@ -509,6 +511,7 @@ conquest.model = conquest.model || {};
 					_.each(sourceJson.members, function(member) {
 						delete member.card;
 						delete member.fixedQuantity;
+						delete member.fixedMaxQuantity;
 						delete member.availableQuantity;
 					});
 				}

@@ -150,6 +150,7 @@ $(function() {
 							class: 'btn-danger',
 							handler: function() {
 								window.location.href = href;
+
 							}
 						},
 						buttonNo: {}
@@ -379,9 +380,6 @@ $(function() {
 
 				if (errors.length == 0) {
 					view.$el.find('#editDeckButton').removeClass('disabled').click(function() {
-						// userDeckEditView.deck = deck;
-						// userDeckEditView.render({});
-						var userDeckEditView = new UserDeckEditView();
 						userDeckEditView.render({
 							deck: deck
 						});
@@ -473,7 +471,7 @@ $(function() {
 			this.config = new Backbone.Model({
 				layout: 'list',
 				filter: new Backbone.Model()
-			});
+			});			
 		},	
 		viewLinkClickHandler: function(event) {
 			var root = conquest.static.root;
@@ -1374,18 +1372,17 @@ $(function() {
 		}
 	});
 
-	var userDeckListView = new UserDeckListView();		
+	var userDeckListView = new UserDeckListView();
+	var userDeckCreateView = new UserDeckCreateView();
+	var userDeckImportView = new UserDeckImportView();
+	var userDeckEditView = new UserDeckEditView();
 
 	conquest.router = new Router();
-	conquest.router.on('route:createNewDeck', function() {
-		var userDeckCreateView = new UserDeckCreateView();
-
+	conquest.router.on('route:createNewDeck', function() {		
 		userDeckCreateView.render();
 		ga('set', 'page', conquest.static.root + 'new');
 		ga('send', 'pageview');
 	}).on('route:editNewDeck', function(id) {
-		var userDeckEditView = new UserDeckEditView();
-
 		var warlordId = parseInt(id);
 		userDeckEditView.render({
 			warlordId: warlordId
@@ -1399,8 +1396,6 @@ $(function() {
 		ga('set', 'page', conquest.static.root + 'new/' + url);
 		ga('send', 'pageview');
 	}).on('route:editDeck', function(deckIdWithName) {
-		var userDeckEditView = new UserDeckEditView();
-
 		if (deckIdWithName) {
 			var deckId = /^\w+/.exec(deckIdWithName)[0];
 			if (/^\d+$/.test(deckId)) {
@@ -1421,8 +1416,6 @@ $(function() {
 		ga('set', 'page', conquest.static.root);
 		ga('send', 'pageview');
 	}).on('route:importDeck', function() {
-		var userDeckImportView = new UserDeckImportView();
-
 		userDeckImportView.render();
 		ga('set', 'page', conquest.static.root + 'import');
 		ga('send', 'pageview');

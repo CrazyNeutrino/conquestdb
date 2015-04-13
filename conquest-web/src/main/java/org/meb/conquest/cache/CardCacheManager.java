@@ -124,6 +124,7 @@ public class CardCacheManager {
 					types.add(CardType.ATTACHMENT);
 					types.add(CardType.EVENT);
 					types.add(CardType.SUPPORT);
+					types.add(CardType.SYNAPSE);
 					List<Card> warlordCards = new ArrayList<Card>();
 					
 					@SuppressWarnings("unchecked")

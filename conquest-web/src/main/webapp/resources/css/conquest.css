@@ -326,6 +326,7 @@ label.required:after {
 .deck-container.tau:before { background-color: #90E6EE; }
 .deck-container.eldar:before { background-color: #EBE19C; }
 .deck-container.dark-eldar:before { background-color: #B48EAD; }
+.deck-container.tyranid:before { background-color: #A32618; }
 
 .deck-container .deck-info {
 	margin-right: 30px;

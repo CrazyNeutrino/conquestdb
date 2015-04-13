@@ -439,7 +439,8 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 					}
 				}
 				if (de == null) {
-					de = new DeckException("error.deck.oper.save");
+					de = new DeckException(e);
+					de.setErrorCore("error.deck.oper.save");
 				}
 			}
 
@@ -798,11 +799,17 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 
 		});
 
-		long bitmap = 0;
-		for (int i = 0; i < crstList.size(); i++) {
-			if (crstMap.keySet().contains(crstList.get(i).getTechName())) {
-				bitmap |= 1 << i;
+		Long crstBitmap;
+		if (crstMap == null || crstMap.isEmpty()) {
+			crstBitmap = new Long(0);
+		} else {
+			long bitmap = 0;
+			for (int i = 0; i < crstList.size(); i++) {
+				if (crstMap.keySet().contains(crstList.get(i).getTechName())) {
+					bitmap |= 1 << i;
+				}
 			}
+			crstBitmap = new Long(bitmap);
 		}
 
 		MultiValueMap<CardType, DeckMember> cardTypeMap = new MultiValueMap<>();
@@ -810,7 +817,7 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 
 		deck.setPrimaryFaction(primaryFaction);
 		deck.setSecondaryFaction(secondaryFaction);
-		deck.setCrstBitmap(new Long(bitmap));
+		deck.setCrstBitmap(crstBitmap);
 		deck.setCardsQuantity(sumDeckMembersQuantity(deckMembers));
 		deck.setArmyCardsQuantity(sumDeckMembersQuantity(cardTypeMap.getCollection(CardType.ARMY)));
 		deck.setAttachmentCardsQuantity(sumDeckMembersQuantity(cardTypeMap.getCollection(CardType.ATTACHMENT)));
@@ -820,8 +827,10 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 
 	private int sumDeckMembersQuantity(Collection<DeckMember> deckMembers) {
 		int quantity = 0;
-		for (DeckMember deckMember : deckMembers) {
-			quantity += deckMember.getQuantity();
+		if (deckMembers != null) {
+			for (DeckMember deckMember : deckMembers) {
+				quantity += deckMember.getQuantity();
+			}
 		}
 		return quantity;
 	}

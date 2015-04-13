@@ -316,6 +316,10 @@ conquest.deck = conquest.deck || {};
 		base: '#DDD',
 		hl: 'rgba(221, 221, 221, 0.8)'
 	};
+	_deck.factionColors['tyranid'] = {
+		base: '#94271B',
+		hl: 'rgba(163, 38, 24, 0.8)'
+	};
 
 	_deck.typeColors = [];
 	_deck.typeColors['army'] = {
@@ -333,6 +337,10 @@ conquest.deck = conquest.deck || {};
 	_deck.typeColors['event'] = {
 		base: '#F0AD36',
 		hl: 'rgba(240, 173, 54, 0.8)'
+	};
+	_deck.typeColors['synapse'] = {
+		base: '#B848A3',
+		hl: 'rgba(184, 72, 163, 0.8)'
 	};
 
 	_deck.PageView = Backbone.View.extend({
@@ -905,17 +913,20 @@ conquest.deck = conquest.deck || {};
 					return member.card.type;
 				});
 
-				var order = ['army', 'attachment', 'support', 'event'];
+				var order = ['army', 'attachment', 'support', 'event', 'synapse'];
 				var dataByType = [];
-				_.each(Object.keys(byType), function(key) {
-					dataByType[order.indexOf(key)] = {
+				var sortedKeys = _.sortBy(Object.keys(byType), function(key) {
+					return order.indexOf(key);
+				});
+				_.each(sortedKeys, function(key) {
+					dataByType.push({
 						label: conquest.dict.findCardType(key).shortName,
 						value: _.reduce(byType[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
 						color: conquest.deck.typeColors[key].base,
 						highlight: conquest.deck.typeColors[key].hl
-					};
+					});
 				});
 
 				var chart = new Chart($(this).find('.chart')[0].getContext('2d')).Doughnut(dataByType, chartOptions);

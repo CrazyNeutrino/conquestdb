@@ -119,7 +119,7 @@ public class DeckValidator {
 		Integer csQuantity = deck.getConfigCsQuantity();
 		if (csQuantity == null || csQuantity < 1 || csQuantity > 3) {
 			DeckException de = buildDeckException(deck, "error.deck.deck.invalidCsQuantity");
-			de.setErrorContextParameter(1, String.valueOf(csQuantity));
+			de.setErrorCoreParameter(1, String.valueOf(csQuantity));
 			throw de;
 		}
 
@@ -141,16 +141,18 @@ public class DeckValidator {
 	private void validateComposition(Deck deck) throws DeckException {
 		Set<DeckMember> deckMembers = deck.getDeckMembers();
 
-		DeckType type = deck.getType();
-		Long id = deck.getId();
+		Long deckId = deck.getId();
+		DeckType deckType = deck.getType();
+		Faction deckFaction = deck.getWarlord().getFaction();
 
 		int totalQuantity = 0;
-		if (type == DeckType.BASE || (type == DeckType.SNAPSHOT && id == null)) {
+		int synapseQuantity = 0;
+		if (deckType == DeckType.BASE || (deckType == DeckType.SNAPSHOT && deckId == null)) {
 			// validate each type quantity
 			for (DeckMember deckMember : deckMembers) {
 				Card card = deckMember.getCard();
 				Integer maxQuantity;
-				if (card.getWarlordId() == null) {
+				if (card.getWarlordId() == null && card.getType() != CardType.SYNAPSE) {
 					maxQuantity = Math.min(3, deck.getConfigCsQuantity() * card.getQuantity());
 				} else {
 					maxQuantity = card.getQuantity();
@@ -158,39 +160,49 @@ public class DeckValidator {
 				Integer quantity = deckMember.getQuantity();
 				if (quantity == null || quantity < 1 || quantity > maxQuantity) {
 					DeckException de = buildDeckException(deck, "error.deck.comp.invalidQuantity");
-					de.setErrorContextParameter(1, card.getName());
-					de.setErrorContextParameter(2, String.valueOf(quantity));
+					de.setErrorCoreParameter(0, card.getName());
+					de.setErrorCoreParameter(1, String.valueOf(quantity));
 					throw de;
 				}
 				totalQuantity += quantity;
+				
+				if (card.getType() == CardType.SYNAPSE) {
+					synapseQuantity++;
+				}
 			}
 		}
 
-		if (type == DeckType.SNAPSHOT && id == null && totalQuantity < 50) {
+		if (deckType == DeckType.SNAPSHOT && deckId == null && totalQuantity < 50) {
 			DeckException de = buildDeckException(deck, "error.deck.comp.invalidTotalQuantity");
-			de.setErrorContextParameter(1, String.valueOf(totalQuantity));
+			de.setErrorCoreParameter(0, String.valueOf(totalQuantity));
+			throw de;
+		}
+		
+		if (deckType == DeckType.SNAPSHOT && deckId == null && deckFaction == Faction.TYRANID && synapseQuantity != 1) {
+			DeckException de = buildDeckException(deck, "error.deck.comp.invalidSynapseQuantity");
+			de.setErrorCoreParameter(1, String.valueOf(synapseQuantity));
 			throw de;
 		}
 
-		if (type == DeckType.BASE || (type == DeckType.SNAPSHOT && id == null)) {
-			Faction[] alliance = deck.getWarlord().getFaction().alliance();
+		if (deckType == DeckType.BASE || (deckType == DeckType.SNAPSHOT && deckId == null)) {
+			Faction[] alliance = deckFaction.alliance();
 			HashSet<Faction> factions = new HashSet<>();
 			for (DeckMember deckMember : deckMembers) {
 				Card card = deckMember.getCard();
 				Faction faction = card.getFaction();
 				if (ArrayUtils.indexOf(alliance, faction) < 0) {
 					DeckException de = buildDeckException(deck, "error.deck.comp.invalidCard");
-					de.setErrorContextParameter(1, card.getName());
+					de.setErrorCoreParameter(1, card.getName());
 					throw de;
 				}
 				factions.add(faction);
 			}
 
-			factions.remove(deck.getWarlord().getFaction());
+			factions.remove(deckFaction);
 			factions.remove(Faction.NEUTRAL);
 			if (factions.size() > 1) {
 				DeckException de = buildDeckException(deck, "error.deck.comp.tooManyAlliedFactions");
-				de.setErrorContextParameter(1, String.valueOf(factions));
+				de.setErrorCoreParameter(1, String.valueOf(factions));
 				throw de;
 			}
 		}
