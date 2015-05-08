@@ -33,8 +33,7 @@ public class CycleBaseDao {
 
 		String techName = StringUtils.trimToEmpty(example.getTechName()).toLowerCase();
 		if (StringUtils.isNotBlank(techName)) {
-			predicates
-					.add(cb.equal(cb.lower(root.get(CycleBase_.techName)), techName.toLowerCase()));
+			predicates.add(cb.equal(cb.lower(root.get(CycleBase_.techName)), techName.toLowerCase()));
 		}
 
 		if (predicates.size() > 0) {

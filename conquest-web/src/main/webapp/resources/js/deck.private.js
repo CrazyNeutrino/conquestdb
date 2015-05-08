@@ -217,8 +217,8 @@ $(function() {
 
 			var sortItems = [];
 			_.each([
-				['publishDate', 'core.publishDate'],
-				['username', 'core.username'],
+				['createDate', 'core.createDate'],
+				['modifyDate', 'core.modifyDate'],
 				['name', 'core.name'],
 				['warlord', 'core.warlord'],
 				['cardsQuantity', 'core.cardsQuantity'],

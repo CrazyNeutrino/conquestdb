@@ -2,7 +2,7 @@ $(function() {
 
 	var PublicDeckView = conquest.deck.PageView.extend({
 		events: {
-			'click #publicDeckView a': 'viewLinkClickHandler'
+			'click .pub-deck-view a': 'viewLinkClickHandler'
 		},
 		config: new Backbone.Model({
 			layout: 'list',

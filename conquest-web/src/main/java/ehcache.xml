@@ -2,8 +2,9 @@
 	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true"
 	monitoring="autodetect" dynamicConfig="true">
 
-	<cache name="cache.card.pl" maxEntriesLocalHeap="1000" eternal="true" />
 	<cache name="cache.card.en" maxEntriesLocalHeap="1000" eternal="true" />
+	<cache name="cache.card.pl" maxEntriesLocalHeap="1000" eternal="true" />
+	<cache name="cache.card.de" maxEntriesLocalHeap="1000" eternal="true" />
 	<cache name="cache.user" maxEntriesLocalHeap="5000" eternal="true" />
 
 </ehcache>

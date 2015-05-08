@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -44,6 +45,12 @@ public class DomainBaseDao {
 		if (predicates.size() > 0) {
 			cq.where(predicates.toArray(new Predicate[predicates.size()]));
 		}
+
+		List<Order> orderList = new ArrayList<Order>();
+		orderList.add(cb.asc(root.get(DomainBase_.domain)));
+		orderList.add(cb.asc(root.get(DomainBase_.sequence)));
+		orderList.add(cb.asc(root.get(DomainBase_.value)));
+		cq.orderBy(orderList);
 
 		return em.createQuery(cq);
 	}

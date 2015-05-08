@@ -82,7 +82,7 @@ public class DeckController {
 	private EntityManager em;
 
 	@Inject
-	private CardCacheManager ccm;
+	private CardCacheManager ccm;	
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -699,7 +699,7 @@ public class DeckController {
 	}
 
 	private JsonError buildJsonError(DeckException de) {
-		PropertyResourceBundle bundle = resolver.getBundle(queryContext.getUserLanguage());
+		PropertyResourceBundle bundle = resolver.getClientBundle(queryContext.getUserLanguage());
 		return new JsonError(de.getTimestamp(), de.toUserMessage(bundle));
 	}
 }

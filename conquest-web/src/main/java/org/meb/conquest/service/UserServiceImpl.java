@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Properties;
+import java.util.PropertyResourceBundle;
 
 import javax.inject.Inject;
 import javax.mail.Message;
@@ -19,6 +20,7 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jboss.resteasy.util.Hex;
 import org.meb.conquest.core.Constant;
 import org.meb.conquest.db.model.User;
+import org.meb.conquest.rest.MessageBundleResolver;
 import org.meb.conquest.rest.exception.DeckException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,9 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 
 	@Inject
 	private RequestContext queryContext;
+
+	@Inject
+	private MessageBundleResolver resolver;
 
 	@Transactional
 	public User signInUser(String name, String password) throws DeckException {
@@ -110,7 +115,7 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 
 	@Override
 	@Transactional
-	public User prepareResetPassword(String email) throws DeckException {	
+	public User prepareResetPassword(String email) throws DeckException {
 		try {
 			User user = new User();
 			user.setEmail(email);
@@ -120,9 +125,9 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 				user.setResetPasswordCode(resetPasswordCode);
 				em.merge(user);
 				em.flush();
-				
+
 				sendResetPasswordMail(email, createResetPasswordLink(resetPasswordCode));
-			}			
+			}
 
 			return user;
 		} catch (Exception e) {
@@ -149,7 +154,7 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 			if (!helper.create().verify()) {
 				throw new RuntimeException("Unable to verify hash");
 			}
-			
+
 			user.setResetPasswordCode(null);
 			user.setHash(helper.getHashHex());
 			user.setSalt(helper.getSaltHex());
@@ -217,7 +222,7 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 		link.append(StringEscapeUtils.escapeHtml4(activationCode));
 		return link.toString();
 	}
-	
+
 	private String createResetPasswordLink(String resetPasswordCode) {
 		StringBuilder link = new StringBuilder("http://");
 		link.append(Constant.HOST);
@@ -232,54 +237,32 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 	}
 
 	private String createActivationMailSubject() {
-		if ("pl".equals(queryContext.getUserLanguage())) {
-			return "Aktywacja konta ConquestDB";
-		} else {
-			return "ConquestDB account activation";
-		}
+		return resolver.getClientBundle(queryContext.getUserLanguage()).getString("mail.activate.subject");
 	}
 
 	private String createActivationMailContent(String activationLink) {
 		StringBuilder message = new StringBuilder();
-		if ("pl".equals(queryContext.getUserLanguage())) {
-			message.append("W celu aktywacji konta kliknij w link poniżej lub skopiuj i wklej go do swojej przeglądarki.");
-			message.append("\n\n");
-			message.append(activationLink);
-			message.append("\n\n");
-			message.append("Ta wiadomość została wysłana automatycznie. Proszę na nią nie odpowiadać.");
-		} else {
-			message.append("In order to activate your account click the link below or copy and paste it to your browser.");
-			message.append("\n\n");
-			message.append(activationLink);
-			message.append("\n\n");
-			message.append("This message was sent automatically. Please do not reply.");
-		}
+		PropertyResourceBundle bundle = resolver.getClientBundle(queryContext.getUserLanguage());
+		message.append(bundle.getString("mail.activate.content"));
+		message.append("\n\n");
+		message.append(activationLink);
+		message.append("\n\n");
+		message.append(bundle.getString("mail.doNotReply"));
 		return message.toString();
 	}
-	
+
 	private String createResetPasswordMailSubject() {
-		if ("pl".equals(queryContext.getUserLanguage())) {
-			return "Reset hasła ConquestDB";
-		} else {
-			return "ConquestDB password reset";
-		}
+		return resolver.getClientBundle(queryContext.getUserLanguage()).getString("mail.resetPassword.subject");
 	}
 
 	private String createResetPasswordMailContent(String resetPasswordLink) {
 		StringBuilder message = new StringBuilder();
-		if ("pl".equals(queryContext.getUserLanguage())) {
-			message.append("W celu ustawienia nowego hasła kliknij w link poniżej lub skopiuj i wklej go do swojej przeglądarki.");
-			message.append("\n\n");
-			message.append(resetPasswordLink);
-			message.append("\n\n");
-			message.append("Ta wiadomość została wysłana automatycznie. Proszę na nią nie odpowiadać.");
-		} else {
-			message.append("In order to reset your password click the link below or copy and paste it to your browser.");
-			message.append("\n\n");
-			message.append(resetPasswordLink);
-			message.append("\n\n");
-			message.append("This message was sent automatically. Please do not reply.");
-		}
+		PropertyResourceBundle bundle = resolver.getClientBundle(queryContext.getUserLanguage());
+		message.append(bundle.getString("mail.resetPassword.content"));
+		message.append("\n\n");
+		message.append(resetPasswordLink);
+		message.append("\n\n");
+		message.append(bundle.getString("mail.doNotReply"));
 		return message.toString();
 	}
 }

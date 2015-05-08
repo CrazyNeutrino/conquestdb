@@ -8,6 +8,9 @@ conquest.static.format = {
 	},
 	pl: {
 		timestamp: "dddd, Do MMMM YYYY, HH:mm:ss"
+	},
+	de: {
+		timestamp: "dddd, Do MMMM YYYY, HH:mm:ss"
 	}
 };
 

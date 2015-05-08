@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -26,10 +25,8 @@ import com.ocpsoft.pretty.faces.config.PrettyConfigurator;
 import com.ocpsoft.pretty.faces.config.mapping.UrlMapping;
 import com.ocpsoft.pretty.faces.util.PrettyURLBuilder;
 
-// @WebFilter(filterName = "AuthFilter", urlPatterns = { "/en/deck", "/pl/deck",
-// "/en/deck/*", "/pl/deck/*", "/rest/deck",
-// "/rest/deck/*" })
-@WebFilter(filterName = "AuthFilter", urlPatterns = { "/en/deck", "/pl/deck", "/en/deck/*", "/pl/deck/*" })
+@WebFilter(filterName = "AuthFilter", urlPatterns = { "/en/deck", "/pl/deck", "/de/deck", "/en/deck/*", "/pl/deck/*",
+		"/de/deck/*" })
 public class AuthFilter implements Filter {
 
 	@SuppressWarnings("unused")
@@ -59,12 +56,6 @@ public class AuthFilter implements Filter {
 				origin.append("/").append(request.getQueryString());
 			}
 			request.getSession().setAttribute("origin", origin.toString());
-			// response.sendRedirect(request.getContextPath() +
-			// "/auth/twitter?origin=" + origin);
-			// response.sendRedirect(request.getContextPath() + "/" +
-			// localeCtrl.getLanguage() + "/signin?origin=" + origin);
-			// response.sendRedirect(request.getContextPath() + "/" + "pl" +
-			// "/signin?origin=" + origin);
 
 			ServletContext servletContext = request.getServletContext();
 			PrettyConfig prettyConfig = (PrettyConfig) servletContext.getAttribute(PrettyContext.CONFIG_KEY);
@@ -72,19 +63,17 @@ public class AuthFilter implements Filter {
 				PrettyConfigurator configurator = new PrettyConfigurator(servletContext);
 				configurator.configure();
 				prettyConfig = configurator.getConfig();
-				// servletContext.setAttribute(PrettyContext.CONFIG_KEY,
-				// prettyConfig);
 			}
 
 			PrettyURLBuilder builder = new PrettyURLBuilder();
 			UrlMapping mapping = prettyConfig.getMappingById("signin");
-			Pattern pattern = Pattern.compile("/(en|pl)(/.*|$).*", Pattern.CASE_INSENSITIVE);
+			Pattern pattern = Pattern.compile("/(en|pl|de)(/.*|$).*", Pattern.CASE_INSENSITIVE);
 			Matcher matcher = pattern.matcher(origin.toString());
 			String language = null;
 			if (matcher.matches()) {
 				language = matcher.group(1);
 			} else {
-				language = "pl";
+				language = "en";
 			}
 			String targetUrl = builder.build(mapping, true, new Object[] { language });
 			targetUrl = response.encodeRedirectURL(targetUrl);

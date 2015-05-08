@@ -27,8 +27,9 @@ public class LocaleCtrl implements Serializable {
 		supportedLanguages = new HashSet<String>();
 		supportedLanguages.add("pl");
 		supportedLanguages.add("en");
+		supportedLanguages.add("de");
 	}
-
+	
 	private Locale locale;
 
 	public Locale getLocale() {
@@ -62,7 +63,6 @@ public class LocaleCtrl implements Serializable {
 		}
 		log.info("locale: {}", locale);
 
-		// user.setLocale(locale);
 		return locale;
 	}
 

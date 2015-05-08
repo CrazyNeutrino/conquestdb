@@ -585,17 +585,20 @@ table.table-with-btn > tbody > tr > td {
 	margin-bottom: 0px;
 }
 
-.pub-deck .deck-header {
+.pub-deck .deck-header,
+.user-deck .deck-header {
 	font-size: 30px;
 	margin-bottom: 10px;
 	border-bottom: 1px solid #ddd;
 }
 
-.pub-deck .deck-header .secondary-text {
+.pub-deck .deck-header .secondary-text,
+.user-deck .deck-header .secondary-text {
 	font-size: 0.5em;
 }
 
-.pub-deck .deck-header .secondary {
+.pub-deck .deck-header .secondary,
+.user-deck .deck-header .secondary {
 	font-size: 0.5em;
 	color: #bbb;
 }
