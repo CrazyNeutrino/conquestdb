@@ -9,7 +9,7 @@ table.faction-image-container-md>tbody>tr>td {vertical-align: middle; /* line-he
 
 #wrapper {
 	min-height: 100%;
-	padding-bottom: 7em;
+	padding-bottom: 110px;
 }
 
 footer.footer {
@@ -17,6 +17,7 @@ footer.footer {
 	background-color: #f8f8f8;
 	border-top: 1px solid #e7e7e7;
 	font-size: 0.8em;
+	margin-top: -110px;
 }
 footer.footer > .container > p:first-child {
 	margin-top: 10px;

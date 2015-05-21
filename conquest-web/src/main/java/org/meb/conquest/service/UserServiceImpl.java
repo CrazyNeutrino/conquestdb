@@ -237,12 +237,12 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 	}
 
 	private String createActivationMailSubject() {
-		return resolver.getClientBundle(queryContext.getUserLanguage()).getString("mail.activate.subject");
+		return resolver.getBundle(queryContext.getUserLanguage()).getString("mail.activate.subject");
 	}
 
 	private String createActivationMailContent(String activationLink) {
 		StringBuilder message = new StringBuilder();
-		PropertyResourceBundle bundle = resolver.getClientBundle(queryContext.getUserLanguage());
+		PropertyResourceBundle bundle = resolver.getBundle(queryContext.getUserLanguage());
 		message.append(bundle.getString("mail.activate.content"));
 		message.append("\n\n");
 		message.append(activationLink);
@@ -252,12 +252,12 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 	}
 
 	private String createResetPasswordMailSubject() {
-		return resolver.getClientBundle(queryContext.getUserLanguage()).getString("mail.resetPassword.subject");
+		return resolver.getBundle(queryContext.getUserLanguage()).getString("mail.resetPassword.subject");
 	}
 
 	private String createResetPasswordMailContent(String resetPasswordLink) {
 		StringBuilder message = new StringBuilder();
-		PropertyResourceBundle bundle = resolver.getClientBundle(queryContext.getUserLanguage());
+		PropertyResourceBundle bundle = resolver.getBundle(queryContext.getUserLanguage());
 		message.append(bundle.getString("mail.resetPassword.content"));
 		message.append("\n\n");
 		message.append(resetPasswordLink);
