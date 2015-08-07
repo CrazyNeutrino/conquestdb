@@ -1172,6 +1172,9 @@ conquest.util = conquest.util || {};
 			// no op
 		} else if (faction.techName == 'tyranid') {
 			validDeckFactions.push(faction);
+			validDeckFactions.push(_.findWhere(factions, {
+				techName: 'neutral'
+			}));
 		} else {
 			var index = circleFactions.indexOf(faction);
 			validDeckFactions.push(faction);
@@ -1212,6 +1215,9 @@ conquest.util = conquest.util || {};
 			}
 			// loyal to another faction
 			if (card.loyal === true && faction !== deckFaction) {
+				return false;
+			}
+			if (deckFaction == 'tyranid' && card.type == 'army') {
 				return false;
 			}
 			return true;
