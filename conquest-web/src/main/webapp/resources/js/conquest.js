@@ -1217,7 +1217,7 @@ conquest.util = conquest.util || {};
 			if (card.loyal === true && faction !== deckFaction) {
 				return false;
 			}
-			if (deckFaction == 'tyranid' && card.type == 'army') {
+			if (deckFaction == 'tyranid' && card.faction == 'neutral' && card.type == 'army') {
 				return false;
 			}
 			return true;
