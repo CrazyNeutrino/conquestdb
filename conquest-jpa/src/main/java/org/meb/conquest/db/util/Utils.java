@@ -3,7 +3,7 @@ package org.meb.conquest.db.util;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.meb.conquest.db.converter.FactionConverter;
 import org.meb.conquest.db.model.Faction;
 import org.meb.conquest.db.model.loc.Card;

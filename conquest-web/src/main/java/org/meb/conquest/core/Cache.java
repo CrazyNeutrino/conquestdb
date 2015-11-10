@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.map.MultiValueMap;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.meb.conquest.db.model.loc.Card;
 import org.meb.conquest.db.model.loc.CardSet;
 import org.meb.conquest.db.model.loc.Domain;

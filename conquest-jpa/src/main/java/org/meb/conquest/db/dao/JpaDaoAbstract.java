@@ -22,7 +22,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.ManagedType;
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.apache.commons.lang.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.meb.conquest.db.query.CriteriaIn;
 import org.meb.conquest.db.query.CriteriaMax;
 import org.meb.conquest.db.query.CriteriaMin;

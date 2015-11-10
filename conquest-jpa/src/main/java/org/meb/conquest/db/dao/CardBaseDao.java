@@ -13,7 +13,7 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.meb.conquest.db.model.CardBase;
 import org.meb.conquest.db.model.CardBase_;
 import org.meb.conquest.db.model.CardSetBase;

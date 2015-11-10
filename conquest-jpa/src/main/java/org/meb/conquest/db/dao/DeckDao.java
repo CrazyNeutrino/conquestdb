@@ -12,7 +12,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.meb.conquest.db.model.Deck;
 import org.meb.conquest.db.model.DeckType;
 import org.meb.conquest.db.model.Deck_;
