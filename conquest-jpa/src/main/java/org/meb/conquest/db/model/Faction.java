@@ -15,7 +15,7 @@ public enum Faction {
 
 		@Override
 		public Faction[] alliance() {
-			return new Faction[] { TYRANID };
+			return new Faction[] { TYRANID, NEUTRAL };
 		}
 
 		@Override

@@ -24,6 +24,8 @@ import org.meb.conquest.db.query.CardQuery;
 import org.meb.conquest.db.util.DatabaseUtils;
 import org.meb.conquest.service.DeckServiceImpl;
 import org.meb.conquest.service.RequestContext;
+import org.meb.conquest.util.WarlordCardHelper;
+import org.meb.conquest.util.WarlordCardHelperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,40 +119,11 @@ public class CardCacheManager {
 						throw new IllegalArgumentException("Not a warlord, id: " + warlordId);
 					}
 
-					Faction warlordFaction = warlord.getFaction();
-					Set<Faction> alliance = new HashSet<>(Arrays.asList(warlordFaction.alliance()));
-					Set<CardType> types = new HashSet<>();
-					types.add(CardType.ARMY);
-					types.add(CardType.ATTACHMENT);
-					types.add(CardType.EVENT);
-					types.add(CardType.SUPPORT);
-					types.add(CardType.SYNAPSE);
-					List<Card> warlordCards = new ArrayList<Card>();
-					
 					@SuppressWarnings("unchecked")
 					List<Card> cards = (List<Card>) cache.get(getCardsKey()).getObjectValue();
-
-					for (Card card : cards) {
-						Long cardWarlordId = card.getWarlordId();
-						Faction cardFaction = card.getFaction();
-						CardType cardType = card.getType();
-						boolean cardLoyal = Boolean.TRUE.equals(card.getLoyal());
-
-						if (!types.contains(cardType)) {
-							continue;
-						} else if (cardWarlordId != null && cardWarlordId != warlordId) {
-							continue;
-						} else if (cardWarlordId == warlordId) {
-							warlordCards.add(card);
-						} else if (cardLoyal && cardFaction != warlordFaction) {
-							continue;
-						} else if (cardLoyal && cardFaction == warlordFaction) {
-							warlordCards.add(card);
-						} else if (!cardLoyal && alliance.contains(cardFaction)) {
-							warlordCards.add(card);
-						}
-					}
 					
+					WarlordCardHelper helper = WarlordCardHelperFactory.buildWarlordCardHelper(warlord);
+					List<Card> warlordCards = helper.filterValidCards(cards);
 					warlordCardsElement = new Element(warlordCardsKey, warlordCards);
 					cache.put(warlordCardsElement);
 				}
