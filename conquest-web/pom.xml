@@ -67,6 +67,11 @@
 			<version>2.3.1.Final</version>
 		</dependency>
 		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jandex</artifactId>
+			<version>1.2.2.Final</version>
+		</dependency>
+		<dependency>
 			<groupId>org.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-config-prettyfaces</artifactId>
 			<version>2.0.12.Final</version>
@@ -123,6 +128,22 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>m2e</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<warName>ROOT</warName>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
@@ -130,7 +151,6 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<warName>ROOT</warName>
 				</configuration>
 			</plugin>
 			<!-- <plugin>
@@ -161,8 +181,8 @@
 		</plugins>
 		<!-- <pluginManagement>
 			<plugins>
-				This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself.
+				This plugin's configuration is used to
+				store Eclipse m2e settings only. It has no influence on the Maven build itself.
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -172,12 +192,8 @@
 							<pluginExecutions>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>
-											org.apache.maven.plugins
-										</groupId>
-										<artifactId>
-											maven-dependency-plugin
-										</artifactId>
+										<groupId> org.apache.maven.plugins</groupId>
+										<artifactId> maven-dependency-plugin </artifactId>
 										<versionRange>
 											[2.1,)
 										</versionRange>
