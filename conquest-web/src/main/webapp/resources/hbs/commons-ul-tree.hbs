@@ -1,0 +1,13 @@
+<ul class="tree-node">
+{{#each tree.nodes}}
+	<li {{#if type}}data-node-type="{{type}}"{{/if}}><input type="checkbox" value="{{techName}}" {{#if released}}checked="checked"{{/if}}>{{name}}
+	{{#if nodes}}
+		<ul class="tree-node">
+		{{#each nodes}}
+			<li {{#if type}}data-node-type="{{type}}"{{/if}}><input type="checkbox" value="{{techName}}" {{#if released}}checked="checked"{{/if}}>{{name}}</li>
+		{{/each}}
+		</ul>
+	{{/if}}
+	</li>
+{{/each}}		
+</ul>

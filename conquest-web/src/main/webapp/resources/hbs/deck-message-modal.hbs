@@ -1,0 +1,27 @@
+<div id="messageModal" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{loc 'core.close'}}</span></button>
+				<h4 class="modal-title">{{#if title}}{{title}}{{else}}{{loc titleKey}}{{/if}}</h4>
+			</div>
+			<div class="modal-body">
+				{{#if message}}{{message}}{{else}}{{loc messageKey}}{{/if}}
+			</div>
+			<div class="modal-footer">
+				{{#if buttonYes}}
+				{{#with buttonYes}}
+				<button type="button" class="btn btn-default {{class}}" data-dismiss="modal" id="messageButtonYes">
+					{{loc labelKey}}
+				</button>
+				{{/with}}
+				{{/if}}
+				{{#if buttonNo}}
+				<button type="button" class="btn btn-default" data-dismiss="modal" id="messageButtonNo">
+					{{loc 'core.no'}}
+				</button>
+				{{/if}}
+			</div>
+		</div>
+	</div>
+</div>

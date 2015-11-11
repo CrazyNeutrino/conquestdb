@@ -1,0 +1,10 @@
+<div>
+	{{#with membersGroup}}
+	<span class="mg-title">{{title}}&nbsp;({{count}})</span>
+	<ul>
+		{{#each members}}
+			<li>{{quantity}}x&nbsp;<a href="/" data-image-base="{{card.imageBase}}" data-card-id="{{card.id}}">{{card.name}}</a></li>
+		{{/each}}
+	</ul>
+	{{/with}}
+</div>

@@ -1,0 +1,7 @@
+<select class="form-control sort-control ">
+  <option value="none">{{loc 'core.none'}}</option>
+  {{#each sortItems ~}}
+  <option value="{{value}},asc">{{label}}&nbsp;&#9650;</option>
+  <option value="{{value}},desc">{{label}}&nbsp;&#9660;</option>
+  {{/each}}
+</select>

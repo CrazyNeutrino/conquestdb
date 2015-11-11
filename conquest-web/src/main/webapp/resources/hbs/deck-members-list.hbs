@@ -1,0 +1,56 @@
+<div class="members-list-header row">
+	<div class="col-xs-4 col-md-2">
+		<span>{{loc 'card.quantity'}}</span>
+	</div>
+	<div class="col-xs-8 col-md-10">
+		<div class="row">
+			<div class="col-xs-12 col-sm-5">				
+				<div class="name-col">								
+					<span>{{loc 'card.name'}}</span>
+				</div>				
+			</div>
+			<div class="col-xs-12 col-sm-7">
+				<div class="type-col"><span>{{loc 'card.type'}}</span></div>
+				<div class="faction-col"><span>{{loc 'card.faction'}}</span></div>
+				<div class="stat-col text-center"><span data-toggle="tooltip" data-placement="top" title="{{loc 'card.cost'}}">{{loc 'card.cost.sh'}}</span></div>
+				<div class="stat-col text-center"><span data-toggle="tooltip" data-placement="top" title="{{loc 'card.shieldIcons'}}">{{loc 'card.shieldIcons.sh'}}</span></div>
+				<div class="stat-col text-center"><span data-toggle="tooltip" data-placement="top" title="{{loc 'card.commandIcons'}}">{{loc 'card.commandIcons.sh'}}</span></div>
+				<div class="stat-col text-center"><span data-toggle="tooltip" data-placement="top" title="{{loc 'card.attack'}}">{{loc 'card.attack.sh'}}</span></div>
+				<div class="stat-col text-center"><span data-toggle="tooltip" data-placement="top" title="{{loc 'card.hp'}}">{{loc 'card.hp.sh'}}</span></div>	
+			</div>
+		</div>
+	</div>
+</div>		
+			
+{{#each members}}
+<div class="members-list-item row" data-card-id="{{card.id}}">
+	<div class="col-xs-4 col-md-2">
+		<div class="btn-group btn-group-qty">
+			{{#for 0 availableQuantity 1}}
+			<label class="btn btn-default" {{#smartIf ../../readOnly}}disabled="disabled"{{/smartIf}} data-quantity="{{this}}">{{this}}</label>
+			{{/for}}
+		</div>
+	</div>
+
+	<div class="col-xs-8 col-md-10">
+		<div class="row">
+			<div class="col-xs-12 col-sm-5">				
+				<div class="name-col">
+					<a data-card-id="{{cardId}}" data-image-base="{{card.imageBase}}" style="cursor: pointer;">{{card.name}}</a>
+					<br />
+					<span class="secondary-text">{{searchLinkSetName card}}&nbsp;|&nbsp;{{searchLinkTrait card}}</span>
+				</div>				
+			</div>
+			<div class="col-xs-12 col-sm-7">
+				<div class="type-col type-{{card.type}}">{{searchLinkType card}}</div>
+				<div class="faction-col text-center"><img src="{{factionImagePath card.faction}}" /></div>
+				<div class="stat-col text-center">{{#ifEqual card.cost -1}}X{{else}}{{{na card.cost}}}{{/ifEqual}}</div>
+				<div class="stat-col text-center">{{{na card.shield}}}</div>
+				<div class="stat-col text-center">{{{na card.command}}}</div>
+				<div class="stat-col text-center">{{{na card.attack}}}</div>
+				<div class="stat-col text-center">{{{na card.hitPoints}}}</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{/each}}

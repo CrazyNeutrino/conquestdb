@@ -1,0 +1,38 @@
+<div class="row members-grid members-grid-md">
+	{{#each members}}
+	<div class="col-xs-12 col-sm-6 members-grid-item text" data-card-id="{{cardId}}">
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<a data-card-id="{{cardId}}" data-image-base="{{card.imageBase}}" style="cursor: pointer;">
+							<img src="{{cardImagePath card.imageBase}}" class="card-sm" />
+						</a>
+					</td>
+					<td>
+						<div class="btn-group btn-group-qty">
+							{{#for 0 availableQuantity 1}}
+							<label class="btn btn-default" {{#smartIf ../../readOnly}}disabled="disabled"{{/smartIf}} data-quantity="{{this}}">{{this}}</label>
+							{{/for}}
+						</div>
+						<div style="line-height: 1;">
+							<small><strong>{{card.name}}</strong></small>
+							<br />
+							<span class="secondary-text">
+								{{{na card.cost}}}/{{{na card.shield}}}/{{{na card.command}}}/{{{na card.attack}}}/{{{na card.hitPoints}}}
+							</span>
+							<br />
+							<span class="secondary-text">{{searchLinkType card}}</span>
+							<br />
+							<span class="secondary-text">{{searchLinkTrait card}}</span>
+							<br />
+							<span class="secondary-text">{{searchLinkSetName card}}</span>
+						</div>
+						{{!--<p style="margin-top: 10px; line-height: 1;"><small>{{{cardText card.text}}}</small></p>--}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	{{/each}}
+</div>		

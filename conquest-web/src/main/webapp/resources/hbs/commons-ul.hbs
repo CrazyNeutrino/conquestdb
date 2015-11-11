@@ -1,0 +1,10 @@
+<div class="{{listContainerStyle}}">
+	{{#if listTitle ~}}
+	<strong><span>{{listTitle}}</span></strong>
+	{{/if ~}}
+	<ul class="{{listStyle}}">
+	{{#each listItems}}
+		<li class="{{../listItemStyle}}">{{this}}</li>
+	{{/each}}		
+	</ul>
+</div>

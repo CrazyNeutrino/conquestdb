@@ -1,0 +1,20 @@
+<div class="dropdown sorting-dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+    <span class="glyphicon glyphicon-sort"></span>&nbsp;<span>{{loc 'core.sorting'}}</span><span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    {{#each items ~}}
+    <li role="presentation">
+      <div role="menuitem">
+        <label role="menuitem" tabindex="-1" class="btn btn-default btn-sm sort-asc">
+          <span class="glyphicon glyphicon-sort-by-attributes"></span>
+        </label>
+        <label role="menuitem" tabindex="-1" class="btn btn-default btn-sm sort-desc ">
+          <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+        </label>
+        <span>{{label}}</span>
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+</div>

@@ -1,0 +1,10 @@
+<div class="row card-search-results-grid-4">
+	{{#each results.cards}}
+	<div class="{{#ifEqual type 'planet'}}col-xs-12 col-sm-6 col-md-4{{else}}col-xs-12 col-sm-6 col-md-4 col-lg-3{{/ifEqual}}" style="padding-bottom: 10px;">
+		<a href="{{cardUrl this}}" data-image-base="{{imageBase}}">
+			<img src="{{cardImagePath imageBase}}" class="card-md {{type}}" />
+		</a>
+		<strong style="display: table;">{{setName}}</strong>
+	</div>
+	{{/each}}
+</div>

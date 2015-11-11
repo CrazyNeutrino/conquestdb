@@ -1,0 +1,109 @@
+<div class="row card-view">
+	{{#with card}}	
+	
+	<div class="col-sm-6 col-md-4 col-md-offset-2 card-info">
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<strong>{{name}}</strong>
+				</h3>
+			</div>
+			<div class="panel-body">				
+				<span class="key">{{loc 'card.faction'}}:</span>
+				<span class="value">{{searchLinkFaction this}}</span>
+				<br />
+				<span class="key">{{loc 'card.type'}}:</span>
+				<span class="value">{{searchLinkType this}}</span>
+				<br />
+				<span class="key">{{loc 'card.traits'}}:</span>
+				<span class="value">{{searchLinkTrait this}}</span>
+				<br />
+				{{#smartIf cost}}
+				<br />
+				<span class="key">{{loc 'card.cost'}}:</span>
+				<span class="value">{{cost}}</span>
+				{{/smartIf}}
+				{{#if shield}}
+				<br />
+				<span class="key">{{loc 'card.shieldIcons'}}:</span>
+				<span class="value">{{shield}}</span>
+				{{/if}}
+				{{#if command}}
+				<br />
+				<span class="key">{{loc 'card.commandIcons'}}:</span>
+				<span class="value">{{command}}</span>
+				{{/if}}
+				{{#smartIf attack}}
+				<br />
+				<span class="key">{{loc 'card.attack'}}:</span>
+				<span class="value">{{attack}}</span>
+				{{/smartIf}}
+				{{#if hitPoints}}
+				<br />
+				<span class="key">{{loc 'card.hp'}}:</span>
+				<span class="value">{{hitPoints}}</span>
+				{{/if}}
+				{{#if startingHandSize}}
+				<br />
+				<span class="key">{{loc 'card.startingHandSize'}}:</span>
+				<span class="value">{{startingHandSize}}</span>
+				{{/if}}
+				{{#if startingResources}}
+				<br />
+				<span class="key">{{loc 'card.startingResources'}}:</span>
+				<span class="value">{{startingResources}}</span>
+				{{/if}}
+				{{#unless startingHandSize}}
+				<br />
+				<span class="key">{{loc 'card.unique'}}:</span>				
+				<span class="value">{{#if unique}}{{loc 'core.yes'}}{{else}}{{loc 'core.no'}}{{/if}}</span>
+				<br />
+				<span class="key">{{loc 'card.loyal'}}:</span>				
+				<span class="value">{{#if loyal}}{{loc 'core.yes'}}{{else}}{{loc 'core.no'}}{{/if}}</span>		
+				<br />
+				<span class="key">{{loc 'card.signatureSquad'}}:</span>				
+				<span class="value">{{#if warlordId}}{{loc 'core.yes'}}{{else}}{{loc 'core.no'}}{{/if}}</span>
+				{{/unless}}								
+				<br />
+				<br />
+				<span class="key">{{loc 'card.set'}}:</span>
+				<span class="value">{{searchLinkSetName this}}</span>
+				<br />
+				<span class="key">{{loc 'card.number'}}:</span>
+				<span class="value" style="margin-right: 10px;">{{number}}</span>
+				<span class="key">{{loc 'card.quantity'}}:</span>
+				<span class="value">{{quantity}}</span>
+				{{#if illustrator}}
+				<br />
+				<span class="key">{{loc 'card.illustrator'}}:</span>
+				<span class="value">{{illustrator}}</span>
+				{{/if}}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-6 col-md-4">
+		<img src="{{cardImagePath imageBase}}" class="card-image" style="margin-bottom: 10px;" />
+	</div>
+
+	{{/with}}
+	<div class="col-sm-12 col-md-8 col-md-offset-2">
+		<div class="row">
+			{{#if warlord ~}}
+			<div class="col-xs-6 col-sm-3">						
+				<a href="{{cardUrl warlord}}" data-image-base="{{warlord.imageBase}}">
+					<img src="{{cardImagePath warlord.imageBase}}" class="img-responsive" style="margin: 0px 10px 10px 0px;" />
+				</a>				
+			</div>	
+			{{/if ~}}		
+			{{#each signSquadCards ~}}
+			<div class="col-xs-6 col-sm-3">
+				<a href="{{cardUrl this}}" data-image-base="{{imageBase}}">
+					<img src="{{cardImagePath imageBase}}" class="img-responsive" style="margin: 0px 10px 10px 0px;" />
+				</a>
+			</div>			
+			{{/each ~}}
+		</div>
+	</div>	
+</div>

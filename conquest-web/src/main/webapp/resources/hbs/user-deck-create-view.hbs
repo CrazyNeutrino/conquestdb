@@ -1,0 +1,30 @@
+<div class="user-deck-create-view row">
+	<div class="col-md-6">
+		<div class="actions-container"></div>
+		<table class="table table-striped faction-image-container-md">
+			<thead>
+				<tr>
+					<td>{{loc 'card.name'}}</td>
+					<td style="text-align: center;">{{loc 'card.faction'}}</td>
+					<td>&nbsp;</td>
+					<td>{{loc 'card.attack.sh'}}</td>
+					<td>{{loc 'card.hp.sh'}}</td>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each warlords}}
+				<tr data-card-id="{{id}}" data-card-image-base="{{imageBase}}">
+					<td>{{name}}</td>
+					<td style="text-align: center;"><img src="{{factionImagePath faction}}" /></td>
+					<td><a class="btn btn-default" href="{{rootUrl}}new/{{id}}-{{techName}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+					<td>{{attack}}</td>
+					<td>{{hitPoints}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-6">
+		<div class="card-container"></div>
+	</div>
+</div>

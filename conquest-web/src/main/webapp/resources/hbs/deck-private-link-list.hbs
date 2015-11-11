@@ -1,0 +1,31 @@
+<table id="deckPrivateLinkList" class="table table-striped table-with-btn">
+	<thead>
+		<tr>
+			<th>{{loc 'core.link'}}</th>
+			<th>{{loc 'core.description'}}</th>
+			<th>{{loc 'core.created'}}</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+	{{#each deck.links}}
+		<tr data-id="{{id}}">
+			<td><a href="{{publicDeckUrl value ../deck.name}}">{{value}}</a></td>
+			<td>{{name}}</td>
+			<td>{{momentFromNow createDate}}</td>
+			<td>
+				<label class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-trash"></span>
+				</label>
+			</td>
+		</tr>
+	{{/each}}
+	</tbody>
+	{{#unless deck.links}}
+	<tfoot>
+		<tr>
+			<td colspan="4">{{loc 'core.noPrivateLinks'}}</td>
+		</tr>
+	</tfoot>
+	{{/unless}}
+</table>

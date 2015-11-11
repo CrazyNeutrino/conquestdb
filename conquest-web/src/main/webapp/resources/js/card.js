@@ -21,7 +21,7 @@ $(function() {
 		},
 		renderMessages: function(options) {
 			if (this.messages) {
-				var $template = $(Handlebars.templates['global-messages.hbs']({
+				var $template = $(Handlebars.templates['global-messages']({
 					messages: this.messages
 				}));
 				delete this.messages;
@@ -36,7 +36,7 @@ $(function() {
 	var CardView = ViewBase.extend({
 		render: function(setNumber, cardNumber) {
 			var card = conquest.dict.findCardByNumber(setNumber, cardNumber);			
-			var template = Handlebars.templates['card-view.hbs']({
+			var template = Handlebars.templates['card-view']({
 				card: card,
 				warlord: conquest.dict.findCard(card.warlordId),
 				signSquadCards: _.filter(conquest.dict.findSignSquadCards(card.warlordId || card.id), function(signSquadCard) {
@@ -56,16 +56,16 @@ $(function() {
 			var layout = options.layout;
 			var templateName = undefined;
 			if (layout === 'grid-2') {
-				templateName = 'card-search-results-grid-2.hbs';
+				templateName = 'card-search-results-grid-2';
 			} else if (layout === 'grid-3') {
-				templateName = 'card-search-results-grid-3.hbs';
+				templateName = 'card-search-results-grid-3';
 			} else if (layout === 'grid-4') {
-				templateName = 'card-search-results-grid-4.hbs';
+				templateName = 'card-search-results-grid-4';
 			} else if (layout === 'grid-6') {
-				templateName = 'card-search-results-grid-6.hbs';
+				templateName = 'card-search-results-grid-6';
 			} else {
 				// list layout is the default
-				templateName = 'card-search-results-list.hbs';
+				templateName = 'card-search-results-list';
 			}
 
 			var template = Handlebars.templates[templateName]({
@@ -110,7 +110,7 @@ $(function() {
 				})
 			});
 
-			var template = Handlebars.templates['card-search-view.hbs']({
+			var template = Handlebars.templates['card-search-view']({
 				filter: {
 					factions: conquest.dict.factions,
 					cardTypes: conquest.dict.cardTypes

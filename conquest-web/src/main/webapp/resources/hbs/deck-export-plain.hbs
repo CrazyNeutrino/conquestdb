@@ -1,0 +1,11 @@
+{{{warlord.name}}}
+
+{{#each membersGroups ~}}
+{{{title}}} ({{quantity}})
+{{#each members ~}}
+{{quantity}}x {{{card.name}}}{{#if ../../includeSetName}} ({{card.setName}}){{/if}}
+{{/each ~}}
+{{/each}}
+{{#if link ~}}
+{{loc link.key}}: {{link.value}}
+{{/if ~}}

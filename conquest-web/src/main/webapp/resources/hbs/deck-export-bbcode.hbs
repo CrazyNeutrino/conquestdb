@@ -1,0 +1,11 @@
+[url=http://www.conquestdb.com{{cardUrl warlord}}]{{{warlord.name}}}[/url]
+
+{{#each membersGroups ~}}
+[b]{{{title}}} ({{quantity}})[/b]
+{{#each members ~}}
+{{quantity}}x [url=http://www.conquestdb.com{{cardUrl card}}]{{{card.name}}}{{#if ../../includeSetName}} ({{card.setName}}){{/if}}[/url]
+{{/each}}
+{{/each}}
+{{#if link ~}}
+{{loc link.key}}: {{link.value}}
+{{/if ~}}

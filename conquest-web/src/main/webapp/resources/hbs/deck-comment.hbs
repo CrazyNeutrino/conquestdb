@@ -1,0 +1,17 @@
+<li class="comment">
+	<div class="comment-avatar">
+		<span class="glyphicon glyphicon-user"></span>
+	</div>
+	<div class="comment-content">
+		<div class="comment-header">		
+			<span class="user text-primary">{{comment.username}}</span>
+			<span class="secondary">&nbsp;&#8226;&nbsp;</span>
+			<span class="secondary" data-toggle="tooltip" data-placement="right" title="{{moment comment.createDate}}">
+				{{momentFromNow comment.createDate}}
+			</span>
+		</div>
+		<div class="comment-body">		
+			<span>{{{markdown comment.value}}}</span>
+		</div>		
+	</div>
+</li>

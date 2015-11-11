@@ -1,0 +1,15 @@
+<div class="row members-grid members-grid-sm">
+	{{#each members}}
+	<div class="col-xs-4 col-sm-2 members-grid-item" data-card-id="{{cardId}}">
+		<div class="btn-group btn-group-qty">
+		{{#for 0 availableQuantity 1}}
+			<label class="btn btn-default" {{#smartIf ../../readOnly}}disabled="disabled"{{/smartIf}} data-quantity="{{this}}">{{this}}</label>
+		{{/for}}	
+		</div>
+		<a data-card-id="{{cardId}}" data-image-base="{{card.imageBase}}" style="cursor: pointer;">
+			<img src="{{cardImagePath card.imageBase}}" class="card-xs" style="margin-bottom: 5px;" />
+		</a>
+		<small><strong>{{card.name}}</strong></small>
+	</div>
+	{{/each}}
+</div>

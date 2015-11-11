@@ -1,0 +1,26 @@
+<div id="messageModal" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{loc 'core.close'}}</span></button>
+				<h4 class="modal-title">{{member.card.name}}</h4>
+			</div>
+			<div class="modal-body" style="text-align: center;">
+				<div class="btn-group btn-group-qty" style="display: table; margin-bottom: 10px; margin-left: auto; margin-right: auto;">
+					{{#for 0 member.availableQuantity 1}}
+					<label class="btn btn-default" {{#smartIf ../readOnly}}disabled="disabled"{{/smartIf}} data-quantity="{{this}}">{{this}}</label>
+					{{/for}}
+				</div>
+				<img src="{{cardImagePath member.card.imageBase}}" class="card-md" />
+			</div>
+			<div class="modal-footer">
+				<a href="{{cardUrl member.card}}" class="btn btn-default" target="_blank">
+					<span class="glyphicon glyphicon-search"></span>&nbsp;{{loc 'core.gotoCardPage'}}
+				</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal" id="exportCloseButton">
+					<span class="glyphicon glyphicon-remove"></span>&nbsp;{{loc 'core.close'}}
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -16,7 +16,7 @@ $(function() {
 			stats.attack.name = 'card.attack.sh';
 			stats.hitPoints.name = 'card.hp.sh';
 
-			var template = Handlebars.templates['deck-stats-table.hbs']({
+			var template = Handlebars.templates['deck-stats-table']({
 				stats: stats
 			});
 			this.$el.find('.deck-stats-container').html(template);
@@ -29,7 +29,7 @@ $(function() {
 			var view = this;
 
 			var renderPublishedDecksList = function() {
-				var template = Handlebars.templates['deck-published-decks-list.hbs']({
+				var template = Handlebars.templates['deck-published-decks-list']({
 					decks: view.deck.get('snapshots').toJSON()
 				}); 
 				view.$el.find('#deckPublishedDecksBlock').html(template);
@@ -47,12 +47,12 @@ $(function() {
 					})
 				};
 
-				var template = Handlebars.templates['pub-deck-view.hbs']({
+				var template = Handlebars.templates['pub-deck-view']({
 					deck: view.deck.toJSON(),
 					filter: filter
 				});
 				view.$el.html(template);
-				var actionsTemplate = Handlebars.templates['deck-actions.hbs']({
+				var actionsTemplate = Handlebars.templates['deck-actions']({
 					actions: {						
 						publicdecklist: {},
 						publicdecksave: {},
@@ -454,7 +454,7 @@ $(function() {
 
 			view.unbindMenuLinkClickHandler();
 
-			var template = Handlebars.templates['pub-deck-list-view.hbs']();
+			var template = Handlebars.templates['pub-deck-list-view']();
 			view.$el.html(template);
 			view.renderMessages();
 

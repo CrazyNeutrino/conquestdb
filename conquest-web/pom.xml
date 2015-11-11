@@ -11,14 +11,14 @@
 
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<handlebars-plugin-version>4.0.0</handlebars-plugin-version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.meb</groupId>
 			<artifactId>conquest-jpa</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
@@ -128,6 +128,52 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<!-- <webResources>
+						<resource>
+							<directory>src/main/webapp-generated</directory>
+							<includes>
+								<include>**</include>
+							</includes>
+						</resource>
+					</webResources> -->
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.jknack</groupId>
+				<artifactId>handlebars-maven-plugin</artifactId>
+				<version>${handlebars-plugin-version}</version>
+				<executions>
+					<execution>
+						<id>precompile</id>
+						<phase>package</phase>
+						<goals>
+							<goal>precompile</goal>
+						</goals>
+						<configuration>
+							<output>${project.build.directory}/${project.build.finalName}/resources/js/handlebars-templates.js</output>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<output>${project.build.directory}/m2e-wtp/web-resources/resources/js/handlebars-templates.js</output>
+					<prefix>${basedir}/src/main/webapp/resources/hbs</prefix>
+					<suffix>.hbs</suffix>
+					<handlebarsJsFile>/handlebars-v4.0.4.js</handlebarsJsFile>
+					<minimize>false</minimize>
+					<amd>false</amd>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<profiles>
 		<profile>
 			<id>m2e</id>
@@ -137,80 +183,11 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-war-plugin</artifactId>
 						<configuration>
-							<warName>ROOT</warName>
+							<warName>${project.build.finalName}</warName>
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-			<!-- <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.1</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${endorsed.dir}</outputDirectory>
-							<silent>true</silent>
-							<artifactItems>
-								<artifactItem>
-									<groupId>javax</groupId>
-									<artifactId>javaee-endorsed-api</artifactId>
-									<version>6.0</version>
-									<type>jar</type>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin> -->
-		</plugins>
-		<!-- <pluginManagement>
-			<plugins>
-				This plugin's configuration is used to
-				store Eclipse m2e settings only. It has no influence on the Maven build itself.
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId> org.apache.maven.plugins</groupId>
-										<artifactId> maven-dependency-plugin </artifactId>
-										<versionRange>
-											[2.1,)
-										</versionRange>
-										<goals>
-											<goal>copy</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement> -->
-	</build>
-
 </project>

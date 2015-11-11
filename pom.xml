@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.meb</groupId>
 	<artifactId>conquest</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.2.3</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -21,42 +21,6 @@
 		<dependency-plugin-version>2.10</dependency-plugin-version>
 		<surefire-plugin-version>2.19</surefire-plugin-version>
 	</properties>
-
-	<build>
-		<pluginManagement>
-			<plugins>
-				<!-- compiler plugin -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${compiler-plugin-version}</version>
-					<configuration>
-						<source>${java-version}</source>
-						<target>${java-version}</target>
-						<encoding>${project.build.sourceEncoding}</encoding>
-					</configuration>
-				</plugin>
-				<!-- war plugin -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>${war-plugin-version}</version>
-					<configuration>
-						<failOnMissingWebXml>false</failOnMissingWebXml>
-						<webResources>
-							<resource>
-								<filtering>true</filtering>
-								<directory>src/main/webapp</directory>
-								<includes>
-									<include>**/web.xml</include>
-								</includes>
-							</resource>
-						</webResources>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 
 	<dependencies>
 		<dependency>
@@ -115,4 +79,41 @@
 			<version>1.8.3</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- compiler plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${compiler-plugin-version}</version>
+					<configuration>
+						<source>${java-version}</source>
+						<target>${java-version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+				</plugin>
+				<!-- war plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${war-plugin-version}</version>
+					<configuration>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<webResources>
+							<resource>
+								<filtering>true</filtering>
+								<directory>src/main/webapp</directory>
+								<includes>
+									<include>**/web.xml</include>
+								</includes>
+							</resource>
+						</webResources>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
 </project>

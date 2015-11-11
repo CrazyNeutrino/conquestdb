@@ -1,0 +1,38 @@
+<table id="deckPublishedDeckList" class="table table-striped table-with-btn">
+	<thead>
+		<tr>
+			<th>{{loc 'core.name'}}</th>
+			<th>{{loc 'core.published'}}</th>
+			<th>{{loc 'core.modified'}}</th>
+			{{#if editable}}
+			<th>&nbsp;</th>
+			{{/if}}
+		</tr>
+	</thead>
+	<tbody>
+	{{#each decks}}
+		<tr data-id="{{id}}">
+			<td><a href="{{publicDeckUrl id techName}}">{{name}}</a></td>
+			<td><span data-toggle="tooltip" data-placement="bottom" title="{{moment createDate}}">{{momentFromNow createDate}}</span></td>
+			<td><span data-toggle="tooltip" data-placement="bottom" title="{{moment modifyDate}}">{{momentFromNow modifyDate}}</span></td>
+			{{#if ../editable}}
+			<td>
+				<label class="btn btn-default btn-sm deck-oper-edit" title="{{loc 'core.edit'}}">
+					<span class="glyphicon glyphicon-pencil"></span>
+				</label>
+				<label class="btn btn-default btn-sm deck-oper-delete" title="{{loc 'core.delete'}}">
+					<span class="glyphicon glyphicon-trash"></span>
+				</label>
+			</td>
+			{{/if}}
+		</tr>
+	{{/each}}
+	</tbody>
+	{{#unless decks}}
+	<tfoot>
+		<tr>
+			<td colspan="4">{{loc 'core.noPublishedVersions'}}</td>
+		</tr>
+	</tfoot>
+	{{/unless}}
+</table>

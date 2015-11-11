@@ -1,0 +1,32 @@
+<div class="block folding-block">
+	<div class="block-header">
+		<div class="block-header-text">
+			<span class="glyphicon glyphicon-comment"></span>
+			&nbsp;{{loc 'core.comments'}}
+		</div>
+	</div>
+	<div class="block-content">
+		<div class="deck-comments-container">
+			<ul class="list-unstyled"></ul>
+		</div>		
+	</div>
+</div>
+{{#ifSignedIn}}
+<div class="block folding-block">
+	<div class="block-header">
+		<div class="block-header-text">
+			<span class="glyphicon glyphicon-comment"></span>
+			&nbsp;{{loc 'core.postComment'}}
+		</div>
+	</div>
+	<div class="block-content">
+		<div class="deck-comments-post">
+			<div class="form-group">
+				<label for="deckCommentTextarea">{{loc 'core.comment'}}</label>
+				<textarea id="deckCommentTextarea" class="form-control" rows="5"></textarea>
+			</div>
+			<button id="deckCommentPostButton" class="btn btn-success">{{loc 'core.postComment'}}</button>
+		</div>
+	</div>
+</div>
+{{/ifSignedIn}}

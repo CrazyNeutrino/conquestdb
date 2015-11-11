@@ -1,0 +1,132 @@
+{{#with actions}}
+{{#if decksave ~}}
+<div class="btn-group">
+	<button type="button" class="btn btn-success deck-save">
+		<span class="glyphicon glyphicon-save"></span>
+	</button>
+	<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+		<span class="caret"></span>
+		<span class="sr-only">Toggle Dropdown</span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<li role="presentation">
+			<a role="menuitem" class="deck-save" tabindex="-1" style="cursor: pointer;">{{loc 'core.save'}}</a>
+		</li>
+		<li role="presentation">
+			<a role="menuitem" class="deck-save-copy" tabindex="-1" style="cursor: pointer;">{{loc 'core.saveCopy'}}</a>
+		</li>
+	</ul>
+</div>
+{{/if  ~}}
+{{#if publicdecksave ~}}
+{{#ifSignedIn}}
+<a class="btn btn-default btn-success deck-save-copy" data-toggle="tooltip" title="{{loc 'core.saveCopy'}}">
+	<span class="glyphicon glyphicon-save"></span>
+</a>
+{{/ifSignedIn}}
+{{/if ~}}
+{{#if deckdelete ~}}
+<a id="deckDelete" class="btn btn-default btn-danger" data-toggle="tooltip" title="{{loc 'core.delete'}}">
+	<span class="glyphicon glyphicon-trash"></span>
+</a>
+{{/if ~}}
+{{#if deckedit ~}}
+<a class="btn btn-default" data-toggle="tooltip" title="{{loc 'core.edit'}}" href="{{rootUrl}}edit/{{deckedit.id}}-{{deckedit.techName}}">
+	<span class="glyphicon glyphicon-pencil"></span>
+</a>
+{{/if ~}}
+{{#if deckview ~}}
+{{!--
+<a class="btn btn-default" data-toggle="tooltip" title="{{loc 'core.view'}}" href="{{rootUrl}}{{deckview.id}}-{{deckview.techName}}">
+	<span class="glyphicon glyphicon-eye-open"></span>
+</a>
+--}}
+{{/if ~}}
+{{#if decklist ~}}
+<a class="btn btn-default" data-toggle="tooltip" title="{{#unless decklist.showText}}{{loc 'core.myDecks'}}{{/unless}}" href="{{rootUrl}}">
+	<span class="glyphicon glyphicon-align-justify"></span>{{#if decklist.showText}}&nbsp;{{loc 'core.myDecks'}}{{/if}}
+</a>
+{{/if ~}}
+{{#if publicdecklist ~}}
+<a class="btn btn-default" data-toggle="tooltip" title="{{#unless publicdecklist.showText}}{{loc 'core.decks'}}{{/unless}}" href="{{rootUrl}}">
+	<span class="glyphicon glyphicon-align-justify"></span>{{#if publicdecklist.showText}}&nbsp;{{loc 'core.decks'}}{{/if}}
+</a>
+{{/if ~}}
+{{#if decknew ~}}
+<a class="btn btn-default" data-toggle="tooltip" title="{{#unless decknew.showText}}{{loc 'core.create'}}{{/unless}}" href="{{rootUrl}}new">
+	<span class="glyphicon glyphicon-plus"></span>{{#if decknew.showText}}&nbsp;{{loc 'core.createDeck'}}{{/if}}
+</a>
+{{/if ~}}
+{{#if deckimport ~}}
+<a class="btn btn-default" data-toggle="tooltip" title="{{#unless deckimport.showText}}{{loc 'core.import'}}{{/unless}}" href="{{rootUrl}}import">
+	<span class="glyphicon glyphicon-import"></span>{{#if deckimport.showText}}&nbsp;{{loc 'core.importDeck'}}{{/if}}
+</a>
+{{/if ~}}
+{{#if deckexport ~}}
+<div class="btn-group">
+	<button type="button" class="btn btn-default export-copy-to-clipboard">
+		<span class="glyphicon glyphicon-export"></span>
+	</button>
+	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		<span class="caret"></span>
+		<span class="sr-only">Toggle Dropdown</span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<li role="presentation">
+			<a role="menuitem" class="export-copy-to-clipboard" tabindex="-1" style="cursor: pointer;">{{loc 'core.copyToClipboard'}}</a>
+		</li>
+		<li role="presentation">
+			<a role="menuitem" id="deckExportDownloadOctgn" tabindex="-1" href="{{restUrl}}/deck/export/{{deckexport.id}}?language={{language}}">
+				{{loc 'core.downloadOctgnFile'}}
+			</a>
+		</li>
+	</ul>
+</div>
+{{/if ~}}
+{{#ifSignedIn}}
+{{#if deckexportall ~}}
+<div class="btn-group">
+	<button type="button" class="btn btn-default">
+		<span class="glyphicon glyphicon-export"></span>&nbsp;{{loc 'core.exportAllDecks'}}
+	</button>
+	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		<span class="caret"></span>
+		<span class="sr-only">Toggle Dropdown</span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<li role="presentation">
+			<a role="menuitem" tabindex="-1" href="{{restUrl}}/deck/export?language={{language}}">
+				{{loc 'core.downloadOctgnFiles'}}
+			</a>
+		</li>
+	</ul>
+</div>
+{{!--
+<a class="btn btn-default" href="{{restUrl}}/deck/export?language={{language}}">
+	<span class="glyphicon glyphicon-export"></span>{{#if deckexportall.showText}}&nbsp;{{loc 'core.exportAllToOctgn'}}{{/if}}
+</a>
+--}}	
+{{/if}}
+{{/ifSignedIn}}
+{{#if publicdeckexport ~}}
+<div class="btn-group">
+	<button type="button" class="btn btn-default export-copy-to-clipboard">
+		<span class="glyphicon glyphicon-export"></span>
+	</button>
+	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		<span class="caret"></span>
+		<span class="sr-only">Toggle Dropdown</span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<li role="presentation">
+			<a role="menuitem" class="export-copy-to-clipboard" tabindex="-1" style="cursor: pointer;">{{loc 'core.copyToClipboard'}}</a>
+		</li>
+		<li role="presentation">
+			<a role="menuitem" id="deckExportDownloadOctgn" tabindex="-1" href="{{restUrl}}/deck/public/export/{{publicdeckexport.id}}?language={{language}}">
+				{{loc 'core.downloadOctgnFile'}}
+			</a>
+		</li>
+	</ul>
+</div>
+{{/if ~}}
+{{/with ~}}

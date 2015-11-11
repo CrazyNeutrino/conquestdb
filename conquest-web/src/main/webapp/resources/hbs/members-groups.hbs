@@ -1,0 +1,46 @@
+<div class="row">
+	<div class="col-xs-12 mg-header">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="mg-control-group row">
+					<div class="col-xs-3">
+						<label><strong>{{loc 'core.groupBy'}}:</strong></label>
+					</div>
+					<div class="col-xs-9">
+						<div class="btn-group btn-group-xs">
+							<label class="btn btn-default" data-group-key="typeDisplay">{{loc 'card.type'}}</label>
+							<label class="btn btn-default" data-group-key="memberQuantity">{{loc 'card.quantity'}}</label>
+							<label class="btn btn-default" data-group-key="setName">{{loc 'card.set'}}</label>
+							<label class="btn btn-default" data-group-key="factionDisplay">{{loc 'card.faction'}}</label>
+							<label class="btn btn-default" data-group-key="cost">{{loc 'card.cost'}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="mg-control-sort row">
+					<div class="col-xs-3">
+						<label><strong>{{loc 'core.sortBy'}}:</strong></label>
+					</div>
+					<div class="col-xs-9">
+						<div class="btn-group btn-group-xs">
+							<label class="btn btn-default" data-sort-key="name">{{loc 'card.name'}}</label>
+							<label class="btn btn-default" data-sort-key="memberQuantity">{{loc 'card.quantity'}}</label>
+							<label class="btn btn-default" data-sort-key="cost">{{loc 'card.cost'}}</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{#each membersGroups}}
+	<div class="col-xs-6">
+		<div class="mg">
+			<span class="mg-title">{{title}}&nbsp;({{quantity}})</span>
+			<ul>
+				{{#each members}}
+				<li>{{quantity}}x&nbsp;<a data-image-base="{{card.imageBase}}" data-card-id="{{card.id}}" style="cursor: pointer;">{{card.name}}</a></li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+	{{/each}}
+</div>

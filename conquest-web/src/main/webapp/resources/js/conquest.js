@@ -1313,7 +1313,7 @@ conquest.card = conquest.card || {};
 		render: function() {
 			var view = this;
 
-			var filterContent = Handlebars.templates['card-set-filter-popover-view.hbs']({
+			var filterContent = Handlebars.templates['card-set-filter-popover-view']({
 				tree: conquest.dict.buildCardSetTree(),
 			});
 			view.$trigger.popover({
@@ -1381,7 +1381,7 @@ conquest.card = conquest.card || {};
 		render: function() {
 			var view = this;
 
-			var filterContent = Handlebars.templates['card-stat-filter-popover-view.hbs']({});
+			var filterContent = Handlebars.templates['card-stat-filter-popover-view']({});
 			view.$trigger.popover({
 				html: true,
 				trigger: 'click focus',

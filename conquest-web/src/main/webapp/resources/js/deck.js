@@ -38,7 +38,7 @@ conquest.deck = conquest.deck || {};
 				messages.push(options.messages);
 			}
 
-			var $template = $(Handlebars.templates['global-messages.hbs']({
+			var $template = $(Handlebars.templates['global-messages']({
 				messages: messages
 			}));
 
@@ -63,7 +63,7 @@ conquest.deck = conquest.deck || {};
 		if ($modal.length > 0) {
 			$modal.data('bs.modal', null);
 		}
-		$modal = $(Handlebars.templates['deck-message-modal.hbs'](options));
+		$modal = $(Handlebars.templates['deck-message-modal'](options));
 
 		if (options.buttonYes && options.buttonYes.handler) {
 			$modal.find('#messageButtonYes').click(options.buttonYes.handler);
@@ -81,7 +81,7 @@ conquest.deck = conquest.deck || {};
 		if ($modal.length > 0) {
 			$modal.data('bs.modal', null);
 		}
-		$modal = $(Handlebars.templates['deck-member-modal.hbs']({
+		$modal = $(Handlebars.templates['deck-member-modal']({
 			member: member.toJSON(),
 			readOnly: options.readOnly
 		}));
@@ -116,7 +116,7 @@ conquest.deck = conquest.deck || {};
 
 		var $modal = $('#exportModal');
 		if ($modal.length == 0) {
-			$modal = $(Handlebars.templates['deck-export-modal.hbs']());
+			$modal = $(Handlebars.templates['deck-export-modal']());
 		}
 
 		$modal.on('shown.bs.modal', function() {
@@ -140,14 +140,14 @@ conquest.deck = conquest.deck || {};
 					link.value = /^(?:http:\/\/)?([^/?]+).*/.exec(document.URL)[1];
 				}
 				var membersGroups = conquest.util.membersGroupBy(deck.get('members'), $modal.data(GK), $modal.data(SK));
-				var plainData = Handlebars.templates['deck-export-plain.hbs']({
+				var plainData = Handlebars.templates['deck-export-plain']({
 					warlord: deck.get('warlord'),
 					membersGroups: membersGroups,
 					includeSetName: $modal.data(GK) == 'setName' ? false : true,
 					link: link
 				});
 				$modal.find('#exportPlain textarea').val($.trim(plainData));
-				var bbCodeData = Handlebars.templates['deck-export-bbcode.hbs']({
+				var bbCodeData = Handlebars.templates['deck-export-bbcode']({
 					warlord: deck.get('warlord'),
 					membersGroups: membersGroups,
 					includeSetName: $modal.data(GK) == 'setName' ? false : true,
@@ -202,7 +202,7 @@ conquest.deck = conquest.deck || {};
 		if ($modal.length > 0) {
 			$modal.data('bs.modal', null);
 		}
-		$modal = $(Handlebars.templates['deck-description-modal.hbs']({
+		$modal = $(Handlebars.templates['deck-description-modal']({
 			deck: deck,
 			title: options.title,
 			button: options.button
@@ -410,7 +410,7 @@ conquest.deck = conquest.deck || {};
 
 			var groups = conquest.util.membersGroupBy(members, view.groupKey, view.sortKey);
 
-			view.$el.html(Handlebars.templates['members-groups.hbs']({
+			view.$el.html(Handlebars.templates['members-groups']({
 				membersGroups: groups
 			}));
 
@@ -451,7 +451,7 @@ conquest.deck = conquest.deck || {};
 		render: function(deck) {
 			var view = this;
 
-			var template = Handlebars.templates['deck-description-view.hbs']({
+			var template = Handlebars.templates['deck-description-view']({
 				deck: deck.toJSON()
 			});
 			view.$el.html(template);
@@ -471,14 +471,14 @@ conquest.deck = conquest.deck || {};
 			var view = this;
 
 			var addComment = function(comment, $ul) {
-				$(Handlebars.templates['deck-comment.hbs']({
+				$(Handlebars.templates['deck-comment']({
 					comment: comment.toJSON()
 				})).appendTo($ul).find('[data-toggle="tooltip"]').tooltip({
 					container: 'body'
 				});
 			};
 
-			var $template = $(Handlebars.templates['deck-comments-view.hbs']({
+			var $template = $(Handlebars.templates['deck-comments-view']({
 				deck: deck.toJSON()
 			}));
 			deck.get('comments').each(function(comment) {
@@ -527,16 +527,16 @@ conquest.deck = conquest.deck || {};
 		render: function(members, options) {
 			var templateName = undefined;
 			if (options.layout === 'grid-2') {
-				templateName = 'deck-members-grid-2.hbs';
+				templateName = 'deck-members-grid-2';
 			} else if (options.layout === 'grid-3') {
-				templateName = 'deck-members-grid-3.hbs';
+				templateName = 'deck-members-grid-3';
 			} else if (options.layout === 'grid-4') {
-				templateName = 'deck-members-grid-4.hbs';
+				templateName = 'deck-members-grid-4';
 			} else if (options.layout === 'grid-6') {
-				templateName = 'deck-members-grid-6.hbs';
+				templateName = 'deck-members-grid-6';
 			} else {
 				// list layout is the default
-				templateName = 'deck-members-list.hbs';
+				templateName = 'deck-members-list';
 			}
 
 			var template = Handlebars.templates[templateName]({
@@ -700,7 +700,7 @@ conquest.deck = conquest.deck || {};
 				advanced: _.isBoolean(options.advanced) ? options.advanced : view.advanced
 			});
 
-			var template = Handlebars.templates['deck-list-filter-view.hbs']({
+			var template = Handlebars.templates['deck-list-filter-view']({
 				advanced: view.state.get('advanced'),
 				config: view.config || {},
 				factions: _.filter(conquest.dict.factions, function(faction) {
@@ -737,7 +737,7 @@ conquest.deck = conquest.deck || {};
 				view.$el.find('select').prop('selectedIndex', 0)
 			});
 
-			var cardSetFilterTemplate = Handlebars.templates['commons-ul-tree.hbs']({
+			var cardSetFilterTemplate = Handlebars.templates['commons-ul-tree']({
 				tree: conquest.dict.buildCardSetTree()
 			});
 			view.$el.find('#cardSetFilter').html(cardSetFilterTemplate);
@@ -746,12 +746,12 @@ conquest.deck = conquest.deck || {};
 				$this.siblings().filter('ul').find('li[data-node-type="set"] > input[type="checkbox"]').prop('checked', $this.prop('checked'));
 			});
 
-			var warlordFilterTemplate = Handlebars.templates['commons-ul-tree.hbs']({
+			var warlordFilterTemplate = Handlebars.templates['commons-ul-tree']({
 				tree: conquest.dict.buildWarlordTree()
 			});
 			view.$el.find('#warlordFilter').html(warlordFilterTemplate);
 
-			var sortTemplate = Handlebars.templates['commons-sort-select.hbs']({
+			var sortTemplate = Handlebars.templates['commons-sort-select']({
 				sortItems: view.config.sortItems
 			});
 			var $container = view.$el.find('.deck-sort-container');
@@ -846,7 +846,7 @@ conquest.deck = conquest.deck || {};
 					});
 				});
 			}
-			var template = Handlebars.templates['deck-list-data-view.hbs']({
+			var template = Handlebars.templates['deck-list-data-view']({
 				deckWrappers: deckWrappers,
 				pagination: pagination,
 

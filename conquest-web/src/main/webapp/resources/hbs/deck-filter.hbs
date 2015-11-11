@@ -1,0 +1,17 @@
+<div id="filterContent">
+	<ul class="tree-node">
+	{{#each tree.nodes}}
+		<li {{#if type}}data-node-type="{{type}}"{{/if}}><input type="checkbox" value="{{techName}}" {{#if released}}checked="checked"{{/if}}>{{name}}
+		{{#if nodes}}
+			<ul class="tree-node">
+			{{#each nodes}}
+				<li {{#if type}}data-node-type="{{type}}"{{/if}}><input type="checkbox" value="{{techName}}" {{#if released}}checked="checked"{{/if}}>{{name}}</li>
+			{{/each}}
+			</ul>
+		{{/if}}
+		</li>
+	{{/each}}		
+	</ul>
+	<a id="filterApply" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-ok"></span></a>
+	<a id="filterCancel" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></a>
+</div>

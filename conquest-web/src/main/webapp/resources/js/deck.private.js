@@ -197,10 +197,10 @@ $(function() {
 
 			view.unbindMenuLinkClickHandler();
 
-			var template = Handlebars.templates['user-deck-list-view.hbs']();
+			var template = Handlebars.templates['user-deck-list-view']();
 			view.$el.html(template);
 			view.renderMessages();
-			var actionsTemplate = Handlebars.templates['deck-actions.hbs']({
+			var actionsTemplate = Handlebars.templates['deck-actions']({
 				actions: {
 					decknew: {
 						showText: true
@@ -266,8 +266,8 @@ $(function() {
 		render: function(id) {
 			var view = this;
 
-			var template = Handlebars.templates['user-deck-import-view.hbs']();
-			var actionsTemplate = Handlebars.templates['deck-actions.hbs']({
+			var template = Handlebars.templates['user-deck-import-view']();
+			var actionsTemplate = Handlebars.templates['deck-actions']({
 				actions: {
 					decknew: {
 						showText: true
@@ -393,7 +393,7 @@ $(function() {
 				var $container = view.$el.find('.problems-container').empty();
 				if (errors.length > 0) {
 					$container.append(
-						Handlebars.templates['commons-ul.hbs']({
+						Handlebars.templates['commons-ul']({
 							listTitle: conquest.dict.messages['core.errors'] + ':',
 							listItems: errors,
 							listContainerStyle: 'alert alert-danger'
@@ -402,7 +402,7 @@ $(function() {
 				}
 				if (warnings.length > 0) {
 					$container.append(
-						Handlebars.templates['commons-ul.hbs']({
+						Handlebars.templates['commons-ul']({
 							listTitle: conquest.dict.messages['core.warnings'] + ':',
 							listItems: warnings,
 							listContainerStyle: 'alert alert-warning'
@@ -426,12 +426,12 @@ $(function() {
 			warlords = _.sortBy(warlords, function(warlord) {
 				return warlord.factionDisplay + '#' + warlord.name;
 			});
-			var template = Handlebars.templates['user-deck-create-view.hbs']({
+			var template = Handlebars.templates['user-deck-create-view']({
 				warlords: warlords
 			});
 			this.$el.html(template);
 			this.$el.find('.actions-container').append(
-				Handlebars.templates['deck-actions.hbs']({
+				Handlebars.templates['deck-actions']({
 					actions: {
 						decklist: {
 							showText: true
@@ -510,7 +510,7 @@ $(function() {
 			stats.attack.name = 'card.attack.sh';
 			stats.hitPoints.name = 'card.hp.sh';
 
-			var template = Handlebars.templates['deck-stats-table.hbs']({
+			var template = Handlebars.templates['deck-stats-table']({
 				stats: stats
 			});
 			this.$el.find('.deck-stats-container').html(template);
@@ -590,7 +590,7 @@ $(function() {
 			options = options || {};
 
 			var renderPrivateLinksList = function() {
-				var template = Handlebars.templates['deck-private-link-list.hbs']({
+				var template = Handlebars.templates['deck-private-link-list']({
 					deck: view.deck.toJSON()
 				});
 				view.$el.find('#deckPrivateLinkBlock').html(template);
@@ -639,7 +639,7 @@ $(function() {
 			};
 
 			var renderPublishedDecksList = function() {
-				var template = Handlebars.templates['deck-published-decks-list.hbs']({
+				var template = Handlebars.templates['deck-published-decks-list']({
 					decks: view.deck.get('snapshots').toJSON(),
 					editable: true
 				});
@@ -729,7 +729,7 @@ $(function() {
 					})
 				});
 
-				var template = Handlebars.templates['user-deck-edit-view.hbs']({
+				var template = Handlebars.templates['user-deck-edit-view']({
 					deck: view.deck.toJSON(),
 					filter: filter,
 					sortItems: sortItems
@@ -758,7 +758,7 @@ $(function() {
 
 				var deckId = view.deck.get('id');
 				var deckTechName = view.deck.get('techName');
-				view.$el.find('.actions-container').append(Handlebars.templates['deck-actions.hbs']({
+				view.$el.find('.actions-container').append(Handlebars.templates['deck-actions']({
 					actions: {
 						decknew: {},
 						deckimport: {},
@@ -1092,7 +1092,7 @@ $(function() {
 					trigger: 'click focus',
 					placement: 'bottom',
 					animation: false,
-					content: Handlebars.templates['deck-config.hbs']({})
+					content: Handlebars.templates['deck-config']({})
 				});
 
 				$configTrigger.on('shown.bs.popover', function() {
