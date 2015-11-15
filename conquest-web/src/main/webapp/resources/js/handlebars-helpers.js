@@ -263,3 +263,32 @@ Handlebars.registerHelper('cardText', function(text, options) {
 		return '';
 	}
 });
+
+//Handlebars.registerHelper('cardTypeToIconClass', function(cardType, options) {
+//	var map = {
+//		warlord: 'cq-icon cq-icon-user',
+//		synapse: 'cq-icon cq-icon-link',
+//		army: 'cq-icon cq-icon-rocket',
+//		event: 'cq-icon cq-icon-flash',
+//		support: 'cq-icon cq-icon-database',
+//		attachment: 'cq-icon cq-icon-paperclip',
+//		planet: 'cq-icon cq-icon-globe',
+//		token: 'cq-icon cq-icon-asterisk'
+//		
+//	};
+//	return map[cardType];
+//});
+
+Handlebars.registerHelper('cardTypeToIconClass', function(cardType, options) {
+	var map = {
+		warlord: 'cq-icon cq-icon-king',
+		synapse: 'cq-icon cq-icon-link',
+		army: 'cq-icon cq-icon-rocket',
+		event: 'cq-icon cq-icon-flash',
+		support: 'cq-icon cq-icon-database',
+		attachment: 'cq-icon cq-icon-attach',
+		planet: 'cq-icon cq-icon-globe',
+		token: 'cq-icon cq-icon-asterisk'
+	};
+	return map[cardType];
+});

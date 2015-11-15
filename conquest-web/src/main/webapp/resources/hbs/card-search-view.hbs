@@ -3,12 +3,16 @@
 		<div class="form-inline">
 			<div id="factionFilter" class="btn-group select-many filter-faction filter-group">
 				{{#each filter.factions}}							
-				<label class="btn btn-default" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}"><div class="icon-faction icon-{{techName}}"></div></label>
+				<label class="btn btn-default" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
+					<i class="cq-icon cq-icon-{{techName}}"></i>
+				</label>
 				{{/each}}
 			</div>
 			<div id="cardTypeFilter" class="btn-group select-many filter-group">
 				{{#each filter.cardTypes}}
-				<label class="btn btn-default" data-type="{{techName}}" data-toggle="tooltip" title="{{name}}"><span>{{shortName}}</span></label>
+				<label class="btn btn-default" data-type="{{techName}}" data-toggle="tooltip" title="{{name}}">
+					<i class="{{cardTypeToIconClass techName}}"></i>
+				</label>
 				{{/each}}
 			</div>
 			<div id="quantityFilter" class="btn-group select-many filter-group">

@@ -84,13 +84,17 @@
 
 							<div class="btn-group btn-group-filter filter-faction filter-group select-many">
 								{{#each filter.factions}}							
-								<label class="btn btn-default" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}"><div class="icon-faction icon-{{techName}}"></div></label>
+								<label class="btn btn-default" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
+									<i class="cq-icon cq-icon-{{techName}}"></i>
+								</label>
 								{{/each}}
 							</div>
 
 							<div class="btn-group btn-group-filter filter-type filter-group select-many">
 								{{#each filter.cardTypes}}
-								<label class="btn btn-default type-{{techName}} marker" data-type="{{techName}}" data-toggle="tooltip" title="{{name}}"><span>{{shortName}}</span></label>
+								<label class="btn btn-default type-{{techName}} marker" data-type="{{techName}}" data-toggle="tooltip" title="{{name}}">
+									<i class="{{cardTypeToIconClass techName}}"></i>
+								</label>
 								{{/each}}
 							</div>
 
