@@ -701,11 +701,10 @@ $(function() {
 			};
 
 			var renderInternal = function() {
-				var allowedCardTypes = ['army', 'attachment', 'support', 'event'];
 				var filter = {
-					factions: conquest.getValidDeckFactions(view.deck.get('warlord').faction),
+					factions: conquest.getValidDeckFactions(view.deck.get('warlord').id),
 					cardTypes: _.filter(conquest.dict.cardTypes, function(cardType) {
-						return allowedCardTypes.indexOf(cardType.techName) >= 0;
+						return conquest.getValidDeckCardTypes().indexOf(cardType.techName) >= 0;
 					})
 				};
 		

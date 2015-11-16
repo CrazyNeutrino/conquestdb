@@ -1,9 +1,15 @@
 package org.meb.conquest.util;
 
+import static org.apache.commons.collections4.PredicateUtils.andPredicate;
+import static org.apache.commons.collections4.PredicateUtils.notPredicate;
+
 import java.util.List;
 
+import org.apache.commons.collections4.Predicate;
+import org.meb.conquest.db.model.CardType;
+import org.meb.conquest.db.model.Faction;
 import org.meb.conquest.db.model.loc.Card;
-import org.meb.conquest.util.predicate.TyranidDeckCardPredicate;
+import org.meb.conquest.util.predicate.StandardDeckCardPredicate;
 
 public class TyranidDeckHelper extends DeckHelperBase {
 
@@ -13,6 +19,14 @@ public class TyranidDeckHelper extends DeckHelperBase {
 
 	@Override
 	public List<Card> filterValidDeckCards(List<Card> cards) {
-		return filterCards(cards, new TyranidDeckCardPredicate(getWarlord()));
+		Predicate<Card> standard = new StandardDeckCardPredicate(getWarlord());
+		Predicate<Card> neutralArmy = new Predicate<Card>() {
+
+			@Override
+			public boolean evaluate(Card card) {
+				return card.getFaction() == Faction.NEUTRAL && card.getType() == CardType.ARMY;
+			}
+		};
+		return filterCards(cards, andPredicate(standard, notPredicate(neutralArmy)));
 	}
 }
