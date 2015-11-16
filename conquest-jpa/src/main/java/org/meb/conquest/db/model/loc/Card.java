@@ -70,6 +70,7 @@ public class Card {
 	private String techName;
 	private String text;
 	private String trait;
+	private String traitEn;
 	private String keyword;
 
 	private Long warlordId;

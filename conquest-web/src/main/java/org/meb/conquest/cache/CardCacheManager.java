@@ -24,8 +24,8 @@ import org.meb.conquest.db.query.CardQuery;
 import org.meb.conquest.db.util.DatabaseUtils;
 import org.meb.conquest.service.DeckServiceImpl;
 import org.meb.conquest.service.RequestContext;
-import org.meb.conquest.util.WarlordCardHelper;
-import org.meb.conquest.util.WarlordCardHelperFactory;
+import org.meb.conquest.util.DeckHelper;
+import org.meb.conquest.util.WarlordDeckHelperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -122,8 +122,8 @@ public class CardCacheManager {
 					@SuppressWarnings("unchecked")
 					List<Card> cards = (List<Card>) cache.get(getCardsKey()).getObjectValue();
 					
-					WarlordCardHelper helper = WarlordCardHelperFactory.buildWarlordCardHelper(warlord);
-					List<Card> warlordCards = helper.filterValidCards(cards);
+					DeckHelper helper = WarlordDeckHelperFactory.buildWarlordCardHelper(warlord);
+					List<Card> warlordCards = helper.filterValidDeckCards(cards);
 					warlordCardsElement = new Element(warlordCardsKey, warlordCards);
 					cache.put(warlordCardsElement);
 				}
