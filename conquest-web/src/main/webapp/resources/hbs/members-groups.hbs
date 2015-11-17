@@ -38,10 +38,9 @@
 			<ul>
 				{{#each members}}
 				<li>
-					{{quantity}}x&nbsp;<i class="{{cardTypeToIconClass card.type}} fg-{{card.faction}}"></i>
-					<a data-image-base="{{card.imageBase}}" data-card-id="{{card.id}}" style="cursor: pointer;">
-						{{card.name}}
-					</a>
+					{{quantity}}x<i class="{{cardTypeToIconClass card.type}} fg-{{card.faction}}"></i><a 
+					data-image-base="{{card.imageBase}}" data-card-id="{{card.id}}" 
+					style="cursor: pointer;">{{card.name}}</a>
 				</li>
 				{{/each}}
 			</ul>

@@ -39,6 +39,7 @@ footer.footer > .container > p:first-child {
 
 .mg-control-group,.mg-control-sort { margin-bottom: 5px; }
 .mg-control-group div:first-child, .mg-control-sort div:first-child { padding-right: 0px; }
+.mg .cq-icon:before { margin: 0em .2em }
 
 .deck-container .mg {
 	margin-bottom: 15px;
@@ -685,7 +686,7 @@ table.table-with-btn > tbody > tr > td {
   margin-left: .1em;
  
   /* you can be more comfortable with increased icons size */
-  /* font-size: 120%; */
+  font-size: 1.1em;
  
   /* Font smoothing. That was taken from TWBS */
   -webkit-font-smoothing: antialiased;

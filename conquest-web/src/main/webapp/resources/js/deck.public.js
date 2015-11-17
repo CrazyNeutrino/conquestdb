@@ -42,7 +42,7 @@ $(function() {
 				var filter = {
 					factions: conquest.getValidDeckFactions(view.deck.get('warlord').id),
 					cardTypes: _.filter(conquest.dict.cardTypes, function(cardType) {
-						return conquest.getValidDeckCardTypes().indexOf(cardType.techName) >= 0;
+						return conquest.isValidDeckCardType(cardType.techName);
 					})
 				};
 

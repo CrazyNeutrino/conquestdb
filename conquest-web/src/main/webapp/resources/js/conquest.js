@@ -1179,6 +1179,10 @@ conquest.util = conquest.util || {};
 // ???
 //
 (function(_conquest) {
+	
+	_conquest.isValidDeckCardType = function(cardType) {
+		return _.indexOf([ 'army', 'attachment', 'event', 'support', 'synapse' ], cardType) >= 0;
+	};
 
 	_conquest.getDeckHelper = function(options) {
 		var warlord;
@@ -1200,46 +1204,17 @@ conquest.util = conquest.util || {};
 		}
 		return deckHelper;
 	}
-
-	_conquest.getValidDeckCardTypes = function() {
-		return [ 'army', 'attachment', 'event', 'support', 'synapse' ];
+	
+	_conquest.getAlliedDeckFactions = function(warlordId) {
+		return _conquest.getDeckHelper({
+			warlordId : warlordId
+		}).filterAlliedDeckFactions();
 	};
 
 	_conquest.getValidDeckFactions = function(warlordId) {
 		return _conquest.getDeckHelper({
 			warlordId : warlordId
 		}).filterValidDeckFactions();
-		// var validDeckFactions = [];
-		// var factions = _conquest.dict.factions;
-		// var circleFactions = _.filter(factions, function(faction) {
-		// return faction.techName != 'neutral' && faction.techName != 'necron'
-		// && faction.techName != 'tyranid';
-		// });
-		// var faction = _.findWhere(factions, {
-		// techName: factionTechName
-		// });
-		//
-		// if (faction.techName == 'neutral') {
-		// // no op
-		// } else if (faction.techName == 'necrons') {
-		// // no op
-		// } else if (faction.techName == 'tyranid') {
-		// validDeckFactions.push(faction);
-		// validDeckFactions.push(_.findWhere(factions, {
-		// techName: 'neutral'
-		// }));
-		// } else {
-		// var index = circleFactions.indexOf(faction);
-		// validDeckFactions.push(faction);
-		// validDeckFactions.push(circleFactions[(index - 1 +
-		// circleFactions.length) % circleFactions.length]);
-		// validDeckFactions.push(circleFactions[(index + 1) %
-		// circleFactions.length]);
-		// validDeckFactions.push(_.findWhere(factions, {
-		// techName: 'neutral'
-		// }));
-		// }
-		// return validDeckFactions;
 	};
 
 	_conquest.getValidDeckCards = function(warlordId) {
@@ -1251,33 +1226,30 @@ conquest.util = conquest.util || {};
 	_conquest.getValidDeckMembers = function(deckWarlordId) {
 		var validDeckCards = _conquest.getValidDeckCards(deckWarlordId);
 		var validDeckMembers = [];
-		_
-				.each(
-						validDeckCards,
-						function(card) {
-							var availableQuantity = (_.isUndefined(card.quantity) ? 3
-									: card.quantity);
-							var quantity = (card.type == 'warlord' || _.isNumber(card.warlordId) ? availableQuantity
-									: 0);
-							var member = {
-								cardId : card.id,
-								quantity : quantity,
-								availableQuantity : availableQuantity
-							};
-							validDeckMembers.push(member);
-						});
+		_.each(validDeckCards, function(card) {
+			var availableQuantity = (_.isUndefined(card.quantity) ? 3
+					: card.quantity);
+			var quantity = (card.type == 'warlord' || _.isNumber(card.warlordId) ? availableQuantity
+					: 0);
+			var member = {
+				cardId : card.id,
+				quantity : quantity,
+				availableQuantity : availableQuantity
+			};
+			validDeckMembers.push(member);
+		});
 		return validDeckMembers;
 	};
 
 	_conquest.getStandardDeckCardPredicate = function(warlord) {
-		var validDeckFactions = _.pluck(_conquest.getValidDeckFactions(warlord.id), 'techName');
+		var alliedDeckFactions = _.pluck(_conquest.getAlliedDeckFactions(warlord.id), 'techName');
 
 		return function(card) {
-			if (validDeckFactions.indexOf(card.faction) == -1) {
+			if (alliedDeckFactions.indexOf(card.faction) < 0) {
 				return false;
 			}
 			// invalid type
-			if (_.indexOf(_conquest.getValidDeckCardTypes(), card.type) < 0) {
+			if (!_conquest.isValidDeckCardType(card.type)) {
 				return false;
 			}
 			// invalid warlord
@@ -1328,22 +1300,48 @@ conquest.util = conquest.util || {};
 	_conquest.getCommonDeckCardPredicate = function() {
 		return function(card) {
 			// valid type and not in signature squad and not loyal
-			return _.indexOf(deckCardTypes, card.type) < 0 && _.isUndefined(card.warlordId)
-					&& card.loyal === false;
+			return _conquest.isValidDeckCardType(card.type) && _.isUndefined(card.warlordId) && card.loyal === false;
+		};
+	};
+
+	_conquest.getDeckCardWithTraitPredicate = function(trait) {
+		return function(card) {
+			// valid type and has given trait
+			var outcome = _conquest.isValidDeckCardType(card.type);
+			if (outcome && card.traitEn) {
+				outcome = _.indexOf(card.traitEn.trim().toLowerCase().split(/ *\. */), trait) >= 0;
+			} else {
+				outcome = false;
+			}
+			return outcome;
 		};
 	};
 
 	_conquest.StandardDeckHelper = function(warlord) {
-		this.filterValidDeckCards = function(cards) {
-			return _.filter(cards, _conquest.getStandardDeckCardPredicate(warlord));
+		this.filterAlliedDeckFactions = function() {
+			return _.filter(_conquest.dict.factions, _conquest.getStandardDeckFactionPredicate(warlord));
 		};
 
 		this.filterValidDeckFactions = function() {
-			return _.filter(_conquest.dict.factions, _conquest.getStandardDeckFactionPredicate(warlord));
+			return this.filterAlliedDeckFactions();
+		};
+
+		this.filterValidDeckCards = function(cards) {
+			return _.filter(cards, _conquest.getStandardDeckCardPredicate(warlord));
 		};
 	};
 
 	_conquest.TyranidDeckHelper = function(warlord) {
+		this.filterAlliedDeckFactions = function() {
+			return _.filter(_conquest.dict.factions, function(faction) {
+				return faction.techName == 'tyranid' || faction.techName == 'neutral';
+			});
+		};
+		
+		this.filterValidDeckFactions = function() {
+			return this.filterAlliedDeckFactions();
+		};
+		
 		this.filterValidDeckCards = function(cards) {
 			var standard = _conquest.getStandardDeckCardPredicate(warlord);
 			var neutralArmy = function(card) {
@@ -1353,31 +1351,51 @@ conquest.util = conquest.util || {};
 				return standard(card) && !neutralArmy(card);
 			});
 		};
-
-		this.filterValidDeckFactions = function(factions) {
-			return _.filter(_conquest.dict.factions, function(faction) {
-				return faction.techName == 'tyranid' || faction.techName == 'neutral';
-			});
-		};
 	};
 
-	_conquest.StarblazeDeckHelper = function(warlord) {
-		this.filterValidDeckCards = function(cards) {
-			return _.filter(cards, _conquest.getStandardDeckCardPredicate(warlord));
+	_conquest.CommanderStarblazeDeckHelper = function(warlord) {
+		this.filterAlliedDeckFactions = function() {
+			return _.filter(_conquest.dict.factions, _conquest.getStandardDeckFactionPredicate(warlord));
+		};
+		
+		this.filterValidDeckFactions = function() {
+			var filtered = this.filterAlliedDeckFactions();
+			filtered.push(_.findWhere(_conquest.dict.factions, {
+				techName : 'astra-militarum'
+			}));
+			return filtered;
 		};
 
-		this.filterValidDeckFactions = function(factions) {
-			return _.filter(factions, _conquest.getStandardDeckFactionPredicate(warlord));
+		this.filterValidDeckCards = function(cards) {
+			var standard = _conquest.getStandardDeckCardPredicate(warlord);
+			var common = _conquest.getCommonDeckCardPredicate();
+			return _.filter(cards, function(card) {
+				return standard(card) || (common(card) && card.faction == 'astra-militarum');
+			});
 		};
+
 	};
 
 	_conquest.GorzodDeckHelper = function(warlord) {
-		this.filterValidDeckCards = function(cards) {
-			return _.filter(cards, _conquest.getStandardDeckCardPredicate(warlord));
+		this.filterAlliedDeckFactions = function() {
+			return _.filter(_conquest.dict.factions, _conquest.getStandardDeckFactionPredicate(warlord));
 		};
-
-		this.filterValidDeckFactions = function(factions) {
-			return _.filter(factions, _conquest.getStandardDeckFactionPredicate(warlord));
+		
+		this.filterValidDeckFactions = function() {
+			var filtered = this.filterAlliedDeckFactions();
+			filtered.push(_.findWhere(_conquest.dict.factions, {
+				techName : 'space-marines'
+			}));
+			return filtered;
+		};
+		
+		this.filterValidDeckCards = function(cards) {
+			var standard = _conquest.getStandardDeckCardPredicate(warlord);
+			var common = _conquest.getCommonDeckCardPredicate();
+			var vehicle = _conquest.getDeckCardWithTraitPredicate("vehicle");
+			return _.filter(cards, function(card) {
+				return standard(card) || (common(card) && vehicle(card) && card.faction == 'space-marines');
+			});
 		};
 	};
 
