@@ -37,7 +37,7 @@ public class CardDao extends JpaDaoAbstract<Card, CardQuery> {
 
 			Predicate prThisFaction = cb.equal(root.get(Card_.faction), faction);
 			Predicate prThisSignSquad = cb.equal(root.get(Card_.warlordId), warlordId);
-			Predicate prFactions = root.get(Card_.faction).in((Object[]) faction.alliance());
+			Predicate prFactions = root.get(Card_.faction).in(faction.alliance());
 			Predicate prNotLoyal = cb.equal(root.get(Card_.loyal), Boolean.FALSE);
 			Predicate prNotSignSquad = root.get(Card_.warlordId).isNull();
 

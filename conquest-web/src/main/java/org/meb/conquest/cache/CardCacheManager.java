@@ -22,10 +22,10 @@ import org.meb.conquest.db.model.Faction;
 import org.meb.conquest.db.model.loc.Card;
 import org.meb.conquest.db.query.CardQuery;
 import org.meb.conquest.db.util.DatabaseUtils;
+import org.meb.conquest.deck.DeckHelper;
+import org.meb.conquest.deck.WarlordDeckHelperFactory;
 import org.meb.conquest.service.DeckServiceImpl;
 import org.meb.conquest.service.RequestContext;
-import org.meb.conquest.util.DeckHelper;
-import org.meb.conquest.util.WarlordDeckHelperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

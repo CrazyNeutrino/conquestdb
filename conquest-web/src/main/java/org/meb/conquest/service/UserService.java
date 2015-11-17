@@ -1,7 +1,7 @@
 package org.meb.conquest.service;
 
+import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.User;
-import org.meb.conquest.rest.exception.DeckException;
 
 public interface UserService extends SearchService {
 

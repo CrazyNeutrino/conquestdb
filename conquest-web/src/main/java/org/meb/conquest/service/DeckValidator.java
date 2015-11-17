@@ -7,15 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.meb.conquest.cache.UserCacheManager;
 import org.meb.conquest.core.Constant;
+import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.dao.CardDao;
 import org.meb.conquest.db.model.CardType;
 import org.meb.conquest.db.model.Deck;
@@ -26,7 +23,9 @@ import org.meb.conquest.db.model.User;
 import org.meb.conquest.db.model.loc.Card;
 import org.meb.conquest.db.query.CardQuery;
 import org.meb.conquest.db.util.Transformers;
-import org.meb.conquest.rest.exception.DeckException;
+
+import lombok.Getter;
+import lombok.Setter;
 
 public class DeckValidator {
 
@@ -93,7 +92,8 @@ public class DeckValidator {
 			}
 		}
 
-		Set<Long> cardIds = CollectionUtils.collect(deckMembers, Transformers.DEME_CARD_ID, new HashSet<Long>());
+		Set<Long> cardIds = CollectionUtils.collect(deckMembers, Transformers.DEME_CARD_ID,
+				new HashSet<Long>());
 		CardQuery cardQuery = new CardQuery();
 		cardQuery.setIds(cardIds);
 		List<Card> cards = cardDao.find(cardQuery);
@@ -131,7 +131,8 @@ public class DeckValidator {
 			de.setErrorCoreParameter(0, String.valueOf(Constant.Deck.MAX_NAME_LEN));
 			throw de;
 		}
-		if (deck.getDescription() != null && deck.getDescription().trim().length() > Constant.Deck.MAX_DESCRIPTION_LEN) {
+		if (deck.getDescription() != null
+				&& deck.getDescription().trim().length() > Constant.Deck.MAX_DESCRIPTION_LEN) {
 			DeckException de = buildDeckException(deck, "error.deck.description.tooLong");
 			de.setErrorCoreParameter(0, String.valueOf(Constant.Deck.MAX_DESCRIPTION_LEN));
 			throw de;
@@ -165,7 +166,7 @@ public class DeckValidator {
 					throw de;
 				}
 				totalQuantity += quantity;
-				
+
 				if (card.getType() == CardType.SYNAPSE) {
 					synapseQuantity++;
 				}
@@ -177,20 +178,21 @@ public class DeckValidator {
 			de.setErrorCoreParameter(0, String.valueOf(totalQuantity));
 			throw de;
 		}
-		
-		if (deckType == DeckType.SNAPSHOT && deckId == null && deckFaction == Faction.TYRANID && synapseQuantity != 1) {
+
+		if (deckType == DeckType.SNAPSHOT && deckId == null && deckFaction == Faction.TYRANID
+				&& synapseQuantity != 1) {
 			DeckException de = buildDeckException(deck, "error.deck.comp.invalidSynapseQuantity");
 			de.setErrorCoreParameter(1, String.valueOf(synapseQuantity));
 			throw de;
 		}
 
 		if (deckType == DeckType.BASE || (deckType == DeckType.SNAPSHOT && deckId == null)) {
-			Faction[] alliance = deckFaction.alliance();
+			Set<Faction> alliance = deckFaction.alliance();
 			HashSet<Faction> factions = new HashSet<>();
 			for (DeckMember deckMember : deckMembers) {
 				Card card = deckMember.getCard();
 				Faction faction = card.getFaction();
-				if (ArrayUtils.indexOf(alliance, faction) < 0) {
+				if (!alliance.contains(faction)) {
 					DeckException de = buildDeckException(deck, "error.deck.comp.invalidCard");
 					de.setErrorCoreParameter(1, card.getName());
 					throw de;
@@ -201,7 +203,8 @@ public class DeckValidator {
 			factions.remove(deckFaction);
 			factions.remove(Faction.NEUTRAL);
 			if (factions.size() > 1) {
-				DeckException de = buildDeckException(deck, "error.deck.comp.tooManyAlliedFactions");
+				DeckException de = buildDeckException(deck,
+						"error.deck.comp.tooManyAlliedFactions");
 				de.setErrorCoreParameter(1, String.valueOf(factions));
 				throw de;
 			}

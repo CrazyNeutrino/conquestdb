@@ -19,9 +19,9 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jboss.resteasy.util.Hex;
 import org.meb.conquest.core.Constant;
+import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.User;
-import org.meb.conquest.rest.MessageBundleResolver;
-import org.meb.conquest.rest.exception.DeckException;
+import org.meb.conquest.web.rest.MessageBundleResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

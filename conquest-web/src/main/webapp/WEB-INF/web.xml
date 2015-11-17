@@ -44,7 +44,7 @@
 		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>org.meb.conquest.rest.ConquestApplication</param-value>
+			<param-value>org.meb.conquest.web.rest.ConquestApplication</param-value>
 		</init-param>
 		<init-param>
 			<param-name>resteasy.servlet.mapping.prefix</param-name>

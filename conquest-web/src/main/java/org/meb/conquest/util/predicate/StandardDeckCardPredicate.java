@@ -1,7 +1,5 @@
 package org.meb.conquest.util.predicate;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.meb.conquest.db.model.Faction;
@@ -16,8 +14,7 @@ public class StandardDeckCardPredicate extends DeckCardPredicate {
 	public StandardDeckCardPredicate(Card warlord) {
 		this.warlord = warlord;
 
-		this.ALLIANCE = new HashSet<>();
-		this.ALLIANCE.addAll(Arrays.asList(this.warlord.getFaction().alliance()));
+		this.ALLIANCE = this.warlord.getFaction().alliance();
 	}
 
 	@Override

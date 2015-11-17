@@ -2,13 +2,13 @@ package org.meb.conquest.service;
 
 import java.util.List;
 
+import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.Deck;
 import org.meb.conquest.db.model.DeckComment;
 import org.meb.conquest.db.model.DeckLink;
 import org.meb.conquest.db.query.DeckQuery;
-import org.meb.conquest.rest.controller.ExportedDeck;
-import org.meb.conquest.rest.controller.ExportedDeck.Type;
-import org.meb.conquest.rest.exception.DeckException;
+import org.meb.conquest.web.rest.controller.ExportedDeck;
+import org.meb.conquest.web.rest.controller.ExportedDeck.Type;
 
 public interface DeckService extends SearchService {
 

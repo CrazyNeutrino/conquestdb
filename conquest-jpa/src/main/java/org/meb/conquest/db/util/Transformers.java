@@ -56,6 +56,14 @@ public class Transformers {
 			return input.getCard().getId();
 		}
 	};
+	
+	public static final Transformer<DeckMember, Card> DEME_CARD = new Transformer<DeckMember, Card>() {
+
+		@Override
+		public Card transform(DeckMember input) {
+			return input.getCard();
+		}
+	};
 
 	public static final Transformer<DeckMember, Long> DEME_DECK_ID = new Transformer<DeckMember, Long>() {
 
