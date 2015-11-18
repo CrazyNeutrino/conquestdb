@@ -1,8 +1,8 @@
-package org.meb.conquest.util.predicate;
+package org.meb.conquest.deck.predicate;
 
 import org.meb.conquest.db.model.loc.Card;
 
-public class CommonDeckCardPredicate extends DeckCardPredicate {
+public class CommonCardPredicate extends CardPredicate {
 
 	@Override
 	public boolean evaluate(Card card) {

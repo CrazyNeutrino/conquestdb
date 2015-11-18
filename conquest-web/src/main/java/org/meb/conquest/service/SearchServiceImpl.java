@@ -16,10 +16,9 @@ public class SearchServiceImpl implements SearchService, Serializable {
 
 	@Inject
 	private EntityManager em;
-
 	@Inject
 	private RequestContext queryContext;
-
+	
 	@Override
 	public <T> T findUnique(T example) {
 		DatabaseUtils.executeSetUserLang(em, queryContext.getUserLanguage());

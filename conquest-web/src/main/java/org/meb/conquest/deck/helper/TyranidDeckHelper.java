@@ -1,15 +1,15 @@
-package org.meb.conquest.deck;
+package org.meb.conquest.deck.helper;
 
 import static org.apache.commons.collections4.PredicateUtils.andPredicate;
 import static org.apache.commons.collections4.PredicateUtils.notPredicate;
-
-import java.util.List;
 
 import org.apache.commons.collections4.Predicate;
 import org.meb.conquest.db.model.CardType;
 import org.meb.conquest.db.model.Faction;
 import org.meb.conquest.db.model.loc.Card;
-import org.meb.conquest.util.predicate.StandardDeckCardPredicate;
+import org.meb.conquest.deck.predicate.RegularDeckCardPredicate;
+import org.meb.conquest.deck.validation.DeckValidator;
+import org.meb.conquest.deck.validation.TyranidDeckValidator;
 
 public class TyranidDeckHelper extends DeckHelperBase {
 
@@ -18,8 +18,8 @@ public class TyranidDeckHelper extends DeckHelperBase {
 	}
 
 	@Override
-	public List<Card> filterValidDeckCards(List<Card> cards) {
-		Predicate<Card> standard = new StandardDeckCardPredicate(getWarlord());
+	public Predicate<Card> buildAllowedCardPredicate() {
+		Predicate<Card> regular = new RegularDeckCardPredicate(getWarlord());
 		Predicate<Card> neutralArmy = new Predicate<Card>() {
 
 			@Override
@@ -27,6 +27,11 @@ public class TyranidDeckHelper extends DeckHelperBase {
 				return card.getFaction() == Faction.NEUTRAL && card.getType() == CardType.ARMY;
 			}
 		};
-		return filterCards(cards, andPredicate(standard, notPredicate(neutralArmy)));
+		return andPredicate(regular, notPredicate(neutralArmy));
+	}
+
+	@Override
+	public DeckValidator buildDeckValidator() {
+		return new TyranidDeckValidator(buildAllowedCardPredicate());
 	}
 }

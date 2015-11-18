@@ -33,10 +33,8 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 
 	@Inject
 	private EntityManager em;
-
 	@Inject
 	private RequestContext queryContext;
-
 	@Inject
 	private MessageBundleResolver resolver;
 

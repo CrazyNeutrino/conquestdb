@@ -44,6 +44,11 @@ public class CardQuery extends Query<Card> {
 		super(example);
 	}
 	
+	public CardQuery(Set<Long> ids) {
+		super(new Card());
+		this.ids = ids;
+	}
+	
 	public boolean isSearchDeckCards() {
 		return deckWarlordId != null && deckFaction != null;
 	}

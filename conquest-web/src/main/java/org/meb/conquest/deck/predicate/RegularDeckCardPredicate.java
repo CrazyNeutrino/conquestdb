@@ -1,17 +1,17 @@
-package org.meb.conquest.util.predicate;
+package org.meb.conquest.deck.predicate;
 
 import java.util.Set;
 
 import org.meb.conquest.db.model.Faction;
 import org.meb.conquest.db.model.loc.Card;
 
-public class StandardDeckCardPredicate extends DeckCardPredicate {
+public class RegularDeckCardPredicate extends CardPredicate {
 
 	protected final Set<Faction> ALLIANCE;
 
 	private Card warlord;
 
-	public StandardDeckCardPredicate(Card warlord) {
+	public RegularDeckCardPredicate(Card warlord) {
 		this.warlord = warlord;
 
 		this.ALLIANCE = this.warlord.getFaction().alliance();
@@ -28,10 +28,10 @@ public class StandardDeckCardPredicate extends DeckCardPredicate {
 			Faction cardFaction = card.getFaction();
 			boolean cardLoyal = Boolean.TRUE.equals(card.getLoyal());
 
-			if (cardWarlordId != null && cardWarlordId != warlordId) {
+			if (cardWarlordId != null && !cardWarlordId.equals(warlordId)) {
 				// other warlord sign squad
 				outcome = false;
-			} else if (cardWarlordId == warlordId) {
+			} else if (cardWarlordId != null && cardWarlordId.equals(warlordId)) {
 				// this warlord sign squad
 				outcome = true;
 			} else if (cardLoyal && cardFaction != warlordFaction) {

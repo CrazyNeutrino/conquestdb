@@ -7,13 +7,13 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import org.meb.conquest.db.model.Deck;
 import org.meb.conquest.db.model.DeckType;
 import org.meb.conquest.service.RequestContext;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -91,19 +91,20 @@ public class DeckException extends Exception {
 		return builder.toString().trim();
 	}
 
-	private String buildMessage(ResourceBundle bundle, String key, Map<Integer, String> parameters) {
+	private String buildMessage(ResourceBundle bundle, String key,
+			Map<Integer, String> parameters) {
 		String message = bundle.getString(key);
 		if (parameters.size() > 0) {
 			message = MessageFormat.format(message, new TreeMap<>(parameters).values().toArray());
 		}
 		return message;
 	}
-	
+
 	public DeckException bindErrorContext(String errorContext) {
 		if (this.errorContext == null && !this.errorCore.equals(errorContext)) {
 			this.errorContext = errorContext;
 		}
-		
+
 		return this;
 	}
 }

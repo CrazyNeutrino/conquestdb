@@ -1,11 +1,14 @@
 package org.meb.conquest.core.exception;
 
+import javax.inject.Inject;
+
 import org.meb.conquest.db.model.Deck;
 import org.meb.conquest.db.model.DeckType;
 import org.meb.conquest.service.RequestContext;
 
 public class DeckExceptionBuilder {
 
+	@Inject
 	private RequestContext requestContext;
 
 	public RequestContext getRequestContext() {

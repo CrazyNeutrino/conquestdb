@@ -1,15 +1,15 @@
-package org.meb.conquest.deck;
+package org.meb.conquest.deck.helper;
 
 import org.meb.conquest.db.model.Faction;
 import org.meb.conquest.db.model.loc.Card;
 
-public class WarlordDeckHelperFactory {
+public class DeckHelperFactory {
 
-	private WarlordDeckHelperFactory() {
+	private DeckHelperFactory() {
 
 	}
 
-	public static DeckHelper buildWarlordCardHelper(Card warlord) {
+	public static DeckHelper buildDeckHelper(Card warlord) {
 		DeckHelper helper;
 		if (warlord.getFaction() == Faction.TYRANID) {
 			helper = new TyranidDeckHelper(warlord);
@@ -18,7 +18,7 @@ public class WarlordDeckHelperFactory {
 		} else if (warlord.getTechName().equals("gorzod")) {
 			helper = new GorzodDeckHelper(warlord);
 		} else {
-			helper = new StandardDeckHelper(warlord);
+			helper = new RegularDeckHelper(warlord);
 		}
 		return helper;
 	}
