@@ -431,7 +431,7 @@ conquest.deck = conquest.deck || {};
 				html: true,
 				trigger: 'hover',
 				content: function() {
-					return conquest.util.writeCardImgElem($(this).data('image-base'), {
+					return conquest.ui.writeCardImgElem($(this).data('image-base'), {
 						class: 'card-md'
 					});
 				}
@@ -571,7 +571,7 @@ conquest.deck = conquest.deck || {};
 				html: true,
 				trigger: 'hover',
 				content: function() {
-					return conquest.util.writeCardImgElem($(this).data('image-base'), {
+					return conquest.ui.writeCardImgElem($(this).data('image-base'), {
 						class: 'card-md'
 					});
 				}

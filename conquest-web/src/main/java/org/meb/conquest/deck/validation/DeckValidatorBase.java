@@ -1,5 +1,8 @@
 package org.meb.conquest.deck.validation;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import org.apache.commons.collections4.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.meb.conquest.core.Constant;
@@ -112,5 +115,22 @@ public abstract class DeckValidatorBase implements DeckValidator {
 
 	protected DeckException buildDeckException(Deck deck, String error) {
 		return deckExceptionBuilder.build(deck, error);
+	}
+
+	protected String joinCardNames(Set<String> cardNames, int max) {
+		int count = 0;
+		StringBuilder joinedCardNames = new StringBuilder();
+		Iterator<String> iter = cardNames.iterator();
+		while (iter.hasNext() && count++ < max) {
+			joinedCardNames.append(iter.next());
+			if (iter.hasNext()) {
+				if (count == max) {
+					joinedCardNames.append(", ...");
+				} else {
+					joinedCardNames.append(", ");
+				}
+			}
+		}
+		return joinedCardNames.toString();
 	}
 }

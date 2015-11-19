@@ -1,5 +1,8 @@
 package org.meb.conquest.deck.validation;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.collections4.Predicate;
 import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.Deck;
@@ -21,33 +24,33 @@ public class CommanderStarblazeDeckValidator extends DeckValidatorBase {
 	@Override
 	protected void validateComposition(Deck deck) throws DeckException {
 
-		int spaceMarines = 0;
-		int astraMilitarum = 0;
-		int eldar = 0;
+		Set<String> spaceMarines = new HashSet<>();
+		Set<String> astraMilitarum = new HashSet<>();
+		Set<String> eldar = new HashSet<>();
 
 		for (DeckMember member : deck.getDeckMembers()) {
 			Card card = member.getCard();
 			Faction faction = card.getFaction();
 
 			if (faction == Faction.SPACE_MARINES) {
-				spaceMarines++;
+				spaceMarines.add(card.getName());
 			} else if (faction == Faction.ELDAR) {
-				eldar++;
+				eldar.add(card.getName());
 			} else if (faction == Faction.ASTRA_MILITARUM) {
-				astraMilitarum++;
+				astraMilitarum.add(card.getName());
 			}
 		}
 		
-		if (astraMilitarum > 0) {
-			if (spaceMarines > 0) {
+		if (astraMilitarum.size() > 0) {
+			if (spaceMarines.size() > 0) {
 				DeckException de = buildDeckException(deck, "error.deck.comp.starblaze00");
-				de.setErrorCoreParameter(0, String.valueOf(astraMilitarum));
-				de.setErrorCoreParameter(1, String.valueOf(spaceMarines));
+				de.setErrorCoreParameter(0, joinCardNames(astraMilitarum, 3));
+				de.setErrorCoreParameter(1, joinCardNames(spaceMarines, 3));
 				throw de;
-			} else if (eldar > 0) {
+			} else if (eldar.size() > 0) {
 				DeckException de = buildDeckException(deck, "error.deck.comp.starblaze01");
-				de.setErrorCoreParameter(0, String.valueOf(astraMilitarum));
-				de.setErrorCoreParameter(1, String.valueOf(eldar));
+				de.setErrorCoreParameter(0, joinCardNames(astraMilitarum, 3));
+				de.setErrorCoreParameter(1, joinCardNames(eldar, 3));
 				throw de;
 			}
 		}

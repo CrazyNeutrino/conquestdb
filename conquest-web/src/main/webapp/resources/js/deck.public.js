@@ -39,11 +39,10 @@ $(function() {
 			}
 
 			var renderInternal = function() {
+				var warlordId = view.deck.get('warlord').id;
 				var filter = {
-					factions: conquest.getValidDeckFactions(view.deck.get('warlord').id),
-					cardTypes: _.filter(conquest.dict.cardTypes, function(cardType) {
-						return conquest.isValidDeckCardType(cardType.techName);
-					})
+					factions: conquest.deck.getValidDeckFactions(warlordId),
+					cardTypes: conquest.deck.getValidDeckCardTypes(warlordId)
 				};
 
 				var template = Handlebars.templates['pub-deck-view']({
@@ -75,7 +74,7 @@ $(function() {
 					html: true,
 					trigger: 'hover',
 					content: function() {
-						return conquest.util.writeCardImgElem($(this).data('image-base'), {
+						return conquest.ui.writeCardImgElem($(this).data('image-base'), {
 							class: 'card-md'
 						});
 					}
@@ -232,11 +231,11 @@ $(function() {
 							var attrs = {
 								class: 'card-xs'
 							};
-							$('<a />').data('image-base', imageBase).append(conquest.util.writeCardImgElem(imageBase, attrs)).popover({
+							$('<a />').data('image-base', imageBase).append(conquest.ui.writeCardImgElem(imageBase, attrs)).popover({
 								html: true,
 								trigger: 'hover',
 								content: function() {
-									return conquest.util.writeCardImgElem($(this).data('image-base'), {
+									return conquest.ui.writeCardImgElem($(this).data('image-base'), {
 										class: 'card-md'
 									});
 								}

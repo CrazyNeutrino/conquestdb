@@ -61,7 +61,7 @@ footer.footer > .container > p:first-child {
 	margin-right: 15px;
 }
 
-.deck-stats-table { font-size: 12px; }
+/* .deck-stats-table { font-size: 12px; } */
 .deck-stats-table thead th { text-align: center; }
 .deck-stats-table td { text-align: right; }
 .deck-stats-table td, .deck-stats-table thead th { padding: 0px 8px; }
@@ -321,13 +321,22 @@ label.required:after {
 	margin: 4px 4px 0px 19px;
 }
 
-.deck-container.chaos:before { background-color: #F1764F; }
+/* .deck-container.chaos:before { background-color: #F1764F; }
 .deck-container.astra-militarum:before { background-color: #979797; }
 .deck-container.ork:before { background-color: #7AA264; }
 .deck-container.space-marines:before { background-color: #90A9EB; }
 .deck-container.tau:before { background-color: #90E6EE; }
 .deck-container.eldar:before { background-color: #EBE19C; }
 .deck-container.dark-eldar:before { background-color: #B48EAD; }
+.deck-container.tyranid:before { background-color: #A32618; } */
+
+.deck-container.astra-militarum:before { background-color: #8A8A8A; }
+.deck-container.chaos:before { background-color: #E65B2E; }
+.deck-container.dark-eldar:before { background-color: #B965AA; }
+.deck-container.eldar:before { background-color: #EADA67; }
+.deck-container.ork:before { background-color: #538A34; }
+.deck-container.space-marines:before { background-color: #6B8EEC; }
+.deck-container.tau:before { background-color: #4CD0DC; }
 .deck-container.tyranid:before { background-color: #A32618; }
 
 .deck-container .deck-info {
@@ -727,7 +736,7 @@ table.table-with-btn > tbody > tr > td {
 .cq-icon-asterisk:before { content: '\e80f'; }
 .cq-icon-king:before { content: '\e810'; }
 
-.fg-astra-militarum { color: #979797; }
+/* .fg-astra-militarum { color: #979797; }
 .fg-chaos { color: #F1764F; }
 .fg-dark-eldar { color: #B48EAD; }
 .fg-eldar { color: #EBE19C; }
@@ -743,4 +752,22 @@ table.table-with-btn > tbody > tr > td {
 .bg-ork { background-color: #7AA264; }
 .bg-space-marines { background-color: #90A9EB; }
 .bg-tau { background-color: #90E6EE; }
+.bg-tyranid { background-color: #A32618; } */
+
+.fg-astra-militarum { color: #8A8A8A; }
+.fg-chaos { color: #E65B2E; }
+.fg-dark-eldar { color: #B965AA; }
+.fg-eldar { color: #EADA67; }
+.fg-ork { color: #538A34; }
+.fg-space-marines { color: #6B8EEC; }
+.fg-tau { color: #4CD0DC; }
+.fg-tyranid { color: #A32618; }
+
+.bg-astra-militarum { background-color: #8A8A8A; }
+.bg-chaos { background-color: #E65B2E; }
+.bg-dark-eldar { background-color: #B965AA; }
+.bg-eldar { background-color: #EADA67; }
+.bg-ork { background-color: #538A34; }
+.bg-space-marines { background-color: #6B8EEC; }
+.bg-tau { background-color: #4CD0DC; }
 .bg-tyranid { background-color: #A32618; }

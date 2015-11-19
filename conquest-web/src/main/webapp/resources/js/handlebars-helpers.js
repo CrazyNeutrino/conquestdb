@@ -41,6 +41,9 @@ Handlebars.registerHelper('loc', function(context, options) {
 	if (_.isUndefined(ret)) {
 		ret = context;
 	}
+	if (options.hash.translate == "true") {
+		ret = conquest.ui.toHtml(ret);
+	}
 	return ret;
 });
 
@@ -53,20 +56,25 @@ Handlebars.registerHelper('for', function(from, to, incr, options) {
 });
 
 Handlebars.registerHelper('factionImagePath', function(context, options) {
-	return conquest.util.toFactionImageMd(context);
+	return conquest.ui.toFactionImageMd(context);
 });
 
 Handlebars.registerHelper('factionImagePathLg', function(context, options) {
-	return conquest.util.toFactionImageLg(context);
+	return conquest.ui.toFactionImageLg(context);
 });
 
 Handlebars.registerHelper('cardImagePath', function(context, options) {
 	// cardId or cardImageBase
+	var imageBase;
 	if (_.isNumber(context)) {
-		return conquest.util.toCardImage(conquest.dict.findCard(context).imageBase);
+		imageBase = conquest.dict.findCard(context).imageBase;
 	} else {
-		return conquest.util.toCardImage(context);	
-	}	
+		imageBase = context;	
+	}
+	if (options.hash.bloodied == "true") {
+		imageBase += "-b";
+	}
+	return conquest.ui.toCardImage(imageBase);
 });
 
 Handlebars.registerHelper('findCard', function(context, options) {
@@ -94,22 +102,22 @@ Handlebars.registerHelper('restUrl', function(options) {
 });
 
 Handlebars.registerHelper('cardUrl', function(context, options) {
-	return conquest.util.toCardUrl(context);
+	return conquest.ui.toCardUrl(context);
 });
 
 Handlebars.registerHelper('cardRelativeUrl', function(context, options) {
-	return conquest.util.toCardRelativeUrl(context);
+	return conquest.ui.toCardRelativeUrl(context);
 });
 
 Handlebars.registerHelper('publicDeckUrl', function(id, name, options) {
-	return conquest.util.toPublicDeckUrl({
+	return conquest.ui.toPublicDeckUrl({
 		id: id,
 		name: name
 	});
 });
 
 Handlebars.registerHelper('userDeckUrl', function(id, name, options) {
-	return conquest.util.toUserDeckUrl({
+	return conquest.ui.toUserDeckUrl({
 		id: id,
 		name: name
 	});

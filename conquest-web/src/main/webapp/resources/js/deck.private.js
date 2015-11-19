@@ -340,7 +340,7 @@ $(function() {
 				if (_.isUndefined(warlordId)) {
 					errors.push(conquest.dict.messages['error.deck.warlord.notFound']);
 				} else {
-					var vdms = conquest.getValidDeckMembers(warlordId);
+					var vdms = conquest.deck.getValidDeckMembers(warlordId);
 					var vdmsIndex = _.indexBy(vdms, function(vdm) {
 						return vdm.cardId;
 					});
@@ -449,11 +449,11 @@ $(function() {
 					var attrs = {
 						class: 'card-lg'
 					};
-					var imgElem = conquest.util.writeCardImgElem($this.data('card-image-base'), attrs);
+					var imgElem = conquest.ui.writeCardImgElem($this.data('card-image-base'), attrs);
 					var $container = view.$el.find('.card-container').empty().append(imgElem);
 					// _.each(conquest.dict.findSignSquadCards(91), function(card) {
 					// 	var attrs = {class: 'card-sm', style: 'margin: 0px 10px 10px 0px;'};
-					// 	var imgElem = conquest.util.writeCardImgElem(card.imageBase, attrs);
+					// 	var imgElem = conquest.ui.writeCardImgElem(card.imageBase, attrs);
 					// 	$container.append(imgElem);
 					// });
 				}).mouseleave(function() {
@@ -701,11 +701,10 @@ $(function() {
 			};
 
 			var renderInternal = function() {
+				var warlordId = view.deck.get('warlord').id;
 				var filter = {
-					factions: conquest.getValidDeckFactions(view.deck.get('warlord').id),
-					cardTypes: _.filter(conquest.dict.cardTypes, function(cardType) {
-						return conquest.isValidDeckCardType(cardType.techName);
-					})
+					factions: conquest.deck.getValidDeckFactions(warlordId),
+					cardTypes: conquest.deck.getValidDeckCardTypes(warlordId)
 				};
 		
 				var sortItems = [];
@@ -749,7 +748,7 @@ $(function() {
 					html: true,
 					trigger: 'hover',
 					content: function() {
-						return conquest.util.writeCardImgElem($(this).data('image-base'), {
+						return conquest.ui.writeCardImgElem($(this).data('image-base'), {
 							class: 'card-md'
 						});
 					}
@@ -1147,11 +1146,11 @@ $(function() {
 							var attrs = {
 								class: 'card-xs'
 							};
-							$('<a />').data('image-base', imageBase).append(conquest.util.writeCardImgElem(imageBase, attrs)).popover({
+							$('<a />').data('image-base', imageBase).append(conquest.ui.writeCardImgElem(imageBase, attrs)).popover({
 								html: true,
 								trigger: 'hover',
 								content: function() {
-									return conquest.util.writeCardImgElem($(this).data('image-base'), {
+									return conquest.ui.writeCardImgElem($(this).data('image-base'), {
 										class: 'card-md'
 									});
 								}
@@ -1347,7 +1346,7 @@ $(function() {
 				view.deck = new conquest.model.PrivateDeck({
 					type: 'base',
 					warlordId: options.warlordId,
-					members: conquest.getValidDeckMembers(options.warlordId),
+					members: conquest.deck.getValidDeckMembers(options.warlordId),
 					configCsQuantity: 3
 				}, {
 					parse: true

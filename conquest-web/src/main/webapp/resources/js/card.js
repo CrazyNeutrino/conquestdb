@@ -44,7 +44,7 @@ $(function() {
 				})
 			});
 			this.$el.html(template);
-			conquest.router.navigate(conquest.util.toCardRelativeUrl(card));
+			conquest.router.navigate(conquest.ui.toCardRelativeUrl(card));
 		}
 	});
 
@@ -233,7 +233,7 @@ $(function() {
 			// filter: name/trait/keyword search bar
 			//
 			var selector = '#textFilter input';
-			var $typeahead = conquest.util.createTypeahead({
+			var $typeahead = conquest.ui.createTypeahead({
 				selector: selector
 			});
 
@@ -373,7 +373,7 @@ $(function() {
 		cardView.render(setNumber, cardNumber);
 
 		var card = conquest.dict.findCardByNumber(setNumber, cardNumber);
-		var url = conquest.util.toCardRelativeUrl(card);
+		var url = conquest.ui.toCardRelativeUrl(card);
 		if (_.isUndefined(url)) {
 			url = setNumber + '/' + cardNumber;
 		}

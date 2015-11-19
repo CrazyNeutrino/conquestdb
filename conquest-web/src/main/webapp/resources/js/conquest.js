@@ -1024,12 +1024,26 @@ conquest.util = conquest.util || {};
 			return result;
 		};
 	};
-
-	_util.toCardUrl = function(input) {
-		return '/' + conquest.static.language + '/card/' + _util.toCardRelativeUrl(input);
+	
+	_util.toTechName = function(input) {
+		// return input.toLowerCase().replace(/[\']/g,
+		// '').replace(/[^a-z0-9]+/g, ' ').trim().replace(/\ +/g, '-');
+		return s(input).toLowerCase().slugify().value();
 	};
 
-	_util.toCardRelativeUrl = function(input) {
+})(conquest.util);
+
+//
+//util
+//
+conquest.ui = conquest.ui || {};
+(function(_ui) {
+	
+	_ui.toCardUrl = function(input) {
+		return '/' + conquest.static.language + '/card/' + _ui.toCardRelativeUrl(input);
+	};
+
+	_ui.toCardRelativeUrl = function(input) {
 		var card;
 		if (_.isNumber(input)) {
 			card = conquest.dict.findCard(input);
@@ -1041,20 +1055,75 @@ conquest.util = conquest.util || {};
 				+ s.pad(card.number, 3, '0') + '-' + card.techName;
 	};
 
-	_util.toPublicDeckUrl = function(options) {
+	_ui.toPublicDeckUrl = function(options) {
 		return '/' + conquest.static.language + '/public/deck/' + options.id + '-'
-				+ _util.toTechName(options.name);
+				+ conquest.util.toTechName(options.name);
 	};
 
-	_util.toUserDeckUrl = function(options) {
+	_ui.toUserDeckUrl = function(options) {
 		var url = '/' + conquest.static.language + '/deck/edit/' + options.id;
 		if (options.name) {
-			url += '-' + _util.toTechName(options.name);
+			url += '-' + conquest.util.toTechName(options.name);
 		}
 		return url;
 	};
+	
+	_ui.toFactionImageBase = function(techName) {
+		return conquest.static.imagePath + '/faction/' + techName;
+	};
 
-	_util.createTypeahead = function(options) {
+	_ui.toFactionImageMd = function(techName) {
+		return _ui.toFactionImageBase(techName) + '-b-md.png';
+	};
+
+	_ui.toFactionImageLg = function(techName) {
+		return _ui.toFactionImageBase(techName) + '-b.png';
+	};
+
+	_ui.toCardImage = function(imageBase) {
+		return conquest.static.imagePath + '/card/' + imageBase + '.jpg';
+	};
+	
+	_ui.toHtml = function(input) {
+		if (_.isUndefined(input)) {
+			return input;
+		}
+		var output = input.replace(/\[([A-Z_\- ]{3,})\]/g, function(g0, g1) {
+			return '<i class="cq-icon cq-icon-' + g1.toLowerCase().replace(/[_\- ]+/, '-') + '"></i>';
+		});
+		output = output.replace(/\[t\]([A-Za-z0-9\-_]+)\[\/t\]/g, '<i><strong>$1</strong></i>');
+		return output;
+	};
+
+	_ui.writeAttr = function(name, value) {
+		return name + '="' + value + '"';
+	};
+
+	_ui.writeAttrs = function(attrs) {
+		var result = '';
+		if (!_.isUndefined(attrs)) {
+			for ( var key in attrs) {
+				result = result + ' ' + _ui.writeAttr(key, attrs[key]);
+			}
+		}
+		return result.trim();
+	};
+
+	_ui.writeFactionImgElem = function(techName) {
+		return '<img src="' + _ui.toFactionImageMd(techName) + '" />';
+	};
+
+	_ui.writeCardImgElem = function(imageBase, attrs) {
+		return '<img ' + _ui.writeAttrs($.extend({
+			src : _ui.toCardImage(imageBase)
+		}, attrs)) + ' />';
+	};
+
+	_ui.parsePlainTextDeck = function(text, options) {
+
+	};
+
+	_ui.createTypeahead = function(options) {
 		// constructs the suggestion engine
 		var cards = new Bloodhound({
 			datumTokenizer : Bloodhound.tokenizers.obj.whitespace('name'),
@@ -1083,154 +1152,105 @@ conquest.util = conquest.util || {};
 		traits.initialize();
 		keywords.initialize();
 
-		var $typeahead = $(options.selector)
-				.typeahead(
-						{
-							hint : true,
-							highlight : true,
-							minLength : 1
-						},
-						{
-							name : 'cards',
-							displayKey : 'name',
-							source : cards.ttAdapter(),
-							templates : {
-								suggestion : Handlebars
-										.compile('{{name}}&nbsp;<span class="tt-no-highlight">{{card.setName}} | {{card.factionDisplay}} | {{card.typeDisplay}} | {{card.trait}}</span>'),
-								header : '<div class="tt-multi-header">'
-										+ conquest.dict.messages['core.card'] + '</div>'
-							}
-						},
-						{
-							name : 'traits',
-							displayKey : 'description',
-							source : traits.ttAdapter(),
-							templates : {
-								header : '<div class="tt-multi-header">'
-										+ conquest.dict.messages['core.trait'] + '</div>'
-							}
-						},
-						{
-							name : 'keywords',
-							displayKey : 'description',
-							source : keywords.ttAdapter(),
-							templates : {
-								header : '<div class="tt-multi-header">'
-										+ conquest.dict.messages['core.keyword'] + '</div>'
-							}
-						});
-
+		var $typeahead = $(options.selector).typeahead({
+			hint : true,
+			highlight : true,
+			minLength : 1
+		}, {
+			name : 'cards',
+			displayKey : 'name',
+			source : cards.ttAdapter(),
+			templates : {
+				suggestion : Handlebars
+						.compile('{{name}}&nbsp;<span class="tt-no-highlight">{{card.setName}} | {{card.factionDisplay}} | {{card.typeDisplay}} | {{card.trait}}</span>'),
+				header : '<div class="tt-multi-header">'
+						+ conquest.dict.messages['core.card'] + '</div>'
+			}
+		}, {
+			name : 'traits',
+			displayKey : 'description',
+			source : traits.ttAdapter(),
+			templates : {
+				header : '<div class="tt-multi-header">'
+						+ conquest.dict.messages['core.trait'] + '</div>'
+			}
+		}, {
+			name : 'keywords',
+			displayKey : 'description',
+			source : keywords.ttAdapter(),
+			templates : {
+				header : '<div class="tt-multi-header">'
+						+ conquest.dict.messages['core.keyword'] + '</div>'
+			}
+		});
 		return $typeahead;
 	};
-
-	_util.toTechName = function(input) {
-		// return input.toLowerCase().replace(/[\']/g,
-		// '').replace(/[^a-z0-9]+/g, ' ').trim().replace(/\ +/g, '-');
-		return s(input).toLowerCase().slugify().value();
-	};
-
-	_util.toFactionImageBase = function(techName) {
-		return conquest.static.imagePath + '/faction/' + techName;
-	};
-
-	_util.toFactionImageMd = function(techName) {
-		return _util.toFactionImageBase(techName) + '-b-md.png';
-	};
-
-	_util.toFactionImageLg = function(techName) {
-		return _util.toFactionImageBase(techName) + '-b.png';
-	};
-
-	_util.toCardImage = function(imageBase) {
-		return conquest.static.imagePath + '/card/' + imageBase + '.jpg';
-	};
-
-	_util.writeAttr = function(name, value) {
-		return name + '="' + value + '"';
-	};
-
-	_util.writeAttrs = function(attrs) {
-		var result = '';
-		if (!_.isUndefined(attrs)) {
-			for ( var key in attrs) {
-				result = result + ' ' + _util.writeAttr(key, attrs[key]);
-			}
-		}
-		return result.trim();
-	};
-
-	_util.writeFactionImgElem = function(techName) {
-		return '<img src="' + _util.toFactionImageMd(techName) + '" />';
-	};
-
-	_util.writeCardImgElem = function(imageBase, attrs) {
-		return '<img ' + _util.writeAttrs($.extend({
-			src : _util.toCardImage(imageBase)
-		}, attrs)) + ' />';
-	};
-
-	_util.parsePlainTextDeck = function(text, options) {
-
-	};
-
-})(conquest.util);
-
-//
-// ???
-//
-(function(_conquest) {
 	
-	_conquest.isValidDeckCardType = function(cardType) {
+})(conquest.ui);
+
+//
+// deck
+//
+conquest.deck = conquest.deck || {};
+(function(_deck) {
+	
+	_deck.isValidDeckCardType = function(cardType) {
 		return _.indexOf([ 'army', 'attachment', 'event', 'support', 'synapse' ], cardType) >= 0;
 	};
-
-	_conquest.getDeckHelper = function(options) {
+	
+	_deck.getDeckHelper = function(options) {
 		var warlord;
 		if (options.warlord) {
 			warlord = options.warlord;
 		} else {
-			warlord = _conquest.dict.findCard(options.warlordId);
+			warlord = conquest.dict.findCard(options.warlordId);
 		}
-
+	
 		var deckHelper;
 		if (warlord.techName == 'commander-starblaze') {
-			deckHelper = new _conquest.CommanderStarblazeDeckHelper(warlord);
+			deckHelper = new _deck.CommanderStarblazeDeckHelper(warlord);
 		} else if (warlord.techName == 'gorzod') {
-			deckHelper = new _conquest.GorzodDeckHelper(warlord);
+			deckHelper = new _deck.GorzodDeckHelper(warlord);
 		} else if (warlord.faction == 'tyranid') {
-			deckHelper = new _conquest.TyranidDeckHelper(warlord);
+			deckHelper = new _deck.TyranidDeckHelper(warlord);
 		} else {
-			deckHelper = new _conquest.StandardDeckHelper(warlord);
+			deckHelper = new _deck.RegularDeckHelper(warlord);
 		}
 		return deckHelper;
 	}
 	
-	_conquest.getAlliedDeckFactions = function(warlordId) {
-		return _conquest.getDeckHelper({
+	_deck.getAlliedDeckFactions = function(warlordId) {
+		return _deck.getDeckHelper({
 			warlordId : warlordId
-		}).filterAlliedDeckFactions();
+		}).getAlliedDeckFactions();
 	};
-
-	_conquest.getValidDeckFactions = function(warlordId) {
-		return _conquest.getDeckHelper({
+	
+	_deck.getValidDeckFactions = function(warlordId) {		
+		return _deck.getDeckHelper({
 			warlordId : warlordId
-		}).filterValidDeckFactions();
+		}).getValidDeckFactions();
 	};
-
-	_conquest.getValidDeckCards = function(warlordId) {
-		return _conquest.getDeckHelper({
+	
+	_deck.getValidDeckCardTypes = function(warlordId) {
+		var warlord = conquest.dict.findCard(warlordId);
+		return _.filter(conquest.dict.cardTypes, function(cardType) {
+			return _deck.isValidDeckCardType(cardType.techName) 
+				&& (cardType.techName != 'synapse' || warlord.faction == 'tyranid');
+		});
+	};
+	
+	_deck.getValidDeckCards = function(warlordId) {
+		return _deck.getDeckHelper({
 			warlordId : warlordId
-		}).filterValidDeckCards(_conquest.dict.cards);
+		}).filterValidDeckCards(conquest.dict.cards);
 	};
-
-	_conquest.getValidDeckMembers = function(deckWarlordId) {
-		var validDeckCards = _conquest.getValidDeckCards(deckWarlordId);
+	
+	_deck.getValidDeckMembers = function(deckWarlordId) {
+		var validDeckCards = _deck.getValidDeckCards(deckWarlordId);
 		var validDeckMembers = [];
 		_.each(validDeckCards, function(card) {
-			var availableQuantity = (_.isUndefined(card.quantity) ? 3
-					: card.quantity);
-			var quantity = (card.type == 'warlord' || _.isNumber(card.warlordId) ? availableQuantity
-					: 0);
+			var availableQuantity = (_.isUndefined(card.quantity) ? 3 : card.quantity);
+			var quantity = (card.type == 'warlord' || _.isNumber(card.warlordId) ? availableQuantity : 0);
 			var member = {
 				cardId : card.id,
 				quantity : quantity,
@@ -1240,16 +1260,16 @@ conquest.util = conquest.util || {};
 		});
 		return validDeckMembers;
 	};
-
-	_conquest.getStandardDeckCardPredicate = function(warlord) {
-		var alliedDeckFactions = _.pluck(_conquest.getAlliedDeckFactions(warlord.id), 'techName');
-
+	
+	_deck.buildRegularDeckCardPredicate = function(warlord) {
+		var alliedDeckFactions = _.pluck(_deck.getAlliedDeckFactions(warlord.id), 'techName');
+	
 		return function(card) {
 			if (alliedDeckFactions.indexOf(card.faction) < 0) {
 				return false;
 			}
 			// invalid type
-			if (!_conquest.isValidDeckCardType(card.type)) {
+			if (!_deck.isValidDeckCardType(card.type)) {
 				return false;
 			}
 			// invalid warlord
@@ -1267,16 +1287,16 @@ conquest.util = conquest.util || {};
 			return true;
 		};
 	};
-
-	_conquest.getStandardDeckFactionPredicate = function(warlord) {
-		var circleFactions = _.filter(_conquest.dict.factions, function(faction) {
+	
+	_deck.buildRegularDeckFactionPredicate = function(warlord) {
+		var circleFactions = _.filter(conquest.dict.factions, function(faction) {
 			return faction.techName != 'neutral' && faction.techName != 'necron'
 					&& faction.techName != 'tyranid';
 		});
-		var faction = _.findWhere(_conquest.dict.factions, {
+		var faction = _.findWhere(conquest.dict.factions, {
 			techName : warlord.faction
 		});
-
+	
 		return function(faction) {
 			var techName = faction.techName;
 			if (techName == 'neutral') {
@@ -1296,18 +1316,19 @@ conquest.util = conquest.util || {};
 			return false;
 		};
 	};
-
-	_conquest.getCommonDeckCardPredicate = function() {
+	
+	_deck.buildCommonCardPredicate = function() {
 		return function(card) {
 			// valid type and not in signature squad and not loyal
-			return _conquest.isValidDeckCardType(card.type) && _.isUndefined(card.warlordId) && card.loyal === false;
+			return _deck.isValidDeckCardType(card.type) && _.isUndefined(card.warlordId)
+					&& card.loyal === false;
 		};
 	};
-
-	_conquest.getDeckCardWithTraitPredicate = function(trait) {
+	
+	_deck.buildTraitCardPredicate = function(trait) {
 		return function(card) {
 			// valid type and has given trait
-			var outcome = _conquest.isValidDeckCardType(card.type);
+			var outcome = _deck.isValidDeckCardType(card.type);
 			if (outcome && card.traitEn) {
 				outcome = _.indexOf(card.traitEn.trim().toLowerCase().split(/ *\. */), trait) >= 0;
 			} else {
@@ -1316,34 +1337,34 @@ conquest.util = conquest.util || {};
 			return outcome;
 		};
 	};
-
-	_conquest.StandardDeckHelper = function(warlord) {
-		this.filterAlliedDeckFactions = function() {
-			return _.filter(_conquest.dict.factions, _conquest.getStandardDeckFactionPredicate(warlord));
+	
+	_deck.RegularDeckHelper = function(warlord) {
+		this.getAlliedDeckFactions = function() {
+			return _.filter(conquest.dict.factions, _deck.buildRegularDeckFactionPredicate(warlord));
 		};
-
-		this.filterValidDeckFactions = function() {
-			return this.filterAlliedDeckFactions();
+	
+		this.getValidDeckFactions = function() {
+			return this.getAlliedDeckFactions();
 		};
-
+		
 		this.filterValidDeckCards = function(cards) {
-			return _.filter(cards, _conquest.getStandardDeckCardPredicate(warlord));
+			return _.filter(cards, _deck.buildRegularDeckCardPredicate(warlord));
 		};
 	};
-
-	_conquest.TyranidDeckHelper = function(warlord) {
-		this.filterAlliedDeckFactions = function() {
-			return _.filter(_conquest.dict.factions, function(faction) {
+	
+	_deck.TyranidDeckHelper = function(warlord) {
+		this.getAlliedDeckFactions = function() {
+			return _.filter(conquest.dict.factions, function(faction) {
 				return faction.techName == 'tyranid' || faction.techName == 'neutral';
 			});
 		};
-		
-		this.filterValidDeckFactions = function() {
-			return this.filterAlliedDeckFactions();
+	
+		this.getValidDeckFactions = function() {
+			return this.getAlliedDeckFactions();
 		};
-		
+	
 		this.filterValidDeckCards = function(cards) {
-			var standard = _conquest.getStandardDeckCardPredicate(warlord);
+			var standard = _deck.buildRegularDeckCardPredicate(warlord);
 			var neutralArmy = function(card) {
 				return card.faction == 'neutral' && card.type == 'army';
 			};
@@ -1352,51 +1373,61 @@ conquest.util = conquest.util || {};
 			});
 		};
 	};
-
-	_conquest.CommanderStarblazeDeckHelper = function(warlord) {
-		this.filterAlliedDeckFactions = function() {
-			return _.filter(_conquest.dict.factions, _conquest.getStandardDeckFactionPredicate(warlord));
+	
+	_deck.CommanderStarblazeDeckHelper = function(warlord) {
+		this.getAlliedDeckFactions = function() {
+			return _.filter(conquest.dict.factions, _deck
+					.buildRegularDeckFactionPredicate(warlord));
 		};
-		
-		this.filterValidDeckFactions = function() {
-			var filtered = this.filterAlliedDeckFactions();
-			filtered.push(_.findWhere(_conquest.dict.factions, {
+	
+		this.getValidDeckFactions = function() {
+			var filtered = this.getAlliedDeckFactions();
+			filtered.push(_.findWhere(conquest.dict.factions, {
 				techName : 'astra-militarum'
 			}));
 			return filtered;
 		};
-
+	
 		this.filterValidDeckCards = function(cards) {
-			var standard = _conquest.getStandardDeckCardPredicate(warlord);
-			var common = _conquest.getCommonDeckCardPredicate();
+			var standard = _deck.buildRegularDeckCardPredicate(warlord);
+			var common = _deck.buildCommonCardPredicate();
 			return _.filter(cards, function(card) {
 				return standard(card) || (common(card) && card.faction == 'astra-militarum');
 			});
 		};
-
+	
 	};
-
-	_conquest.GorzodDeckHelper = function(warlord) {
-		this.filterAlliedDeckFactions = function() {
-			return _.filter(_conquest.dict.factions, _conquest.getStandardDeckFactionPredicate(warlord));
+	
+	_deck.GorzodDeckHelper = function(warlord) {
+		this.getAlliedDeckFactions = function() {
+			return _.filter(conquest.dict.factions, _deck
+					.buildRegularDeckFactionPredicate(warlord));
 		};
-		
-		this.filterValidDeckFactions = function() {
-			var filtered = this.filterAlliedDeckFactions();
-			filtered.push(_.findWhere(_conquest.dict.factions, {
+	
+		this.getValidDeckFactions = function() {
+			var filtered = this.getAlliedDeckFactions();
+			filtered.push(_.findWhere(conquest.dict.factions, {
 				techName : 'space-marines'
 			}));
 			return filtered;
 		};
-		
+	
 		this.filterValidDeckCards = function(cards) {
-			var standard = _conquest.getStandardDeckCardPredicate(warlord);
-			var common = _conquest.getCommonDeckCardPredicate();
-			var vehicle = _conquest.getDeckCardWithTraitPredicate("vehicle");
+			var standard = _deck.buildRegularDeckCardPredicate(warlord);
+			var common = _deck.buildCommonCardPredicate();
+			var vehicle = _deck.buildTraitCardPredicate("vehicle");
 			return _.filter(cards, function(card) {
-				return standard(card) || (common(card) && vehicle(card) && card.faction == 'space-marines');
+				return standard(card)
+						|| (common(card) && vehicle(card) && card.faction == 'space-marines');
 			});
 		};
 	};
+
+})(conquest.deck);
+
+//
+// ???
+//
+(function(_conquest) {	
 
 })(conquest);

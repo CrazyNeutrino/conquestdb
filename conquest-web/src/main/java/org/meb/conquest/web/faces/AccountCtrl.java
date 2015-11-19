@@ -50,16 +50,12 @@ public class AccountCtrl implements Serializable {
 
 	@Inject
 	private AuthToken authUser;
-
 	@Inject
 	private UserService userService;
-
 	@Inject
 	private LocaleCtrl localeCtrl;
-
 	@Inject
 	private RequestContext queryContext;
-
 	@Inject
 	private Messages messages;
 
