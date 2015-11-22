@@ -37,38 +37,45 @@ footer.footer > .container > p:first-child {
  * decks list
  */
  
-.db-panel {
+.deck-list .deck {
 	border: none;
 	background-color: #fff;
 	margin: 10px 0px;
 	box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24);	
 }
 
-.db-deck-panel {
-}
-
-.db-deck-panel > .db-header {
+.deck-list .deck > .header {
 	padding: 10px 10px 5px 10px;
 }
-.db-deck-panel > .db-header > .db-content > .db-icon {
-	font-size: 30px; margin-right: 10px;
+
+.deck-list .deck > .header > .box-left > .db-icon {
+	font-size: 30px; 
+	margin-right: 10px;
 }
-.db-panel > .db-content {
+
+.deck-list .deck > .header > .box-center > h4:first-child {
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+.deck-list .deck > .box-center {
 	padding: 10px;
 }
 
-.db-panel > .db-footer {
+.deck-list .deck > .footer {
 	padding: 5px 10px;
 }
 
-.db-content {
+.box-left,
+.box-right {
 	display: table-cell;
 	vertical-align: top;
 }
 
-.db-content h4:first-child {
-	margin-top: 0px;
-	margin-bottom: 5px;
+.box-center {
+	display: table-cell;
+	vertical-align: top;
+	width: 100%;
 }
 
 .db-tournament-marker {
@@ -601,13 +608,13 @@ table.table-with-btn > tbody > tr > td {
 .members-list-header .stat-col,
 .members-list-item .stat-col { width: 2em; }
 
-.deck-list-filter-container .filter-group, 
+/* .deck-list-filter-container .filter-group, 
 .card-search-filter-container .filter-group,
 .members-list-filter-container .filter-group,
 .actions-container > div,
 .actions-container > a {
 	margin-bottom: 5px;
-}
+} */
 
 .members-list-filter-container .tt-input { margin-top: 0px; }
 .members-list-filter-container .sort-control { min-width: 180px; }
@@ -713,3 +720,32 @@ table.table-with-btn > tbody > tr > td {
 .bg-space-marines { background-color: #3173CE; color: white; }
 .bg-tau { background-color: #4CD0DC; }
 .bg-tyranid { background-color: #A32618; color: white; }
+
+/*
+ * bootstrap overrides
+ */
+ .btn.btn-primary.db-btn {
+	color: #ffffff;
+    background-color: #4285f4;
+    border-radius: 2px;
+    box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    border: 1px solid transparent;
+}
+.btn.btn-primary.db-btn:hover {
+	background-color: #3a76e5;
+	box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+}
+
+.btn.btn-default.db-btn-lite {
+	color: #616161;
+	border: 1px solid transparent;
+	background-color: transparent;
+}
+
+.btn.btn-default.db-btn-lite:hover,
+.btn.btn-default.db-btn-lite.active {
+	color: #000;
+	border: 1px solid transparent;
+	background-color: transparent;
+	box-shadow: none;
+}

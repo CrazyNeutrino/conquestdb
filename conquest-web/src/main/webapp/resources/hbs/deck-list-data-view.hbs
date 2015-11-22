@@ -19,14 +19,14 @@
 	</nav>
 </div>
 {{/if ~}}
-<div class="decks-container">
+<div class="deck-list">
 	<div class="row">
 		{{#each deckWrappers}}
 		<div class="col-sm-6 col-xs-12">
-			<div class="db-panel db-deck-panel">
+			<div class="deck">
 				
 				{{#with deck}}
-				<div class="db-header bg-{{warlord.faction}}">
+				<div class="header bg-{{warlord.faction}}">
 					{{#if ../published}}
 					<!-- <a class="btn btn-default" href="{{rootUrl}}{{id}}-{{techName}}">
 						<span class="glyphicon glyphicon-eye-open"></span>
@@ -39,10 +39,10 @@
 					<!-- <a class="btn btn-default expand-toggle">
 						<span class="glyphicon glyphicon-fullscreen"></span>
 					</a> -->
-					<div class="db-content">
+					<div class="box-left">
 						<div class="db-icon db-icon-{{warlord.faction}}"></div>
 					</div>
-					<div class="db-content" style="width: 100%;">
+					<div class="box-center">
 						<h4>{{name}}</h4>
 						<div style="position: relative;">{{warlord.name}}
 							<div class="db-tournament-marker">
@@ -60,7 +60,7 @@
 				</div>
 				{{/with}}
 				
-				<div class="db-content">
+				<div class="box-center">
 					<div class="deck-stats-container pull-left">
 						<table class="deck-stats-table">
 							<thead>
@@ -110,7 +110,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="db-footer clearfix">
+				<div class="footer clearfix">
 					<span class="secondary-text pull-right">
 						{{#if published}}
 						<span class="value">{{deck.username}}</span>
