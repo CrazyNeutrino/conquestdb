@@ -23,64 +23,74 @@
 	<div class="row">
 		{{#each deckWrappers}}
 		<div class="col-sm-6 col-xs-12">
-			<div class="deck-container {{deck.warlord.faction}}">
-				<div class="deck">
-					<div class="row">
-						{{#with deck}}
-						<div class="col-xs-12">
-							<div class="pull-right">
-								{{#if ../published}}
-								<a class="btn btn-default" href="{{rootUrl}}{{id}}-{{techName}}">
-									<span class="glyphicon glyphicon-eye-open"></span>
-								</a>
-								{{else}}
-								<a class="btn btn-default" href="{{rootUrl}}edit/{{id}}-{{techName}}">
-									<span class="glyphicon glyphicon-pencil"></span>
-								</a>
-								{{/if}}
-								<a class="btn btn-default expand-toggle">
-									<span class="glyphicon glyphicon-fullscreen"></span>
-								</a>
-							</div>							
-							<h4>{{name}}</h4>
-							<h4>{{warlord.name}} <small>{{warlord.factionDisplay}}</small></h4>
-						</div>
-						{{/with}}
+			<div class="db-panel db-deck-panel">
+				
+				{{#with deck}}
+				<div class="db-header bg-{{warlord.faction}}">
+					{{#if ../published}}
+					<!-- <a class="btn btn-default" href="{{rootUrl}}{{id}}-{{techName}}">
+						<span class="glyphicon glyphicon-eye-open"></span>
+					</a> -->
+					{{else}}
+					<!-- <a class="btn btn-default" href="{{rootUrl}}edit/{{id}}-{{techName}}">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a> -->
+					{{/if}}
+					<!-- <a class="btn btn-default expand-toggle">
+						<span class="glyphicon glyphicon-fullscreen"></span>
+					</a> -->
+					<div class="db-content">
+						<div class="db-icon db-icon-{{warlord.faction}}"></div>
 					</div>
-					<div class="row">
-						<div class="col-xs-12">
-							<div class="deck-stats-container pull-left">
-								<table class="deck-stats-table">
-									<thead>
-										<tr>
-											<th></th>
-											<th><span data-toggle="tooltip" title="{{loc 'core.cardsQuantity'}}">{{loc 'core.cardsQuantity.sh'}}</span></th>
-											<th><span data-toggle="tooltip" title="{{loc 'core.sum'}}">{{loc 'core.sum.sh'}}</span></th>
-											<th><span data-toggle="tooltip" title="{{loc 'core.average'}}">{{loc 'core.average.sh'}}</span></th>
-										</tr>
-									</thead>
-									<tbody>
-										{{#each stats}}
-										<tr>
-											<th>{{loc name}}</span></th>
-											<td>{{quantity}}{{#if quantityX}}+{{quantityX}}X{{/if}}</span></td>
-											<td>{{sum}}</span></td>
-											<td>{{average}}</span></td>
-										</tr>
-										{{/each}}
-									</tbody>
-								</table>
+					<div class="db-content" style="width: 100%;">
+						<h4>{{name}}</h4>
+						<div style="position: relative;">{{warlord.name}}
+							<div class="db-tournament-marker">
+								{{#if tournamentPlace}}
+								<i class="{{translate tournamentPlace 'tournamentPlaceIconClass'}}" data-toggle="tooltip"
+									data-placement="bottom" title="{{loc (translate tournamentPlace 'tournamentPlaceDisplay')}}"></i>
+								{{/if}}
+								{{#if tournamentType}}
+								<i class="{{translate tournamentType 'tournamentTypeIconClass'}}" data-toggle="tooltip"
+									data-placement="bottom" title="{{loc (translate tournamentType 'tournamentTypeDisplay')}}"></i>
+								{{/if}}
 							</div>
-							<div class="charts-container pull-left">
-								<div class="chart-container factions" data-deck-id="{{deck.id}}">
-									<div class="legend"></div>
-									<canvas class="chart" width="80" height="80"></canvas>
-								</div>
-								<div class="chart-container types" data-deck-id="{{deck.id}}">
-									<div class="legend"></div>
-									<canvas class="chart" width="80" height="80"></canvas>
-								</div>
-							</div>
+						</div>
+					</div>
+				</div>
+				{{/with}}
+				
+				<div class="db-content">
+					<div class="deck-stats-container pull-left">
+						<table class="deck-stats-table">
+							<thead>
+								<tr>
+									<th></th>
+									<th><span data-toggle="tooltip" title="{{loc 'core.cardsQuantity'}}">{{loc 'core.cardsQuantity.sh'}}</span></th>
+									<th><span data-toggle="tooltip" title="{{loc 'core.sum'}}">{{loc 'core.sum.sh'}}</span></th>
+									<th><span data-toggle="tooltip" title="{{loc 'core.average'}}">{{loc 'core.average.sh'}}</span></th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each stats}}
+								<tr>
+									<th>{{loc name}}</span></th>
+									<td>{{quantity}}{{#if quantityX}}+{{quantityX}}X{{/if}}</span></td>
+									<td>{{sum}}</span></td>
+									<td>{{average}}</span></td>
+								</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+					<div class="charts-container pull-left">
+						<div class="chart-container factions" data-deck-id="{{deck.id}}">
+							<div class="legend"></div>
+							<canvas class="chart" width="80" height="80"></canvas>
+						</div>
+						<div class="chart-container types" data-deck-id="{{deck.id}}">
+							<div class="legend"></div>
+							<canvas class="chart" width="80" height="80"></canvas>
 						</div>
 					</div>
 					<div class="row hidden members">
@@ -99,29 +109,27 @@
 							{{/each}}
 						</div>
 					</div>
-					<div class="row footer">
-						<div class="col-xs-12 text-right">
-							<span class="secondary-text">
-								{{#if published}}
-								<span class="value">{{deck.username}}</span>
-								<span class="separator">&nbsp;&#8226;&nbsp;</span>
-								<span class="value" data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.published'}}: {{moment deck.createDate}}">
-									{{momentFromNow deck.createDate}}
-								</span>
-								{{else}}
-								<span class="value" data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.created'}}: {{moment deck.createDate}}">
-									{{momentFromNow deck.createDate}}
-								</span>
-								{{/if}}
-								{{#unlessEqual deck.createDate deck.modifyDate}}
-								<span class="separator">&nbsp;&#8226;&nbsp;</span>
-								<span class="value" data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.modified'}}: {{moment deck.modifyDate}}">
-									{{momentFromNow deck.modifyDate}}
-								</span>
-								{{/unlessEqual}}
-							</span>
-						</div>
-					</div>
+				</div>
+				<div class="db-footer clearfix">
+					<span class="secondary-text pull-right">
+						{{#if published}}
+						<span class="value">{{deck.username}}</span>
+						<span class="separator">&nbsp;&#8226;&nbsp;</span>
+						<span class="value" data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.published'}}: {{moment deck.createDate}}">
+							{{momentFromNow deck.createDate}}
+						</span>
+						{{else}}
+						<span class="value" data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.created'}}: {{moment deck.createDate}}">
+							{{momentFromNow deck.createDate}}
+						</span>
+						{{/if}}
+						{{#unlessEqual deck.createDate deck.modifyDate}}
+						<span class="separator">&nbsp;&#8226;&nbsp;</span>
+						<span class="value" data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.modified'}}: {{moment deck.modifyDate}}">
+							{{momentFromNow deck.modifyDate}}
+						</span>
+						{{/unlessEqual}}
+					</span>
 				</div>
 			</div>
 		</div>

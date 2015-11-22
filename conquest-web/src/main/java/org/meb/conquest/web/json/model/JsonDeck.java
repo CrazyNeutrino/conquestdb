@@ -47,6 +47,8 @@ public class JsonDeck {
 	// private Integer snapshotVersion;
 	// private Boolean snapshotLatest;
 	private String type;
+	private String tournamentType;
+	private String tournamentPlace;
 
 	private boolean loadMembers;
 	private boolean loadLinks;
@@ -72,6 +74,8 @@ public class JsonDeck {
 		snapshotPublic = deck.getSnapshotPublic();
 		type = deck.getType().toString().toLowerCase();
 		username = deck.getUser().getUsername();
+		tournamentType = deck.getTournamentType();
+		tournamentPlace = deck.getTournamentPlace();
 
 		if (loadMembers) {
 			for (DeckMember deckMember : deck.getDeckMembers()) {
@@ -122,6 +126,8 @@ public class JsonDeck {
 		deck.setModifyDate(modifyDate);
 		deck.setConfigCsQuantity(configCsQuantity);
 		deck.setWarlord(new Card(warlordId));
+		deck.setTournamentType(tournamentType);
+		deck.setTournamentPlace(tournamentPlace);
 
 		deck.setType(DeckType.valueOf(type.toUpperCase()));
 		Set<DeckMember> deckMembers = new LinkedHashSet<>();

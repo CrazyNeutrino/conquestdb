@@ -84,6 +84,9 @@ public class Deck {
 
 	@Column(name = "comp_evt_cards_qty")
 	private Integer eventCardsQuantity;
+	
+	private String tournamentType;
+	private String tournamentPlace;
 
 	@Column(name = "comp_sup_cards_qty")
 	private Integer supportCardsQuantity;

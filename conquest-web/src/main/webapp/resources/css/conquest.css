@@ -1,5 +1,14 @@
 @CHARSET "UTF-8";
 
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url(#{resource['fonts/glyphicons-halflings-regular.eot']});
+  src: url(#{resource['fonts/glyphicons-halflings-regular.eot']}?#iefix) format('embedded-opentype'), 
+  	   url(#{resource['fonts/glyphicons-halflings-regular.woff']}) format('woff'), 
+  	   url(#{resource['fonts/glyphicons-halflings-regular.ttf']}) format('truetype'), 
+  	   url(#{resource['fonts/glyphicons-halflings-regular.svg']}.svg#glyphicons_halflingsregular) format('svg');
+}
+
 html,body {	height: 100%; }
 body {overflow-y: scroll; }
 
@@ -10,6 +19,7 @@ table.faction-image-container-md>tbody>tr>td {vertical-align: middle; /* line-he
 #wrapper {
 	min-height: 100%;
 	padding-bottom: 110px;
+	background-color: #f2f2f2;
 }
 
 footer.footer {
@@ -23,8 +33,58 @@ footer.footer > .container > p:first-child {
 	margin-top: 10px;
 }
 
-.mg-container .mg {
-	margin-bottom: 15px;
+/**
+ * decks list
+ */
+ 
+.db-panel {
+	border: none;
+	background-color: #fff;
+	margin: 10px 0px;
+	box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24);	
+}
+
+.db-deck-panel {
+}
+
+.db-deck-panel > .db-header {
+	padding: 10px 10px 5px 10px;
+}
+.db-deck-panel > .db-header > .db-content > .db-icon {
+	font-size: 30px; margin-right: 10px;
+}
+.db-panel > .db-content {
+	padding: 10px;
+}
+
+.db-panel > .db-footer {
+	padding: 5px 10px;
+}
+
+.db-content {
+	display: table-cell;
+	vertical-align: top;
+}
+
+.db-content h4:first-child {
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+.db-tournament-marker {
+	position: absolute;
+	right: 0px;
+	bottom: -4px;
+	font-size: 1.3em;
+}
+
+.db-tournament-marker > i:not(:last-child) {
+	/* margin-right: 5px; */
+}
+
+.db-tournament-marker > i:first-child {
+	position: relative;
+    top: -2px;
 }
 
 .mg-container .mg ul {
@@ -138,51 +198,6 @@ tr.highlight td {
 .members-grid .members-grid-item > table > tbody > tr > td { vertical-align: top; }
 .members-grid .members-grid-item > table > tbody > tr > td:nth-child(2) { padding-left: 5px; }
 
-/* .members-grid {
-	width: 100%;
-	margin: 0 -5px;
-}
-
-.members-grid>tbody>tr>td {
-	padding: 5px;
-	vertical-align: top;
-}
-
-.members-grid-2>tbody>tr>td {
-	width: 50%;
-}
-
-.members-grid-3>tbody>tr>td {
-	width: 33%;
-}
-
-.members-grid-4>tbody>tr>td {
-	width: 25%;
-	height: 300px;
-}
-
-.members-grid-6>tbody>tr>td {
-	width: 16%;
-	height: 220px;
-}
-
-.members-grid-2 .members-grid-item .btn-group-qty,
-.members-grid-3 .members-grid-item .btn-group-qty {
-	margin-bottom: 10px;
-}
-
-.members-grid-4 .members-grid-item .btn-group-qty,
-.members-grid-6 .members-grid-item .btn-group-qty {
-	margin-bottom: 5px;
-}
-
-.members-grid-item {
-	width: 100%;
-}
-
-
-*/
-
 label.required:after {
 	content: " *";
 	color: #D60707;
@@ -289,56 +304,6 @@ label.required:after {
 	color: #D60707;
 }
 
-/**
- * decks list
- */
- 
-.decks-container>.row {
-	/* margin-left: -10px;
-	margin-right: -10px; */
-}
-
-.deck-container {
-	border: 1px solid #adadad;
-	border-radius: 4px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	position: relative;
-}
-
-.deck-container:before {
-	content: "";
-	display: block;
-	height: 100%;
-	width: 10px;
-	position: absolute;
-	border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-}
-
-.deck-container .deck {
-	display: block;
-	margin: 4px 4px 0px 19px;
-}
-
-/* .deck-container.chaos:before { background-color: #F1764F; }
-.deck-container.astra-militarum:before { background-color: #979797; }
-.deck-container.ork:before { background-color: #7AA264; }
-.deck-container.space-marines:before { background-color: #90A9EB; }
-.deck-container.tau:before { background-color: #90E6EE; }
-.deck-container.eldar:before { background-color: #EBE19C; }
-.deck-container.dark-eldar:before { background-color: #B48EAD; }
-.deck-container.tyranid:before { background-color: #A32618; } */
-
-.deck-container.astra-militarum:before { background-color: #8A8A8A; }
-.deck-container.chaos:before { background-color: #E65B2E; }
-.deck-container.dark-eldar:before { background-color: #B965AA; }
-.deck-container.eldar:before { background-color: #EADA67; }
-.deck-container.ork:before { background-color: #538A34; }
-.deck-container.space-marines:before { background-color: #6B8EEC; }
-.deck-container.tau:before { background-color: #4CD0DC; }
-.deck-container.tyranid:before { background-color: #A32618; }
-
 .deck-container .deck-info {
 	margin-right: 30px;
 	margin-bottom: 10px;
@@ -367,6 +332,8 @@ label.required:after {
 	margin-right: 15px;
 	margin-bottom: 10px;
 	display: table-cell;
+	top: 5px;
+	left: 15px;
 }
 
 .chart-container:last-child {
@@ -670,7 +637,7 @@ table.table-with-btn > tbody > tr > td {
 }
 */
  
-.cq-icon:before {
+.db-icon:before {
   font-family: "conquest";
   font-style: normal;
   font-weight: normal;
@@ -679,7 +646,6 @@ table.table-with-btn > tbody > tr > td {
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
-  margin-right: .1em;
   text-align: center;
   /* opacity: .8; */
  
@@ -692,7 +658,8 @@ table.table-with-btn > tbody > tr > td {
  
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
-  margin-left: .1em;
+  /* margin-left: .1em; 
+     margin-right: .1em; */
  
   /* you can be more comfortable with increased icons size */
   font-size: 1.1em;
@@ -705,61 +672,36 @@ table.table-with-btn > tbody > tr > td {
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
- 
-/* v1
-.cq-icon-astra-militarum:before { content: '\e800'; }
-.cq-icon-chaos:before { content: '\e801'; }
-.cq-icon-dark-eldar:before { content: '\e802'; }
-.cq-icon-eldar:before { content: '\e803'; }
-.cq-icon-neutral:before { content: '\e804'; }
-.cq-icon-ork:before { content: '\e805'; }
-.cq-icon-space-marines:before { content: '\e806'; width: 1.5em; }
-.cq-icon-tau:before { content: '\e807'; }
-.cq-icon-tyranid:before { content: '\e808'; width: 1.5em; } */
+/* i.cq-icon:before {
+	margin: .1em;
+} */
 
-/* v2 */
-.cq-icon-astra-militarum:before { content: '\e800'; } 
-.cq-icon-chaos:before { content: '\e801'; } 
-.cq-icon-dark-eldar:before { content: '\e802'; } 
-.cq-icon-eldar:before { content: '\e803'; } 
-.cq-icon-neutral:before { content: '\e804'; } 
-.cq-icon-ork:before { content: '\e805'; } 
-.cq-icon-space-marines:before { content: '\e806'; width: 1.5em; } 
-.cq-icon-tau:before { content: '\e807'; } 
-.cq-icon-tyranid:before { content: '\e808'; width: 1.5em; } 
-.cq-icon-link:before { content: '\e809'; } 
-.cq-icon-flash:before { content: '\e80a'; } 
-.cq-icon-attach:before { content: '\e80b'; } 
-.cq-icon-database:before { content: '\e80c'; } 
-.cq-icon-rocket:before { content: '\e80d'; } 
-.cq-icon-globe:before { content: '\e80e'; }
-.cq-icon-asterisk:before { content: '\e80f'; }
-.cq-icon-king:before { content: '\e810'; }
-
-/* .fg-astra-militarum { color: #979797; }
-.fg-chaos { color: #F1764F; }
-.fg-dark-eldar { color: #B48EAD; }
-.fg-eldar { color: #EBE19C; }
-.fg-ork { color: #7AA264; }
-.fg-space-marines { color: #90A9EB; }
-.fg-tau { color: #90E6EE; }
-.fg-tyranid { color: #A32618; }
-
-.bg-astra-militarum { background-color: #979797; }
-.bg-chaos { background-color: #F1764F; }
-.bg-dark-eldar { background-color: #B48EAD; }
-.bg-eldar { background-color: #EBE19C; }
-.bg-ork { background-color: #7AA264; }
-.bg-space-marines { background-color: #90A9EB; }
-.bg-tau { background-color: #90E6EE; }
-.bg-tyranid { background-color: #A32618; } */
+.db-icon-astra-militarum:before { content: '\e800'; } 
+.db-icon-chaos:before { content: '\e801'; } 
+.db-icon-dark-eldar:before { content: '\e802'; } 
+.db-icon-eldar:before { content: '\e803'; } 
+.db-icon-neutral:before { content: '\e804'; } 
+.db-icon-ork:before { content: '\e805'; } 
+.db-icon-space-marines:before { content: '\e806'; width: 1.5em; } 
+.db-icon-tau:before { content: '\e807'; } 
+.db-icon-tyranid:before { content: '\e808'; width: 1.5em; } 
+.db-icon-link:before { content: '\e809'; } 
+.db-icon-flash:before { content: '\e80a'; } 
+.db-icon-attach:before { content: '\e80b'; } 
+.db-icon-database:before { content: '\e80c'; } 
+.db-icon-rocket:before { content: '\e80d'; } 
+.db-icon-globe:before { content: '\e80e'; }
+.db-icon-asterisk:before { content: '\e80f'; }
+.db-icon-king:before { content: '\e810'; }
+.db-icon-1st:before { content: '\e811'; }
+.db-icon-2nd:before { content: '\e812'; }
 
 .fg-astra-militarum { color: #8A8A8A; }
 .fg-chaos { color: #E65B2E; }
 .fg-dark-eldar { color: #B965AA; }
 .fg-eldar { color: #EADA67; }
 .fg-ork { color: #538A34; }
-.fg-space-marines { color: #6B8EEC; }
+.fg-space-marines { color: #3173CE; }
 .fg-tau { color: #4CD0DC; }
 .fg-tyranid { color: #A32618; }
 
@@ -767,7 +709,7 @@ table.table-with-btn > tbody > tr > td {
 .bg-chaos { background-color: #E65B2E; }
 .bg-dark-eldar { background-color: #B965AA; }
 .bg-eldar { background-color: #EADA67; }
-.bg-ork { background-color: #538A34; }
-.bg-space-marines { background-color: #6B8EEC; }
+.bg-ork { background-color: #538A34; color: white; }
+.bg-space-marines { background-color: #3173CE; color: white; }
 .bg-tau { background-color: #4CD0DC; }
-.bg-tyranid { background-color: #A32618; }
+.bg-tyranid { background-color: #A32618; color: white; }

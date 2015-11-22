@@ -272,31 +272,51 @@ Handlebars.registerHelper('cardText', function(text, options) {
 	}
 });
 
-//Handlebars.registerHelper('cardTypeToIconClass', function(cardType, options) {
-//	var map = {
-//		warlord: 'cq-icon cq-icon-user',
-//		synapse: 'cq-icon cq-icon-link',
-//		army: 'cq-icon cq-icon-rocket',
-//		event: 'cq-icon cq-icon-flash',
-//		support: 'cq-icon cq-icon-database',
-//		attachment: 'cq-icon cq-icon-paperclip',
-//		planet: 'cq-icon cq-icon-globe',
-//		token: 'cq-icon cq-icon-asterisk'
-//		
-//	};
-//	return map[cardType];
-//});
-
 Handlebars.registerHelper('cardTypeToIconClass', function(cardType, options) {
-	var map = {
-		warlord: 'cq-icon cq-icon-king',
-		synapse: 'cq-icon cq-icon-link',
-		army: 'cq-icon cq-icon-rocket',
-		event: 'cq-icon cq-icon-flash',
-		support: 'cq-icon cq-icon-database',
-		attachment: 'cq-icon cq-icon-attach',
-		planet: 'cq-icon cq-icon-globe',
-		token: 'cq-icon cq-icon-asterisk'
-	};
-	return map[cardType];
+	/*var map = {
+		warlord: 'db-icon db-icon-king',
+		synapse: 'db-icon db-icon-link',
+		army: 'db-icon db-icon-rocket',
+		event: 'db-icon db-icon-flash',
+		support: 'db-icon db-icon-database',
+		attachment: 'db-icon db-icon-attach',
+		planet: 'db-icon db-icon-globe',
+		token: 'db-icon db-icon-asterisk'
+	};*/
+	return translateMap['cardTypeIconClass'][cardType];
+});
+
+var translateMap = {
+	cardTypeIconClass: {
+		warlord: 'db-icon db-icon-king',
+		synapse: 'db-icon db-icon-link',
+		army: 'db-icon db-icon-rocket',
+		event: 'db-icon db-icon-flash',
+		support: 'db-icon db-icon-database',
+		attachment: 'db-icon db-icon-attach',
+		planet: 'db-icon db-icon-globe',
+		token: 'db-icon db-icon-asterisk'
+	},
+	tournamentTypeIconClass: {
+		worlds: 'glyphicon glyphicon-king',
+		nationals: 'glyphicon glyphicon-queen',
+		regionals: 'glyphicon glyphicon-tower'
+	},
+	tournamentTypeDisplay: {
+		worlds: 'core.tournament.type.worlds',
+		nationals: 'core.tournament.type.nationals',
+		regionals: 'core.tournament.type.regionals'
+	},
+	tournamentPlaceIconClass: {
+		'1st': 'db-icon db-icon-1st',
+		'2nd': 'db-icon db-icon-2nd'
+	},
+	tournamentPlaceDisplay: {
+		'1st': 'core.tournament.place.1st',
+		'2nd': 'core.tournament.place.2nd'
+	}
+};
+
+Handlebars.registerHelper('translate', function(value, context, options) {
+	return translateMap[context][value];
 });
