@@ -26,16 +26,7 @@
 			<div class="deck">
 				
 				{{#with deck}}
-				<div class="header bg-{{warlord.faction}}">
-					{{#if ../published}}
-					<!-- <a class="btn btn-default" href="{{rootUrl}}{{id}}-{{techName}}">
-						<span class="glyphicon glyphicon-eye-open"></span>
-					</a> -->
-					{{else}}
-					<!-- <a class="btn btn-default" href="{{rootUrl}}edit/{{id}}-{{techName}}">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</a> -->
-					{{/if}}
+				<div class="header bg-{{warlord.faction}}">					
 					<!-- <a class="btn btn-default expand-toggle">
 						<span class="glyphicon glyphicon-fullscreen"></span>
 					</a> -->
@@ -43,7 +34,13 @@
 						<div class="db-icon db-icon-{{warlord.faction}}"></div>
 					</div>
 					<div class="box-center">
-						<h4>{{name}}</h4>
+						<h4>
+							{{#if ../published}}
+							<a href="{{rootUrl}}{{id}}-{{techName}}">{{name}}</a>
+							{{else}}
+							<a href="{{rootUrl}}edit/{{id}}-{{techName}}">{{name}}</a>
+							{{/if}}
+						</h4>
 						<div style="position: relative;">{{warlord.name}}
 							<div class="db-tournament-marker">
 								{{#if tournamentPlace}}

@@ -314,6 +314,16 @@ var translateMap = {
 	tournamentPlaceDisplay: {
 		'1st': 'core.tournament.place.1st',
 		'2nd': 'core.tournament.place.2nd'
+	},
+	factionColor: {
+		'astra-militarum': '#8A8A8A',
+		'chaos': '#E65B2E',
+		'dark-eldar': '#B965AA',
+		'eldar': '#EADA67',
+		'ork': '#538A34',
+		'pace-marines': '#3173CE',
+		'tau': '#4CD0DC',
+		'tyranid': '#A32618'
 	}
 };
 

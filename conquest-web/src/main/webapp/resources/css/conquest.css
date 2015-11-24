@@ -27,25 +27,45 @@ footer.footer {
 	background-color: #f8f8f8;
 	border-top: 1px solid #e7e7e7;
 	font-size: 0.8em;
-	margin-top: -110px;
+	margin-top: -90px;
 }
 footer.footer > .container > p:first-child {
 	margin-top: 10px;
 }
 
 /**
- * decks list
+ * deck list view
  */
+ 
+.box-left,
+.box-right {
+	display: table-cell;
+	vertical-align: top;
+}
+
+.box-center {
+	display: table-cell;
+	vertical-align: top;
+	width: 100%;
+}
+
+.deck-list .deck > .header a,
+.deck-list .deck > .header a:hover {
+	color: inherit;
+}
  
 .deck-list .deck {
 	border: none;
 	background-color: #fff;
 	margin: 10px 0px;
-	box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24);	
+	box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24);
+	border-radius: 2px;	
 }
 
 .deck-list .deck > .header {
 	padding: 10px 10px 5px 10px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
 }
 
 .deck-list .deck > .header > .box-left > .db-icon {
@@ -66,18 +86,6 @@ footer.footer > .container > p:first-child {
 	padding: 5px 10px;
 }
 
-.box-left,
-.box-right {
-	display: table-cell;
-	vertical-align: top;
-}
-
-.box-center {
-	display: table-cell;
-	vertical-align: top;
-	width: 100%;
-}
-
 .db-tournament-marker {
 	position: absolute;
 	right: 0px;
@@ -92,6 +100,36 @@ footer.footer > .container > p:first-child {
 .db-tournament-marker > i:first-child {
 	position: relative;
     top: -2px;
+}
+
+/**
+ * deck full view
+ */
+ 
+.pub-deck-view .deck {
+	background-color: #fff;
+	box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24);
+	border-radius: 2px;
+}
+
+.pub-deck-view .deck > .header {
+	padding: 15px 15px 10px 15px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+}
+
+.pub-deck-view .deck > .header > .box-left > .db-icon {
+	font-size: 40px; 
+	margin-right: 15px;
+}
+
+.pub-deck-view .deck > .header > .box-center > h2:first-child {
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+.pub-deck-view .deck > .box-center {
+	padding: 15px;
 }
 
 .mg-container .mg ul {
@@ -721,6 +759,15 @@ table.table-with-btn > tbody > tr > td {
 .bg-tau { background-color: #4CD0DC; }
 .bg-tyranid { background-color: #A32618; color: white; }
 
+.bor-astra-militarum { border-color: #8A8A8A !important; }
+.bor-chaos { border-color: #E65B2E !important; }
+.bor-dark-eldar { border-color: #B965AA !important; }
+.bor-eldar { border-color: #EADA67 !important; }
+.bor-ork { border-color: #538A34 !important; }
+.bor-space-marines { border-color: #3173CE !important; }
+.bor-tau { border-color: #4CD0DC !important; }
+.bor-tyranid { border-color: #A32618 !important; }
+
 /*
  * bootstrap overrides
  */
@@ -748,4 +795,31 @@ table.table-with-btn > tbody > tr > td {
 	border: 1px solid transparent;
 	background-color: transparent;
 	box-shadow: none;
+}
+
+.nav-tabs.lite > li {
+	margin-bottom: 0px;
+}
+
+.nav-tabs.lite > li > a {
+	border: none;
+}
+
+.nav-tabs.lite > li > a {
+	color: #000;
+}
+
+.nav-tabs.lite > li > a:hover {
+	border: none;
+	color: #000;
+	background-color: #fff;	
+}
+
+.nav-tabs.lite > li.active > a:focus,
+.nav-tabs.lite > li.active > a:hover,
+.nav-tabs.lite > li.active > a {
+	border: none;
+	border-bottom: 4px solid;
+	color: #000;
+	background-color: #fff;
 }
