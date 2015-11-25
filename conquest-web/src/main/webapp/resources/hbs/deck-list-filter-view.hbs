@@ -1,13 +1,13 @@
 {{#smartUnless advanced ~}}
 <div class="btn-group btn-group-filter filter-faction filter-group select-many primary">
 	{{#each factions ~}}
-	<label class="btn btn-default db-btn-lite" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
+	<label class="btn btn-default btn-raised-lite" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
 		<i class="db-icon db-icon-{{techName}}"></i>
 	</label>
 	{{/each ~}}	
 </div>
-<label id="searchButton" class="btn btn-primary filter-group db-btn"><span class="glyphicon glyphicon-search"></span>&nbsp;{{loc 'core.search'}}</label>
-<label id="moreButton" class="btn btn-default filter-group db-btn-lite"><span class="glyphicon glyphicon-menu-right"></span>&nbsp;{{loc 'core.more'}}</label>
+<label id="searchButton" class="btn btn-primary filter-group btn-raised"><span class="glyphicon glyphicon-search"></span>&nbsp;{{loc 'core.search'}}</label>
+<label id="moreButton" class="btn btn-default filter-group btn-raised-lite"><span class="glyphicon glyphicon-menu-right"></span>&nbsp;{{loc 'core.more'}}</label>
 {{else}}
 <div class="row">
 	<div class="col-md-4">

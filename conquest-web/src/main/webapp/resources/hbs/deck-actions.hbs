@@ -1,10 +1,10 @@
 {{#with actions}}
 {{#if decksave ~}}
 <div class="btn-group">
-	<button type="button" class="btn btn-success deck-save">
-		<span class="glyphicon glyphicon-save"></span>
+	<button type="button" class="btn btn-raised btn-{{../faction}} deck-save">
+		<span class="glyphicon glyphicon-save"></span>{{#if decksave.showText}}&nbsp;{{loc 'core.save'}}{{/if}}
 	</button>
-	<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+	<button type="button" class="btn btn-raised btn-{{../faction}} dropdown-toggle" data-toggle="dropdown">
 		<span class="caret"></span>
 		<span class="sr-only">Toggle Dropdown</span>
 	</button>
@@ -20,13 +20,14 @@
 {{/if  ~}}
 {{#if publicdecksave ~}}
 {{#ifSignedIn}}
-<a class="btn btn-default btn-success deck-save-copy" data-toggle="tooltip" title="{{loc 'core.saveCopy'}}">
-	<span class="glyphicon glyphicon-save"></span>
+<a class="btn btn-raised btn-{{../faction}} deck-save-copy" data-toggle="tooltip"
+	title="{{#unless publicdecksave.showText}}{{loc 'core.saveCopy'}}{{/unless}}">
+	<span class="glyphicon glyphicon-save"></span>{{#if publicdecksave.showText}}&nbsp;{{loc 'core.saveCopy'}}{{/if}}
 </a>
 {{/ifSignedIn}}
 {{/if ~}}
 {{#if deckdelete ~}}
-<a id="deckDelete" class="btn btn-default btn-danger" data-toggle="tooltip" title="{{loc 'core.delete'}}">
+<a id="deckDelete" class="btn btn-default pull-right" data-toggle="tooltip" title="{{loc 'core.delete'}}">
 	<span class="glyphicon glyphicon-trash"></span>
 </a>
 {{/if ~}}

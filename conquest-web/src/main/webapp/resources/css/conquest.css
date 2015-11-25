@@ -106,29 +106,34 @@ footer.footer > .container > p:first-child {
  * deck full view
  */
  
-.pub-deck-view .deck {
+.pub-deck-view .deck,
+.user-deck-view .deck {
 	background-color: #fff;
 	box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24);
 	border-radius: 2px;
 }
 
-.pub-deck-view .deck > .header {
+.pub-deck-view .deck > .header,
+.user-deck-view .deck > .header {
 	padding: 15px 15px 10px 15px;
 	border-top-left-radius: 2px;
 	border-top-right-radius: 2px;
 }
 
-.pub-deck-view .deck > .header > .box-left > .db-icon {
+.pub-deck-view .deck > .header > .box-left > .db-icon,
+.user-deck-view .deck > .header > .box-left > .db-icon {
 	font-size: 40px; 
 	margin-right: 15px;
 }
 
-.pub-deck-view .deck > .header > .box-center > h2:first-child {
+.pub-deck-view .deck > .header > .box-center > h2:first-child,
+.user-deck-view .deck > .header > .box-center > h2:first-child {
 	margin-top: 0px;
 	margin-bottom: 5px;
 }
 
-.pub-deck-view .deck > .box-center {
+.pub-deck-view .deck > .box-center,
+.user-deck-view .deck > .box-center {
 	padding: 15px;
 }
 
@@ -741,7 +746,8 @@ table.table-with-btn > tbody > tr > td {
 .db-icon-1st:before { content: '\e811'; }
 .db-icon-2nd:before { content: '\e812'; }
 
-.fg-astra-militarum { color: #8A8A8A; }
+/* .fg-astra-militarum { color: #8A8A8A; } */
+.fg-astra-militarum { color: #000; }
 .fg-chaos { color: #E65B2E; }
 .fg-dark-eldar { color: #B965AA; }
 .fg-eldar { color: #EADA67; }
@@ -750,16 +756,17 @@ table.table-with-btn > tbody > tr > td {
 .fg-tau { color: #4CD0DC; }
 .fg-tyranid { color: #A32618; }
 
-.bg-astra-militarum { background-color: #8A8A8A; }
-.bg-chaos { background-color: #E65B2E; }
-.bg-dark-eldar { background-color: #B965AA; }
-.bg-eldar { background-color: #EADA67; }
-.bg-ork { background-color: #538A34; color: white; }
-.bg-space-marines { background-color: #3173CE; color: white; }
-.bg-tau { background-color: #4CD0DC; }
-.bg-tyranid { background-color: #A32618; color: white; }
+/* .bg-astra-militarum { background-color: #8A8A8A !important; color: #000 !important; } */
+.bg-astra-militarum { background-color: #000 !important; color: #fff !important; }
+.bg-chaos { background-color: #E65B2E !important; color: #000 !important; }
+.bg-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
+.bg-eldar { background-color: #EADA67 !important; color: #000 !important; }
+.bg-ork { background-color: #538A34 !important; color: #fff !important; }
+.bg-space-marines { background-color: #3173CE !important; color: #fff !important; }
+.bg-tau { background-color: #4CD0DC !important; color: #000 !important; }
+.bg-tyranid { background-color: #A32618 !important; color: #fff !important; }
 
-.bor-astra-militarum { border-color: #8A8A8A !important; }
+.bor-astra-militarum { border-color: #000 !important; }
 .bor-chaos { border-color: #E65B2E !important; }
 .bor-dark-eldar { border-color: #B965AA !important; }
 .bor-eldar { border-color: #EADA67 !important; }
@@ -768,29 +775,44 @@ table.table-with-btn > tbody > tr > td {
 .bor-tau { border-color: #4CD0DC !important; }
 .bor-tyranid { border-color: #A32618 !important; }
 
+.btn-astra-militarum { background-color: #000 !important; color: #fff !important; }
+.btn-chaos { background-color: #E65B2E !important; color: #000 !important; }
+.btn-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
+.btn-eldar { background-color: #EADA67 !important; color: #000 !important; }
+.btn-ork { background-color: #538A34 !important; color: #fff !important; }
+.btn-space-marines { background-color: #3173CE !important; color: #fff !important; }
+.btn-tau { background-color: #4CD0DC !important; color: #000 !important; }
+.btn-tyranid { background-color: #A32618 !important; color: #fff !important; }
+
+.btn-astra-militarum:hover { background-color: #262626 !important; }
+.btn-chaos:hover { background-color: #E04C1A !important; }
+.btn-dark-eldar:hover { background-color: #B253A0 !important; }
+.btn-eldar:hover { background-color: #E7D550 !important; }
+.btn-ork:hover { background-color: #48762D !important; }
+.btn-space-marines:hover { background-color: #2C67BA !important; }
+.btn-tau:hover { background-color: #37CAD7 !important; }
+.btn-tyranid:hover { background-color: #8E2115 !important; }
+
 /*
  * bootstrap overrides
  */
- .btn.btn-primary.db-btn {
-	color: #ffffff;
-    background-color: #4285f4;
+.btn.btn-raised {
     border-radius: 2px;
     box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
     border: 1px solid transparent;
 }
-.btn.btn-primary.db-btn:hover {
-	background-color: #3a76e5;
+.btn.btn-raised:hover {
 	box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
 }
 
-.btn.btn-default.db-btn-lite {
+.btn.btn-default.btn-lite {
 	color: #616161;
 	border: 1px solid transparent;
 	background-color: transparent;
 }
 
-.btn.btn-default.db-btn-lite:hover,
-.btn.btn-default.db-btn-lite.active {
+.btn.btn-default.btn-lite:hover,
+.btn.btn-default.btn-lite.active {
 	color: #000;
 	border: 1px solid transparent;
 	background-color: transparent;

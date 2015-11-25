@@ -40,6 +40,7 @@ $(function() {
 
 			var renderInternal = function() {
 				var warlordId = view.deck.get('warlord').id;
+				var warlord = conquest.dict.findCard(warlordId);
 				var filter = {
 					factions: conquest.deck.getValidDeckFactions(warlordId),
 					cardTypes: conquest.deck.getValidDeckCardTypes(warlordId)
@@ -53,11 +54,14 @@ $(function() {
 				var actionsTemplate = Handlebars.templates['deck-actions']({
 					actions: {						
 						publicdecklist: {},
-						publicdecksave: {},
+						publicdecksave: {
+							showText: true
+						},
 						publicdeckexport: {
 							id: view.deck.get('id')
 						}
-					}
+					},
+					faction: warlord.faction
 				});
 				view.$el.find('.actions-container').append(actionsTemplate);
 

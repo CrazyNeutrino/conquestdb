@@ -1,6 +1,8 @@
 <div class="pub-deck-view">
 	<div class="deck pub-deck">
 
+		{{!-- header --}}
+		
 		<div class="header bg-{{deck.warlord.faction}}">				
 			<div class="box-left">
 				<div class="db-icon db-icon-{{deck.warlord.faction}}"></div>
@@ -29,8 +31,13 @@
 			--}}
 		</div>
 		
-		<div class="box-center">
+		{{!-- main content --}}
+		
+		<div class="box-center">					
 			<div class="row">
+			
+				{{!-- left column --}}
+				
 				<div class="col-md-5 col-lg-5">
 					<div class="actions-container"></div>
 					<div class="deck-info-container row">
@@ -45,8 +52,11 @@
 					</div>		
 					<div class="mg-container"></div>		
 				</div>
+				
+				{{!-- right column --}}
+				
 				<div class="col-md-7 col-lg-7" role="tabpanel">
-					<ul class="nav nav-tabs lite {{deck.warlord.faction}}" role="tablist" id="tabs1ul">
+					<ul class="nav nav-tabs lite" role="tablist" id="tabs1ul">
 						<li role="presentation" class="active">
 							<a href="#deckDeckTab" aria-controls="deck" role="tab" data-toggle="tab"
 								class="bor-{{deck.warlord.faction}}">{{loc 'core.deck'}}</a>
@@ -72,6 +82,9 @@
 					</ul>
 		
 					<div class="tab-content">
+					
+						{{!-- deck tab --}}
+					
 			    		<div id="deckDeckTab" role="tabpanel" class="tab-pane active">
 							<div class="members-list-filter-container">
 								<div class="btn-group btn-group-layout filter-group">
@@ -110,6 +123,8 @@
 							<div class="members-container"></div>
 						</div>
 		
+						{{!-- description tab --}}
+		
 						<div id="deckDescriptionTab" role="tabpanel" class="tab-pane">
 							{{!--
 							<div class="deck-description-view"></div>
@@ -119,6 +134,8 @@
 							{{!-- <h5 style="color: gray;">{{deck.username}}</h5> --}}
 							<p>{{{markdown deck.description}}}</p>
 						</div>
+						
+						{{!-- utilities tab --}}
 						
 						<div id="deckUtilitiesTab" role="tabpanel" class="tab-pane">
 							<div class="block folding-block">
@@ -153,10 +170,14 @@
 							</div>
 						</div>
 		
+						{{!-- comments tab --}}
+		
 						<div id="deckCommentsTab" role="tabpanel" class="tab-pane">				
 							<div class="deck-comments-view"></div>
 						</div>
-		
+						
+						{{!-- versions tab --}}
+						
 						<div id="deckVersionsTab" role="tabpanel" class="tab-pane">				
 							<div class="block folding-block">
 								<div class="block-header">

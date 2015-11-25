@@ -702,6 +702,7 @@ $(function() {
 
 			var renderInternal = function() {
 				var warlordId = view.deck.get('warlord').id;
+				var warlord = conquest.dict.findCard(warlordId);
 				var filter = {
 					factions: conquest.deck.getValidDeckFactions(warlordId),
 					cardTypes: conquest.deck.getValidDeckCardTypes(warlordId)
@@ -767,10 +768,13 @@ $(function() {
 							id: deckId,
 							techName: deckTechName
 						} : undefined,
-						decksave: {},
+						decksave: {
+							showText: true
+						},
 						deckdelete: _.isNumber(deckId) ? {} : undefined,
 						decklist: {},
-					}
+					},
+					faction: warlord.faction
 				}));
 
 				var buildSortKeys = function() {
