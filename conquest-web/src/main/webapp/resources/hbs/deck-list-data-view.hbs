@@ -58,6 +58,7 @@
 				{{/with}}
 				
 				<div class="box-center">
+					{{!--
 					<div class="deck-stats-container pull-left">
 						<table class="deck-stats-table">
 							<thead>
@@ -80,6 +81,9 @@
 							</tbody>
 						</table>
 					</div>
+					--}}
+					
+					{{!--
 					<div class="charts-container pull-left">
 						<div class="chart-container factions" data-deck-id="{{deck.id}}">
 							<div class="legend"></div>
@@ -90,6 +94,12 @@
 							<canvas class="chart" width="80" height="80"></canvas>
 						</div>
 					</div>
+					--}}
+					
+					<div class="chart-container cost pull-left" data-deck-id="{{deck.id}}" style="width:200px; height:150px;"></div>
+					<div class="chart-container faction pull-left" data-deck-id="{{deck.id}}" style="width:140px; height:150px;"></div>
+					<div class="chart-container type pull-left" data-deck-id="{{deck.id}}" style="width:140px; height:150px;"></div>
+					
 					<div class="row hidden members">
 						<div class="col-xs-12">
 							{{#each membersGroups}}

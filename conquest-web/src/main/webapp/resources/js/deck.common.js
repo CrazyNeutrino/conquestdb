@@ -284,41 +284,41 @@ conquest.deck = conquest.deck || {};
 	};
 
 	_deck.factionColors = [];
+	_deck.factionColors['astra-militarum'] = {
+			base: '#000000',
+			hl: 'rgba(151, 151, 151, 0.8)'
+	};
 	_deck.factionColors['chaos'] = {
-		base: '#F1764F',
+		base: '#E65B2E',
 		hl: 'rgba(241, 118, 79, 0.8)'
 	};
-	_deck.factionColors['astra-militarum'] = {
-		base: '#979797',
-		hl: 'rgba(151, 151, 151, 0.8)'
+	_deck.factionColors['dark-eldar'] = {
+			base: '#B965AA',
+			hl: 'rgba(180, 142, 173, 0.8)'
+	};
+	_deck.factionColors['eldar'] = {
+			base: '#EADA67',
+			hl: 'rgba(235, 225, 156, 0.8)'
 	};
 	_deck.factionColors['ork'] = {
-		base: '#7AA264',
+		base: '#538A34',
 		hl: 'rgba(122, 162, 100, 0.8)'
 	};
 	_deck.factionColors['space-marines'] = {
-		base: '#90A9EB',
+		base: '#3173CE',
 		hl: 'rgba(144, 169, 235, 0.8)'
 	};
 	_deck.factionColors['tau'] = {
-		base: '#90E6EE',
+		base: '#4CD0DC',
 		hl: 'rgba(144, 230, 238, 0.8)'
 	};
-	_deck.factionColors['eldar'] = {
-		base: '#EBE19C',
-		hl: 'rgba(235, 225, 156, 0.8)'
-	};
-	_deck.factionColors['dark-eldar'] = {
-		base: '#B48EAD',
-		hl: 'rgba(180, 142, 173, 0.8)'
+	_deck.factionColors['tyranid'] = {
+		base: '#A32618',
+		hl: 'rgba(163, 38, 24, 0.8)'
 	};
 	_deck.factionColors['neutral'] = {
 		base: '#DDD',
 		hl: 'rgba(221, 221, 221, 0.8)'
-	};
-	_deck.factionColors['tyranid'] = {
-		base: '#94271B',
-		hl: 'rgba(163, 38, 24, 0.8)'
 	};
 
 	_deck.typeColors = [];
@@ -861,21 +861,86 @@ conquest.deck = conquest.deck || {};
 			};
 
 			//
+			// cost chart
+			//
+			view.$el.find('.chart-container.cost').each(function() {
+				var deck = decks.findWhere({
+					id: parseInt($(this).data('deck-id'))
+				});
+				var members = deck.get('members').toJSON();
+				var membersByCost = _.groupBy(members, function(member) {
+					return member.card.cost;
+				});
+				delete membersByCost['-1'];
+				
+				var sortedKeys = _.sortBy(Object.keys(membersByCost));
+				var dataByCost = [];
+				_.each(sortedKeys, function(key) {
+					dataByCost.push([parseInt(key), _.reduce(membersByCost[key], function(count, member) {
+						return count + member.quantity;
+					}, 0)]);
+				});
+				
+				$(this).highcharts({
+			        chart: {
+			            type: 'column',
+			            spacingBottom: 0,
+			            spacingTop: 0,
+			            spacingLeft: 0,
+			            spacingRight: 0,
+			        },
+			        title: {
+			        	text: 'Cards by cost',
+			            style: {
+			            	fontSize: '12px'
+			            }
+			        },
+			        xAxis: {
+			            title: {
+			            	text: null
+			            },
+			        	categories: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			        	min: 0,
+			        	max: 10
+			        },
+			        yAxis: {
+			            title: {
+			                text: null
+			            },
+			            min: 0,
+			            max: 26,
+			            tickInterval: 2
+			        },
+			        plotOptions: {
+			            series: {
+			                animation: false
+			            }
+			        },
+			        series: [{
+			        	data: dataByCost,
+			        	showInLegend: false,
+				        pointWidth: 14
+			        }],
+			        credits: false
+			    });
+			});
+			
+			//
 			// factions chart
 			//
-			view.$el.find('.chart-container.factions').each(function() {
+			view.$el.find('.chart-container.faction').each(function() {
 				var deck = decks.findWhere({
 					id: parseInt($(this).data('deck-id'))
 				});
 				var members = conquest.util.toJSON(deck.get('members').filter(function(member) {
 					return member.get('quantity') > 0;
 				}));
-				var byFaction = _.groupBy(members, function(member) {
+				var membersByFaction = _.groupBy(members, function(member) {
 					return member.card.faction;
 				});
 
 				var dataByFaction = [];
-				var sortedKeys = _.sortBy(Object.keys(byFaction), function(key) {
+				var sortedKeys = _.sortBy(Object.keys(membersByFaction), function(key) {
 					if (key == deck.get('warlord').faction) {
 						return 0;
 					} else if (key == 'neutral') {
@@ -886,52 +951,162 @@ conquest.deck = conquest.deck || {};
 				});
 				_.each(sortedKeys, function(key) {
 					dataByFaction.push({
-						label: conquest.dict.findFaction(key).shortName,
-						value: _.reduce(byFaction[key], function(count, member) {
+						name: key, 
+						y: _.reduce(membersByFaction[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
-						color: conquest.deck.factionColors[key].base,
-						highlight: conquest.deck.factionColors[key].hl
+						color: conquest.deck.factionColors[key].base
 					});
 				});
 
-				var chart = new Chart($(this).find('.chart')[0].getContext('2d')).Doughnut(dataByFaction, chartOptions);
-				$(this).find('.legend').html(chart.generateLegend());
+				$(this).highcharts({
+			        chart: {
+			            plotBackgroundColor: null,
+			            plotBorderWidth: null,
+			            plotShadow: false,
+			            type: 'pie',
+			            spacing: 0
+			        },
+			        title: {
+			            text: 'Cards by faction',
+			            style: {
+			            	fontSize: '12px'
+			            }
+			        },
+			        tooltip: {
+			            pointFormat: '{series.name}: <b>{point.y}</b>'
+			        },
+			        plotOptions: {
+			            pie: {
+			            	size:'100%',
+			                allowPointSelect: false,
+			                cursor: 'pointer',
+			                dataLabels: {
+			                    enabled: false,
+			                    format: '{point.name}'/*,
+			                    style: {
+			                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+			                    }*/
+			                }
+			            },
+			            series: {
+			                animation: false
+			            }
+			        },
+			        series: [{
+			            name: "# of cards",
+			            colorByPoint: true,
+			            data: dataByFaction
+			        }],
+			        credits: false
+			    });
 			});
 
 			//
-			// card types chart
+			// types chart
 			//
-			view.$el.find('.chart-container.types').each(function() {
+			view.$el.find('.chart-container.type').each(function() {
 				var deck = decks.findWhere({
 					id: parseInt($(this).data('deck-id'))
 				});
 				var members = conquest.util.toJSON(deck.get('members').filter(function(member) {
 					return member.get('quantity') > 0;
 				}));
-				var byType = _.groupBy(members, function(member) {
+				var membersByType = _.groupBy(members, function(member) {
 					return member.card.type;
 				});
 
-				var order = ['army', 'attachment', 'support', 'event', 'synapse'];
 				var dataByType = [];
-				var sortedKeys = _.sortBy(Object.keys(byType), function(key) {
+				var order = ['army', 'attachment', 'support', 'event', 'synapse'];
+				var sortedKeys = _.sortBy(Object.keys(membersByType), function(key) {
 					return order.indexOf(key);
 				});
 				_.each(sortedKeys, function(key) {
 					dataByType.push({
-						label: conquest.dict.findCardType(key).shortName,
-						value: _.reduce(byType[key], function(count, member) {
+						name: key, 
+						y: _.reduce(membersByType[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
-						color: conquest.deck.typeColors[key].base,
-						highlight: conquest.deck.typeColors[key].hl
+						color: conquest.deck.typeColors[key].base
 					});
 				});
 
-				var chart = new Chart($(this).find('.chart')[0].getContext('2d')).Doughnut(dataByType, chartOptions);
-				$(this).find('.legend').html(chart.generateLegend());
+				$(this).highcharts({
+			        chart: {
+			            plotBackgroundColor: null,
+			            plotBorderWidth: null,
+			            plotShadow: false,
+			            type: 'pie',
+			            spacing: 0
+			        },
+			        title: {
+			            text: 'Cards by type',
+			            style: {
+			            	fontSize: '12px'
+			            }
+			        },
+			        tooltip: {
+			            pointFormat: '{series.name}: <b>{point.y}</b>'
+			        },
+			        plotOptions: {
+			            pie: {
+			            	size:'100%',
+			                allowPointSelect: false,
+			                cursor: 'pointer',
+			                dataLabels: {
+			                    enabled: false,
+			                    format: '{point.name}'/*,
+			                    style: {
+			                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+			                    }*/
+			                }
+			            },
+			            series: {
+			                animation: false
+			            }
+			        },
+			        series: [{
+			            name: "# of cards",
+			            colorByPoint: true,
+			            data: dataByType
+			        }],
+			        credits: false
+			    });
 			});
+			
+//			//
+//			// card types chart
+//			//
+//			view.$el.find('.chart-container.types').each(function() {
+//				var deck = decks.findWhere({
+//					id: parseInt($(this).data('deck-id'))
+//				});
+//				var members = conquest.util.toJSON(deck.get('members').filter(function(member) {
+//					return member.get('quantity') > 0;
+//				}));
+//				var byType = _.groupBy(members, function(member) {
+//					return member.card.type;
+//				});
+//
+//				var order = ['army', 'attachment', 'support', 'event', 'synapse'];
+//				var dataByType = [];
+//				var sortedKeys = _.sortBy(Object.keys(byType), function(key) {
+//					return order.indexOf(key);
+//				});
+//				_.each(sortedKeys, function(key) {
+//					dataByType.push({
+//						label: conquest.dict.findCardType(key).shortName,
+//						value: _.reduce(byType[key], function(count, member) {
+//							return count + member.quantity;
+//						}, 0),
+//						color: conquest.deck.typeColors[key].base,
+//						highlight: conquest.deck.typeColors[key].hl
+//					});
+//				});
+//
+//				var chart = new Chart($(this).find('.chart')[0].getContext('2d')).Doughnut(dataByType, chartOptions);
+//				$(this).find('.legend').html(chart.generateLegend());
+//			});
 
 			//
 			// click handlers

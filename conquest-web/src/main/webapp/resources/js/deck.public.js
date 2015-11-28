@@ -41,11 +41,13 @@ $(function() {
 			var renderInternal = function() {
 				var warlordId = view.deck.get('warlord').id;
 				var warlord = conquest.dict.findCard(warlordId);
+				
+				conquest.ui.adjustNavbarColors(warlord.faction);
+				
 				var filter = {
 					factions: conquest.deck.getValidDeckFactions(warlordId),
 					cardTypes: conquest.deck.getValidDeckCardTypes(warlordId)
 				};
-
 				var template = Handlebars.templates['pub-deck-view']({
 					deck: view.deck.toJSON(),
 					filter: filter
@@ -455,7 +457,8 @@ $(function() {
 			};
 
 			view.unbindMenuLinkClickHandler();
-
+			conquest.ui.adjustNavbarColors();
+			
 			var template = Handlebars.templates['pub-deck-list-view']();
 			view.$el.html(template);
 			view.renderMessages();

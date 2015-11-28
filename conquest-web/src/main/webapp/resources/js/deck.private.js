@@ -196,7 +196,8 @@ $(function() {
 			};
 
 			view.unbindMenuLinkClickHandler();
-
+			conquest.ui.adjustNavbarColors();
+			
 			var template = Handlebars.templates['user-deck-list-view']();
 			view.$el.html(template);
 			view.renderMessages();
@@ -279,6 +280,7 @@ $(function() {
 			});
 			view.$el.html(template);
 			view.$el.find('.actions-container').append(actionsTemplate);
+			conquest.ui.adjustNavbarColors(warlord.faction);
 
 			view.groupsView = new conquest.deck.MemberGroupsView({
 				el: '.mg-container'
@@ -419,6 +421,7 @@ $(function() {
 		},
 		render: function() {
 			this.unbindMenuLinkClickHandler();
+			conquest.ui.adjustNavbarColors();
 
 			var warlords = _.where(conquest.dict.cards, {
 				type: 'warlord'
@@ -703,6 +706,9 @@ $(function() {
 			var renderInternal = function() {
 				var warlordId = view.deck.get('warlord').id;
 				var warlord = conquest.dict.findCard(warlordId);
+				
+				conquest.ui.adjustNavbarColors(warlord.faction);
+				
 				var filter = {
 					factions: conquest.deck.getValidDeckFactions(warlordId),
 					cardTypes: conquest.deck.getValidDeckCardTypes(warlordId)
