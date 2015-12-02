@@ -2,7 +2,7 @@ package org.meb.conquest.web.rest.controller;
 
 import javax.ws.rs.Path;
 
-@Path("/public/deck")
+//@Path("/public/deck")
 public class PublicDeckController {
 
 	// private static final Logger log =

@@ -8,13 +8,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.PropertyResourceBundle;
 import java.util.regex.Pattern;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -43,46 +41,30 @@ import org.meb.conquest.db.model.User;
 import org.meb.conquest.db.model.loc.Card;
 import org.meb.conquest.db.model.loc.CardSet;
 import org.meb.conquest.db.query.DeckQuery;
-import org.meb.conquest.service.DeckService;
-import org.meb.conquest.service.RequestContext;
-import org.meb.conquest.web.auth.AuthToken;
+import org.meb.conquest.service.api.DeckService;
 import org.meb.conquest.web.json.JsonUtils;
 import org.meb.conquest.web.json.model.JsonDeck;
 import org.meb.conquest.web.json.model.JsonDeckComment;
 import org.meb.conquest.web.json.model.JsonDeckLink;
 import org.meb.conquest.web.json.model.JsonDeckMember;
 import org.meb.conquest.web.json.model.JsonDecks;
-import org.meb.conquest.web.json.model.JsonError;
-import org.meb.conquest.web.rest.MessageBundleResolver;
 import org.meb.conquest.web.rest.controller.ExportedDeck.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Path("/deck")
-public class DeckController {
+public class DeckController extends AbstractController {
 
 	private static final Logger log = LoggerFactory.getLogger(DeckController.class);
-
-	@Inject
-	private RequestContext queryContext;
 
 	@Inject
 	private DeckService deckService;
 
 	@Inject
-	private AuthToken authToken;
-
-	@Inject
 	private Cache cache;
 
 	@Inject
-	private MessageBundleResolver resolver;
-
-	@Inject
-	private EntityManager em;
-
-	@Inject
-	private CardCacheManager ccm;	
+	private CardCacheManager ccm;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -90,8 +72,8 @@ public class DeckController {
 	public Response loadUserDecks(@Form DeckQueryParams params) {
 		log.info("loadUserDecks(): auth token: {}", authToken);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(params.getLanguage());
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(params.getLanguage());
 
 		try {
 			DeckQuery query = new DeckQuery().withMembers();
@@ -153,12 +135,12 @@ public class DeckController {
 	@Path("/{deckId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response loadUserDeck(@PathParam("deckId") Long deckId, @QueryParam("language") String language)
-			throws DeckException {
+	public Response loadUserDeck(@PathParam("deckId") Long deckId,
+			@QueryParam("language") String language) throws DeckException {
 		log.info("loadUserDeck(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			JsonDeck jsonDeck = null;
@@ -182,8 +164,8 @@ public class DeckController {
 	public Response createUserDeck(@QueryParam("language") String language, String body) {
 		log.info("createUserDeck(): auth token: {}", authToken);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			Deck deck = JsonUtils.readObject(body, JsonDeck.class).buildDeck();
@@ -203,17 +185,18 @@ public class DeckController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response updateUserDeck(@PathParam("deckId") Long deckId, @QueryParam("language") String language,
-			String body) {
+	public Response updateUserDeck(@PathParam("deckId") Long deckId,
+			@QueryParam("language") String language, String body) {
 		log.info("updateUserDeck(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			Deck deck = JsonUtils.readObject(body, JsonDeck.class).buildDeck();
 			deck = deckService.saveUserDeck(deckId, deck);
-			JsonDeck jsonDeck = new JsonDeck().withMembers().withLinks().withSnapshots().build(deck);
+			JsonDeck jsonDeck = new JsonDeck().withMembers().withLinks().withSnapshots()
+					.build(deck);
 			fillAllWarlordDeckCards(jsonDeck);
 			return Response.ok(JsonUtils.write(jsonDeck)).build();
 		} catch (Exception e) {
@@ -227,11 +210,12 @@ public class DeckController {
 	@Path("/{deckId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response deleteUserDeck(@PathParam("deckId") Long deckId, @QueryParam("language") String language) {
+	public Response deleteUserDeck(@PathParam("deckId") Long deckId,
+			@QueryParam("language") String language) {
 		log.info("deleteUserDeck(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			deckService.deleteUserDeck(deckId);
@@ -247,16 +231,18 @@ public class DeckController {
 	@Path("/export/{deckId}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@RolesAllowed("user")
-	public Response exportUserDeckToOctgn(@PathParam("deckId") Long deckId, @QueryParam("language") String language) {
+	public Response exportUserDeckToOctgn(@PathParam("deckId") Long deckId,
+			@QueryParam("language") String language) {
 		log.info("exportUserDeckToOctgn(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			ExportedDeck exported = deckService.exportUserDeck(deckId, Type.OCTGN);
 			ResponseBuilder rs = Response.ok(exported.getCharacterData());
-			rs.header("Content-Disposition", "attachment; filename=\"" + exported.getTechName() + ".o8d\"");
+			rs.header("Content-Disposition",
+					"attachment; filename=\"" + exported.getTechName() + ".o8d\"");
 			return rs.build();
 		} catch (Exception e) {
 			DeckException de = buildDeckException(e, "error.deck.oper.export");
@@ -269,16 +255,17 @@ public class DeckController {
 	@Path("/export")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@RolesAllowed("user")
-	public Response exportUserDecksToOctgn(@Form DeckQueryParams params, @QueryParam("language") String language) {
+	public Response exportUserDecksToOctgn(@Form DeckQueryParams params,
+			@QueryParam("language") String language) {
 		log.info("exportUserDecksToOctgn(): auth token: {}", authToken);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			Deck deck = new Deck();
 			deck.setType(DeckType.BASE);
-			deck.setUser(new User(queryContext.getUserId()));
+			deck.setUser(new User(requestContext.getUserId()));
 
 			DeckQuery query = new DeckQuery(deck).withMembers();
 			query.setPrimaryFactions(Faction.convertToFactions(params.getPrimaryFaction()));
@@ -342,11 +329,12 @@ public class DeckController {
 	@Path("/{deckId}/link")
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Response loadUserDeckLinks(@PathParam("deckId") Long deckId, @QueryParam("language") String language) {
+	public Response loadUserDeckLinks(@PathParam("deckId") Long deckId,
+			@QueryParam("language") String language) {
 		log.info("loadUserDeckLinks(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			List<DeckLink> deckLinks = deckService.findUserDeckLinks(deckId);
@@ -364,12 +352,12 @@ public class DeckController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response createUserDeckLink(@PathParam("deckId") Long deckId, @QueryParam("language") String language,
-			String body) {
+	public Response createUserDeckLink(@PathParam("deckId") Long deckId,
+			@QueryParam("language") String language, String body) {
 		log.info("createUserDeckLink(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			DeckLink deckLink = JsonUtils.readObject(body, JsonDeckLink.class).toDeckLink();
@@ -387,14 +375,14 @@ public class DeckController {
 	@Path("/{deckId}/link/{linkId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response deleteUserDeckLink(@PathParam("deckId") Long deckId, @PathParam("linkId") Long linkId,
-			@QueryParam("language") String language) {
+	public Response deleteUserDeckLink(@PathParam("deckId") Long deckId,
+			@PathParam("linkId") Long linkId, @QueryParam("language") String language) {
 
 		Object[] args = new Object[] { authToken, deckId, linkId };
 		log.info("deleteUserDeckLink(): auth token: {}, deck id: {}, link id: {}", args);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			deckService.deleteUserDeckLink(deckId, linkId);
@@ -413,8 +401,8 @@ public class DeckController {
 	public Response loadPublicDecks(@Form DeckQueryParams params) {
 		log.info("loadPublicDecks(): auth token: {}", authToken);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(params.getLanguage());
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(params.getLanguage());
 
 		try {
 			Deck example = new Deck();
@@ -471,11 +459,12 @@ public class DeckController {
 	@Path("/public/{deckId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Response loadPublicDeck(@PathParam("deckId") String deckId, @QueryParam("language") String language) {
+	public Response loadPublicDeck(@PathParam("deckId") String deckId,
+			@QueryParam("language") String language) {
 		log.info("loadPublicDeck(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		Response response = null;
 
@@ -506,7 +495,8 @@ public class DeckController {
 			List<Deck> decks = deckService.findPublicDecks(new DeckQuery(example).withMembers());
 			deck.setSnapshots(new HashSet<>(decks));
 
-			JsonDeck jsonDeck = new JsonDeck().withMembers().withComments().withSnapshots().build(deck);
+			JsonDeck jsonDeck = new JsonDeck().withMembers().withComments().withSnapshots()
+					.build(deck);
 			response = Response.ok(JsonUtils.write(jsonDeck)).build();
 		} catch (Exception e) {
 			DeckException de = buildDeckException(e, "error.deck.oper.loadDeck");
@@ -521,16 +511,18 @@ public class DeckController {
 	@Path("/public/export/{deckId}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@PermitAll
-	public Response exportPublicDeckToOctgn(@PathParam("deckId") Long deckId, @QueryParam("language") String language) {
+	public Response exportPublicDeckToOctgn(@PathParam("deckId") Long deckId,
+			@QueryParam("language") String language) {
 		log.info("exportPublicDeckToOctgn(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			ExportedDeck exported = deckService.exportPublicDeck(deckId, Type.OCTGN);
 			ResponseBuilder rs = Response.ok(exported.getCharacterData());
-			rs.header("Content-Disposition", "attachment; filename=\"" + exported.getTechName() + ".o8d\"");
+			rs.header("Content-Disposition",
+					"attachment; filename=\"" + exported.getTechName() + ".o8d\"");
 			return rs.build();
 		} catch (Exception e) {
 			DeckException de = buildDeckException(e, "error.deck.oper.export");
@@ -543,11 +535,12 @@ public class DeckController {
 	@Path("/public/{deckId}/comment")
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Response loadPublicDeckComments(@PathParam("deckId") Long deckId, @QueryParam("language") String language) {
+	public Response loadPublicDeckComments(@PathParam("deckId") Long deckId,
+			@QueryParam("language") String language) {
 		log.info("loadPublicDeckComments(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			List<DeckComment> deckComments = deckService.findPublicDeckComments(deckId);
@@ -565,16 +558,17 @@ public class DeckController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response createPublicDeckComment(@PathParam("deckId") Long deckId, @QueryParam("language") String language,
-			String body) {
+	public Response createPublicDeckComment(@PathParam("deckId") Long deckId,
+			@QueryParam("language") String language, String body) {
 
 		log.info("createPublicDeckComment(): auth token: {}, deck id: {}", authToken, deckId);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
-			DeckComment deckComment = JsonUtils.readObject(body, JsonDeckComment.class).toDeckComment();
+			DeckComment deckComment = JsonUtils.readObject(body, JsonDeckComment.class)
+					.toDeckComment();
 			deckComment = deckService.savePublicDeckComment(deckId, null, deckComment);
 			JsonDeckComment jsonDeckComment = new JsonDeckComment(deckComment);
 			return Response.ok(JsonUtils.write(jsonDeckComment)).build();
@@ -590,17 +584,19 @@ public class DeckController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response updatePublicDeckComment(@PathParam("deckId") Long deckId, @PathParam("commentId") Long commentId,
-			@QueryParam("language") String language, String body) {
+	public Response updatePublicDeckComment(@PathParam("deckId") Long deckId,
+			@PathParam("commentId") Long commentId, @QueryParam("language") String language,
+			String body) {
 
 		Object[] args = new Object[] { authToken, deckId, commentId };
 		log.info("updatePublicDeckComment(): auth token: {}, deck id: {}, comment id: {}", args);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
-			DeckComment deckComment = JsonUtils.readObject(body, JsonDeckComment.class).toDeckComment();
+			DeckComment deckComment = JsonUtils.readObject(body, JsonDeckComment.class)
+					.toDeckComment();
 			deckComment = deckService.savePublicDeckComment(deckId, commentId, deckComment);
 			JsonDeckComment jsonDeckComment = new JsonDeckComment(deckComment);
 			return Response.ok(JsonUtils.write(jsonDeckComment)).build();
@@ -615,14 +611,14 @@ public class DeckController {
 	@Path("/public/{deckId}/comment/{commentId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response deletePublicDeckComemnt(@PathParam("deckId") Long deckId, @PathParam("commentId") Long commentId,
-			@QueryParam("language") String language) {
+	public Response deletePublicDeckComemnt(@PathParam("deckId") Long deckId,
+			@PathParam("commentId") Long commentId, @QueryParam("language") String language) {
 
 		Object[] args = new Object[] { authToken, deckId, commentId };
 		log.info("deletePublicDeckComment(): auth token: {}, deck id: {}, comment id: {}", args);
 
-		queryContext.setUserId(authToken.getUserId());
-		queryContext.setUserLanguage(language);
+		requestContext.setUserId(authToken.getUserId());
+		requestContext.setUserLanguage(language);
 
 		try {
 			deckService.deletePublicDeckComment(deckId, commentId);
@@ -683,23 +679,5 @@ public class DeckController {
 		}
 
 		return crstBitmap;
-	}
-
-	private DeckException buildDeckException(Exception e, String error) {
-		DeckException de;
-		if (e instanceof DeckException) {
-			de = (DeckException) e;
-			de.bindErrorContext(error);
-		} else {
-			de = new DeckException(e);
-			de.setErrorCore(error);
-			de.setRequestContext(queryContext);
-		}
-		return de;
-	}
-
-	private JsonError buildJsonError(DeckException de) {
-		PropertyResourceBundle bundle = resolver.getClientBundle(queryContext.getUserLanguage());
-		return new JsonError(de.getTimestamp(), de.toUserMessage(bundle));
 	}
 }

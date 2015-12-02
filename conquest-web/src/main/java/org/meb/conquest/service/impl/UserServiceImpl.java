@@ -1,4 +1,4 @@
-package org.meb.conquest.service;
+package org.meb.conquest.service.impl;
 
 import java.io.Serializable;
 import java.security.SecureRandom;
@@ -21,6 +21,10 @@ import org.jboss.resteasy.util.Hex;
 import org.meb.conquest.core.Constant;
 import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.User;
+import org.meb.conquest.service.ExceptionFilter;
+import org.meb.conquest.service.HashHelper;
+import org.meb.conquest.service.RequestContext;
+import org.meb.conquest.service.api.UserService;
 import org.meb.conquest.web.rest.MessageBundleResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

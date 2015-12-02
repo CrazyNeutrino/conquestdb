@@ -1,4 +1,4 @@
-package org.meb.conquest.service;
+package org.meb.conquest.service.api;
 
 import java.util.List;
 
@@ -11,10 +11,6 @@ import org.meb.conquest.web.rest.controller.ExportedDeck;
 import org.meb.conquest.web.rest.controller.ExportedDeck.Type;
 
 public interface DeckService extends SearchService {
-
-//	List<Deck> findDecks(DeckQuery query);
-//
-//	Long countDecks(DeckQuery query);
 
 	Deck findUserDeck(Long deckId, boolean throwWhenNotFound) throws DeckException;
 

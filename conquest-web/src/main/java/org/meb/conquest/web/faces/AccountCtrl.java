@@ -9,18 +9,18 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.apache.commons.lang3.StringUtils;
 import org.meb.conquest.core.Constant;
 import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.User;
 import org.meb.conquest.service.RequestContext;
-import org.meb.conquest.service.UserService;
+import org.meb.conquest.service.api.UserService;
 import org.meb.conquest.web.auth.AuthToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

@@ -17,8 +17,8 @@ import org.meb.conquest.db.model.loc.CardSet;
 import org.meb.conquest.db.model.loc.Domain;
 import org.meb.conquest.db.query.Query;
 import org.meb.conquest.db.util.Transformers;
-import org.meb.conquest.service.CardService;
 import org.meb.conquest.service.RequestContext;
+import org.meb.conquest.service.api.CardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

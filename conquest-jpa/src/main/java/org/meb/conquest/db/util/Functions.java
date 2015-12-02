@@ -3,6 +3,7 @@ package org.meb.conquest.db.util;
 import org.meb.conquest.db.model.CardType;
 import org.meb.conquest.db.model.Deck;
 import org.meb.conquest.db.model.DeckComment;
+import org.meb.conquest.db.model.DeckInterest;
 import org.meb.conquest.db.model.DeckLink;
 import org.meb.conquest.db.model.DeckMember;
 import org.meb.conquest.db.model.Faction;
@@ -143,6 +144,14 @@ public class Functions {
 		@Override
 		public Long apply(Card input) {
 			return input.getId();
+		}
+	};
+	
+	public static final Function<DeckInterest, String> DEIN_KEY = new Function<DeckInterest, String>() {
+
+		@Override
+		public String apply(DeckInterest input) {
+			return input.getDeckId() + "#" + input.getUserId();
 		}
 	};
 }

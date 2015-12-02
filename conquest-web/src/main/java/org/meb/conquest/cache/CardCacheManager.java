@@ -1,33 +1,28 @@
 package org.meb.conquest.cache;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-
 import org.apache.commons.lang3.StringUtils;
 import org.meb.conquest.db.dao.CardDao;
 import org.meb.conquest.db.model.CardType;
-import org.meb.conquest.db.model.Faction;
 import org.meb.conquest.db.model.loc.Card;
 import org.meb.conquest.db.query.CardQuery;
 import org.meb.conquest.db.util.DatabaseUtils;
 import org.meb.conquest.deck.helper.DeckHelper;
 import org.meb.conquest.deck.helper.DeckHelperFactory;
-import org.meb.conquest.service.DeckServiceImpl;
 import org.meb.conquest.service.RequestContext;
+import org.meb.conquest.service.impl.DeckServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 
 public class CardCacheManager {
 	

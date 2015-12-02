@@ -1,4 +1,4 @@
-package org.meb.conquest.service;
+package org.meb.conquest.service.api;
 
 import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.User;

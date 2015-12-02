@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import org.meb.conquest.db.model.loc.CardSet;
 import org.meb.conquest.db.query.Query;
-import org.meb.conquest.service.CardSetService;
+import org.meb.conquest.service.api.CardSetService;
 import org.meb.conquest.web.auth.AuthToken;
 import org.meb.conquest.web.json.model.JsonCardSet;
 import org.slf4j.Logger;
