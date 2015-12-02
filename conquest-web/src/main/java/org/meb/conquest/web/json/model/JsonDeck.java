@@ -49,6 +49,8 @@ public class JsonDeck {
 	private String type;
 	private String tournamentType;
 	private String tournamentPlace;
+	private JsonDeckInterest totalDeckInterest;
+	private JsonDeckInterest userDeckInterest;
 
 	private boolean loadMembers;
 	private boolean loadLinks;
@@ -76,6 +78,8 @@ public class JsonDeck {
 		username = deck.getUser().getUsername();
 		tournamentType = deck.getTournamentType();
 		tournamentPlace = deck.getTournamentPlace();
+		totalDeckInterest = new JsonDeckInterest(deck.getTotalDeckInterest());
+		userDeckInterest = new JsonDeckInterest(deck.getUserDeckInterest());
 
 		if (loadMembers) {
 			for (DeckMember deckMember : deck.getDeckMembers()) {

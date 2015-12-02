@@ -324,9 +324,19 @@ var translateMap = {
 		'pace-marines': '#3173CE',
 		'tau': '#4CD0DC',
 		'tyranid': '#A32618'
+	},
+	interestIconClass: {
+		'rating-0': 'db-icon db-icon-star-empty',
+		'rating-1': 'db-icon db-icon-star',
+		'favourite-0': 'db-icon db-icon-heart-empty',
+		'favourite-1': 'db-icon db-icon-heart'
 	}
 };
 
 Handlebars.registerHelper('translate', function(value, context, options) {
-	return translateMap[context][value];
+	if (context == 'interestIconClass') {
+		return translateMap[context][options.hash.kind + '-' + value[options.hash.kind]];
+	} else {
+		return translateMap[context][value];
+	}
 });

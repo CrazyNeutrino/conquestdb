@@ -49,7 +49,16 @@
 								{{/if}}
 								{{#if tournamentType}}
 								<i class="{{translate tournamentType 'tournamentTypeIconClass'}}" data-toggle="tooltip"
-									data-placement="bottom" title="{{loc (translate tournamentType 'tournamentTypeDisplay')}}"></i>
+									data-placement="bottom" title="{{loc (translate tournamentType 'tournamentTypeDisplay')}}"
+									style="font-size: 0.9em;"></i>
+								{{/if}}
+								{{#if totalDeckInterest}}
+								{{#if userDeckInterest}}
+								<i class="{{translate userDeckInterest 'interestIconClass' kind='favourite'}}" style="margin-left: 10px;"></i>
+								{{totalDeckInterest.favourite}}
+								<i class="{{translate userDeckInterest 'interestIconClass' kind='rating'}}"></i>
+								{{totalDeckInterest.rating}}
+								{{/if}}
 								{{/if}}
 							</div>
 						</div>

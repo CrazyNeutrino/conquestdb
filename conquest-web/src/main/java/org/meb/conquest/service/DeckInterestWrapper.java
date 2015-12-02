@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeckInterestWrapper {
 
-	private DeckInterest userDeckInterst;
+	private DeckInterest userDeckInterest;
 	private DeckInterest totalDeckInterest;
 
-	public DeckInterestWrapper(DeckInterest userDeckInterst, DeckInterest totalDeckInterest) {
+	public DeckInterestWrapper(DeckInterest userDeckInterest, DeckInterest totalDeckInterest) {
 		super();
-		this.userDeckInterst = userDeckInterst;
+		this.userDeckInterest = userDeckInterest;
 		this.totalDeckInterest = totalDeckInterest;
 	}
 }

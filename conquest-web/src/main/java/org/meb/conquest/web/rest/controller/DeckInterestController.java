@@ -96,7 +96,7 @@ public class DeckInterestController extends AbstractController {
 		requestContext.setUserLanguage(language);
 
 		try {
-			DeckInterestWrapper wrapper = deckInterestService.get(deckId);
+			DeckInterestWrapper wrapper = deckInterestService.loadInterest(deckId);
 			return Response.ok(JsonUtils.write(wrapperToMap(wrapper))).build();
 		} catch (Exception e) {
 			DeckException de = buildDeckException(e, "error.deck.oper.rateDeck");
@@ -107,8 +107,8 @@ public class DeckInterestController extends AbstractController {
 
 	private Map<String, JsonDeckInterest> wrapperToMap(DeckInterestWrapper wrapper) {
 		Map<String, JsonDeckInterest> map = new HashMap<>();
-		if (wrapper.getUserDeckInterst() != null) {
-			map.put("user", new JsonDeckInterest(wrapper.getUserDeckInterst()));
+		if (wrapper.getUserDeckInterest() != null) {
+			map.put("user", new JsonDeckInterest(wrapper.getUserDeckInterest()));
 		}
 		if (wrapper.getTotalDeckInterest() != null) {
 			map.put("total", new JsonDeckInterest(wrapper.getTotalDeckInterest()));

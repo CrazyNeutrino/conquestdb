@@ -76,17 +76,27 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 	}
 
 	@Override
-	public DeckInterestWrapper get(Long deckId) throws DeckException {
+	public DeckInterestWrapper loadInterest(Long deckId) {
 		lock.readLock().lock();
 		try {
-			DeckInterest deckUserDI = null;
-			if (requestContext.getUserId() != null) {
-				String deckUserKey = Functions.DEIN_KEY
-						.apply(new DeckInterest(deckId, requestContext.getUserId()));
-				deckUserDI = deckUserIndex.get(deckUserKey);
+			Long userId = requestContext.getUserId();
+
+			String deckUserKey = Functions.DEIN_KEY.apply(new DeckInterest(deckId, userId));
+			DeckInterest deckUserDI = deckUserIndex.get(deckUserKey);
+			if (deckUserDI == null) {
+				deckUserDI = new DeckInterest(deckId, userId);
+				deckUserDI.setFavourite(0);
+				deckUserDI.setRating(0);
 			}
+
 			Long deckTotalKey = deckId;
 			DeckInterest deckTotalDI = deckTotalIndex.get(deckTotalKey);
+			if (deckTotalDI == null) {
+				deckTotalDI = new DeckInterest(deckId, userId);
+				deckTotalDI.setFavourite(0);
+				deckTotalDI.setRating(0);
+			}
+
 			return new DeckInterestWrapper(deckUserDI, deckTotalDI);
 		} finally {
 			lock.readLock().unlock();

@@ -119,6 +119,13 @@ public class Deck {
 
 	@Transient
 	private Set<Deck> relatedSnapshots = new HashSet<Deck>();
+	
+	@Transient
+	private DeckInterest totalDeckInterest;
+	
+	@Transient
+	private DeckInterest userDeckInterest;
+	
 
 	@Version
 	private Long version;

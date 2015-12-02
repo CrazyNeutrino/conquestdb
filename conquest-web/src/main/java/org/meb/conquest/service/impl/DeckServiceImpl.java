@@ -68,8 +68,10 @@ import org.meb.conquest.deck.helper.DeckHelperFactory;
 import org.meb.conquest.deck.validation.DeckValidator.ValidationMode;
 import org.meb.conquest.deck.validation.DeckValidatorChain;
 import org.meb.conquest.deck.validation.PreprocessDeckValidator;
+import org.meb.conquest.service.DeckInterestWrapper;
 import org.meb.conquest.service.ExceptionFilter;
 import org.meb.conquest.service.RequestContext;
+import org.meb.conquest.service.api.DeckInterestService;
 import org.meb.conquest.service.api.DeckService;
 import org.meb.conquest.util.CardResolver;
 import org.meb.conquest.web.rest.controller.ExportedDeck;
@@ -102,6 +104,8 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 	private CardResolver databaseCardResolver;
 	@Inject
 	private DeckExceptionBuilder deckExceptionBuilder;
+	@Inject
+	private DeckInterestService deckInterestService;
 
 	private DeckDao deckDao;
 	private DeckMemberDao deckMemberDao;
@@ -184,7 +188,7 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 				t[9] = System.currentTimeMillis();
 				log.info("deck snapshots found: {}", snapshots.size());
 			}
-
+			
 			MultiValueMap<Long, DeckMember> demeMap = new MultiValueMap<>();
 			MapUtils.populateMap(demeMap, deckMembers, Transformers.DEME_DECK_ID);
 			MultiValueMap<Long, DeckLink> deliMap = new MultiValueMap<>();
@@ -214,6 +218,12 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 				deck.setSnapshots(new HashSet<Deck>());
 				if (snapshotsMap.containsKey(deckId)) {
 					deck.getSnapshots().addAll(snapshotsMap.getCollection(deckId));
+				}
+				
+				if (query.isLoadInterests()) {
+					DeckInterestWrapper wrapper = deckInterestService.loadInterest(deckId);
+					deck.setTotalDeckInterest(wrapper.getTotalDeckInterest());
+					deck.setUserDeckInterest(wrapper.getUserDeckInterest());
 				}
 			}
 
@@ -595,6 +605,9 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 			de.setRequestContext(requestContext);
 			throw de;
 		}
+		DeckInterestWrapper wrapper = deckInterestService.loadInterest(deck.getId());
+		deck.setTotalDeckInterest(wrapper.getTotalDeckInterest());
+		deck.setUserDeckInterest(wrapper.getUserDeckInterest());
 		return deck;
 	}
 

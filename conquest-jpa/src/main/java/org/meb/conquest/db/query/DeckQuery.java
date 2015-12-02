@@ -50,6 +50,7 @@ public class DeckQuery extends Query<Deck> {
 	private boolean loadLinks;
 	private boolean loadComments;
 	private boolean loadSnapshots;
+	private boolean loadInterests;
 
 	public DeckQuery() {
 		super(new Deck());
@@ -76,6 +77,11 @@ public class DeckQuery extends Query<Deck> {
 
 	public DeckQuery withSnapshots() {
 		loadSnapshots = true;
+		return this;
+	}
+
+	public DeckQuery withInterests() {
+		loadInterests = true;
 		return this;
 	}
 

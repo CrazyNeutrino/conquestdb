@@ -90,7 +90,7 @@ footer.footer > .container > p:first-child {
 	position: absolute;
 	right: 0px;
 	bottom: -4px;
-	font-size: 1.3em;
+	font-size: 1.2em;
 }
 
 .db-tournament-marker > i:not(:last-child) {
@@ -712,7 +712,7 @@ table.table-with-btn > tbody > tr > td {
      margin-right: .1em; */
  
   /* you can be more comfortable with increased icons size */
-  font-size: 1.1em;
+  /* font-size: 1.1em; */
  
   /* Font smoothing. That was taken from TWBS */
   -webkit-font-smoothing: antialiased;
@@ -745,6 +745,12 @@ table.table-with-btn > tbody > tr > td {
 .db-icon-king:before { content: '\e810'; }
 .db-icon-1st:before { content: '\e811'; }
 .db-icon-2nd:before { content: '\e812'; }
+.db-icon-heart:before { content: '\e813'; }
+.db-icon-heart-empty:before { content: '\e814'; }
+.db-icon-star:before { content: '\e815'; }
+.db-icon-star-empty:before { content: '\e816'; }
+.db-icon-comment:before { content: '\e817'; }
+.db-icon-comment-empty:before { content: '\e818'; }
 
 /* .fg-astra-militarum { color: #8A8A8A; } */
 .fg-astra-militarum { color: #000; }

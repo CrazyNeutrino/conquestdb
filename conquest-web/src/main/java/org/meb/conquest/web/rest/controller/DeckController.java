@@ -413,7 +413,7 @@ public class DeckController extends AbstractController {
 				example.setSnapshotBase(new Deck(params.getSnapshotBaseId()));
 			}
 
-			DeckQuery query = new DeckQuery(example).withMembers();
+			DeckQuery query = new DeckQuery(example).withMembers().withInterests();
 			query.setPageNumber(params.getPageNumber());
 			query.setPageSize(params.getPageSize());
 			query.setPrimaryFactions(Faction.convertToFactions(params.getPrimaryFaction()));

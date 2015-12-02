@@ -11,12 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class JsonDeckInterest {
 
-	private Long deckId;
+	// private Long deckId;
 	private Integer favourite;
 	private Integer rating;
-	
+
 	public JsonDeckInterest(DeckInterest deckInterest) {
-		this.deckId = deckInterest.getDeckId();
+		// this.deckId = deckInterest.getDeckId();
 		this.favourite = deckInterest.getFavourite();
 		this.rating = deckInterest.getRating();
 	}
