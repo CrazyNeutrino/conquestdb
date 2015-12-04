@@ -1,53 +1,63 @@
-<div class="row card-search-view">	
-	<div class="col-xs-12 card-search-filter-container">		
-		<div class="form-inline">
-			<div id="factionFilter" class="btn-group select-many filter-faction filter-group">
-				{{#each filter.factions}}							
-				<label class="btn btn-default" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
-					<i class="db-icon db-icon-{{techName}}"></i>
-				</label>
-				{{/each}}
-			</div>
-			<div id="cardTypeFilter" class="btn-group select-many filter-group">
-				{{#each filter.cardTypes}}
-				<label class="btn btn-default" data-type="{{techName}}" data-toggle="tooltip" title="{{name}}">
-					<i class="{{cardTypeToIconClass techName}}"></i>
-				</label>
-				{{/each}}
-			</div>
-			<div id="quantityFilter" class="btn-group select-many filter-group">
-				{{#for 1 4 1}}
-				<label class="btn btn-default" data-quantity="{{this}}" data-toggle="tooltip" title="{{loc 'card.quantity'}}: {{this}}">
-					<span>{{this}}</span>
-				</label>
-				{{/for}}
-			</div>
-			<label id="cardSetfilterTrigger" class="btn btn-default btn-standard filter-group">
-				<span class="glyphicon glyphicon-filter"></span>&nbsp;{{loc 'core.sets'}}
-			</label>
-			<label id="cardStatfilterTrigger" class="btn btn-default btn-standard filter-group">
-				<span class="glyphicon glyphicon-filter"></span>&nbsp;{{loc 'core.values'}}
-			</label>
+<div class="card-search-view">
 
-			<select class="form-control sort-control filter-group">
-				<option value="default">{{loc 'core.defaultSorting'}}</option>
-				{{#each sortItems ~}}
-				<option value="{{value}},asc">{{label}}&nbsp;&#9650;</option>
-				<option value="{{value}},desc">{{label}}&nbsp;&#9660;</option>
-				{{/each}}
-			</select>
-		</div>
+	<div class="content-band">
+		<div class="container">
 
-		<div class="form">
-			<div id="textFilter" class="input-group" style="margin-bottom: 10px;">
-				<input class="form-control" id="mainSearchInput" type="text" placeholder="{{loc 'core.nameOrTraitOrKeyword'}}" value="" />
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-				</span>
+
+			<div class="row">	
+				<div class="col-xs-12 card-search-filter-container">		
+					<div class="form-inline">
+						<div id="factionFilter" class="btn-group select-many filter-faction filter-group">
+							{{#each filter.factions}}							
+							<label class="btn btn-default" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
+								<i class="db-icon db-icon-{{techName}}"></i>
+							</label>
+							{{/each}}
+						</div>
+						<div id="cardTypeFilter" class="btn-group select-many filter-group">
+							{{#each filter.cardTypes}}
+							<label class="btn btn-default" data-type="{{techName}}" data-toggle="tooltip" title="{{name}}">
+								<i class="{{cardTypeToIconClass techName}}"></i>
+							</label>
+							{{/each}}
+						</div>
+						<div id="quantityFilter" class="btn-group select-many filter-group">
+							{{#for 1 4 1}}
+							<label class="btn btn-default" data-quantity="{{this}}" data-toggle="tooltip" title="{{loc 'card.quantity'}}: {{this}}">
+								<span>{{this}}</span>
+							</label>
+							{{/for}}
+						</div>
+						<label id="cardSetfilterTrigger" class="btn btn-default btn-standard filter-group">
+							<span class="glyphicon glyphicon-filter"></span>&nbsp;{{loc 'core.sets'}}
+						</label>
+						<label id="cardStatfilterTrigger" class="btn btn-default btn-standard filter-group">
+							<span class="glyphicon glyphicon-filter"></span>&nbsp;{{loc 'core.values'}}
+						</label>
+			
+						<select class="form-control sort-control filter-group">
+							<option value="default">{{loc 'core.defaultSorting'}}</option>
+							{{#each sortItems ~}}
+							<option value="{{value}},asc">{{label}}&nbsp;&#9650;</option>
+							<option value="{{value}},desc">{{label}}&nbsp;&#9660;</option>
+							{{/each}}
+						</select>
+					</div>
+			
+					<div class="form">
+						<div id="textFilter" class="input-group" style="margin-bottom: 10px;">
+							<input class="form-control" id="mainSearchInput" type="text" placeholder="{{loc 'core.nameOrTraitOrKeyword'}}" value="" />
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+							</span>
+						</div>
+					</div>
+			
+					<div class="card-search-results-container">			
+					</div>
+				</div>
 			</div>
-		</div>
 
-		<div class="card-search-results-container">			
 		</div>
 	</div>
 </div>

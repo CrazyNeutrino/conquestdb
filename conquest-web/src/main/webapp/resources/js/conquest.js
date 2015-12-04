@@ -1187,14 +1187,14 @@ conquest.ui = conquest.ui || {};
 	};
 	
 	_ui.adjustNavbarColors = function(faction) {
-		var selector = '.navbar, .navbar .navbar-brand, .navbar .navbar-nav a';
-		var removeClasses = _.reduce(conquest.dict.factions, function(outcome, faction) {
-			return outcome + 'bg-' + faction.techName + ' ';
-		}, '');
-		$(selector).removeClass(removeClasses);
-		if (faction) {
-			$(selector).addClass('bg-' + faction);
-		}
+//		var selector = '.navbar, .navbar .navbar-brand, .navbar .navbar-nav a';
+//		var removeClasses = _.reduce(conquest.dict.factions, function(outcome, faction) {
+//			return outcome + 'bg-' + faction.techName + ' ';
+//		}, '');
+//		$(selector).removeClass(removeClasses);
+//		if (faction) {
+//			$(selector).addClass('bg-' + faction);
+//		}
 	};
 	
 })(conquest.ui);

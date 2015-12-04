@@ -340,3 +340,16 @@ Handlebars.registerHelper('translate', function(value, context, options) {
 		return translateMap[context][value];
 	}
 });
+
+Handlebars.registerHelper('deckColor', function(faction, options) {	
+	return conquest.deck.factionColors[faction].base;
+});
+
+Handlebars.registerHelper('deckBoxShadowStyle', function(color, options) {	
+	var tmpColor = color.replace('#', '');
+	var r = parseInt(tmpColor.substr(0, 2), 16);
+	var g = parseInt(tmpColor.substr(2, 2), 16);
+	var b = parseInt(tmpColor.substr(4, 2), 16);
+	return 'box-shadow: 0 0 2px rgba($r,$g,$b,.6), 0 2px 4px rgba($r,$g,$b,.6)'
+				.replace(/\$r/g, r).replace(/\$g/g, g).replace(/\$b/g, b);
+});

@@ -7,62 +7,69 @@
 		<h:outputScript target="head">
 			ga('send', 'pageview');
 		</h:outputScript>
-	
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<h3>#{m['core.signIn']}</h3>
-				<div class="row plain-form-wrapper">
-					<div class="col-md-8">
-						<!-- <div class="row">
-							<div class="col-md-7 col-md-offset-5">
-								<h:messages errorClass="message-error" globalOnly="true" styleClass="messages-group" />
+		
+		<div class="content-band">
+			<div class="container">
+			
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<h3>#{m['core.signIn']}</h3>
+						<div class="row plain-form-wrapper">
+							<div class="col-md-8">
+								<!-- <div class="row">
+									<div class="col-md-7 col-md-offset-5">
+										<h:messages errorClass="message-error" globalOnly="true" styleClass="messages-group" />
+									</div>
+								</div> -->
+								<h:form id="signInForm" class="plain-form">
+									<div class="form-group row">
+										<label for="name" class="col-md-5 required control-label">#{m['core.username']}</label>
+										<div class="col-md-7">
+											<h:inputText id="name" value="#{accountCtrl.name}" class="form-control" required="true"
+												requiredMessage="#{m['error.username.required']}" binding="#{accountCtrl.nameUIInput}">
+											</h:inputText>
+											<h:message for="name" errorClass="message-error" />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="password" class="col-md-5 required control-label">#{m['core.password']}</label>
+										<div class="col-md-7">
+											<h:inputSecret id="password" value="#{accountCtrl.password}" class="form-control"
+												required="true" requiredMessage="#{m['error.password.required']}"
+												binding="#{accountCtrl.passwordUIInput}">
+											</h:inputSecret>
+											<h:message for="password" errorClass="message-error" />
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-md-7 col-md-offset-5">
+											<h:commandButton class="btn btn-primary form-control" action="#{accountCtrl.signInUser}"
+												value="#{m['core.signIn']}" />
+										</div>
+									</div>
+								</h:form>
 							</div>
-						</div> -->
-						<h:form id="signInForm" class="plain-form">
-							<div class="form-group row">
-								<label for="name" class="col-md-5 required control-label">#{m['core.username']}</label>
-								<div class="col-md-7">
-									<h:inputText id="name" value="#{accountCtrl.name}" class="form-control" required="true"
-										requiredMessage="#{m['error.username.required']}" binding="#{accountCtrl.nameUIInput}">
-									</h:inputText>
-									<h:message for="name" errorClass="message-error" />
-								</div>
+							<div class="col-md-4" style="padding-left: 30px;">
+								<p>
+									<pretty:link mappingId="register">
+										<f:param value="#{localeCtrl.language}" />
+										<h:outputText value="#{m['core.iWantToRegister']}" />
+									</pretty:link>
+								</p>
+								<p>
+									<pretty:link mappingId="resetPassword">
+										<f:param value="#{localeCtrl.language}" />
+										<h:outputText value="#{m['core.iForgotMyPassword']}" />
+									</pretty:link>
+								</p>
 							</div>
-							<div class="form-group row">
-								<label for="password" class="col-md-5 required control-label">#{m['core.password']}</label>
-								<div class="col-md-7">
-									<h:inputSecret id="password" value="#{accountCtrl.password}" class="form-control"
-										required="true" requiredMessage="#{m['error.password.required']}"
-										binding="#{accountCtrl.passwordUIInput}">
-									</h:inputSecret>
-									<h:message for="password" errorClass="message-error" />
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-7 col-md-offset-5">
-									<h:commandButton class="btn btn-primary form-control" action="#{accountCtrl.signInUser}"
-										value="#{m['core.signIn']}" />
-								</div>
-							</div>
-						</h:form>
-					</div>
-					<div class="col-md-4" style="padding-left: 30px;">
-						<p>
-							<pretty:link mappingId="register">
-								<f:param value="#{localeCtrl.language}" />
-								<h:outputText value="#{m['core.iWantToRegister']}" />
-							</pretty:link>
-						</p>
-						<p>
-							<pretty:link mappingId="resetPassword">
-								<f:param value="#{localeCtrl.language}" />
-								<h:outputText value="#{m['core.iForgotMyPassword']}" />
-							</pretty:link>
-						</p>
+						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
+		
 		<h:outputScript>
 		$(document).ready(function() {
 			$("#signInForm\\:name").focus();

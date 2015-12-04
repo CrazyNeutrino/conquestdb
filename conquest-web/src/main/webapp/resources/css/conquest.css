@@ -37,6 +37,11 @@ footer.footer > .container > p:first-child {
  * deck list view
  */
  
+/* .deck-list .content-band {
+	background-color: #f2f2f2;
+	margin-top: -20px;
+} */
+ 
 .box-left,
 .box-right {
 	display: table-cell;
@@ -58,7 +63,7 @@ footer.footer > .container > p:first-child {
 	border: none;
 	background-color: #fff;
 	margin: 10px 0px;
-	/* box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24); */
+	/* box-shadow: 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24); */
 	border-radius: 2px;	
 }
 
@@ -99,48 +104,72 @@ footer.footer > .container > p:first-child {
 
 .db-tournament-marker > i:first-child {
 	position: relative;
-    top: -2px;
+    top: -1px;
 }
 
 /**
  * deck full view
  */
  
+.pub-deck-view .content-band,
+.user-deck-edit-view .content-band {
+	background-color: #fff;
+}
+
+.pub-deck-view .deck .header-band ,
+.user-deck-edit-view .deck .header-band {
+	margin-top: -21px;
+}
+
+.pub-deck-view .deck .content-band ,
+.user-deck-edit-view .deck .content-band {
+	margin-bottom: -21px;
+}
+ 
 .pub-deck-view .deck,
-.user-deck-view .deck {
+.user-deck-edit-view .deck {
 	background-color: #fff;
 	/* box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24); */
 	border-radius: 2px;
 }
 
-.pub-deck-view .deck > .header,
-.user-deck-view .deck > .header {
-	padding: 15px 15px 10px 15px;
+.pub-deck-view .deck .header,
+.user-deck-edit-view .deck .header {
+	padding: 15px 0px 10px 0px;
 	border-top-left-radius: 2px;
 	border-top-right-radius: 2px;
 }
 
-.pub-deck-view .deck > .header > .box-left > .db-icon,
-.user-deck-view .deck > .header > .box-left > .db-icon {
+.pub-deck-view .deck .header > .box-left > .db-icon,
+.user-deck-edit-view .deck .header > .box-left > .db-icon {
 	font-size: 40px; 
 	margin-right: 15px;
 }
 
-.pub-deck-view .deck > .header > .box-center > h2:first-child,
-.user-deck-view .deck > .header > .box-center > h2:first-child {
+.pub-deck-view .deck .header > .box-center > h2:first-child,
+.user-deck-edit-view .deck .header > .box-center > h2:first-child {
 	margin-top: 0px;
 	margin-bottom: 5px;
 }
 
-.pub-deck-view .deck > .box-center,
-.user-deck-view .deck > .box-center {
+/* .pub-deck-view .deck .box-center,
+.user-deck-edit-view .deck .box-center {
 	padding: 15px;
+} */
+
+.pub-deck-view .deck .content,
+.user-deck-edit-view .deck .content {
+	padding: 15px 0px;
 }
 
 .mg-container .mg ul {
 	list-style: none;
 	margin: 5px 0px;
 	padding: 0px;
+}
+
+.mg-container .mg .db-icon {
+	margin: 0px 2px;	
 }
 
 .mg-container .mg .mg-title {
@@ -753,7 +782,7 @@ table.table-with-btn > tbody > tr > td {
 .db-icon-comment-empty:before { content: '\e818'; }
 
 /* .fg-astra-militarum { color: #8A8A8A; } */
-.fg-astra-militarum { color: #000; }
+.fg-astra-militarum { color: #505050; }
 .fg-chaos { color: #E65B2E; }
 .fg-dark-eldar { color: #B965AA; }
 .fg-eldar { color: #EADA67; }
@@ -763,7 +792,7 @@ table.table-with-btn > tbody > tr > td {
 .fg-tyranid { color: #A32618; }
 
 /* .bg-astra-militarum { background-color: #8A8A8A !important; color: #000 !important; } */
-.bg-astra-militarum { background-color: #000 !important; color: #fff !important; }
+.bg-astra-militarum { background-color: #505050 !important; color: #fff !important; }
 .bg-chaos { background-color: #E65B2E !important; color: #000 !important; }
 .bg-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
 .bg-eldar { background-color: #EADA67 !important; color: #000 !important; }
@@ -772,7 +801,7 @@ table.table-with-btn > tbody > tr > td {
 .bg-tau { background-color: #4CD0DC !important; color: #000 !important; }
 .bg-tyranid { background-color: #A32618 !important; color: #fff !important; }
 
-.bor-astra-militarum { border-color: #000 !important; }
+.bor-astra-militarum { border-color: #505050 !important; }
 .bor-chaos { border-color: #E65B2E !important; }
 .bor-dark-eldar { border-color: #B965AA !important; }
 .bor-eldar { border-color: #EADA67 !important; }
@@ -781,7 +810,7 @@ table.table-with-btn > tbody > tr > td {
 .bor-tau { border-color: #4CD0DC !important; }
 .bor-tyranid { border-color: #A32618 !important; }
 
-.btn-astra-militarum { background-color: #000 !important; color: #fff !important; }
+.btn-astra-militarum { background-color: #505050 !important; color: #fff !important; }
 .btn-chaos { background-color: #E65B2E !important; color: #000 !important; }
 .btn-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
 .btn-eldar { background-color: #EADA67 !important; color: #000 !important; }
@@ -790,7 +819,7 @@ table.table-with-btn > tbody > tr > td {
 .btn-tau { background-color: #4CD0DC !important; color: #000 !important; }
 .btn-tyranid { background-color: #A32618 !important; color: #fff !important; }
 
-.btn-astra-militarum:hover { background-color: #262626 !important; }
+.btn-astra-militarum:hover { background-color: #363636 !important; }
 .btn-chaos:hover { background-color: #E04C1A !important; }
 .btn-dark-eldar:hover { background-color: #B253A0 !important; }
 .btn-eldar:hover { background-color: #E7D550 !important; }
@@ -802,6 +831,11 @@ table.table-with-btn > tbody > tr > td {
 /*
  * bootstrap overrides
  */
+ 
+/* .navbar.lite {
+	margin-bottom: 0px;
+} */
+
 .btn.btn-raised {
     border-radius: 2px;
     box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);

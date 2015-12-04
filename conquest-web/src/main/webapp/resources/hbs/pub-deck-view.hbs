@@ -1,200 +1,218 @@
 <div class="pub-deck-view">
-	<div class="deck pub-deck">
-
-		{{!-- header --}}
+	<div class="deck pub-deck">		
 		
-		<div class="header bg-{{deck.warlord.faction}}">				
-			<div class="box-left">
-				<div class="db-icon db-icon-{{deck.warlord.faction}}"></div>
-			</div>
-			<div class="box-center">
-				<h2>{{deck.name}}</h2>
-				<div>{{deck.warlord.name}}&nbsp;&#8226;&nbsp;{{deck.username}}&nbsp;&#8226;&nbsp;
-						<span data-toggle="tooltip" data-placement="top" title="{{moment deck.createDate}}">
-							{{~ momentFromNow deck.createDate ~}}
-						</span>
-				</div>
-			</div>
+		<div class="header-band bg-{{deck.warlord.faction}}">
+			<div class="container">
 			
-			{{!--
-			{{#ifUserDeck deck}}
-			{{#ifPublicSnapshot deck}}
-			<a href="{{userDeckUrl deck.snapshotBaseId undefined}}"><span class="glyphicon glyphicon-pencil"></span></a>
-			{{/ifPublicSnapshot}}
- 			{{/ifUserDeck}}
- 			--}}
- 			
- 			{{!--
-			<span class="twitter popup pull-right social">
-				<i style="color: #55ACEE;" class="fa fa-twitter"></i>
-			</span>
-			--}}
+				{{!-- header --}}
+									
+				<div class="header">
+					<div class="box-left">
+						<div class="db-icon db-icon-{{deck.warlord.faction}}"></div>
+					</div>
+					<div class="box-center">
+						<h2>{{deck.name}}</h2>
+						<div>{{deck.warlord.name}}&nbsp;&#8226;&nbsp;{{deck.username}}&nbsp;&#8226;&nbsp;
+								<span data-toggle="tooltip" data-placement="top" title="{{moment deck.createDate}}">
+									{{~ momentFromNow deck.createDate ~}}
+								</span>
+						</div>
+					</div>
+					
+					{{!--
+					{{#ifUserDeck deck}}
+					{{#ifPublicSnapshot deck}}
+					<a href="{{userDeckUrl deck.snapshotBaseId undefined}}"><span class="glyphicon glyphicon-pencil"></span></a>
+					{{/ifPublicSnapshot}}
+		 			{{/ifUserDeck}}
+		 			--}}
+		 			
+		 			{{!--
+					<span class="twitter popup pull-right social">
+						<i style="color: #55ACEE;" class="fa fa-twitter"></i>
+					</span>
+					--}}
+					
+				</div>
+				
+				{{!-- header end --}}
+			
+			</div>
 		</div>
-		
-		{{!-- main content --}}
-		
-		<div class="box-center">					
-			<div class="row">
+				
+		<div class="content-band">
+			<div class="container">
 			
-				{{!-- left column --}}
-				
-				<div class="col-md-5 col-lg-5">
-					<div class="actions-container"></div>
-					<div class="deck-info-container row">
-						<div class="col-xs-12" style="font-size: 18px; margin-bottom: 10px;">
-							<a href="{{cardUrl deck.warlord.id}}" target="_blank" data-image-base="{{deck.warlord.imageBase}}" ><strong>{{deck.warlord.name}}</strong></a>
-						</div>
-						<div class="col-xs-6 col-md-5">
-							<a href="{{cardUrl deck.warlord.id}}" target="_blank"><img src="{{cardImagePath deck.warlordId}}" class="card-sm" /></a>
-						</div>
-						<div class="deck-stats-container col-xs-6 col-md-7">				
-						</div>
-					</div>		
-					<div class="mg-container"></div>		
-				</div>
-				
-				{{!-- right column --}}
-				
-				<div class="col-md-7 col-lg-7" role="tabpanel">
-					<ul class="nav nav-tabs lite" role="tablist" id="tabs1ul">
-						<li role="presentation" class="active">
-							<a href="#deckDeckTab" aria-controls="deck" role="tab" data-toggle="tab"
-								class="bor-{{deck.warlord.faction}}">{{loc 'core.deck'}}</a>
-						</li>
-						<li role="presentation">
-							<a href="#deckDescriptionTab" aria-controls="description" role="tab" data-toggle="tab"
-								class="bor-{{deck.warlord.faction}}">{{loc 'core.description'}}</a>
-						</li>
-						{{#ifPublicSnapshot deck}}
-						<li role="presentation">
-							<a href="#deckCommentsTab" aria-controls="comments" role="tab" data-toggle="tab"
-								class="bor-{{deck.warlord.faction}}">{{loc 'core.comments'}}</a>
-						</li>
-						{{/ifPublicSnapshot}}
-						<li role="presentation">
-							<a href="#deckUtilitiesTab" aria-controls="utilities" role="tab" data-toggle="tab"
-								class="bor-{{deck.warlord.faction}}">{{loc 'core.utilities'}}</a>
-						</li>
-						<li role="presentation">
-							<a href="#deckVersionsTab" aria-controls="versions" role="tab" data-toggle="tab"
-								class="bor-{{deck.warlord.faction}}">{{loc 'core.versions'}}</a>
-						</li>
-					</ul>
-		
-					<div class="tab-content">
+				{{!-- main content --}}
+			
+				<div class="content">					
+					<div class="row">
 					
-						{{!-- deck tab --}}
-					
-			    		<div id="deckDeckTab" role="tabpanel" class="tab-pane active">
-							<div class="members-list-filter-container">
-								<div class="btn-group btn-group-layout filter-group">
-									<label class="btn btn-default" data-layout="list"><span class="glyphicon glyphicon-align-justify"></span></label>
-									<label class="btn btn-default" data-layout="grid-6"><span class="glyphicon glyphicon-th"></span></label>
-									<label class="btn btn-default" data-layout="grid-4"><span class="glyphicon glyphicon-th-large"></span></label>
-									<label class="btn btn-default" data-layout="grid-3"><span class="glyphicon glyphicon-th"></span></label>
-									<label class="btn btn-default" data-layout="grid-2"><span class="glyphicon glyphicon-th-large"></span></label>
-								</div>					
-								<div class="btn-group btn-group-filter filter-faction filter-group select-many">
-									{{#each filter.factions}}							
-									<label class="btn btn-default" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
-										<i class="db-icon db-icon-{{techName}}"></i>
-									</label>
-									{{/each}}
+						{{!-- left column --}}
+						
+						<div class="col-md-5 col-lg-5">
+							<div class="actions-container"></div>
+							<div class="deck-info-container row">
+								<div class="col-xs-12" style="font-size: 18px; margin-bottom: 10px;">
+									<a href="{{cardUrl deck.warlord.id}}" target="_blank" data-image-base="{{deck.warlord.imageBase}}" ><strong>{{deck.warlord.name}}</strong></a>
 								</div>
-								<div class="btn-group btn-group-filter filter-type filter-group select-many">
-									{{#each filter.cardTypes}}
-									<label class="btn btn-default type-{{techName}} marker" data-type="{{techName}}" data-toggle="tooltip" title="{{name}}">
-										<i class="{{cardTypeToIconClass techName}}"></i>
-									</label>
-									{{/each}}
+								<div class="col-xs-6 col-md-5">
+									<a href="{{cardUrl deck.warlord.id}}" target="_blank"><img src="{{cardImagePath deck.warlordId}}" class="card-sm" /></a>
+								</div>
+								<div class="deck-stats-container col-xs-6 col-md-7">				
+								</div>
+							</div>		
+							<div class="mg-container"></div>		
+						</div>
+						
+						{{!-- right column --}}
+						
+						<div class="col-md-7 col-lg-7" role="tabpanel">
+							<ul class="nav nav-tabs lite" role="tablist" id="tabs1ul">
+								<li role="presentation" class="active">
+									<a href="#deckDeckTab" aria-controls="deck" role="tab" data-toggle="tab"
+										class="bor-{{deck.warlord.faction}}">{{loc 'core.deck'}}</a>
+								</li>
+								<li role="presentation">
+									<a href="#deckDescriptionTab" aria-controls="description" role="tab" data-toggle="tab"
+										class="bor-{{deck.warlord.faction}}">{{loc 'core.description'}}</a>
+								</li>
+								{{#ifPublicSnapshot deck}}
+								<li role="presentation">
+									<a href="#deckCommentsTab" aria-controls="comments" role="tab" data-toggle="tab"
+										class="bor-{{deck.warlord.faction}}">{{loc 'core.comments'}}</a>
+								</li>
+								{{/ifPublicSnapshot}}
+								<li role="presentation">
+									<a href="#deckUtilitiesTab" aria-controls="utilities" role="tab" data-toggle="tab"
+										class="bor-{{deck.warlord.faction}}">{{loc 'core.utilities'}}</a>
+								</li>
+								<li role="presentation">
+									<a href="#deckVersionsTab" aria-controls="versions" role="tab" data-toggle="tab"
+										class="bor-{{deck.warlord.faction}}">{{loc 'core.versions'}}</a>
+								</li>
+							</ul>
+				
+							<div class="tab-content">
+							
+								{{!-- deck tab --}}
+							
+					    		<div id="deckDeckTab" role="tabpanel" class="tab-pane active">
+									<div class="members-list-filter-container">
+										<div class="btn-group btn-group-layout filter-group">
+											<label class="btn btn-default" data-layout="list"><span class="glyphicon glyphicon-align-justify"></span></label>
+											<label class="btn btn-default" data-layout="grid-6"><span class="glyphicon glyphicon-th"></span></label>
+											<label class="btn btn-default" data-layout="grid-4"><span class="glyphicon glyphicon-th-large"></span></label>
+											<label class="btn btn-default" data-layout="grid-3"><span class="glyphicon glyphicon-th"></span></label>
+											<label class="btn btn-default" data-layout="grid-2"><span class="glyphicon glyphicon-th-large"></span></label>
+										</div>					
+										<div class="btn-group btn-group-filter filter-faction filter-group select-many">
+											{{#each filter.factions}}							
+											<label class="btn btn-default" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
+												<i class="db-icon db-icon-{{techName}}"></i>
+											</label>
+											{{/each}}
+										</div>
+										<div class="btn-group btn-group-filter filter-type filter-group select-many">
+											{{#each filter.cardTypes}}
+											<label class="btn btn-default type-{{techName}} marker" data-type="{{techName}}" data-toggle="tooltip" title="{{name}}">
+												<i class="{{cardTypeToIconClass techName}}"></i>
+											</label>
+											{{/each}}
+										</div>
+										
+										{{!--
+										<label id="filterTrigger" class="btn btn-default btn-standard filter-group">
+											<span class="glyphicon glyphicon-filter"></span>
+										</label>
+										<label id="configTrigger" class="btn btn-default btn-standard filter-group">
+											<span class="glyphicon glyphicon-cog"></span>
+										</label>
+										--}}
+				
+										<input id="search" type="text" class="form-control filter-group" placeholder="{{loc 'core.nameOrTraitOrKeyword'}}" style="margin-top: 10px;">
+									</div>
+									<div class="members-container"></div>
+								</div>
+				
+								{{!-- description tab --}}
+				
+								<div id="deckDescriptionTab" role="tabpanel" class="tab-pane">
+									{{!--
+									<div class="deck-description-view"></div>
+									--}}
+									
+									<h2>{{{markdown deck.name}}}</h2>
+									{{!-- <h5 style="color: gray;">{{deck.username}}</h5> --}}
+									<p>{{{markdown deck.description}}}</p>
 								</div>
 								
-								{{!--
-								<label id="filterTrigger" class="btn btn-default btn-standard filter-group">
-									<span class="glyphicon glyphicon-filter"></span>
-								</label>
-								<label id="configTrigger" class="btn btn-default btn-standard filter-group">
-									<span class="glyphicon glyphicon-cog"></span>
-								</label>
-								--}}
-		
-								<input id="search" type="text" class="form-control filter-group" placeholder="{{loc 'core.nameOrTraitOrKeyword'}}" style="margin-top: 10px;">
-							</div>
-							<div class="members-container"></div>
-						</div>
-		
-						{{!-- description tab --}}
-		
-						<div id="deckDescriptionTab" role="tabpanel" class="tab-pane">
-							{{!--
-							<div class="deck-description-view"></div>
-							--}}
-							
-							<h2>{{{markdown deck.name}}}</h2>
-							{{!-- <h5 style="color: gray;">{{deck.username}}</h5> --}}
-							<p>{{{markdown deck.description}}}</p>
-						</div>
-						
-						{{!-- utilities tab --}}
-						
-						<div id="deckUtilitiesTab" role="tabpanel" class="tab-pane">
-							<div class="block folding-block">
-								<div class="block-header">
-									<div class="block-header-text">
-										<span class="glyphicon glyphicon-random"></span>
-										&nbsp;{{loc 'core.draw.simulator'}}
-									</div>
-								</div>
-								<div class="block-content">
-									<div class="text-center" style="margin-bottom: 10px;">
-										<div class="btn-group btn-group-draw">
-											<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.startingHand'}}"><span class="glyphicon glyphicon-play"></span></label>
-											<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.allCards'}}"><span class="glyphicon glyphicon-forward"></span></label>
-											<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.nextCard'}}">1</label>
-											<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.next2Cards'}}">2</label>
-											<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.next3Cards'}}">3</label>
-											<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.next4Cards'}}">4</label>
+								{{!-- utilities tab --}}
+								
+								<div id="deckUtilitiesTab" role="tabpanel" class="tab-pane">
+									<div class="block folding-block">
+										<div class="block-header">
+											<div class="block-header-text">
+												<span class="glyphicon glyphicon-random"></span>
+												&nbsp;{{loc 'core.draw.simulator'}}
+											</div>
+										</div>
+										<div class="block-content">
+											<div class="text-center" style="margin-bottom: 10px;">
+												<div class="btn-group btn-group-draw">
+													<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.startingHand'}}"><span class="glyphicon glyphicon-play"></span></label>
+													<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.allCards'}}"><span class="glyphicon glyphicon-forward"></span></label>
+													<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.nextCard'}}">1</label>
+													<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.next2Cards'}}">2</label>
+													<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.next3Cards'}}">3</label>
+													<label class="btn btn-default" data-toggle="tooltip" tooltip="{{loc 'core.draw.next4Cards'}}">4</label>
+												</div>
+											</div>
+											<div class="draw-container"></div>
 										</div>
 									</div>
-									<div class="draw-container"></div>
-								</div>
-							</div>
-							<div class="block folding-block">
-								<div class="block-header">
-									<div class="block-header-text">
-										<span class="glyphicon glyphicon-stats"></span>
-										&nbsp;{{loc 'core.stats'}}
+									<div class="block folding-block">
+										<div class="block-header">
+											<div class="block-header-text">
+												<span class="glyphicon glyphicon-stats"></span>
+												&nbsp;{{loc 'core.stats'}}
+											</div>
+										</div>
+										<div class="block-content">Soon...</div>
 									</div>
 								</div>
-								<div class="block-content">Soon...</div>
-							</div>
-						</div>
-		
-						{{!-- comments tab --}}
-		
-						<div id="deckCommentsTab" role="tabpanel" class="tab-pane">				
-							<div class="deck-comments-view"></div>
-						</div>
-						
-						{{!-- versions tab --}}
-						
-						<div id="deckVersionsTab" role="tabpanel" class="tab-pane">				
-							<div class="block folding-block">
-								<div class="block-header">
-									<div class="block-header-text">
-										<span class="glyphicon glyphicon-share"></span>
-										&nbsp;{{loc 'core.publishedVersions'}}
-									</div>
+				
+								{{!-- comments tab --}}
+				
+								<div id="deckCommentsTab" role="tabpanel" class="tab-pane">				
+									<div class="deck-comments-view"></div>
 								</div>
-								<div class="block-content">
-									<div id="deckPublishedDecksBlock"></div>
+								
+								{{!-- versions tab --}}
+								
+								<div id="deckVersionsTab" role="tabpanel" class="tab-pane">				
+									<div class="block folding-block">
+										<div class="block-header">
+											<div class="block-header-text">
+												<span class="glyphicon glyphicon-share"></span>
+												&nbsp;{{loc 'core.publishedVersions'}}
+											</div>
+										</div>
+										<div class="block-content">
+											<div id="deckPublishedDecksBlock"></div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				
+				{{!-- main content end --}}
+			
 			</div>
 		</div>
+		
 	</div>
 </div>
 	

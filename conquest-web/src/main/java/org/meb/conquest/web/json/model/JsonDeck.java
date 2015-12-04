@@ -1,15 +1,10 @@
 package org.meb.conquest.web.json.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.converter.DeckTypeConverter;
@@ -20,6 +15,11 @@ import org.meb.conquest.db.model.DeckMember;
 import org.meb.conquest.db.model.DeckType;
 import org.meb.conquest.db.model.loc.Card;
 import org.meb.conquest.db.util.Utils;
+import org.meb.conquest.web.json.JsonDeckBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -40,7 +40,7 @@ public class JsonDeck {
 	private List<JsonDeckLink> links = new ArrayList<>();
 	private List<JsonDeckComment> comments = new ArrayList<>();
 	private List<JsonDeck> snapshots = new ArrayList<>();
-//	private List<JsonDeck> relatedSnapshots = new ArrayList<>();
+	// private List<JsonDeck> relatedSnapshots = new ArrayList<>();
 
 	private Long snapshotBaseId;
 	private Boolean snapshotPublic;
@@ -56,6 +56,7 @@ public class JsonDeck {
 	private boolean loadLinks;
 	private boolean loadComments;
 	private boolean loadSnapshots;
+	private boolean loadInterests;
 
 	public JsonDeck build(Deck deck) {
 		id = deck.getId();
@@ -78,8 +79,6 @@ public class JsonDeck {
 		username = deck.getUser().getUsername();
 		tournamentType = deck.getTournamentType();
 		tournamentPlace = deck.getTournamentPlace();
-		totalDeckInterest = new JsonDeckInterest(deck.getTotalDeckInterest());
-		userDeckInterest = new JsonDeckInterest(deck.getUserDeckInterest());
 
 		if (loadMembers) {
 			for (DeckMember deckMember : deck.getDeckMembers()) {
@@ -100,10 +99,16 @@ public class JsonDeck {
 		}
 
 		if (loadSnapshots) {
-			snapshots.addAll(build(deck.getSnapshots(), false, false, false, false));
-//			relatedSnapshots.addAll(build(deck.getRelatedSnapshots(), false, false, false, false));
+			snapshots.addAll(new JsonDeckBuilder().buildMany(deck.getSnapshots()));
+			// relatedSnapshots.addAll(build(deck.getRelatedSnapshots(), false,
+			// false, false, false));
 		}
-		
+
+		if (loadInterests) {
+			totalDeckInterest = new JsonDeckInterest(deck.getTotalDeckInterest());
+			userDeckInterest = new JsonDeckInterest(deck.getUserDeckInterest());
+		}
+
 		return this;
 	}
 
@@ -143,42 +148,5 @@ public class JsonDeck {
 		}
 		deck.setDeckMembers(deckMembers);
 		return deck;
-	}
-
-	public static List<JsonDeck> build(Collection<Deck> decks, boolean loadMembers, boolean loadLinks,
-			boolean loadComments, boolean loadSnapshots) {
-		List<JsonDeck> jsonDecks = null;
-		if (decks != null) {
-			jsonDecks = new ArrayList<>();
-			for (Deck deck : decks) {
-				JsonDeck jsonDeck = new JsonDeck();
-				jsonDeck.setLoadMembers(loadMembers);
-				jsonDeck.setLoadLinks(loadLinks);
-				jsonDeck.setLoadComments(loadComments);
-				jsonDeck.setLoadSnapshots(loadSnapshots);
-				jsonDecks.add(jsonDeck.build(deck));
-			}
-		}
-		return jsonDecks;
-	}
-
-	public JsonDeck withMembers() {
-		loadMembers = true;
-		return this;
-	}
-
-	public JsonDeck withLinks() {
-		loadLinks = true;
-		return this;
-	}
-
-	public JsonDeck withComments() {
-		loadComments = true;
-		return this;
-	}
-
-	public JsonDeck withSnapshots() {
-		loadSnapshots = true;
-		return this;
 	}
 }

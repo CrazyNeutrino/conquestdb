@@ -285,7 +285,7 @@ conquest.deck = conquest.deck || {};
 
 	_deck.factionColors = [];
 	_deck.factionColors['astra-militarum'] = {
-			base: '#000000',
+			base: '#505050',
 			hl: 'rgba(151, 151, 151, 0.8)'
 	};
 	_deck.factionColors['chaos'] = {

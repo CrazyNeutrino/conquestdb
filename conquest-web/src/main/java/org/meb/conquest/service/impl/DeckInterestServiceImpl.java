@@ -40,16 +40,16 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 		for (DeckInterest di : deckInterests) {
 			Long deckId = di.getDeckId();
 
-			DeckInterest total = deckTotalIndex.get(deckId);
-			if (total == null) {
-				total = new DeckInterest();
-				total.setDeckId(deckId);
-				total.setFavourite(0);
-				total.setRating(0);
-				deckTotalIndex.put(deckId, di);
+			DeckInterest deckTotalDI = deckTotalIndex.get(deckId);
+			if (deckTotalDI == null) {
+				deckTotalDI = new DeckInterest();
+				deckTotalDI.setDeckId(deckId);
+				deckTotalDI.setFavourite(0);
+				deckTotalDI.setRating(0);
+				deckTotalIndex.put(deckId, deckTotalDI);
 			}
-			total.setFavourite(total.getFavourite() + di.getFavourite());
-			total.setRating(total.getRating() + di.getRating());
+			deckTotalDI.setFavourite(deckTotalDI.getFavourite() + di.getFavourite());
+			deckTotalDI.setRating(deckTotalDI.getRating() + di.getRating());
 		}
 	}
 

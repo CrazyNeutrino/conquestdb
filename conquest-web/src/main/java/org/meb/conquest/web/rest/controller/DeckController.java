@@ -42,6 +42,7 @@ import org.meb.conquest.db.model.loc.Card;
 import org.meb.conquest.db.model.loc.CardSet;
 import org.meb.conquest.db.query.DeckQuery;
 import org.meb.conquest.service.api.DeckService;
+import org.meb.conquest.web.json.JsonDeckBuilder;
 import org.meb.conquest.web.json.JsonUtils;
 import org.meb.conquest.web.json.model.JsonDeck;
 import org.meb.conquest.web.json.model.JsonDeckComment;
@@ -113,7 +114,7 @@ public class DeckController extends AbstractController {
 			Long total = deckService.countUserDecks(query);
 			List<Deck> decks = deckService.findUserDecks(query);
 
-			List<JsonDeck> tmps = JsonDeck.build(decks, true, false, false, false);
+			List<JsonDeck> tmps = new JsonDeckBuilder().withMembers().buildMany(decks);
 			for (JsonDeck tmp : tmps) {
 				fillAllWarlordDeckCards(tmp);
 			}
@@ -146,7 +147,8 @@ public class DeckController extends AbstractController {
 			JsonDeck jsonDeck = null;
 			Deck deck = deckService.findUserDeck(deckId, true);
 			if (deck != null) {
-				jsonDeck = new JsonDeck().withMembers().withLinks().withSnapshots().build(deck);
+				jsonDeck = new JsonDeckBuilder().withMembers().withLinks().withSnapshots()
+						.build(deck);
 			}
 			fillAllWarlordDeckCards(jsonDeck);
 			return Response.ok(JsonUtils.write(jsonDeck)).build();
@@ -170,7 +172,7 @@ public class DeckController extends AbstractController {
 		try {
 			Deck deck = JsonUtils.readObject(body, JsonDeck.class).buildDeck();
 			deck = deckService.saveUserDeck(null, deck);
-			JsonDeck jsonDeck = new JsonDeck().withMembers().build(deck);
+			JsonDeck jsonDeck = new JsonDeckBuilder().withMembers().build(deck);
 			fillAllWarlordDeckCards(jsonDeck);
 			return Response.ok(JsonUtils.write(jsonDeck)).build();
 		} catch (Exception e) {
@@ -195,7 +197,7 @@ public class DeckController extends AbstractController {
 		try {
 			Deck deck = JsonUtils.readObject(body, JsonDeck.class).buildDeck();
 			deck = deckService.saveUserDeck(deckId, deck);
-			JsonDeck jsonDeck = new JsonDeck().withMembers().withLinks().withSnapshots()
+			JsonDeck jsonDeck = new JsonDeckBuilder().withMembers().withLinks().withSnapshots()
 					.build(deck);
 			fillAllWarlordDeckCards(jsonDeck);
 			return Response.ok(JsonUtils.write(jsonDeck)).build();
@@ -442,7 +444,8 @@ public class DeckController extends AbstractController {
 			List<Deck> decks = deckService.findPublicDecks(query);
 
 			JsonDecks jsonDecks = new JsonDecks();
-			jsonDecks.setDecks(JsonDeck.build(decks, true, false, false, false));
+			jsonDecks
+					.setDecks(new JsonDeckBuilder().withMembers().withInterests().buildMany(decks));
 			jsonDecks.setTotal(total);
 			jsonDecks.setPageNumber(query.getPageNumber());
 			jsonDecks.setPageSize(query.getPageSize());
@@ -495,8 +498,8 @@ public class DeckController extends AbstractController {
 			List<Deck> decks = deckService.findPublicDecks(new DeckQuery(example).withMembers());
 			deck.setSnapshots(new HashSet<>(decks));
 
-			JsonDeck jsonDeck = new JsonDeck().withMembers().withComments().withSnapshots()
-					.build(deck);
+			JsonDeck jsonDeck = new JsonDeckBuilder().withMembers().withComments().withSnapshots()
+					.withInterests().build(deck);
 			response = Response.ok(JsonUtils.write(jsonDeck)).build();
 		} catch (Exception e) {
 			DeckException de = buildDeckException(e, "error.deck.oper.loadDeck");
