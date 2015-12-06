@@ -196,7 +196,9 @@ $(function() {
 			};
 
 			view.unbindMenuLinkClickHandler();
-			conquest.ui.adjustNavbarColors();
+			conquest.ui.adjustWrapperStyle({
+				backgroundColor: '#f2f2f2'
+			});
 			
 			var template = Handlebars.templates['user-deck-list-view']();
 			view.$el.html(template);
@@ -280,7 +282,7 @@ $(function() {
 			});
 			view.$el.html(template);
 			view.$el.find('.actions-container').append(actionsTemplate);
-			conquest.ui.adjustNavbarColors(warlord.faction);
+			conquest.ui.adjustWrapperStyle();
 
 			view.groupsView = new conquest.deck.MemberGroupsView({
 				el: '.mg-container'
@@ -421,7 +423,7 @@ $(function() {
 		},
 		render: function() {
 			this.unbindMenuLinkClickHandler();
-			conquest.ui.adjustNavbarColors();
+			conquest.ui.adjustWrapperStyle();
 
 			var warlords = _.where(conquest.dict.cards, {
 				type: 'warlord'
@@ -707,7 +709,7 @@ $(function() {
 				var warlordId = view.deck.get('warlord').id;
 				var warlord = conquest.dict.findCard(warlordId);
 				
-				conquest.ui.adjustNavbarColors(warlord.faction);
+				conquest.ui.adjustWrapperStyle();
 				
 				var filter = {
 					factions: conquest.deck.getValidDeckFactions(warlordId),
@@ -1395,6 +1397,7 @@ $(function() {
 		userDeckEditView.render({
 			warlordId: warlordId
 		});
+		$('html,body').scrollTop(0);
 
 		var url = warlordId;
 		var warlord = conquest.dict.findCard(warlordId);
@@ -1416,15 +1419,18 @@ $(function() {
 					id: deckId
 				})
 			});
+			$('html,body').scrollTop(0);
 			ga('set', 'page', conquest.static.root + 'edit/' + parseInt(deckId));
 			ga('send', 'pageview');
 		}
 	}).on('route:viewDecks', function() {
 		userDeckListView.render();
+		$('html,body').scrollTop(0);
 		ga('set', 'page', conquest.static.root);
 		ga('send', 'pageview');
 	}).on('route:importDeck', function() {
 		userDeckImportView.render();
+		$('html,body').scrollTop(0);
 		ga('set', 'page', conquest.static.root + 'import');
 		ga('send', 'pageview');
 	});

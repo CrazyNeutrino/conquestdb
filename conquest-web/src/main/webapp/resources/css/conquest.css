@@ -19,7 +19,7 @@ table.faction-image-container-md>tbody>tr>td {vertical-align: middle; /* line-he
 #wrapper {
 	min-height: 100%;
 	padding-bottom: 110px;
-	background-color: #f2f2f2;
+	background-color: #fff;
 }
 
 footer.footer {
@@ -33,14 +33,16 @@ footer.footer > .container > p:first-child {
 	margin-top: 10px;
 }
 
+.card-search-view,
+.card-view,
+.user-deck-list-view,
+#publicDeckListView {
+	margin-top: 20px;
+}
+
 /**
  * deck list view
  */
- 
-/* .deck-list .content-band {
-	background-color: #f2f2f2;
-	margin-top: -20px;
-} */
  
 .box-left,
 .box-right {
@@ -78,7 +80,7 @@ footer.footer > .container > p:first-child {
 	margin-right: 10px;
 }
 
-.deck-list .deck > .header > .box-center > h4:first-child {
+.deck-list .deck > .header > .box-center > .primary-text {
 	margin-top: 0px;
 	margin-bottom: 5px;
 }
@@ -91,18 +93,18 @@ footer.footer > .container > p:first-child {
 	padding: 5px 10px;
 }
 
-.db-tournament-marker {
+.deck-list .deck-icons {
 	position: absolute;
 	right: 0px;
 	bottom: -4px;
 	font-size: 1.2em;
 }
 
-.db-tournament-marker > i:not(:last-child) {
+.deck-list .deck-icons > i:not(:last-child) {
 	/* margin-right: 5px; */
 }
 
-.db-tournament-marker > i:first-child {
+.deck-list .deck-icons > i:first-child {
 	position: relative;
     top: -1px;
 }
@@ -110,25 +112,20 @@ footer.footer > .container > p:first-child {
 /**
  * deck full view
  */
- 
-.pub-deck-view .content-band,
-.user-deck-edit-view .content-band {
-	background-color: #fff;
-}
 
-.pub-deck-view .deck .header-band ,
+/* .pub-deck-view .deck .header-band ,
 .user-deck-edit-view .deck .header-band {
 	margin-top: -21px;
-}
+} */
 
-.pub-deck-view .deck .content-band ,
+/* .pub-deck-view .deck .content-band ,
 .user-deck-edit-view .deck .content-band {
 	margin-bottom: -21px;
-}
+} */
  
 .pub-deck-view .deck,
 .user-deck-edit-view .deck {
-	background-color: #fff;
+	/* background-color: #fff; */
 	/* box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24); */
 	border-radius: 2px;
 }
@@ -152,14 +149,28 @@ footer.footer > .container > p:first-child {
 	margin-bottom: 5px;
 }
 
-/* .pub-deck-view .deck .box-center,
-.user-deck-edit-view .deck .box-center {
-	padding: 15px;
-} */
-
 .pub-deck-view .deck .content,
 .user-deck-edit-view .deck .content {
 	padding: 15px 0px;
+}
+
+.pub-deck-view .deck-icons,
+.user-deck-edit-view .deck-icons {
+	position: absolute;
+	right: 0px;
+	bottom: -4px;
+	font-size: 1.2em;
+}
+
+.pub-deck-view .deck-icons > i:not(:last-child),
+.user-deck-edit-view .deck-icons > i:not(:last-child) {
+	/* margin-right: 5px; */
+}
+
+.pub-deck-view .deck-icons > i:first-child,
+.user-deck-edit-view .deck-icons > i:first-child {
+	position: relative;
+    top: -1px;
 }
 
 .mg-container .mg ul {
@@ -509,7 +520,7 @@ label.required:after {
 	padding-top: 10px;
 }
 
-.secondary-text {
+.members-grid .secondary-text {
 	font-size: 0.8em;
 	color: #777;
 }
@@ -884,4 +895,9 @@ table.table-with-btn > tbody > tr > td {
 	border-bottom: 4px solid;
 	color: #000;
 	background-color: #fff;
+}
+
+.jumbotron.db {
+	background-color: #f8f8f8;
+	border: 1px solid #e7e7e7;
 }

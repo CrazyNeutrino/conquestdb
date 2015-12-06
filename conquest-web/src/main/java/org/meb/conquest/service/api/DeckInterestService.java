@@ -9,7 +9,7 @@ public interface DeckInterestService extends SearchService {
 
 	DeckInterestWrapper rate(Long deckId, Integer value) throws DeckException;
 
-	DeckInterestWrapper loadInterest(Long deckId);
+	DeckInterestWrapper loadDeckInterest(Long deckId);
 
 	void flushToDatabase();
 }

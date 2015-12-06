@@ -221,7 +221,7 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 				}
 				
 				if (query.isLoadInterests()) {
-					DeckInterestWrapper wrapper = deckInterestService.loadInterest(deckId);
+					DeckInterestWrapper wrapper = deckInterestService.loadDeckInterest(deckId);
 					deck.setTotalDeckInterest(wrapper.getTotalDeckInterest());
 					deck.setUserDeckInterest(wrapper.getUserDeckInterest());
 				}
@@ -605,7 +605,7 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 			de.setRequestContext(requestContext);
 			throw de;
 		}
-		DeckInterestWrapper wrapper = deckInterestService.loadInterest(deck.getId());
+		DeckInterestWrapper wrapper = deckInterestService.loadDeckInterest(deck.getId());
 		deck.setTotalDeckInterest(wrapper.getTotalDeckInterest());
 		deck.setUserDeckInterest(wrapper.getUserDeckInterest());
 		return deck;

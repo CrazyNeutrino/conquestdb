@@ -6,25 +6,47 @@
 	
 				{{!-- header --}}
 				
-				<div class="header bg-{{deck.warlord.faction}}">				
+				{{#with deck}}
+				<div class="header bg-{{warlord.faction}}">				
 					<div class="box-left">
-						<div class="db-icon db-icon-{{deck.warlord.faction}}"></div>
+						<div class="db-icon db-icon-{{warlord.faction}}"></div>
 					</div>
 					<div class="box-center">
-						<h2>{{deck.name}}</h2>
-						<div>{{deck.warlord.name}}&nbsp;&#8226;&nbsp;{{deck.username}}&nbsp;&#8226;&nbsp;
-							<span data-toggle="tooltip" data-placement="top" title="{{loc 'core.created'}}: {{moment deck.createDate}}">
-								{{~ momentFromNow deck.createDate ~}}
+						<h2>{{name}}</h2>
+						<div style="position: relative;">{{warlord.name}} &#8226; {{username}} &#8226; 
+							<span data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.created'}}: {{moment createDate}}">
+								{{~ momentFromNow createDate ~}}
 							</span>
-							{{#unlessEqual deck.createDate deck.modifyDate}}
+							{{#unlessEqual createDate modifyDate}}
 							&nbsp;&#8226;&nbsp;
-							<span data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.modified'}}: {{moment deck.modifyDate}}">
-								{{momentFromNow deck.modifyDate}}
+							<span data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.modified'}}: {{moment modifyDate}}">
+								{{momentFromNow modifyDate}}
 							</span>
 							{{/unlessEqual}}
+							
+							<div class="deck-icons">
+								{{#if tournamentPlace}}
+								<i class="{{translate tournamentPlace 'tournamentPlaceIconClass'}}" data-toggle="tooltip"
+									data-placement="bottom" title="{{loc (translate tournamentPlace 'tournamentPlaceDisplay')}}"></i>
+								{{/if}}
+								{{#if tournamentType}}
+								<i class="{{translate tournamentType 'tournamentTypeIconClass'}}" data-toggle="tooltip"
+									data-placement="bottom" title="{{loc (translate tournamentType 'tournamentTypeDisplay')}}"
+									style="font-size: 0.9em;"></i>
+								{{/if}}
+								{{#if totalDeckInterest}}
+								{{#if userDeckInterest}}
+								<i class="{{translate userDeckInterest 'interestIconClass' kind='favourite'}}" style="margin-left: 10px;"></i>
+								{{totalDeckInterest.favourite}}
+								<i class="{{translate userDeckInterest 'interestIconClass' kind='rating'}}"></i>
+								{{totalDeckInterest.rating}}
+								{{/if}}
+								{{/if}}
+							</div>
 						</div>
 					</div>
 				</div>
+				{{/with}}
 				
 				{{!- header end --}}
 				

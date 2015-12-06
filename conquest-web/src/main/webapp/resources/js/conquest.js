@@ -1195,6 +1195,20 @@ conquest.ui = conquest.ui || {};
 //		if (faction) {
 //			$(selector).addClass('bg-' + faction);
 //		}
+//		$('#wrapper').css('backgroundColor', '#f2f2f2');
+	};
+	
+	_ui.adjustWrapperStyle = function(css) {
+		css = css || {};
+		if (css.backgroundColor) {
+			$('#wrapper').css({
+				backgroundColor: css.backgroundColor
+			});
+		} else {
+			$('#wrapper').css({
+				backgroundColor: ''
+			});
+		}
 	};
 	
 })(conquest.ui);

@@ -42,7 +42,7 @@ $(function() {
 				var warlordId = view.deck.get('warlord').id;
 				var warlord = conquest.dict.findCard(warlordId);
 				
-				conquest.ui.adjustNavbarColors(warlord.faction);
+				conquest.ui.adjustWrapperStyle();
 				
 				var filter = {
 					factions: conquest.deck.getValidDeckFactions(warlordId),
@@ -457,7 +457,9 @@ $(function() {
 			};
 
 			view.unbindMenuLinkClickHandler();
-			conquest.ui.adjustNavbarColors();
+			conquest.ui.adjustWrapperStyle({
+				backgroundColor: '#f2f2f2'
+			});
 			
 			var template = Handlebars.templates['pub-deck-list-view']();
 			view.$el.html(template);
@@ -532,15 +534,17 @@ $(function() {
 					id: deckId
 				})
 			});
+			$('html,body').scrollTop(0);
 			ga('set', 'page', conquest.static.root + deckId);
 			ga('send', 'pageview');
 		}
 	}).on('route:viewPublicDeckList', function(queryString) {
 		publicDeckListView.render(queryString);
+		$('html,body').scrollTop(0);
 		ga('set', 'page', conquest.static.root);
 		ga('send', 'pageview');
 	});
-
+	
 	conquest.static.root = '/' + conquest.static.language + '/public/deck/';
 
 	Backbone.history.start({

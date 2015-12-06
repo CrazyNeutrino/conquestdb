@@ -27,22 +27,19 @@
 				
 				{{#with deck}}
 				<div class="header bg-{{warlord.faction}}">					
-					<!-- <a class="btn btn-default expand-toggle">
-						<span class="glyphicon glyphicon-fullscreen"></span>
-					</a> -->
 					<div class="box-left">
 						<div class="db-icon db-icon-{{warlord.faction}}"></div>
 					</div>
 					<div class="box-center">
-						<h4>
+						<h4 class="primary-text">
 							{{#if ../published}}
 							<a href="{{rootUrl}}{{id}}-{{techName}}">{{name}}</a>
 							{{else}}
 							<a href="{{rootUrl}}edit/{{id}}-{{techName}}">{{name}}</a>
 							{{/if}}
 						</h4>
-						<div style="position: relative;">{{warlord.name}}
-							<div class="db-tournament-marker">
+						<div class="secondary-text" style="position: relative;">{{warlord.name}}
+							<div class="deck-icons">
 								{{#if tournamentPlace}}
 								<i class="{{translate tournamentPlace 'tournamentPlaceIconClass'}}" data-toggle="tooltip"
 									data-placement="bottom" title="{{loc (translate tournamentPlace 'tournamentPlaceDisplay')}}"></i>

@@ -371,6 +371,7 @@ $(function() {
 		setNumber = parseInt(setNumber);
 		cardNumber = parseInt(cardNumber);
 		cardView.render(setNumber, cardNumber);
+		$('html,body').scrollTop(0);
 
 		var card = conquest.dict.findCardByNumber(setNumber, cardNumber);
 		var url = conquest.ui.toCardRelativeUrl(card);
@@ -382,6 +383,7 @@ $(function() {
 	}).on('route:searchCards', function(queryString) {
 		var cardSearchView = new CardSearchView();
 		cardSearchView.render(queryString);
+		$('html,body').scrollTop(0);
 		ga('set', 'page', conquest.static.root + 'search');
 		ga('send', 'pageview');
 	});
