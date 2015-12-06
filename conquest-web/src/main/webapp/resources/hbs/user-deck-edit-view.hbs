@@ -12,8 +12,12 @@
 						<div class="db-icon db-icon-{{warlord.faction}}"></div>
 					</div>
 					<div class="box-center">
+						{{#if name}}
 						<h2>{{name}}</h2>
-						<div style="position: relative;">{{warlord.name}} &#8226; {{username}} &#8226; 
+						{{else}}
+						<h2>--&nbsp;{{loc 'core.unsavedDeck'}}&nbsp;--</h2>
+						{{/if}}
+						<div style="position: relative;">{{warlord.name}} &#8226; {{#if username}}{{username}} &#8226; {{/if}} 
 							<span data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.created'}}: {{moment createDate}}">
 								{{~ momentFromNow createDate ~}}
 							</span>

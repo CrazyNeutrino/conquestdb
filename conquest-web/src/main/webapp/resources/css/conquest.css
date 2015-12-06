@@ -36,6 +36,8 @@ footer.footer > .container > p:first-child {
 .card-search-view,
 .card-view,
 .user-deck-list-view,
+.user-deck-import-view,
+.user-deck-create-view,
 #publicDeckListView {
 	margin-top: 20px;
 }
