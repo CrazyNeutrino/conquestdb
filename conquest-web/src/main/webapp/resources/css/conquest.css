@@ -792,49 +792,47 @@ table.table-with-btn > tbody > tr > td {
 .db-icon-comment:before { content: '\e817'; }
 .db-icon-comment-empty:before { content: '\e818'; }
 
-/* .fg-astra-militarum { color: #8A8A8A; } */
-.fg-astra-militarum { color: #505050; }
-.fg-chaos { color: #E65B2E; }
+.fg-astra-militarum { color: #3C3C3C; }
+.fg-chaos { color: #EB4A2A; }
 .fg-dark-eldar { color: #B965AA; }
 .fg-eldar { color: #EADA67; }
-.fg-ork { color: #538A34; }
+.fg-ork { color: #407424; }
 .fg-space-marines { color: #3173CE; }
 .fg-tau { color: #4CD0DC; }
 .fg-tyranid { color: #A32618; }
 
-/* .bg-astra-militarum { background-color: #8A8A8A !important; color: #000 !important; } */
-.bg-astra-militarum { background-color: #505050 !important; color: #fff !important; }
-.bg-chaos { background-color: #E65B2E !important; color: #000 !important; }
+.bg-astra-militarum { background-color: #3C3C3C !important; color: #fff !important; }
+.bg-chaos { background-color: #EB4A2A !important; color: #000 !important; }
 .bg-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
 .bg-eldar { background-color: #EADA67 !important; color: #000 !important; }
-.bg-ork { background-color: #538A34 !important; color: #fff !important; }
+.bg-ork { background-color: #407424 !important; color: #fff !important; }
 .bg-space-marines { background-color: #3173CE !important; color: #fff !important; }
 .bg-tau { background-color: #4CD0DC !important; color: #000 !important; }
 .bg-tyranid { background-color: #A32618 !important; color: #fff !important; }
 
-.bor-astra-militarum { border-color: #505050 !important; }
-.bor-chaos { border-color: #E65B2E !important; }
+.bor-astra-militarum { border-color: #3C3C3C !important; }
+.bor-chaos { border-color: #EB4A2A !important; }
 .bor-dark-eldar { border-color: #B965AA !important; }
 .bor-eldar { border-color: #EADA67 !important; }
-.bor-ork { border-color: #538A34 !important; }
+.bor-ork { border-color: #407424 !important; }
 .bor-space-marines { border-color: #3173CE !important; }
 .bor-tau { border-color: #4CD0DC !important; }
 .bor-tyranid { border-color: #A32618 !important; }
 
-.btn-astra-militarum { background-color: #505050 !important; color: #fff !important; }
-.btn-chaos { background-color: #E65B2E !important; color: #000 !important; }
+.btn-astra-militarum { background-color: #3C3C3C !important; color: #fff !important; }
+.btn-chaos { background-color: #EB4A2A !important; color: #000 !important; }
 .btn-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
 .btn-eldar { background-color: #EADA67 !important; color: #000 !important; }
-.btn-ork { background-color: #538A34 !important; color: #fff !important; }
+.btn-ork { background-color: #407424 !important; color: #fff !important; }
 .btn-space-marines { background-color: #3173CE !important; color: #fff !important; }
 .btn-tau { background-color: #4CD0DC !important; color: #000 !important; }
 .btn-tyranid { background-color: #A32618 !important; color: #fff !important; }
 
-.btn-astra-militarum:hover { background-color: #363636 !important; }
-.btn-chaos:hover { background-color: #E04C1A !important; }
+.btn-astra-militarum:hover { background-color: #242424 !important; }
+.btn-chaos:hover { background-color: #E53815 !important; }
 .btn-dark-eldar:hover { background-color: #B253A0 !important; }
 .btn-eldar:hover { background-color: #E7D550 !important; }
-.btn-ork:hover { background-color: #48762D !important; }
+.btn-ork:hover { background-color: #36621E !important; }
 .btn-space-marines:hover { background-color: #2C67BA !important; }
 .btn-tau:hover { background-color: #37CAD7 !important; }
 .btn-tyranid:hover { background-color: #8E2115 !important; }

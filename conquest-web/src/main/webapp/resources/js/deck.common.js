@@ -285,20 +285,20 @@ conquest.deck = conquest.deck || {};
 
 	_deck.factionColors = [];
 	_deck.factionColors['astra-militarum'] = {
-			base: '#505050',
+			base: '#3C3C3C',
 			hl: 'rgba(151, 151, 151, 0.8)'
 	};
 	_deck.factionColors['chaos'] = {
-		base: '#E65B2E',
+		base: '#EB4A2A',
 		hl: 'rgba(241, 118, 79, 0.8)'
 	};
 	_deck.factionColors['dark-eldar'] = {
-			base: '#B965AA',
-			hl: 'rgba(180, 142, 173, 0.8)'
+		base: '#B965AA',
+		hl: 'rgba(180, 142, 173, 0.8)'
 	};
 	_deck.factionColors['eldar'] = {
-			base: '#EADA67',
-			hl: 'rgba(235, 225, 156, 0.8)'
+		base: '#EADA67',
+		hl: 'rgba(235, 225, 156, 0.8)'
 	};
 	_deck.factionColors['ork'] = {
 		base: '#538A34',
