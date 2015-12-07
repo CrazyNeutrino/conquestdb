@@ -56,16 +56,16 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 				deckTotalDI = new DeckInterest();
 				deckTotalDI.setDeckId(deckId);
 				deckTotalDI.setFavourite(0);
-				deckTotalDI.setRating(0);
+				deckTotalDI.setSuperb(0);
 				deckTotalIndex.put(deckId, deckTotalDI);
 			}
 			deckTotalDI.setFavourite(deckTotalDI.getFavourite() + di.getFavourite());
-			deckTotalDI.setRating(deckTotalDI.getRating() + di.getRating());
+			deckTotalDI.setSuperb(deckTotalDI.getSuperb() + di.getSuperb());
 		}
 	}
 
 	@Override
-	public DeckInterestWrapper favourite(Long deckId, Integer value) throws DeckException {
+	public DeckInterestWrapper markFavourite(Long deckId, Integer value) throws DeckException {
 		requestContext.checkUserIdSet();
 
 		if (value != 0 && value != 1) {
@@ -76,7 +76,7 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 	}
 
 	@Override
-	public DeckInterestWrapper rate(Long deckId, Integer value) throws DeckException {
+	public DeckInterestWrapper markSuperb(Long deckId, Integer value) throws DeckException {
 		requestContext.checkUserIdSet();
 
 		if (value != 0 && value != 1) {
@@ -97,7 +97,7 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 			if (deckUserDI == null) {
 				deckUserDI = new DeckInterest(deckId, userId);
 				deckUserDI.setFavourite(0);
-				deckUserDI.setRating(0);
+				deckUserDI.setSuperb(0);
 			}
 
 			Long deckTotalKey = deckId;
@@ -105,7 +105,7 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 			if (deckTotalDI == null) {
 				deckTotalDI = new DeckInterest(deckId, userId);
 				deckTotalDI.setFavourite(0);
-				deckTotalDI.setRating(0);
+				deckTotalDI.setSuperb(0);
 			}
 
 			return new DeckInterestWrapper(deckUserDI, deckTotalDI);
@@ -142,25 +142,25 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 	}
 
 	private DeckInterestWrapper updateDeckInterest(Long deckId, Long userId, Integer favourite,
-			Integer rating) throws DeckException {
+			Integer superb) throws DeckException {
 
 		lock.writeLock().lock();
 		try {
 			Integer oldFavourite = null;
-			Integer oldRating = null;
+			Integer oldSuperb = null;
 
 			String deckUserKey = Functions.DEIN_KEY.apply(new DeckInterest(deckId, userId));
 			DeckInterest deckUserDI = deckUserIndex.get(deckUserKey);
 			if (deckUserDI == null) {
 				deckUserDI = new DeckInterest(deckId, userId);
 				deckUserDI.setFavourite(0);
-				deckUserDI.setRating(0);
+				deckUserDI.setSuperb(0);
 				deckUserIndex.put(deckUserKey, deckUserDI);
 				oldFavourite = 0;
-				oldRating = 0;
+				oldSuperb = 0;
 			} else {
 				oldFavourite = deckUserDI.getFavourite();
-				oldRating = deckUserDI.getRating();
+				oldSuperb = deckUserDI.getSuperb();
 			}
 
 			Long deckTotalKey = deckId;
@@ -168,7 +168,7 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 			if (deckTotalDI == null) {
 				deckTotalDI = new DeckInterest(deckId, userId);
 				deckTotalDI.setFavourite(0);
-				deckTotalDI.setRating(0);
+				deckTotalDI.setSuperb(0);
 				deckTotalIndex.put(deckTotalKey, deckTotalDI);
 			}
 
@@ -182,29 +182,29 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 						new Object[] { favouriteChanged, oldFavourite, favourite, deckUserKey });
 			}
 
-			// update ratings
-			boolean ratingChanged = false;
-			if (rating != null) {
-				deckUserDI.setRating(rating);
-				deckTotalDI.setRating(deckTotalDI.getRating() - oldRating + rating);
-				ratingChanged = !oldRating.equals(rating);
-				log.debug("rating changed: {}, was: {}, is: {}, key: {}",
-						new Object[] { ratingChanged, oldRating, rating, deckUserKey });
+			// update likes
+			boolean superbChanged = false;
+			if (superb != null) {
+				deckUserDI.setSuperb(superb);
+				deckTotalDI.setSuperb(deckTotalDI.getSuperb() - oldSuperb + superb);
+				superbChanged = !oldSuperb.equals(superb);
+				log.debug("superb changed: {}, was: {}, is: {}, key: {}",
+						new Object[] { superbChanged, oldSuperb, superb, deckUserKey });
 			}
 
 			// manage original value
-			if (favouriteChanged || ratingChanged) {
+			if (favouriteChanged || superbChanged) {
 				DeckInterest originalDI = originalDeckUserIndex.get(deckUserKey);
 				if (originalDI == null) {
 					originalDI = new DeckInterest(deckId, userId);
 					originalDI.setFavourite(oldFavourite);
-					originalDI.setRating(oldRating);
+					originalDI.setSuperb(oldSuperb);
 					originalDeckUserIndex.put(deckUserKey, originalDI);
 					log.debug("added: {} to originalDeckUserIndex");
 				} else {
 					Integer originalFavourite = originalDI.getFavourite();
-					Integer originalRating = originalDI.getRating();
-					if (originalFavourite.equals(favourite) && originalRating.equals(rating)) {
+					Integer originalSuperb = originalDI.getSuperb();
+					if (originalFavourite.equals(favourite) && originalSuperb.equals(superb)) {
 						originalDeckUserIndex.remove(deckUserKey);
 						log.debug("removed: {} from originalDeckUserIndex");
 					}

@@ -1,5 +1,5 @@
 <div class="pub-deck-view">
-	<div class="deck pub-deck">		
+	<div class="deck pub-deck" data-deck-id="{{deck.id}}">		
 		
 		<div class="header-band bg-{{deck.warlord.faction}}">
 			<div class="container">
@@ -30,10 +30,23 @@
 									{{/if}}
 									{{#if totalDeckInterest}}
 									{{#if userDeckInterest}}
-									<i class="{{translate userDeckInterest 'interestIconClass' kind='favourite'}}" style="margin-left: 10px;"></i>
+									
+									{{#ifSignedIn}}
+									<i class="superb {{translate userDeckInterest 'interestIconClass' kind='superb'}}" data-toggle="tooltip"
+										data-placement="bottom" title="{{loc 'core.markSuperb'}}" style="cursor: pointer; margin-left: 10px;"></i>
+									<span class="superb">{{totalDeckInterest.superb}}</span>
+									<i class="favourite {{translate userDeckInterest 'interestIconClass' kind='favourite'}}" data-toggle="tooltip"
+										data-placement="bottom" title="{{loc 'core.markFavourite'}}" style="cursor: pointer;" ></i>
+									<span class="favourite">{{totalDeckInterest.favourite}}</span>
+									{{else}}
+									<i class="{{translate userDeckInterest 'interestIconClass' kind='superb'}}" data-toggle="tooltip"
+										data-placement="bottom" title="{{loc 'core.signInToMarkSuperb'}}" style="margin-left: 10px;"></i>
+									{{totalDeckInterest.superb}}
+									<i class="{{translate userDeckInterest 'interestIconClass' kind='favourite'}}" data-toggle="tooltip"
+										data-placement="bottom" title="{{loc 'core.signInToMarkFavourite'}}"></i>
 									{{totalDeckInterest.favourite}}
-									<i class="{{translate userDeckInterest 'interestIconClass' kind='rating'}}"></i>
-									{{totalDeckInterest.rating}}
+									{{/ifSignedIn}}
+									
 									{{/if}}
 									{{/if}}
 								</div>

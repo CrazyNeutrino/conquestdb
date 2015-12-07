@@ -799,16 +799,17 @@ table.table-with-btn > tbody > tr > td {
 .fg-dark-eldar { color: #B965AA; }
 .fg-eldar { color: #EADA67; }
 .fg-ork { color: #407424; }
-.fg-space-marines { color: #3173CE; }
+.fg-space-marines { color: #095DAD; }
 .fg-tau { color: #4CD0DC; }
 .fg-tyranid { color: #A32618; }
+.fg-neutral { color: #BBB; }
 
 .bg-astra-militarum { background-color: #3C3C3C !important; color: #fff !important; }
 .bg-chaos { background-color: #EB4A2A !important; color: #000 !important; }
 .bg-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
 .bg-eldar { background-color: #EADA67 !important; color: #000 !important; }
 .bg-ork { background-color: #407424 !important; color: #fff !important; }
-.bg-space-marines { background-color: #3173CE !important; color: #fff !important; }
+.bg-space-marines { background-color: #095DAD !important; color: #fff !important; }
 .bg-tau { background-color: #4CD0DC !important; color: #000 !important; }
 .bg-tyranid { background-color: #A32618 !important; color: #fff !important; }
 
@@ -817,7 +818,7 @@ table.table-with-btn > tbody > tr > td {
 .bor-dark-eldar { border-color: #B965AA !important; }
 .bor-eldar { border-color: #EADA67 !important; }
 .bor-ork { border-color: #407424 !important; }
-.bor-space-marines { border-color: #3173CE !important; }
+.bor-space-marines { border-color: #095DAD !important; }
 .bor-tau { border-color: #4CD0DC !important; }
 .bor-tyranid { border-color: #A32618 !important; }
 
@@ -826,7 +827,7 @@ table.table-with-btn > tbody > tr > td {
 .btn-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
 .btn-eldar { background-color: #EADA67 !important; color: #000 !important; }
 .btn-ork { background-color: #407424 !important; color: #fff !important; }
-.btn-space-marines { background-color: #3173CE !important; color: #fff !important; }
+.btn-space-marines { background-color: #095DAD !important; color: #fff !important; }
 .btn-tau { background-color: #4CD0DC !important; color: #000 !important; }
 .btn-tyranid { background-color: #A32618 !important; color: #fff !important; }
 
@@ -835,7 +836,7 @@ table.table-with-btn > tbody > tr > td {
 .btn-dark-eldar:hover { background-color: #B253A0 !important; }
 .btn-eldar:hover { background-color: #E7D550 !important; }
 .btn-ork:hover { background-color: #36621E !important; }
-.btn-space-marines:hover { background-color: #2C67BA !important; }
+.btn-space-marines:hover { background-color: #085196 !important; }
 .btn-tau:hover { background-color: #37CAD7 !important; }
 .btn-tyranid:hover { background-color: #8E2115 !important; }
 

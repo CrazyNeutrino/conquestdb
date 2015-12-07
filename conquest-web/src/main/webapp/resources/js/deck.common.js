@@ -286,61 +286,47 @@ conquest.deck = conquest.deck || {};
 	_deck.factionColors = [];
 	_deck.factionColors['astra-militarum'] = {
 			base: '#3C3C3C',
-			hl: 'rgba(151, 151, 151, 0.8)'
 	};
 	_deck.factionColors['chaos'] = {
 		base: '#EB4A2A',
-		hl: 'rgba(241, 118, 79, 0.8)'
 	};
 	_deck.factionColors['dark-eldar'] = {
 		base: '#B965AA',
-		hl: 'rgba(180, 142, 173, 0.8)'
 	};
 	_deck.factionColors['eldar'] = {
 		base: '#EADA67',
-		hl: 'rgba(235, 225, 156, 0.8)'
 	};
 	_deck.factionColors['ork'] = {
 		base: '#538A34',
-		hl: 'rgba(122, 162, 100, 0.8)'
 	};
 	_deck.factionColors['space-marines'] = {
-		base: '#3173CE',
-		hl: 'rgba(144, 169, 235, 0.8)'
+		base: '#095DAD',
 	};
 	_deck.factionColors['tau'] = {
 		base: '#4CD0DC',
-		hl: 'rgba(144, 230, 238, 0.8)'
 	};
 	_deck.factionColors['tyranid'] = {
 		base: '#A32618',
-		hl: 'rgba(163, 38, 24, 0.8)'
 	};
 	_deck.factionColors['neutral'] = {
-		base: '#DDD',
-		hl: 'rgba(221, 221, 221, 0.8)'
+		base: '#BBB',
 	};
 
 	_deck.typeColors = [];
 	_deck.typeColors['army'] = {
-		base: '#F04747',
-		hl: 'rgba(240, 71, 71, 0.8)'
+		base: '#ED2626',
 	};
 	_deck.typeColors['attachment'] = {
 		base: '#419441',
-		hl: 'rgba(65, 148, 65, 0.8)'
 	};
 	_deck.typeColors['support'] = {
 		base: '#3B84CC',
-		hl: 'rgba(59, 132, 204, 0.8)'
 	};
 	_deck.typeColors['event'] = {
 		base: '#F0AD36',
-		hl: 'rgba(240, 173, 54, 0.8)'
 	};
 	_deck.typeColors['synapse'] = {
 		base: '#B848A3',
-		hl: 'rgba(184, 72, 163, 0.8)'
 	};
 
 	_deck.PageView = Backbone.View.extend({
@@ -853,13 +839,6 @@ conquest.deck = conquest.deck || {};
 			});
 			view.$el.html(template);
 
-			var chartOptions = {
-				animation: false,
-				segmentShowStroke: false,
-				segmentStrokeWidth: 2,
-				tooltipFontSize: 12
-			};
-
 			//
 			// cost chart
 			//
@@ -880,6 +859,13 @@ conquest.deck = conquest.deck || {};
 						return count + member.quantity;
 					}, 0)]);
 				});
+				
+				var colors = [];
+				var base = Highcharts.getOptions().colors[0];
+				
+				for (var i = 0; i < 11; i++) {
+		            colors.push(Highcharts.Color(base).brighten((-i) / 20).get());
+		        }
 				
 				$(this).highcharts({
 			        chart: {
@@ -916,7 +902,14 @@ conquest.deck = conquest.deck || {};
 			                animation: false
 			            }
 			        },
+			        plotOptions: {
+			        	column: {
+			        		colorByPoint: true,
+			        		colors: colors
+			        	}
+			        },
 			        series: [{
+			        	name: "# of cards",
 			        	data: dataByCost,
 			        	showInLegend: false,
 				        pointWidth: 14
@@ -951,7 +944,7 @@ conquest.deck = conquest.deck || {};
 				});
 				_.each(sortedKeys, function(key) {
 					dataByFaction.push({
-						name: key, 
+						name: conquest.dict.findFaction(key).name, 
 						y: _.reduce(membersByFaction[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
@@ -1023,7 +1016,7 @@ conquest.deck = conquest.deck || {};
 				});
 				_.each(sortedKeys, function(key) {
 					dataByType.push({
-						name: key, 
+						name: conquest.dict.findCardType(key).name, 
 						y: _.reduce(membersByType[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),

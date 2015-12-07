@@ -24,7 +24,7 @@ public class DeckInterest {
 	private Long userId;
 
 	private Integer favourite;
-	private Integer rating;
+	private Integer superb;
 
 	@Version
 	private Long version;

@@ -39,7 +39,7 @@ public class DeckInterestController extends AbstractController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response favourite(@PathParam("deckId") Long deckId, @PathParam("value") Integer value,
+	public Response markFavourite(@PathParam("deckId") Long deckId, @PathParam("value") Integer value,
 			@QueryParam("language") String language) throws DeckException {
 
 		requestContext.setUserId(authToken.getUserId());
@@ -51,20 +51,20 @@ public class DeckInterestController extends AbstractController {
 		}
 
 		try {
-			DeckInterestWrapper wrapper = deckInterestService.favourite(deckId, value);
+			DeckInterestWrapper wrapper = deckInterestService.markFavourite(deckId, value);
 			return Response.ok(JsonUtils.write(wrapperToMap(wrapper))).build();
 		} catch (Exception e) {
-			DeckException de = buildDeckException(e, "error.deck.oper.favouriteDeck");
+			DeckException de = buildDeckException(e, "error.deck.oper.markFavourite");
 			log.error(de.toString(), de);
 			return Response.serverError().entity(buildJsonError(de)).build();
 		}
 	}
 
 	@POST
-	@Path("/public/{deckId}/rate/{value}")
+	@Path("/public/{deckId}/superb/{value}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("user")
-	public Response rate(@PathParam("deckId") Long deckId, @PathParam("value") Integer value,
+	public Response markSuperb(@PathParam("deckId") Long deckId, @PathParam("value") Integer value,
 			@QueryParam("language") String language) throws DeckException {
 
 		requestContext.setUserId(authToken.getUserId());
@@ -76,10 +76,10 @@ public class DeckInterestController extends AbstractController {
 		}
 
 		try {
-			DeckInterestWrapper wrapper = deckInterestService.rate(deckId, value);
+			DeckInterestWrapper wrapper = deckInterestService.markSuperb(deckId, value);
 			return Response.ok(JsonUtils.write(wrapperToMap(wrapper))).build();
 		} catch (Exception e) {
-			DeckException de = buildDeckException(e, "error.deck.oper.rateDeck");
+			DeckException de = buildDeckException(e, "error.deck.oper.markSuperb");
 			log.error(de.toString(), de);
 			return Response.serverError().entity(buildJsonError(de)).build();
 		}

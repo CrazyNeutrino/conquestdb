@@ -326,10 +326,10 @@ var translateMap = {
 		'tyranid': '#A32618'
 	},
 	interestIconClass: {
-		'rating-0': 'db-icon db-icon-star-empty',
-		'rating-1': 'db-icon db-icon-star',
-		'favourite-0': 'db-icon db-icon-heart-empty',
-		'favourite-1': 'db-icon db-icon-heart'
+		'favourite-0': 'db-icon db-icon-star-empty',
+		'favourite-1': 'db-icon db-icon-star',
+		'superb-0': 'db-icon db-icon-heart-empty',
+		'superb-1': 'db-icon db-icon-heart'
 	}
 };
 

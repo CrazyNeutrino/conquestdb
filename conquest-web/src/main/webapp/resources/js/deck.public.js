@@ -2,12 +2,50 @@ $(function() {
 
 	var PublicDeckView = conquest.deck.PageView.extend({
 		events: {
-			'click .pub-deck-view a': 'viewLinkClickHandler'
+			'click .pub-deck-view a': 'viewLinkClickHandler',
+			'click .pub-deck-view i.favourite': 'markFavouriteClickHandler',
+			'click .pub-deck-view i.superb': 'markSuperbClickHandler'
 		},
 		config: new Backbone.Model({
 			layout: 'list',
 			filter: new Backbone.Model()
 		}),
+		markClickHandler: function(url) {
+			if (conquest.static.user.username) {
+				var view = this;
+				$.post(url, function(data) {
+					view.deck.set({
+						userDeckInterest : data.user,
+						totalDeckInterest : data.total
+					});
+					var $icons = $('.deck-icons');
+					$icons.find('span.superb').text(data.total.superb);
+					$icons.find('span.favourite ').text(data.total.favourite);
+					if (data.user.superb === 1) {
+						$icons.find('i.superb').removeClass('db-icon-heart-empty').addClass('db-icon-heart');
+					} else {
+						$icons.find('i.superb').removeClass('db-icon-heart').addClass('db-icon-heart-empty');
+					}
+					if (data.user.favourite === 1) {
+						$icons.find('i.favourite').removeClass('db-icon-star-empty').addClass('db-icon-star');
+					} else {
+						$icons.find('i.favourite').removeClass('db-icon-star').addClass('db-icon-star-empty');
+					}
+				});
+			}
+		},
+		markFavouriteClickHandler: function(event) {
+			var $target = $(event.target);
+			var deckId = $target.parents('.deck').data('deck-id');
+			var value = $target.hasClass('db-icon-star-empty') ? 1 : 0;
+			this.markClickHandler('/deck/public/' + deckId + '/favourite/' + value);
+		},
+		markSuperbClickHandler: function(event) {
+			var $target = $(event.target);
+			var deckId = $target.parents('.deck').data('deck-id');
+			var value = $target.hasClass('db-icon-heart-empty') ? 1 : 0;
+			this.markClickHandler('/deck/public/' + deckId + '/superb/' + value);
+		},
 		updateStats: function() {
 			var stats = this.deck.computeStats();
 			stats.cost.name = 'card.cost.sh';

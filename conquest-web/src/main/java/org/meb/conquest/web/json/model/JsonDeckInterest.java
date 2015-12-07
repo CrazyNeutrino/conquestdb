@@ -13,11 +13,11 @@ public class JsonDeckInterest {
 
 	// private Long deckId;
 	private Integer favourite;
-	private Integer rating;
+	private Integer superb;
 
 	public JsonDeckInterest(DeckInterest deckInterest) {
 		// this.deckId = deckInterest.getDeckId();
 		this.favourite = deckInterest.getFavourite();
-		this.rating = deckInterest.getRating();
+		this.superb = deckInterest.getSuperb();
 	}
 }
