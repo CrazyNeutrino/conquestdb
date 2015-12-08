@@ -106,7 +106,8 @@ footer.footer > .container > p:first-child {
 	/* margin-right: 5px; */
 }
 
-.deck-list .deck-icons > i:first-child {
+.deck-list .deck-icons > i.db-icon-1st,
+.deck-list .deck-icons > i.db-icon-2nd {
 	position: relative;
     top: -1px;
 }
@@ -115,16 +116,6 @@ footer.footer > .container > p:first-child {
  * deck full view
  */
 
-/* .pub-deck-view .deck .header-band ,
-.user-deck-edit-view .deck .header-band {
-	margin-top: -21px;
-} */
-
-/* .pub-deck-view .deck .content-band ,
-.user-deck-edit-view .deck .content-band {
-	margin-bottom: -21px;
-} */
- 
 .pub-deck-view .deck,
 .user-deck-edit-view .deck {
 	/* background-color: #fff; */
@@ -169,8 +160,8 @@ footer.footer > .container > p:first-child {
 	/* margin-right: 5px; */
 }
 
-.pub-deck-view .deck-icons > i:first-child,
-.user-deck-edit-view .deck-icons > i:first-child {
+.pub-deck-view .deck-icons > i:db-icon-1st,
+.pub-deck-view .deck-icons > i:db-icon-2nd {
 	position: relative;
     top: -1px;
 }
@@ -522,7 +513,7 @@ label.required:after {
 	padding-top: 10px;
 }
 
-.members-grid .secondary-text {
+.members-container .secondary-text {
 	font-size: 0.8em;
 	color: #777;
 }
@@ -693,13 +684,13 @@ table.table-with-btn > tbody > tr > td {
 .members-list-header .stat-col,
 .members-list-item .stat-col { width: 2em; }
 
-/* .deck-list-filter-container .filter-group, 
+.deck-list-filter-container .filter-group, 
 .card-search-filter-container .filter-group,
 .members-list-filter-container .filter-group,
 .actions-container > div,
 .actions-container > a {
 	margin-bottom: 5px;
-} */
+}
 
 .members-list-filter-container .tt-input { margin-top: 0px; }
 .members-list-filter-container .sort-control { min-width: 180px; }
@@ -795,7 +786,7 @@ table.table-with-btn > tbody > tr > td {
 .db-icon-comment-empty:before { content: '\e818'; }
 
 .fg-astra-militarum { color: #3C3C3C; }
-.fg-chaos { color: #EB4A2A; }
+.fg-chaos { color: #EA5400; }
 .fg-dark-eldar { color: #B965AA; }
 .fg-eldar { color: #EADA67; }
 .fg-ork { color: #407424; }
@@ -805,7 +796,7 @@ table.table-with-btn > tbody > tr > td {
 .fg-neutral { color: #BBB; }
 
 .bg-astra-militarum { background-color: #3C3C3C !important; color: #fff !important; }
-.bg-chaos { background-color: #EB4A2A !important; color: #000 !important; }
+.bg-chaos { background-color: #EA5400 !important; color: #000 !important; }
 .bg-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
 .bg-eldar { background-color: #EADA67 !important; color: #000 !important; }
 .bg-ork { background-color: #407424 !important; color: #fff !important; }
@@ -814,7 +805,7 @@ table.table-with-btn > tbody > tr > td {
 .bg-tyranid { background-color: #A32618 !important; color: #fff !important; }
 
 .bor-astra-militarum { border-color: #3C3C3C !important; }
-.bor-chaos { border-color: #EB4A2A !important; }
+.bor-chaos { border-color: #EA5400 !important; }
 .bor-dark-eldar { border-color: #B965AA !important; }
 .bor-eldar { border-color: #EADA67 !important; }
 .bor-ork { border-color: #407424 !important; }
@@ -823,7 +814,7 @@ table.table-with-btn > tbody > tr > td {
 .bor-tyranid { border-color: #A32618 !important; }
 
 .btn-astra-militarum { background-color: #3C3C3C !important; color: #fff !important; }
-.btn-chaos { background-color: #EB4A2A !important; color: #000 !important; }
+.btn-chaos { background-color: #EA5400 !important; color: #000 !important; }
 .btn-dark-eldar { background-color: #B965AA !important; color: #000 !important; }
 .btn-eldar { background-color: #EADA67 !important; color: #000 !important; }
 .btn-ork { background-color: #407424 !important; color: #fff !important; }
@@ -832,7 +823,7 @@ table.table-with-btn > tbody > tr > td {
 .btn-tyranid { background-color: #A32618 !important; color: #fff !important; }
 
 .btn-astra-militarum:hover { background-color: #242424 !important; }
-.btn-chaos:hover { background-color: #E53815 !important; }
+.btn-chaos:hover { background-color: #E05400 !important; }
 .btn-dark-eldar:hover { background-color: #B253A0 !important; }
 .btn-eldar:hover { background-color: #E7D550 !important; }
 .btn-ork:hover { background-color: #36621E !important; }
@@ -844,10 +835,6 @@ table.table-with-btn > tbody > tr > td {
  * bootstrap overrides
  */
  
-/* .navbar.lite {
-	margin-bottom: 0px;
-} */
-
 .btn.btn-raised {
     border-radius: 2px;
     box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);

@@ -96,7 +96,7 @@ public class DeckInterestController extends AbstractController {
 		requestContext.setUserLanguage(language);
 
 		try {
-			DeckInterestWrapper wrapper = deckInterestService.loadDeckInterest(deckId);
+			DeckInterestWrapper wrapper = deckInterestService.loadDeckInterests(deckId);
 			return Response.ok(JsonUtils.write(wrapperToMap(wrapper))).build();
 		} catch (Exception e) {
 			DeckException de = buildDeckException(e, "error.deck.oper.rateDeck");

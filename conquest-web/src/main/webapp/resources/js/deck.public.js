@@ -22,14 +22,14 @@ $(function() {
 					$icons.find('span.superb').text(data.total.superb);
 					$icons.find('span.favourite ').text(data.total.favourite);
 					if (data.user.superb === 1) {
-						$icons.find('i.superb').removeClass('db-icon-heart-empty').addClass('db-icon-heart');
+						$icons.find('i.superb').removeClass('db-icon-star-empty').addClass('db-icon-star');
 					} else {
-						$icons.find('i.superb').removeClass('db-icon-heart').addClass('db-icon-heart-empty');
+						$icons.find('i.superb').removeClass('db-icon-star').addClass('db-icon-star-empty');
 					}
 					if (data.user.favourite === 1) {
-						$icons.find('i.favourite').removeClass('db-icon-star-empty').addClass('db-icon-star');
+						$icons.find('i.favourite').removeClass('db-icon-heart-empty').addClass('db-icon-heart');
 					} else {
-						$icons.find('i.favourite').removeClass('db-icon-star').addClass('db-icon-star-empty');
+						$icons.find('i.favourite').removeClass('db-icon-heart').addClass('db-icon-heart-empty');
 					}
 				});
 			}
@@ -37,13 +37,13 @@ $(function() {
 		markFavouriteClickHandler: function(event) {
 			var $target = $(event.target);
 			var deckId = $target.parents('.deck').data('deck-id');
-			var value = $target.hasClass('db-icon-star-empty') ? 1 : 0;
+			var value = $target.hasClass('db-icon-heart-empty') ? 1 : 0;
 			this.markClickHandler('/deck/public/' + deckId + '/favourite/' + value);
 		},
 		markSuperbClickHandler: function(event) {
 			var $target = $(event.target);
 			var deckId = $target.parents('.deck').data('deck-id');
-			var value = $target.hasClass('db-icon-heart-empty') ? 1 : 0;
+			var value = $target.hasClass('db-icon-star-empty') ? 1 : 0;
 			this.markClickHandler('/deck/public/' + deckId + '/superb/' + value);
 		},
 		updateStats: function() {
@@ -252,7 +252,7 @@ $(function() {
 
 				view.$el.find('[data-toggle="tooltip"]').tooltip({
 					container: 'body',
-					trigger: 'hover click'
+					trigger: 'hover'
 				});
 
 				//

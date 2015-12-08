@@ -122,6 +122,7 @@ $(function() {
 			var root = conquest.static.root;
 			var href = $(event.currentTarget).attr('href');
 			if (href && href.indexOf(root) == 0 && !event.ctrlKey && !event.shiftKey) {
+				$(event.currentTarget).tooltip('hide');
 				event.preventDefault();
 				conquest.router.navigate(href.replace(conquest.static.root, ''), {
 					trigger: true
@@ -482,6 +483,7 @@ $(function() {
 			var root = conquest.static.root;
 			var href = $(event.currentTarget).attr('href');
 			if (href && href.indexOf(root) == 0 && !event.ctrlKey && !event.shiftKey) {
+				$(event.currentTarget).tooltip('hide');
 				event.preventDefault();
 
 				var navigateHandler = function() {
@@ -1091,7 +1093,7 @@ $(function() {
 
 				view.$el.find('[data-toggle="tooltip"]').tooltip({
 					container: 'body',
-					trigger: 'hover click'
+					trigger: 'hover'
 				});
 
 				//

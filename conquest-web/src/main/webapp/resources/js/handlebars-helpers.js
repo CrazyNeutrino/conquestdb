@@ -325,11 +325,17 @@ var translateMap = {
 		'tau': '#4CD0DC',
 		'tyranid': '#A32618'
 	},
+//	interestIconClass: {
+//		'favourite-0': 'db-icon db-icon-star-empty',
+//		'favourite-1': 'db-icon db-icon-star',
+//		'superb-0': 'db-icon db-icon-heart-empty',
+//		'superb-1': 'db-icon db-icon-heart'
+//	}
 	interestIconClass: {
-		'favourite-0': 'db-icon db-icon-star-empty',
-		'favourite-1': 'db-icon db-icon-star',
-		'superb-0': 'db-icon db-icon-heart-empty',
-		'superb-1': 'db-icon db-icon-heart'
+		'favourite-0': 'db-icon db-icon-heart-empty',
+		'favourite-1': 'db-icon db-icon-heart',
+		'superb-0': 'db-icon db-icon-star-empty',
+		'superb-1': 'db-icon db-icon-star'
 	}
 };
 

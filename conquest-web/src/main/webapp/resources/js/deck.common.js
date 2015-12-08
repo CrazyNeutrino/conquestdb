@@ -288,7 +288,7 @@ conquest.deck = conquest.deck || {};
 			base: '#3C3C3C',
 	};
 	_deck.factionColors['chaos'] = {
-		base: '#EB4A2A',
+		base: '#EA5400',
 	};
 	_deck.factionColors['dark-eldar'] = {
 		base: '#B965AA',
@@ -342,6 +342,7 @@ conquest.deck = conquest.deck || {};
 			var root = conquest.static.root;
 			var href = $(event.currentTarget).attr('href');
 			if (href && href.indexOf(root) == 0 && !event.ctrlKey && !event.shiftKey) {
+				$(event.currentTarget).tooltip('hide');
 				event.preventDefault();
 				conquest.router.navigate(href.replace(conquest.static.root, ''), {
 					trigger: true
@@ -980,7 +981,8 @@ conquest.deck = conquest.deck || {};
 			                    style: {
 			                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 			                    }*/
-			                }
+			                },
+			                borderWidth: 0
 			            },
 			            series: {
 			                animation: false
@@ -1052,7 +1054,8 @@ conquest.deck = conquest.deck || {};
 			                    style: {
 			                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 			                    }*/
-			                }
+			                },
+			                borderWidth: 0
 			            },
 			            series: {
 			                animation: false

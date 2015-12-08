@@ -87,7 +87,7 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 	}
 
 	@Override
-	public DeckInterestWrapper loadDeckInterest(Long deckId) {
+	public DeckInterestWrapper loadDeckInterests(Long deckId) {
 		lock.readLock().lock();
 		try {
 			Long userId = requestContext.getUserId();
@@ -116,13 +116,19 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 
 	@Override
 	@Transactional
-	public void flushToDatabase() {
+	public void flushDeckInterests() {
 		lock.writeLock().lock();
 		try {
 			List<DeckInterest> flushedList = new ArrayList<>();
 
+			log.debug("flushing {} deck interests", originalDeckUserIndex.size());
+
 			for (String deckUserKey : originalDeckUserIndex.keySet()) {
 				DeckInterest changedDI = deckUserIndex.get(deckUserKey);
+
+				log.debug("flushing: {}, superb: {}, favourite: {}", new Object[] { deckUserKey,
+						changedDI.getSuperb(), changedDI.getFavourite() });
+
 				if (changedDI.getId() == null) {
 					em.persist(changedDI);
 				} else {
@@ -156,12 +162,9 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 				deckUserDI.setFavourite(0);
 				deckUserDI.setSuperb(0);
 				deckUserIndex.put(deckUserKey, deckUserDI);
-				oldFavourite = 0;
-				oldSuperb = 0;
-			} else {
-				oldFavourite = deckUserDI.getFavourite();
-				oldSuperb = deckUserDI.getSuperb();
 			}
+			oldFavourite = deckUserDI.getFavourite();
+			oldSuperb = deckUserDI.getSuperb();
 
 			Long deckTotalKey = deckId;
 			DeckInterest deckTotalDI = deckTotalIndex.get(deckTotalKey);
@@ -178,18 +181,18 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 				deckUserDI.setFavourite(favourite);
 				deckTotalDI.setFavourite(deckTotalDI.getFavourite() - oldFavourite + favourite);
 				favouriteChanged = !oldFavourite.equals(favourite);
-				log.debug("favourite changed: {}, was: {}, is: {}, key: {}",
-						new Object[] { favouriteChanged, oldFavourite, favourite, deckUserKey });
+				log.debug("favourite for {} changed: {}, was: {}, is: {}",
+						new Object[] { deckUserKey, favouriteChanged, oldFavourite, favourite });
 			}
 
-			// update likes
+			// update superbs
 			boolean superbChanged = false;
 			if (superb != null) {
 				deckUserDI.setSuperb(superb);
 				deckTotalDI.setSuperb(deckTotalDI.getSuperb() - oldSuperb + superb);
 				superbChanged = !oldSuperb.equals(superb);
-				log.debug("superb changed: {}, was: {}, is: {}, key: {}",
-						new Object[] { superbChanged, oldSuperb, superb, deckUserKey });
+				log.debug("superb for {} changed: {}, was: {}, is: {}",
+						new Object[] { deckUserKey, superbChanged, oldSuperb, superb });
 			}
 
 			// manage original value
@@ -200,13 +203,14 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 					originalDI.setFavourite(oldFavourite);
 					originalDI.setSuperb(oldSuperb);
 					originalDeckUserIndex.put(deckUserKey, originalDI);
-					log.debug("added: {} to originalDeckUserIndex");
+					log.debug("added {} to originalDeckUserIndex", deckUserKey);
 				} else {
 					Integer originalFavourite = originalDI.getFavourite();
 					Integer originalSuperb = originalDI.getSuperb();
-					if (originalFavourite.equals(favourite) && originalSuperb.equals(superb)) {
+					if (originalFavourite.equals(deckUserDI.getFavourite())
+							&& originalSuperb.equals(deckUserDI.getSuperb())) {
 						originalDeckUserIndex.remove(deckUserKey);
-						log.debug("removed: {} from originalDeckUserIndex");
+						log.debug("removed {} from originalDeckUserIndex", deckUserKey);
 					}
 				}
 			}
