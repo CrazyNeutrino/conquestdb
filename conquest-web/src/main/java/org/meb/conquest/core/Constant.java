@@ -20,7 +20,7 @@ public class Constant {
 		public static String UK_USER_REPA_CODE = "uk_user_repa_code_idx";
 
 		public static String UK_DECK_NAME = "uk_deck_comp00_idx";
-		public static String FK_DECK_SNAPSHOT_BASE = "fk_deck_snaphot_base_id_idx";
+		public static String FK_DECK_SNAPSHOT_BASE = "fk_deck_snaphot_base_id";
 	}
 
 	public static class Deck {

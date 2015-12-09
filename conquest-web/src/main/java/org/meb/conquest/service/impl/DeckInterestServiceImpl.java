@@ -1,7 +1,10 @@
 package org.meb.conquest.service.impl;
 
+import static org.meb.conquest.db.util.Functions.DeckInterestKey;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -14,8 +17,9 @@ import javax.persistence.EntityManager;
 
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.meb.conquest.core.exception.DeckException;
+import org.meb.conquest.db.dao.JpaDao;
 import org.meb.conquest.db.model.DeckInterest;
-import org.meb.conquest.db.util.Functions;
+import org.meb.conquest.db.query.DeckInterestQuery;
 import org.meb.conquest.service.DeckInterestWrapper;
 import org.meb.conquest.service.RequestContext;
 import org.meb.conquest.service.api.DeckInterestService;
@@ -32,6 +36,7 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 
 	@Inject
 	private EntityManager em;
+	private JpaDao<DeckInterest, DeckInterestQuery> deckInterestDao;
 
 	@Inject
 	private RequestContext requestContext;
@@ -43,9 +48,11 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 
 	@PostConstruct
 	private void postContruct() {
+		deckInterestDao = new JpaDao<>(em);
+
 		List<DeckInterest> deckInterests = find(new DeckInterest());
 
-		deckUserIndex = new HashMap<>(Maps.uniqueIndex(deckInterests, Functions.DEIN_KEY));
+		deckUserIndex = new HashMap<>(Maps.uniqueIndex(deckInterests, DeckInterestKey));
 		originalDeckUserIndex = new HashMap<>();
 		deckTotalIndex = new HashMap<>();
 		for (DeckInterest di : deckInterests) {
@@ -87,12 +94,12 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 	}
 
 	@Override
-	public DeckInterestWrapper loadDeckInterests(Long deckId) {
+	public DeckInterestWrapper loadUserDeckInterests(Long deckId) {
 		lock.readLock().lock();
 		try {
 			Long userId = requestContext.getUserId();
 
-			String deckUserKey = Functions.DEIN_KEY.apply(new DeckInterest(deckId, userId));
+			String deckUserKey = DeckInterestKey.apply(new DeckInterest(deckId, userId));
 			DeckInterest deckUserDI = deckUserIndex.get(deckUserKey);
 			if (deckUserDI == null) {
 				deckUserDI = new DeckInterest(deckId, userId);
@@ -111,6 +118,61 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 			return new DeckInterestWrapper(deckUserDI, deckTotalDI);
 		} finally {
 			lock.readLock().unlock();
+		}
+	}
+
+	@Override
+	@Transactional
+	public void deleteDeckInterests(Long deckId) throws DeckException {
+		requestContext.checkUserIdSet();
+
+		lock.writeLock().lock();
+		try {
+
+			DeckInterest example = new DeckInterest();
+			example.setDeckId(deckId);
+			List<DeckInterest> deckInterests = deckInterestDao.find(example);
+			if (deckInterests.size() > 0) {
+				for (DeckInterest deckInterest : deckInterests) {
+					log.debug("removing {}", deckId);
+					em.remove(deckInterest);
+					em.flush();
+				}
+
+				Iterator<DeckInterest> iter;
+				DeckInterest deckInterest;
+
+				iter = deckUserIndex.values().iterator();
+				while (iter.hasNext()) {
+					deckInterest = iter.next();
+					if (deckInterest.getDeckId().equals(deckId)) {
+
+						if (log.isDebugEnabled()) {
+							log.debug("removing {} from deckUserIndex",
+									DeckInterestKey.apply(deckInterest));
+						}
+
+						iter.remove();
+					}
+				}
+
+				iter = originalDeckUserIndex.values().iterator();
+				while (iter.hasNext()) {
+					deckInterest = iter.next();
+					if (deckInterest.getDeckId().equals(deckId)) {
+
+						if (log.isDebugEnabled()) {
+							log.debug("removing {} from originalDeckUserIndex",
+									DeckInterestKey.apply(deckInterest));
+						}
+
+						iter.remove();
+					}
+				}
+			}
+			deckTotalIndex.remove(deckId);
+		} finally {
+			lock.writeLock().unlock();
 		}
 	}
 
@@ -139,7 +201,7 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 			}
 
 			for (DeckInterest flushed : flushedList) {
-				deckUserIndex.put(Functions.DEIN_KEY.apply(flushed), flushed);
+				deckUserIndex.put(DeckInterestKey.apply(flushed), flushed);
 			}
 			originalDeckUserIndex.clear();
 		} finally {
@@ -155,7 +217,7 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 			Integer oldFavourite = null;
 			Integer oldSuperb = null;
 
-			String deckUserKey = Functions.DEIN_KEY.apply(new DeckInterest(deckId, userId));
+			String deckUserKey = DeckInterestKey.apply(new DeckInterest(deckId, userId));
 			DeckInterest deckUserDI = deckUserIndex.get(deckUserKey);
 			if (deckUserDI == null) {
 				deckUserDI = new DeckInterest(deckId, userId);

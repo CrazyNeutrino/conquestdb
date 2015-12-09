@@ -221,7 +221,7 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 				}
 				
 				if (query.isLoadInterests()) {
-					DeckInterestWrapper wrapper = deckInterestService.loadDeckInterests(deckId);
+					DeckInterestWrapper wrapper = deckInterestService.loadUserDeckInterests(deckId);
 					deck.setTotalDeckInterest(wrapper.getTotalDeckInterest());
 					deck.setUserDeckInterest(wrapper.getUserDeckInterest());
 				}
@@ -494,6 +494,7 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 		checkUserIdSet();
 
 		try {
+			deckInterestService.deleteDeckInterests(deckId);
 			em.remove(findUserDeck(deckId, true));
 			em.flush();
 		} catch (Exception e) {
@@ -507,11 +508,11 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 					String violatedConstraint = filter.getViolatedConstraint();
 					if (Constant.Constraint.FK_DECK_SNAPSHOT_BASE.equals(violatedConstraint)) {
 						de = new DeckException("error.deck.publishedDeck.exists",
-								"error.deck.oper.delete");
+								"error.deck.oper.delete", e);
 					}
 				}
 				if (de == null) {
-					de = new DeckException("error.deck.oper.delete");
+					de = new DeckException("error.deck.oper.delete", null, e);
 				}
 			}
 
@@ -605,7 +606,7 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 			de.setRequestContext(requestContext);
 			throw de;
 		}
-		DeckInterestWrapper wrapper = deckInterestService.loadDeckInterests(deck.getId());
+		DeckInterestWrapper wrapper = deckInterestService.loadUserDeckInterests(deck.getId());
 		deck.setTotalDeckInterest(wrapper.getTotalDeckInterest());
 		deck.setUserDeckInterest(wrapper.getUserDeckInterest());
 		return deck;

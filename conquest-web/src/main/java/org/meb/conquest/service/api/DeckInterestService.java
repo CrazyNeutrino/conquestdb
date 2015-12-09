@@ -9,7 +9,9 @@ public interface DeckInterestService extends SearchService {
 
 	DeckInterestWrapper markSuperb(Long deckId, Integer value) throws DeckException;
 
-	DeckInterestWrapper loadDeckInterests(Long deckId);
+	DeckInterestWrapper loadUserDeckInterests(Long deckId);
+	
+	void deleteDeckInterests(Long deckId) throws DeckException;
 
 	void flushDeckInterests();
 }

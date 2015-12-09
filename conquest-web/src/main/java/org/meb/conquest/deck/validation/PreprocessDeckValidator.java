@@ -1,5 +1,9 @@
 package org.meb.conquest.deck.validation;
 
+import static org.meb.conquest.db.util.Functions.CardId;
+import static org.meb.conquest.db.util.Functions.DeckMemberCard;
+import static org.meb.conquest.db.util.Functions.DeckMemberCardId;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -11,7 +15,6 @@ import org.meb.conquest.db.model.CardType;
 import org.meb.conquest.db.model.Deck;
 import org.meb.conquest.db.model.DeckMember;
 import org.meb.conquest.db.model.loc.Card;
-import org.meb.conquest.db.util.Functions;
 import org.meb.conquest.util.CardResolver;
 import org.meb.conquest.util.UserResolver;
 
@@ -79,11 +82,11 @@ public class PreprocessDeckValidator implements DeckValidator {
 		 * resolve them against card resolver
 		 * check if they are real cards
 		 */
-		Collection<Card> cards = resolve(Collections2.transform(members, Functions.DEME_CARD_ID));
+		Collection<Card> cards = resolve(Collections2.transform(members, DeckMemberCardId));
 		if (cards == null) {
-			cards = Collections2.transform(members, Functions.DEME_CARD);
+			cards = Collections2.transform(members, DeckMemberCard);
 		}
-		Map<Long, Card> cardsMap = Maps.uniqueIndex(cards, Functions.CARD_ID);
+		Map<Long, Card> cardsMap = Maps.uniqueIndex(cards, CardId);
 
 		for (DeckMember member : members) {
 			Card card = member.getCard();

@@ -41,18 +41,22 @@ public class DeckException extends Exception {
 	private String userLanguage;
 
 	public DeckException(String errorCore) {
-		this(errorCore, null);
+		this(errorCore, null, null);
 	}
 
 	public DeckException(String errorCore, String errorContext) {
+		this(errorCore, errorContext, null);
+	}
+	
+	public DeckException(Throwable cause) {
+		this(null, null, cause);
+	}
+	
+	public DeckException(String errorCore, String errorContext, Throwable cause) {
+		super(cause);
 		this.timestamp = new Date().getTime();
 		this.errorCore = errorCore;
 		this.errorContext = errorContext;
-	}
-
-	public DeckException(Throwable cause) {
-		super(cause);
-		this.timestamp = new Date().getTime();
 	}
 
 	public void setDeck(Deck deck) {
