@@ -8,13 +8,45 @@
 	<div class="block-content">
 		<div class="form-group">
 			<label for="deckName">{{loc 'core.name'}}</label>
-			<input class="form-control" id="deckName" type="text"placeholder="{{loc 'core.deckName'}}" value="{{deck.name}}" />
+			<input class="form-control" id="deckName" type="text" placeholder="{{loc 'core.deckName'}}" value="{{deck.name}}" />
 		</div>
 		<div class="form-group">
 			<label for="deckDescription">{{loc 'core.description'}}</label>
-			<textarea class="form-control" id="deckDescription" placeholder="{{loc 'core.deckDescription'}}" rows="10">{{deck.description}}</textarea>
+			<textarea class="form-control" id="deckDescription" placeholder="{{loc 'core.deckDescription'}}" rows="7">{{deck.description}}</textarea>
 		</div>
 		<a href="http://en.wikipedia.org/wiki/Markdown#Example" target="_blank">{{loc 'core.markdownSyntaxExamples'}}</a>
+		
+		{{#if publish}} 
+		<div>
+			<div class="tournament-group">
+				<span>{{loc 'core.tournament.type'}}</span>
+				<div class="btn-group tournament-type">
+					<label class="btn btn-default" data-type="worlds" data-toggle="tooltip" title="{{loc 'core.tournament.type.worlds'}}">
+						<i class="glyphicon glyphicon-king"></i>
+					</label>
+					<label class="btn btn-default" data-type="nationals" data-toggle="tooltip" title="{{loc 'core.tournament.type.nationals'}}">
+						<i class="glyphicon glyphicon-queen"></i>
+					</label>
+					<label class="btn btn-default" data-type="regionals" data-toggle="tooltip" title="{{loc 'core.tournament.type.regionals'}}">
+						<i class="glyphicon glyphicon-tower"></i>
+					</label>
+				</div>
+			</div>
+			
+			<div class="tournament-group">
+				<span>{{loc 'core.tournament.place'}}</span>
+				<div class="btn-group tournament-place">
+					<label class="btn btn-default" data-place="1st" data-toggle="tooltip" title="{{loc 'core.tournament.place.1st'}}">
+						<i class="db-icon db-icon-1st"></i>
+					</label>
+					<label class="btn btn-default" data-place="2nd" data-toggle="tooltip" title="{{loc 'core.tournament.place.2nd'}}">
+						<i class="db-icon db-icon-2nd"></i>
+					</label>
+				</div>
+			</div>
+		</div>
+		{{/if}}
+		
 	</div>
 </div>
 

@@ -8,7 +8,9 @@ $(function() {
 				description: description,
 				type: 'snapshot',
 				snapshotBaseId: deck.get('id'),
-				snapshotPublic: true
+				snapshotPublic: true,
+				tournamentType: $modal.find('.btn-group.tournament-type > .btn.active').data('type'),
+				tournamentPlace: $modal.find('.btn-group.tournament-place > .btn.active').data('place'),
 			};
 
 			var json = deck.getBackupJson();
@@ -59,7 +61,8 @@ $(function() {
 				btnClass: 'btn-success',
 				title: 'core.publish',
 				clickHandler: publish
-			}
+			},
+			publish: {}
 		});
 	};
 
@@ -112,7 +115,8 @@ $(function() {
 				btnClass: 'btn-success',
 				title: 'core.edit',
 				clickHandler: editSnapshot
-			}
+			},
+			publish: {}
 		});
 	};
 

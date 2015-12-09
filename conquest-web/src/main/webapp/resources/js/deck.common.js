@@ -203,13 +203,15 @@ conquest.deck = conquest.deck || {};
 			$modal.data('bs.modal', null);
 		}
 		$modal = $(Handlebars.templates['deck-description-modal']({
-			deck: deck,
+			deck: deck.toJSON(),
 			title: options.title,
 			button: options.button
 		}));
 		new _deck.DeckDescriptionView({
-			el: $modal.find('.deck-description-view')
-		}).render(deck);
+			el : $modal.find('.deck-description-view')
+		}).render(deck, {
+			publish : options.publish
+		});
 
 		if (options.button.clickHandler) {
 			$modal.find('#' + options.button.id).click(function() {
@@ -435,11 +437,13 @@ conquest.deck = conquest.deck || {};
 
 	_deck.DeckDescriptionView = Backbone.View.extend({
 		el: '.deck-description-view',
-		render: function(deck) {
+		render: function(deck, options) {
+			var options = options || {};
 			var view = this;
 
 			var template = Handlebars.templates['deck-description-view']({
-				deck: deck.toJSON()
+				deck: deck.toJSON(),
+				publish: options.publish
 			});
 			view.$el.html(template);
 			var markdown = new Markdown.getSanitizingConverter();
@@ -448,6 +452,16 @@ conquest.deck = conquest.deck || {};
 			});
 			view.$el.find('#deckDescription').on('keyup', function() {
 				view.$el.find('#deckDescriptionPreview').empty().html(markdown.makeHtml($(this).val()));
+			});
+			
+			view.$el.find('[data-toggle="tooltip"]').tooltip({
+				container: 'body',
+				trigger: 'hover'
+			});
+			
+			view.$el.find('.tournament-group .btn-group > .btn').click(function(event) {
+				var $this = $(this);
+				$this.toggleClass('active').siblings().removeClass('active');
 			});
 		}
 	});

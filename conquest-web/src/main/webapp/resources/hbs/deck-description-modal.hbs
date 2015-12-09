@@ -1,7 +1,7 @@
 <div id="deckEditCommonModal" class="modal">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header bg-{{deck.warlord.faction}}">
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true">&times;</span><span class="sr-only">{{loc 'core.close'}}</span>
 				</button>
@@ -11,7 +11,7 @@
 				<div class="deck-description-view"></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn {{button.btnClass}}" id="{{button.id}}">
+				<button type="button" class="btn btn-default btn-raised bg-{{deck.warlord.faction}}" id="{{button.id}}">
 					<span class="glyphicon {{button.glyphiconClass}}"></span>&nbsp;{{loc button.title}}
 				</button>	
 				<button type="button" class="btn btn-default" data-dismiss="modal">
