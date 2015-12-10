@@ -2,6 +2,7 @@ package org.meb.conquest.db.converter;
 
 import javax.persistence.AttributeConverter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.meb.conquest.db.model.CardSetType;
 
 public class CardSetTypeConverter implements AttributeConverter<CardSetType, String> {
@@ -16,6 +17,7 @@ public class CardSetTypeConverter implements AttributeConverter<CardSetType, Str
 
 	@Override
 	public CardSetType convertToEntityAttribute(String arg0) {
+		arg0 = StringUtils.trimToNull(arg0);
 		if (arg0 == null) {
 			return null;
 		}

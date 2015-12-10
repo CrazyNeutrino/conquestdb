@@ -37,6 +37,8 @@ import org.meb.conquest.db.model.DeckComment;
 import org.meb.conquest.db.model.DeckLink;
 import org.meb.conquest.db.model.DeckType;
 import org.meb.conquest.db.model.Faction;
+import org.meb.conquest.db.model.TournamentPlace;
+import org.meb.conquest.db.model.TournamentType;
 import org.meb.conquest.db.model.User;
 import org.meb.conquest.db.model.loc.Card;
 import org.meb.conquest.db.model.loc.CardSet;
@@ -82,6 +84,10 @@ public class DeckController extends AbstractController {
 			query.setPageSize(params.getPageSize());
 			query.setPrimaryFactions(Faction.convertToFactions(params.getPrimaryFaction()));
 			query.setSecondaryFactions(Faction.convertToFactions(params.getSecondaryFaction()));
+			query.setTournamentTypes(
+					TournamentType.convertToTournamentTypes(params.getTournamentType()));
+			query.setTournamentPlaces(
+					TournamentPlace.convertToTournamentPlaces(params.getTournamentPlace()));
 			query.setWarlordTechNames(new HashSet<>(params.getWarlordTechNames()));
 
 			query.setCrstBitmap(computeCrstBitmap(params.getCrstTechNames()));
@@ -420,6 +426,10 @@ public class DeckController extends AbstractController {
 			query.setPageSize(params.getPageSize());
 			query.setPrimaryFactions(Faction.convertToFactions(params.getPrimaryFaction()));
 			query.setSecondaryFactions(Faction.convertToFactions(params.getSecondaryFaction()));
+			query.setTournamentTypes(
+					TournamentType.convertToTournamentTypes(params.getTournamentType()));
+			query.setTournamentPlaces(
+					TournamentPlace.convertToTournamentPlaces(params.getTournamentPlace()));
 			query.setWarlordTechNames(new HashSet<>(params.getWarlordTechNames()));
 
 			query.setCrstBitmap(computeCrstBitmap(params.getCrstTechNames()));

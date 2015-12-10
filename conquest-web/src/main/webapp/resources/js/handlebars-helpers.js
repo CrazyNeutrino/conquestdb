@@ -310,12 +310,12 @@ var translateMap = {
 		local: 'core.tournament.type.local'
 	},
 	tournamentPlaceIconClass: {
-		'1st': 'db-icon db-icon-1st',
-		'2nd': 'db-icon db-icon-2nd'
+		'first': 'db-icon db-icon-first',
+		'second': 'db-icon db-icon-second'
 	},
 	tournamentPlaceDisplay: {
-		'1st': 'core.tournament.place.1st',
-		'2nd': 'core.tournament.place.2nd'
+		'first': 'core.tournament.place.first',
+		'second': 'core.tournament.place.second'
 	},
 	factionColor: {
 		'astra-militarum': '#8A8A8A',

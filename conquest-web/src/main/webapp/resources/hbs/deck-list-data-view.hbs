@@ -41,13 +41,13 @@
 						<div class="secondary-text" style="position: relative;">{{warlord.name}}
 							<div class="deck-icons">
 								{{#if tournamentPlace}}
-								<i class="{{translate tournamentPlace 'tournamentPlaceIconClass'}}" data-toggle="tooltip"
-									data-placement="bottom" title="{{loc (translate tournamentPlace 'tournamentPlaceDisplay')}}"></i>
-								{{/if}}
 								{{#if tournamentType}}
 								<i class="{{translate tournamentType 'tournamentTypeIconClass'}}" data-toggle="tooltip"
 									data-placement="bottom" title="{{loc (translate tournamentType 'tournamentTypeDisplay')}}"
 									style="font-size: 0.9em;"></i>
+								{{/if}}
+								<i class="{{translate tournamentPlace 'tournamentPlaceIconClass'}}" data-toggle="tooltip"
+									data-placement="bottom" title="{{loc (translate tournamentPlace 'tournamentPlaceDisplay')}}"></i>
 								{{/if}}
 								{{#if totalDeckInterest}}
 								{{#if userDeckInterest}}

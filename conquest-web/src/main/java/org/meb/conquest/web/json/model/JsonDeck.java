@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.converter.DeckTypeConverter;
+import org.meb.conquest.db.converter.TournamentPlaceConverter;
+import org.meb.conquest.db.converter.TournamentTypeConverter;
 import org.meb.conquest.db.model.Deck;
 import org.meb.conquest.db.model.DeckComment;
 import org.meb.conquest.db.model.DeckLink;
@@ -77,8 +79,10 @@ public class JsonDeck {
 		snapshotPublic = deck.getSnapshotPublic();
 		type = deck.getType().toString().toLowerCase();
 		username = deck.getUser().getUsername();
-		tournamentType = deck.getTournamentType();
-		tournamentPlace = deck.getTournamentPlace();
+		tournamentType = new TournamentTypeConverter()
+				.convertToDatabaseColumn(deck.getTournamentType());
+		tournamentPlace = new TournamentPlaceConverter()
+				.convertToDatabaseColumn(deck.getTournamentPlace());
 
 		if (loadMembers) {
 			for (DeckMember deckMember : deck.getDeckMembers()) {
@@ -135,8 +139,8 @@ public class JsonDeck {
 		deck.setModifyDate(modifyDate);
 		deck.setConfigCsQuantity(configCsQuantity);
 		deck.setWarlord(new Card(warlordId));
-		deck.setTournamentType(tournamentType);
-		deck.setTournamentPlace(tournamentPlace);
+		deck.setTournamentType(new TournamentTypeConverter().convertToEntityAttribute(tournamentType));
+		deck.setTournamentPlace(new TournamentPlaceConverter().convertToEntityAttribute(tournamentPlace));
 
 		deck.setType(DeckType.valueOf(type.toUpperCase()));
 		Set<DeckMember> deckMembers = new LinkedHashSet<>();

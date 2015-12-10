@@ -24,15 +24,17 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+import org.meb.conquest.db.converter.DeckTypeConverter;
+import org.meb.conquest.db.converter.FactionConverter;
+import org.meb.conquest.db.converter.TournamentPlaceConverter;
+import org.meb.conquest.db.converter.TournamentTypeConverter;
+import org.meb.conquest.db.model.loc.Card;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import org.hibernate.annotations.Type;
-import org.meb.conquest.db.converter.DeckTypeConverter;
-import org.meb.conquest.db.converter.FactionConverter;
-import org.meb.conquest.db.model.loc.Card;
 
 @Getter
 @Setter
@@ -85,8 +87,11 @@ public class Deck {
 	@Column(name = "comp_evt_cards_qty")
 	private Integer eventCardsQuantity;
 	
-	private String tournamentType;
-	private String tournamentPlace;
+	@Convert(converter = TournamentTypeConverter.class)
+	private TournamentType tournamentType;
+	
+	@Convert(converter = TournamentPlaceConverter.class)
+	private TournamentPlace tournamentPlace;
 
 	@Column(name = "comp_sup_cards_qty")
 	private Integer supportCardsQuantity;

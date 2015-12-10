@@ -10,6 +10,8 @@ import lombok.Setter;
 import org.apache.commons.lang3.time.DateUtils;
 import org.meb.conquest.db.model.Deck;
 import org.meb.conquest.db.model.Faction;
+import org.meb.conquest.db.model.TournamentPlace;
+import org.meb.conquest.db.model.TournamentType;
 
 @Getter
 @Setter
@@ -38,7 +40,13 @@ public class DeckQuery extends Query<Deck> {
 
 	@CriteriaIn("secondaryFaction")
 	private Set<Faction> secondaryFactions;
+	
+	@CriteriaIn("tournamentType")
+	private Set<TournamentType> tournamentTypes;
 
+	@CriteriaIn("tournamentPlace")
+	private Set<TournamentPlace> tournamentPlaces;
+	
 	@CriteriaIn("warlord.techName")
 	private Set<String> warlordTechNames;
 

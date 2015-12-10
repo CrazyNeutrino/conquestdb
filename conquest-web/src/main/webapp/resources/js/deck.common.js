@@ -614,6 +614,12 @@ conquest.deck = conquest.deck || {};
 			filter.secondaryFaction = this.$el.find('.btn-group-filter.filter-faction.secondary .btn.active').map(function() {
 				return $(this).data('faction');
 			}).get();
+			filter.tournamentType = this.$el.find('.btn-group-filter.filter-tournament-type .btn.active').map(function() {
+				return $(this).data('tournament-type');
+			}).get();
+			filter.tournamentPlace = this.$el.find('.btn-group-filter.filter-tournament-place .btn.active').map(function() {
+				return $(this).data('tournament-place');
+			}).get();
 			filter.warlordTechName = this.$el.find('#warlordFilter li[data-node-type="warlord"] > input[type="checkbox"]:checked').map(function() {
 				return $(this).val();
 			}).get();
@@ -661,6 +667,18 @@ conquest.deck = conquest.deck || {};
 			this.$el.find('.btn-group-filter.filter-faction.secondary .btn').each(function() {
 				var $this = $(this);
 				if (filter.secondaryFaction && filter.secondaryFaction.indexOf($this.data('faction')) > -1) {
+					$this.addClass('active');
+				}
+			});
+			this.$el.find('.btn-group-filter.filter-tournament-type .btn').each(function() {
+				var $this = $(this);
+				if (filter.tournamentType && filter.tournamentType.indexOf($this.data('tournament-type')) > -1) {
+					$this.addClass('active');
+				}
+			});
+			this.$el.find('.btn-group-filter.filter-tournament-place .btn').each(function() {
+				var $this = $(this);
+				if (filter.tournamentType && filter.tournamentPlace.indexOf($this.data('tournament-place')) > -1) {
 					$this.addClass('active');
 				}
 			});

@@ -55,6 +55,12 @@ public class DeckQueryParams {
 
 	@QueryParam("secondaryFaction")
 	private List<String> secondaryFaction;
+	
+	@QueryParam("tournamentType")
+	private List<String> tournamentType;
+	
+	@QueryParam("tournamentPlace")
+	private List<String> tournamentPlace;
 
 	@QueryParam("setTechName")
 	private List<String> crstTechNames;

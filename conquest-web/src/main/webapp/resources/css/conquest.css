@@ -107,8 +107,8 @@ footer.footer > .container > p:first-child {
 	/* margin-right: 5px; */
 }
 
-.deck-list .deck-icons > i.db-icon-1st,
-.deck-list .deck-icons > i.db-icon-2nd {
+.deck-list .deck-icons > i.db-icon-first,
+.deck-list .deck-icons > i.db-icon-second {
 	position: relative;
     top: -1px;
 }
@@ -161,8 +161,8 @@ footer.footer > .container > p:first-child {
 	/* margin-right: 5px; */
 }
 
-.pub-deck-view .deck-icons > i:db-icon-1st,
-.pub-deck-view .deck-icons > i:db-icon-2nd {
+.pub-deck-view .deck-icons > i:db-icon-first,
+.pub-deck-view .deck-icons > i:db-icon-second {
 	position: relative;
     top: -1px;
 }
@@ -774,8 +774,8 @@ table.table-with-btn > tbody > tr > td {
 .db-icon-globe:before { content: '\e80e'; }
 .db-icon-asterisk:before { content: '\e80f'; }
 .db-icon-king:before { content: '\e810'; }
-.db-icon-1st:before { content: '\e811'; }
-.db-icon-2nd:before { content: '\e812'; }
+.db-icon-first:before { content: '\e811'; }
+.db-icon-second:before { content: '\e812'; }
 .db-icon-heart:before { content: '\e813'; }
 .db-icon-heart-empty:before { content: '\e814'; }
 .db-icon-star:before { content: '\e815'; }

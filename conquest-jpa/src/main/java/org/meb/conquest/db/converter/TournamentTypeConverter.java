@@ -3,12 +3,12 @@ package org.meb.conquest.db.converter;
 import javax.persistence.AttributeConverter;
 
 import org.apache.commons.lang3.StringUtils;
-import org.meb.conquest.db.model.CardType;
+import org.meb.conquest.db.model.TournamentType;
 
-public class CardTypeConverter implements AttributeConverter<CardType, String> {
+public class TournamentTypeConverter implements AttributeConverter<TournamentType, String> {
 
 	@Override
-	public String convertToDatabaseColumn(CardType arg0) {
+	public String convertToDatabaseColumn(TournamentType arg0) {
 		if (arg0 == null) {
 			return null;
 		}
@@ -16,11 +16,11 @@ public class CardTypeConverter implements AttributeConverter<CardType, String> {
 	}
 
 	@Override
-	public CardType convertToEntityAttribute(String arg0) {
+	public TournamentType convertToEntityAttribute(String arg0) {
 		arg0 = StringUtils.trimToNull(arg0);
 		if (arg0 == null) {
 			return null;
 		}
-		return CardType.valueOf(arg0.replace('-', '_').toUpperCase());
+		return TournamentType.valueOf(arg0.replace('-', '_').toUpperCase());
 	}
 }

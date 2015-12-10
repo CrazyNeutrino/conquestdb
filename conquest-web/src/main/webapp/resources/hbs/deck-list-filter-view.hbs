@@ -1,16 +1,48 @@
 {{#smartUnless advanced ~}}
-<div class="btn-group btn-group-filter filter-faction filter-group select-many primary">
+<div class="btn-group btn-group-filter filter-group filter-faction select-many primary">
 	{{#each factions ~}}
-	<label class="btn btn-default btn-raised-lite" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
+	<label class="btn btn-default" data-faction="{{techName}}" data-toggle="tooltip" title="{{name}}">
 		<i class="db-icon db-icon-{{techName}}"></i>
 	</label>
-	{{/each ~}}	
+	{{/each ~}}
 </div>
+	
+<div class="btn-group btn-group-filter filter-group filter-tournament-type select-many">
+	<label class="btn btn-default" data-tournament-type="worlds" data-toggle="tooltip"
+			title="{{loc 'core.tournament.type.worlds'}}">
+		<i class="glyphicon glyphicon-king"></i>
+	</label>
+	<label class="btn btn-default" data-tournament-type="nationals" data-toggle="tooltip"
+			title="{{loc 'core.tournament.type.nationals'}}">
+		<i class="glyphicon glyphicon-queen"></i>
+	</label>
+	<label class="btn btn-default" data-tournament-type="regionals" data-toggle="tooltip"
+			title="{{loc 'core.tournament.type.regionals'}}">
+		<i class="glyphicon glyphicon-tower"></i>
+	</label>
+	<label class="btn btn-default" data-tournament-type="local" data-toggle="tooltip"
+			title="{{loc 'core.tournament.type.local'}}">
+		<i class="glyphicon glyphicon-knight"></i>
+	</label>
+</div>
+
+<div class="btn-group btn-group-filter filter-group filter-tournament-place select-many">
+	<label class="btn btn-default" data-tournament-place="first" data-toggle="tooltip"
+			title="{{loc 'core.tournament.place.first'}}">
+		<i class="db-icon db-icon-first"></i>
+	</label>
+	<label class="btn btn-default" data-tournament-place="second" data-toggle="tooltip"
+			title="{{loc 'core.tournament.place.second'}}">
+		<i class="db-icon db-icon-second"></i>
+	</label>
+</div>
+
 <label id="searchButton" class="btn btn-primary filter-group btn-raised"><span class="glyphicon glyphicon-search"></span>&nbsp;{{loc 'core.search'}}</label>
 <label id="moreButton" class="btn btn-default filter-group"><span class="glyphicon glyphicon-menu-right"></span>&nbsp;{{loc 'core.more'}}</label>
 {{else}}
 <div class="row">
 	<div class="col-md-4">
+		
 		<div class="form-group">
 			<label>{{loc 'core.primaryFaction'}}</label>
 			<div clas="input-group">
@@ -23,6 +55,7 @@
 					</div>
 			</div>
 		</div>
+		
 		<div class="form-group">
 			<label>{{loc 'core.secondaryFaction'}}</label>
 			<div clas="input-group">
@@ -33,6 +66,43 @@
 						</label>
 						{{/each ~}}
 					</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label>{{loc 'core.tournament.info'}}</label>
+			<div class="input-group">
+				
+				<div class="btn-group btn-group-filter filter-tournament-type select-many" style="margin-right: 5px;">
+					<label class="btn btn-default" data-tournament-type="worlds" data-toggle="tooltip"
+							title="{{loc 'core.tournament.type.worlds'}}">
+						<i class="glyphicon glyphicon-king"></i>
+					</label>
+					<label class="btn btn-default" data-tournament-type="nationals" data-toggle="tooltip"
+							title="{{loc 'core.tournament.type.nationals'}}">
+						<i class="glyphicon glyphicon-queen"></i>
+					</label>
+					<label class="btn btn-default" data-tournament-type="regionals" data-toggle="tooltip"
+							title="{{loc 'core.tournament.type.regionals'}}">
+						<i class="glyphicon glyphicon-tower"></i>
+					</label>
+					<label class="btn btn-default" data-tournament-type="local" data-toggle="tooltip"
+							title="{{loc 'core.tournament.type.local'}}">
+						<i class="glyphicon glyphicon-knight"></i>
+					</label>
+				</div>
+				
+				<div class="btn-group btn-group-filter filter-tournament-place select-many">
+					<label class="btn btn-default" data-tournament-place="first" data-toggle="tooltip"
+							title="{{loc 'core.tournament.place.first'}}">
+						<i class="db-icon db-icon-first"></i>
+					</label>
+					<label class="btn btn-default" data-tournament-place="second" data-toggle="tooltip"
+							title="{{loc 'core.tournament.place.second'}}">
+						<i class="db-icon db-icon-second"></i>
+					</label>
+				</div>
+			
 			</div>
 		</div>
 
