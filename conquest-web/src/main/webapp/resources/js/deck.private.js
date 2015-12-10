@@ -9,8 +9,8 @@ $(function() {
 				type: 'snapshot',
 				snapshotBaseId: deck.get('id'),
 				snapshotPublic: true,
-				tournamentType: $modal.find('.btn-group.tournament-type > .btn.active').data('type'),
-				tournamentPlace: $modal.find('.btn-group.tournament-place > .btn.active').data('place'),
+				tournamentType: $modal.find('.btn-group.tournament-type > .btn.active').data('tournament-type'),
+				tournamentPlace: $modal.find('.btn-group.tournament-place > .btn.active').data('tournament-place'),
 			};
 
 			var json = deck.getBackupJson();
@@ -71,7 +71,9 @@ $(function() {
 		var editSnapshot = function($modal, name, description) {
 			var attributes = {
 				name: name,
-				description: description
+				description: description,
+				tournamentType: $modal.find('.btn-group.tournament-type > .btn.active').data('tournament-type'),
+				tournamentPlace: $modal.find('.btn-group.tournament-place > .btn.active').data('tournament-place')
 			};
 
 			snapshot.listenToOnce(snapshot, 'invalid', function(snapshot) {
@@ -135,7 +137,7 @@ $(function() {
 		},
 		renderMessages: function(options) {
 			conquest.deck.renderMessages({
-				$target: this.$el,
+				$target: this.$el.find('.content-band .container .content'),
 				messages: this.messages
 			});
 			delete this.messages;

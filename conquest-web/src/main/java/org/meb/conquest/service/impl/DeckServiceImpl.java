@@ -396,6 +396,8 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 
 				persistent.setName(deck.getName());
 				persistent.setDescription(deck.getDescription());
+				persistent.setTournamentType(deck.getTournamentType());
+				persistent.setTournamentPlace(deck.getTournamentPlace());
 
 				if (deck.getType() != DeckType.SNAPSHOT) {
 					persistent.setConfigCsQuantity(deck.getConfigCsQuantity());

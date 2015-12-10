@@ -293,7 +293,7 @@ conquest.deck = conquest.deck || {};
 		base: '#EA5400',
 	};
 	_deck.factionColors['dark-eldar'] = {
-		base: '#B965AA',
+		base: '#AF4D9D',
 	};
 	_deck.factionColors['eldar'] = {
 		base: '#EADA67',
@@ -335,7 +335,7 @@ conquest.deck = conquest.deck || {};
 		el: '.content',
 		renderMessages: function(options) {
 			_deck.renderMessages({
-				$target: this.$el,
+				$target: this.$el.find('.content-band .container .content'),
 				messages: this.messages
 			});
 			delete this.messages;
@@ -445,7 +445,25 @@ conquest.deck = conquest.deck || {};
 				deck: deck.toJSON(),
 				publish: options.publish
 			});
-			view.$el.html(template);
+			view.$el.html(template);						
+			
+			var tournamentType = deck.get('tournamentType');
+			if (tournamentType) {
+				view.$el.find('.btn[data-tournament-type="' + tournamentType + '"]').addClass('active');
+			}
+			var tournamentPlace = deck.get('tournamentPlace');
+			if (tournamentPlace) {
+				view.$el.find('.btn[data-tournament-place="' + tournamentPlace + '"]').addClass('active');
+			}
+			
+			view.$el.find('[data-toggle="tooltip"]').tooltip({
+				container: 'body',
+				trigger: 'hover'
+			});
+			
+			//
+			// event handlers
+			//
 			var markdown = new Markdown.getSanitizingConverter();
 			view.$el.find('#deckName').on('keyup', function() {
 				view.$el.find('#deckNamePreview').empty().html(markdown.makeHtml($(this).val()));
@@ -453,15 +471,8 @@ conquest.deck = conquest.deck || {};
 			view.$el.find('#deckDescription').on('keyup', function() {
 				view.$el.find('#deckDescriptionPreview').empty().html(markdown.makeHtml($(this).val()));
 			});
-			
-			view.$el.find('[data-toggle="tooltip"]').tooltip({
-				container: 'body',
-				trigger: 'hover'
-			});
-			
 			view.$el.find('.tournament-group .btn-group > .btn').click(function(event) {
-				var $this = $(this);
-				$this.toggleClass('active').siblings().removeClass('active');
+				$(this).toggleClass('active').siblings().removeClass('active');
 			});
 		}
 	});
@@ -866,8 +877,11 @@ conquest.deck = conquest.deck || {};
 					return member.card.cost;
 				});
 				delete membersByCost['-1'];
+				delete membersByCost['undefined'];
 				
-				var sortedKeys = _.sortBy(Object.keys(membersByCost));
+				var sortedKeys = _.sortBy(Object.keys(membersByCost), function(key) {
+					return parseInt(key);
+				});
 				var dataByCost = [];
 				_.each(sortedKeys, function(key) {
 					dataByCost.push([parseInt(key), _.reduce(membersByCost[key], function(count, member) {
@@ -1084,39 +1098,39 @@ conquest.deck = conquest.deck || {};
 			    });
 			});
 			
-//			//
-//			// card types chart
-//			//
-//			view.$el.find('.chart-container.types').each(function() {
-//				var deck = decks.findWhere({
-//					id: parseInt($(this).data('deck-id'))
-//				});
-//				var members = conquest.util.toJSON(deck.get('members').filter(function(member) {
-//					return member.get('quantity') > 0;
-//				}));
-//				var byType = _.groupBy(members, function(member) {
-//					return member.card.type;
-//				});
-//
-//				var order = ['army', 'attachment', 'support', 'event', 'synapse'];
-//				var dataByType = [];
-//				var sortedKeys = _.sortBy(Object.keys(byType), function(key) {
-//					return order.indexOf(key);
-//				});
-//				_.each(sortedKeys, function(key) {
-//					dataByType.push({
-//						label: conquest.dict.findCardType(key).shortName,
-//						value: _.reduce(byType[key], function(count, member) {
-//							return count + member.quantity;
-//						}, 0),
-//						color: conquest.deck.typeColors[key].base,
-//						highlight: conquest.deck.typeColors[key].hl
-//					});
-//				});
-//
-//				var chart = new Chart($(this).find('.chart')[0].getContext('2d')).Doughnut(dataByType, chartOptions);
-//				$(this).find('.legend').html(chart.generateLegend());
-//			});
+			//
+			// card types chart
+			//
+			view.$el.find('.chart-container.types').each(function() {
+				var deck = decks.findWhere({
+					id: parseInt($(this).data('deck-id'))
+				});
+				var members = conquest.util.toJSON(deck.get('members').filter(function(member) {
+					return member.get('quantity') > 0;
+				}));
+				var byType = _.groupBy(members, function(member) {
+					return member.card.type;
+				});
+
+				var order = ['army', 'attachment', 'support', 'event', 'synapse'];
+				var dataByType = [];
+				var sortedKeys = _.sortBy(Object.keys(byType), function(key) {
+					return order.indexOf(key);
+				});
+				_.each(sortedKeys, function(key) {
+					dataByType.push({
+						label: conquest.dict.findCardType(key).shortName,
+						value: _.reduce(byType[key], function(count, member) {
+							return count + member.quantity;
+						}, 0),
+						color: conquest.deck.typeColors[key].base,
+						highlight: conquest.deck.typeColors[key].hl
+					});
+				});
+
+				var chart = new Chart($(this).find('.chart')[0].getContext('2d')).Doughnut(dataByType, chartOptions);
+				$(this).find('.legend').html(chart.generateLegend());
+			});
 
 			//
 			// click handlers

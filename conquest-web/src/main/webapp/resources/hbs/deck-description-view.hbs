@@ -1,6 +1,6 @@
 <div class="block folding-block">
 	<div class="block-header">
-		<div class="block-header-text">
+		<div class="block-header-text bg-{{deck.warlord.faction}}">
 			<span class="glyphicon glyphicon-pencil"></span>
 			&nbsp;{{loc 'core.edit2'}}
 		</div>
@@ -14,45 +14,13 @@
 			<label for="deckDescription">{{loc 'core.description'}}</label>
 			<textarea class="form-control" id="deckDescription" placeholder="{{loc 'core.deckDescription'}}" rows="7">{{deck.description}}</textarea>
 		</div>
-		<a href="http://en.wikipedia.org/wiki/Markdown#Example" target="_blank">{{loc 'core.markdownSyntaxExamples'}}</a>
-		
-		{{#if publish}} 
-		<div>
-			<div class="tournament-group">
-				<span>{{loc 'core.tournament.type'}}</span>
-				<div class="btn-group tournament-type">
-					<label class="btn btn-default" data-type="worlds" data-toggle="tooltip" title="{{loc 'core.tournament.type.worlds'}}">
-						<i class="glyphicon glyphicon-king"></i>
-					</label>
-					<label class="btn btn-default" data-type="nationals" data-toggle="tooltip" title="{{loc 'core.tournament.type.nationals'}}">
-						<i class="glyphicon glyphicon-queen"></i>
-					</label>
-					<label class="btn btn-default" data-type="regionals" data-toggle="tooltip" title="{{loc 'core.tournament.type.regionals'}}">
-						<i class="glyphicon glyphicon-tower"></i>
-					</label>
-				</div>
-			</div>
-			
-			<div class="tournament-group">
-				<span>{{loc 'core.tournament.place'}}</span>
-				<div class="btn-group tournament-place">
-					<label class="btn btn-default" data-place="1st" data-toggle="tooltip" title="{{loc 'core.tournament.place.1st'}}">
-						<i class="db-icon db-icon-1st"></i>
-					</label>
-					<label class="btn btn-default" data-place="2nd" data-toggle="tooltip" title="{{loc 'core.tournament.place.2nd'}}">
-						<i class="db-icon db-icon-2nd"></i>
-					</label>
-				</div>
-			</div>
-		</div>
-		{{/if}}
-		
+		<a href="http://en.wikipedia.org/wiki/Markdown#Example" target="_blank">{{loc 'core.markdownSyntaxExamples'}}</a>					
 	</div>
 </div>
 
 <div class="block folding-block">
 	<div class="block-header">
-		<div class="block-header-text">
+		<div class="block-header-text bg-{{deck.warlord.faction}}">
 			<span class="glyphicon glyphicon-eye-open"></span>
 			&nbsp;{{loc 'core.preview'}}
 		</div>
@@ -63,3 +31,54 @@
 		<div id="deckDescriptionPreview">{{{markdown deck.description}}}</div>
 	</div>
 </div>
+
+{{#if publish}}
+<div class="block folding-block">
+	<div class="block-header" style="margin-bottom: 0px;">
+		<div class="block-header-text bg-{{deck.warlord.faction}}">
+			<span class="db-icon db-icon-1st"></span>
+			&nbsp;{{loc 'core.tournament.info'}}
+		</div>
+	</div>
+	<div class="block-content">
+		<div>
+			<div class="tournament-group">
+				<span>{{loc 'core.tournament.type'}}</span>
+				<div class="btn-group tournament-type">
+					<label class="btn btn-default" data-tournament-type="worlds" data-toggle="tooltip"
+							title="{{loc 'core.tournament.type.worlds'}}">
+						<i class="glyphicon glyphicon-king"></i>
+					</label>
+					<label class="btn btn-default" data-tournament-type="nationals" data-toggle="tooltip"
+							title="{{loc 'core.tournament.type.nationals'}}">
+						<i class="glyphicon glyphicon-queen"></i>
+					</label>
+					<label class="btn btn-default" data-tournament-type="regionals" data-toggle="tooltip"
+							title="{{loc 'core.tournament.type.regionals'}}">
+						<i class="glyphicon glyphicon-tower"></i>
+					</label>
+					<label class="btn btn-default" data-tournament-type="local" data-toggle="tooltip"
+							title="{{loc 'core.tournament.type.local'}}">
+						<i class="glyphicon glyphicon-knight"></i>
+					</label>
+				</div>
+			</div>
+			
+			<div class="tournament-group">
+				<span>{{loc 'core.tournament.place'}}</span>
+				<div class="btn-group tournament-place">
+					<label class="btn btn-default" data-tournament-place="1st" data-toggle="tooltip"
+							title="{{loc 'core.tournament.place.1st'}}">
+						<i class="db-icon db-icon-1st"></i>
+					</label>
+					<label class="btn btn-default" data-tournament-place="2nd" data-toggle="tooltip"
+							title="{{loc 'core.tournament.place.2nd'}}">
+						<i class="db-icon db-icon-2nd"></i>
+					</label>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>		
+{{/if}}

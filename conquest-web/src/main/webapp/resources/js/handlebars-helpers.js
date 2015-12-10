@@ -300,12 +300,14 @@ var translateMap = {
 	tournamentTypeIconClass: {
 		worlds: 'glyphicon glyphicon-king',
 		nationals: 'glyphicon glyphicon-queen',
-		regionals: 'glyphicon glyphicon-tower'
+		regionals: 'glyphicon glyphicon-tower',
+		local: 'glyphicon glyphicon-knight'
 	},
 	tournamentTypeDisplay: {
 		worlds: 'core.tournament.type.worlds',
 		nationals: 'core.tournament.type.nationals',
-		regionals: 'core.tournament.type.regionals'
+		regionals: 'core.tournament.type.regionals',
+		local: 'core.tournament.type.local'
 	},
 	tournamentPlaceIconClass: {
 		'1st': 'db-icon db-icon-1st',
