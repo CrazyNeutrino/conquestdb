@@ -13,6 +13,8 @@ public class DeckHelperFactory {
 		DeckHelper helper;
 		if (warlord.getFaction() == Faction.TYRANID) {
 			helper = new TyranidDeckHelper(warlord);
+		} else if (warlord.getFaction() == Faction.NECRON) {
+			helper = new NecronDeckHelper(warlord);
 		} else if (warlord.getTechName().equals("commander-starblaze")) {
 			helper = new CommanderStarblazeDeckHelper(warlord);
 		} else if (warlord.getTechName().equals("gorzod")) {

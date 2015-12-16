@@ -43,7 +43,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-7">
 				<div class="type-col type-{{card.type}}">{{searchLinkType card}}</div>
-				<div class="faction-col text-center"><img src="{{factionImagePath card.faction}}" /></div>
+				<div class="faction-col text-center"><i style="font-size: 24px;" class="db-icon db-icon-{{card.faction}}"></i></div>
 				<div class="stat-col text-center">{{#ifEqual card.cost -1}}X{{else}}{{{na card.cost}}}{{/ifEqual}}</div>
 				<div class="stat-col text-center">{{{na card.shield}}}</div>
 				<div class="stat-col text-center">{{{na card.command}}}</div>

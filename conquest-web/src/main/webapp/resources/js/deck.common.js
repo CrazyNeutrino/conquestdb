@@ -286,51 +286,60 @@ conquest.deck = conquest.deck || {};
 
 	_deck.factionColors = [];
 	_deck.factionColors['astra-militarum'] = {
-			base: '#3C3C3C'
+		bg: '#3C3C3C',
+		fg: '#FFF'
 	};
 	_deck.factionColors['chaos'] = {
-		base: '#EA5400'
+		bg: '#EA5400',
+		fg: '#FFF'
 	};
 	_deck.factionColors['dark-eldar'] = {
-		base: '#AF4D9D'
+		bg: '#AF4D9D',
+		fg: '#000'
 	};
 	_deck.factionColors['eldar'] = {
-		base: '#EADA67'
+		bg: '#EADA67',
+		fg: '#000'
 	};
 	_deck.factionColors['ork'] = {
-		base: '#407424'
+		bg: '#407424',
+		fg: '#FFF'
 	};
 	_deck.factionColors['space-marines'] = {
-		base: '#095DAD'
+		bg: '#095DAD',
+		fg: '#FFF'
 	};
 	_deck.factionColors['tau'] = {
-		base: '#4CD0DC'
+		bg: '#4CD0DC'
 	};
 	_deck.factionColors['tyranid'] = {
-		base: '#A32618'
+		bg: '#A32618',
+		fg: '#FFF'
 	};
 	_deck.factionColors['necron'] = {
-		base: '#57D8A9'
+		bg: '#57D8A9',
+		fg: '#000'
 	};
 	_deck.factionColors['neutral'] = {
-		base: '#BBB'
+		bg: '#BBB',
+		fg: '#000'
 	};
 
 	_deck.typeColors = [];
 	_deck.typeColors['army'] = {
-		base: '#ED2626'
+		bg: '#ED2626'
 	};
 	_deck.typeColors['attachment'] = {
-		base: '#419441'
+		bg: '#419441'
 	};
 	_deck.typeColors['support'] = {
-		base: '#3B84CC'
+		bg: '#3B84CC'
 	};
 	_deck.typeColors['event'] = {
-		base: '#F0AD36'
+		bg: '#F0AD36'
 	};
 	_deck.typeColors['synapse'] = {
-		base: '#B848A3'
+		bg: '#B848A3'
 	};
 
 	_deck.PageView = Backbone.View.extend({
@@ -995,7 +1004,7 @@ conquest.deck = conquest.deck || {};
 						y: _.reduce(membersByFaction[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
-						color: conquest.deck.factionColors[key].base
+						color: conquest.deck.factionColors[key].bg
 					});
 				});
 
@@ -1068,7 +1077,7 @@ conquest.deck = conquest.deck || {};
 						y: _.reduce(membersByType[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
-						color: conquest.deck.typeColors[key].base
+						color: conquest.deck.typeColors[key].bg
 					});
 				});
 
@@ -1116,40 +1125,6 @@ conquest.deck = conquest.deck || {};
 			    });
 			});
 			
-			//
-			// card types chart
-			//
-			view.$el.find('.chart-container.types').each(function() {
-				var deck = decks.findWhere({
-					id: parseInt($(this).data('deck-id'))
-				});
-				var members = conquest.util.toJSON(deck.get('members').filter(function(member) {
-					return member.get('quantity') > 0;
-				}));
-				var byType = _.groupBy(members, function(member) {
-					return member.card.type;
-				});
-
-				var order = ['army', 'attachment', 'support', 'event', 'synapse'];
-				var dataByType = [];
-				var sortedKeys = _.sortBy(Object.keys(byType), function(key) {
-					return order.indexOf(key);
-				});
-				_.each(sortedKeys, function(key) {
-					dataByType.push({
-						label: conquest.dict.findCardType(key).shortName,
-						value: _.reduce(byType[key], function(count, member) {
-							return count + member.quantity;
-						}, 0),
-						color: conquest.deck.typeColors[key].base,
-						highlight: conquest.deck.typeColors[key].hl
-					});
-				});
-
-				var chart = new Chart($(this).find('.chart')[0].getContext('2d')).Doughnut(dataByType, chartOptions);
-				$(this).find('.legend').html(chart.generateLegend());
-			});
-
 			//
 			// click handlers
 			//

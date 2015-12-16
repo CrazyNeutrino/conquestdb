@@ -765,7 +765,8 @@ table.table-with-btn > tbody > tr > td {
 .db-icon-ork:before { content: '\e805'; } 
 .db-icon-space-marines:before { content: '\e806'; width: 1.5em; } 
 .db-icon-tau:before { content: '\e807'; } 
-.db-icon-tyranid:before { content: '\e808'; width: 1.5em; } 
+.db-icon-tyranid:before { content: '\e808'; width: 1.5em; }
+.db-icon-necron:before { content: '\e819'; } 
 .db-icon-link:before { content: '\e809'; } 
 .db-icon-flash:before { content: '\e80a'; } 
 .db-icon-attach:before { content: '\e80b'; } 
@@ -801,6 +802,7 @@ table.table-with-btn > tbody > tr > td {
 .bg-space-marines { background-color: #095DAD !important; color: #fff !important; }
 .bg-tau { background-color: #4CD0DC !important; color: #000 !important; }
 .bg-tyranid { background-color: #A32618 !important; color: #fff !important; }
+.bg-necron { background-color: #57D8A9 !important; color: #000 !important; }
 
 .bor-astra-militarum { border-color: #3C3C3C !important; }
 .bor-chaos { border-color: #EA5400 !important; }
@@ -810,6 +812,7 @@ table.table-with-btn > tbody > tr > td {
 .bor-space-marines { border-color: #095DAD !important; }
 .bor-tau { border-color: #4CD0DC !important; }
 .bor-tyranid { border-color: #A32618 !important; }
+.bor-necron { border-color: #57D8A9 !important; }
 
 .btn-astra-militarum { background-color: #3C3C3C !important; color: #fff !important; }
 .btn-chaos { background-color: #EA5400 !important; color: #fff !important; }
@@ -819,6 +822,7 @@ table.table-with-btn > tbody > tr > td {
 .btn-space-marines { background-color: #095DAD !important; color: #fff !important; }
 .btn-tau { background-color: #4CD0DC !important; color: #000 !important; }
 .btn-tyranid { background-color: #A32618 !important; color: #fff !important; }
+.btn-necron { background-color: #57D8A9 !important; color: #000 !important; }
 
 .btn-astra-militarum:hover { background-color: #242424 !important; }
 .btn-chaos:hover { background-color: #E05400 !important; }
@@ -828,6 +832,7 @@ table.table-with-btn > tbody > tr > td {
 .btn-space-marines:hover { background-color: #085196 !important; }
 .btn-tau:hover { background-color: #37CAD7 !important; }
 .btn-tyranid:hover { background-color: #8E2115 !important; }
+.btn-necron:hover { background-color: #41D29D !important; color: #000 !important; }
 
 /*
  * bootstrap overrides

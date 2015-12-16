@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.meb</groupId>
 		<artifactId>conquest</artifactId>
-		<version>1.2.4</version>
+		<version>${project.version}</version>
 	</parent>
 
 	<properties>

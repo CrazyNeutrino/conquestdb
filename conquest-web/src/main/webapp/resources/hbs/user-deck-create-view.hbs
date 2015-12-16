@@ -11,19 +11,23 @@
 							<tr>
 								<td>{{loc 'card.name'}}</td>
 								<td style="text-align: center;">{{loc 'card.faction'}}</td>
-								<td>&nbsp;</td>
-								<td>{{loc 'card.attack.sh'}}</td>
-								<td>{{loc 'card.hp.sh'}}</td>
+								{{!--<td>&nbsp;</td>--}}
+								<td class="text-center">{{loc 'card.attack.sh'}}</td>
+								<td class="text-center">{{loc 'card.hp.sh'}}</td>
+								<td class="text-center">{{loc 'card.startingHandSize.sh'}}</td>
+								<td class="text-center">{{loc 'card.startingResources.sh'}}</td>
 							</tr>
 						</thead>
 						<tbody>
 							{{#each warlords}}
 							<tr data-card-id="{{id}}" data-card-image-base="{{imageBase}}">
-								<td>{{name}}</td>
-								<td style="text-align: center;"><img src="{{factionImagePath faction}}" /></td>
-								<td><a class="btn btn-default" href="{{rootUrl}}new/{{id}}-{{techName}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-								<td>{{attack}}</td>
-								<td>{{hitPoints}}</td>
+								<td><a href="{{rootUrl}}new/{{id}}-{{techName}}">{{name}}</a></td>
+								<td style="text-align: center; {{factionColorStyle faction}}"><i style="font-size: 24px;" class="db-icon db-icon-{{faction}}"></i></td>
+								{{!--<td><a class="btn btn-default" href="{{rootUrl}}new/{{id}}-{{techName}}"><span class="glyphicon glyphicon-pencil"></span></a></td>--}}
+								<td class="text-center">{{attack}}</td>
+								<td class="text-center">{{hitPoints}}</td>
+								<td class="text-center">{{startingHandSize}}</td>
+								<td class="text-center">{{startingResources}}</td>
 							</tr>
 							{{/each}}
 						</tbody>

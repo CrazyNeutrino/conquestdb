@@ -1238,6 +1238,8 @@ conquest.deck = conquest.deck || {};
 			deckHelper = new _deck.GorzodDeckHelper(warlord);
 		} else if (warlord.faction == 'tyranid') {
 			deckHelper = new _deck.TyranidDeckHelper(warlord);
+		} else if (warlord.faction == 'necron') {
+			deckHelper = new _deck.NecronDeckHelper(warlord);
 		} else {
 			deckHelper = new _deck.RegularDeckHelper(warlord);
 		}
@@ -1286,19 +1288,23 @@ conquest.deck = conquest.deck || {};
 		return validDeckMembers;
 	};
 	
+	//
+	// predicate for cards from regular decks (on alignment circle)
+	//
 	_deck.buildRegularDeckCardPredicate = function(warlord) {
 		var alliedDeckFactions = _.pluck(_deck.getAlliedDeckFactions(warlord.id), 'techName');
 	
 		return function(card) {
-			if (alliedDeckFactions.indexOf(card.faction) < 0) {
-				return false;
-			}
 			// invalid type
 			if (!_deck.isValidDeckCardType(card.type)) {
 				return false;
 			}
+			// invalid faction
+			if (alliedDeckFactions.indexOf(card.faction) < 0) {
+				return false;
+			}
 			// invalid warlord
-			if (card.type == 'warlord' /* && card.get('id') !== deckWarlordId */) {
+			if (card.type == 'warlord') {
 				return false;
 			}
 			// invalid signature squad
@@ -1310,6 +1316,58 @@ conquest.deck = conquest.deck || {};
 				return false;
 			}
 			return true;
+		};
+	};
+	
+	//
+	// predicate for card from warlord's own faction
+	//
+	_deck.buildWarlordFactionCardPredicate = function(warlord) {	
+		return function(card) {			
+			// invalid type
+			if (!_deck.isValidDeckCardType(card.type)) {
+				return false;
+			}
+			// invalid faction
+			if (warlord.faction != card.faction) {
+				return false;
+			}
+			// invalid warlord
+			if (card.type == 'warlord') {
+				return false;
+			}
+			// invalid signature squad
+			if (card.warlordId && card.warlordId !== warlord.id) {
+				return false;
+			}
+			return true;
+		};
+	};
+	
+	//
+	// predicate for common cards
+	//
+	_deck.buildCommonCardPredicate = function() {
+		return function(card) {
+			// valid type and not in signature squad and not loyal
+			return _deck.isValidDeckCardType(card.type) && _.isUndefined(card.warlordId)
+					&& card.loyal === false;
+		};
+	};
+	
+	//
+	// predicate for cards with given trait
+	//
+	_deck.buildTraitCardPredicate = function(trait) {
+		return function(card) {
+			// valid type and has given trait
+			var outcome = _deck.isValidDeckCardType(card.type);
+			if (outcome && card.traitEn) {
+				outcome = _.indexOf(card.traitEn.trim().toLowerCase().split(/ *\. */), trait) >= 0;
+			} else {
+				outcome = false;
+			}
+			return outcome;
 		};
 	};
 	
@@ -1342,27 +1400,6 @@ conquest.deck = conquest.deck || {};
 		};
 	};
 	
-	_deck.buildCommonCardPredicate = function() {
-		return function(card) {
-			// valid type and not in signature squad and not loyal
-			return _deck.isValidDeckCardType(card.type) && _.isUndefined(card.warlordId)
-					&& card.loyal === false;
-		};
-	};
-	
-	_deck.buildTraitCardPredicate = function(trait) {
-		return function(card) {
-			// valid type and has given trait
-			var outcome = _deck.isValidDeckCardType(card.type);
-			if (outcome && card.traitEn) {
-				outcome = _.indexOf(card.traitEn.trim().toLowerCase().split(/ *\. */), trait) >= 0;
-			} else {
-				outcome = false;
-			}
-			return outcome;
-		};
-	};
-	
 	_deck.RegularDeckHelper = function(warlord) {
 		this.getAlliedDeckFactions = function() {
 			return _.filter(conquest.dict.factions, _deck.buildRegularDeckFactionPredicate(warlord));
@@ -1379,22 +1416,48 @@ conquest.deck = conquest.deck || {};
 	
 	_deck.TyranidDeckHelper = function(warlord) {
 		this.getAlliedDeckFactions = function() {
+			return undefined;
+		};
+	
+		this.getValidDeckFactions = function() {
 			return _.filter(conquest.dict.factions, function(faction) {
 				return faction.techName == 'tyranid' || faction.techName == 'neutral';
 			});
 		};
 	
+		this.filterValidDeckCards = function(cards) {
+			var warlordFaction = _deck.buildWarlordFactionCardPredicate(warlord);
+			var neutralNonArmy = function(card) {
+				return card.faction == 'neutral' && card.type != 'army';
+			};
+			return _.filter(cards, function(card) {
+				return warlordFaction(card) || neutralNonArmy(card);
+			});
+		};
+	};
+	
+	_deck.NecronDeckHelper = function(warlord) {
+		this.getAlliedDeckFactions = function() {
+			return undefined;
+		};
+	
 		this.getValidDeckFactions = function() {
-			return this.getAlliedDeckFactions();
+			return _.filter(conquest.dict.factions, function(faction) {
+				return faction.techName != 'tyranid';
+			});
 		};
 	
 		this.filterValidDeckCards = function(cards) {
-			var standard = _deck.buildRegularDeckCardPredicate(warlord);
-			var neutralArmy = function(card) {
-				return card.faction == 'neutral' && card.type == 'army';
+			var warlordFaction = _deck.buildWarlordFactionCardPredicate(warlord);
+			var common = _deck.buildCommonCardPredicate(warlord);
+			var nonTyranidArmy = function(card) {
+				return card.faction != 'tyranid' && card.type == 'army';
 			};
+			var neutral = function(card) {
+				return card.faction == 'neutral';
+			}
 			return _.filter(cards, function(card) {
-				return standard(card) && !neutralArmy(card);
+				return warlordFaction(card) || neutral(card) || nonTyranidArmy(card) && common(card);
 			});
 		};
 	};
