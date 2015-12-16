@@ -525,6 +525,7 @@ $(function() {
 					showPublishDate: true,
 					showModifyDate: true,
 					showUsername: true,
+					showTournamentFilter: true,
 					sortItems: sortItems
 				}
 			});

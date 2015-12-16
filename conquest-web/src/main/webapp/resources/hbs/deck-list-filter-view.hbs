@@ -6,7 +6,8 @@
 	</label>
 	{{/each ~}}
 </div>
-	
+
+{{#if config.showTournamentFilter ~}}
 <div class="btn-group btn-group-filter filter-group filter-tournament-type select-many">
 	<label class="btn btn-default" data-tournament-type="worlds" data-toggle="tooltip"
 			title="{{loc 'core.tournament.type.worlds'}}">
@@ -36,6 +37,7 @@
 		<i class="db-icon db-icon-second"></i>
 	</label>
 </div>
+{{/if}}
 
 <label id="searchButton" class="btn btn-primary filter-group btn-raised"><span class="glyphicon glyphicon-search"></span>&nbsp;{{loc 'core.search'}}</label>
 <label id="moreButton" class="btn btn-default filter-group"><span class="glyphicon glyphicon-menu-right"></span>&nbsp;{{loc 'core.more'}}</label>
@@ -69,6 +71,7 @@
 			</div>
 		</div>
 		
+		{{#if config.showTournamentFilter ~}}
 		<div class="form-group">
 			<label>{{loc 'core.tournament.info'}}</label>
 			<div class="input-group">
@@ -105,6 +108,7 @@
 			
 			</div>
 		</div>
+		{{/if}}
 
 		{{#if config.showCreateDate ~}}
 		<div id="createDateFilter" class="form-group date-range-filter complex">

@@ -251,7 +251,7 @@ conquest.deck = conquest.deck || {};
 			});
 
 			copy.save(attributes, {
-				success: function(published, response, options) {
+				success: function(copy, response, options) {
 					// conquest.saveDeck(copy);
 					conquest.deck.renderMessages({
 						$target: $modal.find('.modal-body'),
@@ -259,9 +259,8 @@ conquest.deck = conquest.deck || {};
 							message: 'ok.deck.oper.save'
 						})
 					});
-					options.deck.get('snapshots').unshift(published);
 				},
-				error: function(published, response, options) {
+				error: function(copy, response, options) {
 					conquest.deck.renderMessages({
 						$target: $modal.find('.modal-body'),
 						messages: _deck.buildErrorMessage({
@@ -287,48 +286,51 @@ conquest.deck = conquest.deck || {};
 
 	_deck.factionColors = [];
 	_deck.factionColors['astra-militarum'] = {
-			base: '#3C3C3C',
+			base: '#3C3C3C'
 	};
 	_deck.factionColors['chaos'] = {
-		base: '#EA5400',
+		base: '#EA5400'
 	};
 	_deck.factionColors['dark-eldar'] = {
-		base: '#AF4D9D',
+		base: '#AF4D9D'
 	};
 	_deck.factionColors['eldar'] = {
-		base: '#EADA67',
+		base: '#EADA67'
 	};
 	_deck.factionColors['ork'] = {
-		base: '#538A34',
+		base: '#407424'
 	};
 	_deck.factionColors['space-marines'] = {
-		base: '#095DAD',
+		base: '#095DAD'
 	};
 	_deck.factionColors['tau'] = {
-		base: '#4CD0DC',
+		base: '#4CD0DC'
 	};
 	_deck.factionColors['tyranid'] = {
-		base: '#A32618',
+		base: '#A32618'
+	};
+	_deck.factionColors['necron'] = {
+		base: '#57D8A9'
 	};
 	_deck.factionColors['neutral'] = {
-		base: '#BBB',
+		base: '#BBB'
 	};
 
 	_deck.typeColors = [];
 	_deck.typeColors['army'] = {
-		base: '#ED2626',
+		base: '#ED2626'
 	};
 	_deck.typeColors['attachment'] = {
-		base: '#419441',
+		base: '#419441'
 	};
 	_deck.typeColors['support'] = {
-		base: '#3B84CC',
+		base: '#3B84CC'
 	};
 	_deck.typeColors['event'] = {
-		base: '#F0AD36',
+		base: '#F0AD36'
 	};
 	_deck.typeColors['synapse'] = {
-		base: '#B848A3',
+		base: '#B848A3'
 	};
 
 	_deck.PageView = Backbone.View.extend({
@@ -678,7 +680,7 @@ conquest.deck = conquest.deck || {};
 			});
 			this.$el.find('.btn-group-filter.filter-tournament-place .btn').each(function() {
 				var $this = $(this);
-				if (filter.tournamentType && filter.tournamentPlace.indexOf($this.data('tournament-place')) > -1) {
+				if (filter.tournamentPlace && filter.tournamentPlace.indexOf($this.data('tournament-place')) > -1) {
 					$this.addClass('active');
 				}
 			});
@@ -945,15 +947,13 @@ conquest.deck = conquest.deck || {};
 			            tickInterval: 2
 			        },
 			        plotOptions: {
-			            series: {
-			                animation: false
-			            }
-			        },
-			        plotOptions: {
 			        	column: {
 			        		colorByPoint: true,
 			        		colors: colors
-			        	}
+			        	},
+			        	series: {
+			                animation: false
+			            }
 			        },
 			        series: [{
 			        	name: "# of cards",

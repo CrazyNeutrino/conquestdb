@@ -1,5 +1,7 @@
 package org.meb.conquest.db.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +27,8 @@ public class DeckInterest {
 
 	private Integer favourite;
 	private Integer superb;
+	private Date favouriteDate;
+	private Date superbDate;
 
 	@Version
 	private Long version;

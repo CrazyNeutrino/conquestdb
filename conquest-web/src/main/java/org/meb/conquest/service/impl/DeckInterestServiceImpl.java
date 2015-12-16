@@ -3,6 +3,7 @@ package org.meb.conquest.service.impl;
 import static org.meb.conquest.db.util.Functions.DeckInterestKey;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -243,6 +244,14 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 				deckUserDI.setFavourite(favourite);
 				deckTotalDI.setFavourite(deckTotalDI.getFavourite() - oldFavourite + favourite);
 				favouriteChanged = !oldFavourite.equals(favourite);
+				
+				// register insert date
+				if (favourite > 0 && deckUserDI.getFavouriteDate() == null) {
+					deckUserDI.setFavouriteDate(new Date());
+				} else if (favourite == 0) {
+					deckUserDI.setFavouriteDate(null);
+				}
+				
 				log.debug("favourite for {} changed: {}, was: {}, is: {}",
 						new Object[] { deckUserKey, favouriteChanged, oldFavourite, favourite });
 			}
@@ -253,6 +262,14 @@ public class DeckInterestServiceImpl extends SearchServiceImpl implements DeckIn
 				deckUserDI.setSuperb(superb);
 				deckTotalDI.setSuperb(deckTotalDI.getSuperb() - oldSuperb + superb);
 				superbChanged = !oldSuperb.equals(superb);
+				
+				// register insert date
+				if (superb > 0 && deckUserDI.getSuperbDate() == null) {
+					deckUserDI.setSuperbDate(new Date());
+				} else if (superb == 0) {
+					deckUserDI.setSuperbDate(null);
+				}
+				
 				log.debug("superb for {} changed: {}, was: {}, is: {}",
 						new Object[] { deckUserKey, superbChanged, oldSuperb, superb });
 			}
