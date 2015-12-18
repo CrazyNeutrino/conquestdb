@@ -3,6 +3,7 @@ package org.meb.conquest.service.impl;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 
@@ -21,6 +22,7 @@ import org.jboss.resteasy.util.Hex;
 import org.meb.conquest.core.Constant;
 import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.User;
+import org.meb.conquest.db.query.Query;
 import org.meb.conquest.service.ExceptionFilter;
 import org.meb.conquest.service.HashHelper;
 import org.meb.conquest.service.RequestContext;
@@ -266,5 +268,12 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 		message.append("\n\n");
 		message.append(bundle.getString("mail.doNotReply"));
 		return message.toString();
+	}
+	
+	public List<User> findDonators() {
+		Query<User> query = new Query<User>(new User());
+		query.getExample().setDonator(true);
+		query.getSorting().setSortingAsc("username");
+		return find(query);
 	}
 }

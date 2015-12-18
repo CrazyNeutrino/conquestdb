@@ -123,11 +123,18 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="footer clearfix">
 					<span class="secondary-text pull-right">
 						{{#if published}}
-						<span class="value">{{deck.username}}</span>
-						<span class="separator">&nbsp;&#8226;&nbsp;</span>
+						<span class="value">{{deck.username}}
+							{{#smartIf deck.userDonator}} 
+							<span data-toggle="tooltip" data-placement="bottom" title="ConquestDB contributor">
+								<i class="glyphicon glyphicon-gift"></i>
+							</span>
+							{{/smartIf}}
+						</span>
+						<span class="separator"> &#8226; </span>
 						<span class="value" data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.published'}}: {{moment deck.createDate}}">
 							{{momentFromNow deck.createDate}}
 						</span>
@@ -137,7 +144,7 @@
 						</span>
 						{{/if}}
 						{{#unlessEqual deck.createDate deck.modifyDate}}
-						<span class="separator">&nbsp;&#8226;&nbsp;</span>
+						<span class="separator"> &#8226; </span>
 						<span class="value" data-toggle="tooltip" data-placement="bottom" title="{{loc 'core.modified'}}: {{moment deck.modifyDate}}">
 							{{momentFromNow deck.modifyDate}}
 						</span>

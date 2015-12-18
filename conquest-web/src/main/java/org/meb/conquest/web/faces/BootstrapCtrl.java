@@ -15,9 +15,11 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonProcessingException;
 import org.meb.conquest.core.Cache;
+import org.meb.conquest.db.model.User;
 import org.meb.conquest.db.model.loc.Domain;
 import org.meb.conquest.db.util.Transformers;
 import org.meb.conquest.service.RequestContext;
+import org.meb.conquest.service.api.UserService;
 import org.meb.conquest.web.auth.AuthToken;
 import org.meb.conquest.web.json.JsonModelUtils;
 import org.meb.conquest.web.json.JsonUtils;
@@ -36,6 +38,9 @@ public class BootstrapCtrl {
 
 	@Inject
 	private LocaleCtrl localeCtrl;
+	
+	@Inject
+	private UserService userService;
 
 	@Inject
 	private Cache cache;
@@ -157,5 +162,9 @@ public class BootstrapCtrl {
 			map.put("username", username);
 		}
 		return JsonUtils.write(map);
+	}
+	
+	public List<User> getDonators() {
+		return userService.findDonators();
 	}
 }

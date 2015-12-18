@@ -54,6 +54,11 @@
 		<view-id value="/index.jsf" />
 		<action onPostback="false">#{accountCtrl.signOutUser}</action>
 	</url-mapping>
+	
+	<url-mapping id="contributors">
+		<pattern value="/#{ /(en)|(pl)|(de)/ localeCtrl.language }/contributors" />
+		<view-id value="/contributors/index.jsf" />
+	</url-mapping>
 
 	<url-mapping id="resetPassword">
 		<pattern value="/#{ /(en)|(pl)|(de)/ localeCtrl.language }/account/resetpassword" />

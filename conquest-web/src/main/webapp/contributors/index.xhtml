@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" template="/WEB-INF/template/ui.xhtml">
+	
+	<ui:define name="content">	
+		<h:outputScript target="head">
+			ga('send', 'pageview');
+		</h:outputScript>		
+	
+		<div class="content-band" style="margin-top: 20px;">
+			<div class="container">
+				<h2><i class="glyphicon glyphicon-gift"></i> Contributors</h2>
+				<h4>Thank you for all your support and contributions. This site evolves because of you.</h4>
+				<br/>
+				<h:dataTable value="#{bootstrapCtrl.donators}" var="donator" styleClass="table table-striped">
+					<h:column>
+						<f:facet name="header">
+							In alphabetical order
+						</f:facet>
+						#{donator.username}
+					</h:column>
+				</h:dataTable>
+				<br />
+				Notice: if you're not here but you contributed, please let me know - I didn't manage to match all your e-mail addresses.
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>

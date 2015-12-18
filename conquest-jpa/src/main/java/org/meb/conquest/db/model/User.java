@@ -24,7 +24,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(includeFieldNames = true)
 @Entity
-@Table(name = "cqt_user")
+@Table(name = "cqv_user")
 @Access(AccessType.FIELD)
 public class User {
 
@@ -43,6 +43,9 @@ public class User {
 	private String activationCode;
 	private String resetPasswordCode;
 	private Long twitterId;
+	
+	@Type(type = "org.hibernate.type.YesNoType")
+	private Boolean donator;
 
 	@Access(AccessType.PROPERTY)
 	private Long id;
