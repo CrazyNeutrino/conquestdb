@@ -15,6 +15,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.FetchParent;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
@@ -33,8 +35,12 @@ import org.meb.conquest.db.query.Sorting.Direction;
 import org.meb.conquest.db.query.Sorting.Item;
 import org.meb.conquest.db.util.PropType;
 import org.meb.conquest.db.util.PropUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class JpaDaoAbstract<E, Q extends Query<E>> {
+	
+	private static final Logger log = LoggerFactory.getLogger(JpaDaoAbstract.class);
 
 	private EntityManager em;
 
@@ -46,7 +52,8 @@ public abstract class JpaDaoAbstract<E, Q extends Query<E>> {
 		return em;
 	}
 
-	protected List<Predicate> buildExampleCriteria(Path<E> path, E example, Set<String> excludeFieldNames) {
+	protected List<Predicate> buildExampleCriteria(Path<E> path, E example,
+			Set<String> excludeFieldNames) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 
 		List<Predicate> predicates = new ArrayList<>();
@@ -71,10 +78,12 @@ public abstract class JpaDaoAbstract<E, Q extends Query<E>> {
 
 			Predicate predicate;
 			if (fieldType == String.class) {
-				SingularAttribute<? super E, String> attr = managedType.getSingularAttribute(fieldName, String.class);
+				SingularAttribute<? super E, String> attr = managedType
+						.getSingularAttribute(fieldName, String.class);
 				predicate = cb.like(cb.lower(path.get(attr)), (String) fieldValue);
 			} else {
-				SingularAttribute<? super E, ?> attr = managedType.getSingularAttribute(fieldName, fieldType);
+				SingularAttribute<? super E, ?> attr = managedType.getSingularAttribute(fieldName,
+						fieldType);
 				predicate = cb.equal(path.get(attr), fieldValue);
 			}
 			predicates.add(predicate);
@@ -99,8 +108,8 @@ public abstract class JpaDaoAbstract<E, Q extends Query<E>> {
 				CriteriaIn anno = field.getAnnotation(CriteriaIn.class);
 				if (anno != null) {
 					@SuppressWarnings("unchecked")
-					Collection<Object> values = (Collection<Object>) FieldUtils.readDeclaredField(query,
-							field.getName(), true);
+					Collection<Object> values = (Collection<Object>) FieldUtils
+							.readDeclaredField(query, field.getName(), true);
 					if (values != null) {
 						Predicate predicate = buildSetCriteria(values, anno.value(), root);
 						if (predicate != null) {
@@ -205,8 +214,8 @@ public abstract class JpaDaoAbstract<E, Q extends Query<E>> {
 		return predicates;
 	}
 
-	protected <T extends Comparable<? super T>> List<Predicate> buildRangeCriteria(T valueMin, T valueMax,
-			String property, Path<?> path) {
+	protected <T extends Comparable<? super T>> List<Predicate> buildRangeCriteria(T valueMin,
+			T valueMax, String property, Path<?> path) {
 
 		List<Predicate> predicates;
 
@@ -234,8 +243,8 @@ public abstract class JpaDaoAbstract<E, Q extends Query<E>> {
 		return predicates;
 	}
 
-	protected <T extends Number> List<Predicate> buildRangeCriteria(T valueMin, T valueMax, String property,
-			Path<?> path) {
+	protected <T extends Number> List<Predicate> buildRangeCriteria(T valueMin, T valueMax,
+			String property, Path<?> path) {
 
 		List<Predicate> predicates;
 
@@ -274,7 +283,8 @@ public abstract class JpaDaoAbstract<E, Q extends Query<E>> {
 		}
 	}
 
-	protected void applyOrder(CriteriaQuery<E> cq, ManagedType<E> mt, Path<E> root, Sorting sorting) {
+	protected void applyOrder(CriteriaQuery<E> cq, ManagedType<E> mt, Path<E> root,
+			Sorting sorting) {
 		cq.orderBy(buildOrderList(sorting.items(), root));
 	}
 
@@ -348,8 +358,28 @@ public abstract class JpaDaoAbstract<E, Q extends Query<E>> {
 		return cq.select(cb.count(root));
 	}
 
-	protected void fetchRelatedEntities(Query<E> query, Root<E> root) {
-		// no op
+	protected void fetchRelatedEntities(Q query, Root<E> root) {
+		Set<String> fetchPaths = query.getFetchPaths();
+		if (fetchPaths != null) {
+			for (String fetchPath : fetchPaths) {
+				log.debug("fetching path: {}", fetchPath);
+				fetchRelatedEntity(fetchPath, root);
+			}
+		}
+	}
+
+	private void fetchRelatedEntity(String fetchPath, FetchParent<?, ?> fetchParent) {
+		int dotIndex = fetchPath.indexOf('.');
+		if (dotIndex > -1) {
+			String part = fetchPath.substring(0, dotIndex);
+			String remainingPart = fetchPath.substring(dotIndex + 1);
+			log.debug("fetching path part: {}", part);
+			Fetch<Object, Object> fetch = fetchParent.fetch(part);
+			fetchRelatedEntity(remainingPart, fetch);
+		} else {
+			log.debug("fetching path part: {}", fetchPath);
+			fetchParent.fetch(fetchPath);
+		}
 	}
 
 	protected void setTypedQueryParameterValues(TypedQuery<?> typedQuery, Q query) {

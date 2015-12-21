@@ -15,10 +15,16 @@ public class DeckCommentQuery extends Query<DeckComment> {
 	private Collection<Long> deckIds;
 	
 	public DeckCommentQuery() {
-		super(new DeckComment(), Mode.AND);
+		this(new DeckComment(), Mode.AND);
+	}
+	
+	public DeckCommentQuery(DeckComment example) {
+		this(example, Mode.AND);
 	}
 
-	public DeckCommentQuery(DeckComment example) {
-		super(example, Mode.AND);
+	public DeckCommentQuery(DeckComment example, Mode mode) {
+		super(example, mode);
+		getFetchPaths().add("user");
+		getFetchPaths().add("deck");
 	}
 }

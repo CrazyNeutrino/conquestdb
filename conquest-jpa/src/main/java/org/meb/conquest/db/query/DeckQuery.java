@@ -4,14 +4,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.apache.commons.lang3.time.DateUtils;
 import org.meb.conquest.db.model.Deck;
 import org.meb.conquest.db.model.Faction;
 import org.meb.conquest.db.model.TournamentPlace;
 import org.meb.conquest.db.model.TournamentType;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -40,13 +40,13 @@ public class DeckQuery extends Query<Deck> {
 
 	@CriteriaIn("secondaryFaction")
 	private Set<Faction> secondaryFactions;
-	
+
 	@CriteriaIn("tournamentType")
 	private Set<TournamentType> tournamentTypes;
 
 	@CriteriaIn("tournamentPlace")
 	private Set<TournamentPlace> tournamentPlaces;
-	
+
 	@CriteriaIn("warlord.techName")
 	private Set<String> warlordTechNames;
 
@@ -61,11 +61,13 @@ public class DeckQuery extends Query<Deck> {
 	private boolean loadInterests;
 
 	public DeckQuery() {
-		super(new Deck());
+		this(new Deck());
+
 	}
 
 	public DeckQuery(Deck example) {
 		super(example);
+		getFetchPaths().add("snapshotBase");
 	}
 
 	public DeckQuery withMembers() {
@@ -101,7 +103,7 @@ public class DeckQuery extends Query<Deck> {
 			createDateMax = DateUtils.ceiling(createDateMax, Calendar.DAY_OF_MONTH);
 		}
 	}
-	
+
 	public void expandModifyDateToFullDay() {
 		if (modifyDateMin != null) {
 			modifyDateMin = DateUtils.truncate(modifyDateMin, Calendar.DAY_OF_MONTH);

@@ -6,14 +6,14 @@ import javax.persistence.EntityManager;
 
 import org.meb.conquest.db.dao.JpaDao;
 import org.meb.conquest.db.model.User;
-import org.meb.conquest.db.query.Query;
+import org.meb.conquest.db.query.UserQuery;
 
 public class DatabaseUserResolver implements UserResolver {
 
 	@Inject
 	private EntityManager em;
 
-	private JpaDao<User, Query<User>> userDao;
+	private JpaDao<User, UserQuery> userDao;
 
 	@PostConstruct
 	private void initialize() {

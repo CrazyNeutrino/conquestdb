@@ -12,12 +12,12 @@
 				<h2><i class="glyphicon glyphicon-gift"></i> Contributors</h2>
 				<h4>Thank you for all your support and contributions. This site evolves because of you.</h4>
 				<br/>
-				<h:dataTable value="#{bootstrapCtrl.donators}" var="donator" styleClass="table table-striped">
+				<h:dataTable value="#{bootstrapCtrl.contributors}" var="c" styleClass="table table-striped">
 					<h:column>
 						<f:facet name="header">
 							In alphabetical order
 						</f:facet>
-						#{donator.username}
+						#{c.user.username}
 					</h:column>
 				</h:dataTable>
 				<br />

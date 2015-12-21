@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.User;
+import org.meb.conquest.db.model.UserContribSummary;
 
 public interface UserService extends SearchService {
 
@@ -17,5 +18,5 @@ public interface UserService extends SearchService {
 	
 	User resetPassword(String code, String password);
 	
-	List<User> findDonators();
+	List<UserContribSummary> findContributors();
 }

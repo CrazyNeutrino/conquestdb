@@ -16,7 +16,6 @@ import org.meb.conquest.db.model.Deck_;
 import org.meb.conquest.db.model.User;
 import org.meb.conquest.db.model.User_;
 import org.meb.conquest.db.query.DeckLinkQuery;
-import org.meb.conquest.db.query.Query;
 
 public class DeckLinkDao extends JpaDaoAbstract<DeckLink, DeckLinkQuery> {
 
@@ -27,11 +26,6 @@ public class DeckLinkDao extends JpaDaoAbstract<DeckLink, DeckLinkQuery> {
 	@Override
 	protected DeckLinkQuery createQuery(DeckLink example) {
 		return new DeckLinkQuery(example);
-	}
-
-	@Override
-	protected void fetchRelatedEntities(Query<DeckLink> query, Root<DeckLink> root) {
-		root.fetch(DeckLink_.deck);
 	}
 
 	@Override

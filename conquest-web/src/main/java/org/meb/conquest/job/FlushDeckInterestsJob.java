@@ -8,7 +8,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-@Scheduled(cronExpression = "0,30 * * * * ?")
+@Scheduled(cronExpression = "0 * * * * ?")
 public class FlushDeckInterestsJob implements Job {
 
 	@Inject

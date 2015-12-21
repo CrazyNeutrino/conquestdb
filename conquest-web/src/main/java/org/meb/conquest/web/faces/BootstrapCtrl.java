@@ -15,7 +15,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonProcessingException;
 import org.meb.conquest.core.Cache;
-import org.meb.conquest.db.model.User;
+import org.meb.conquest.db.model.UserContribSummary;
 import org.meb.conquest.db.model.loc.Domain;
 import org.meb.conquest.db.util.Transformers;
 import org.meb.conquest.service.RequestContext;
@@ -38,7 +38,7 @@ public class BootstrapCtrl {
 
 	@Inject
 	private LocaleCtrl localeCtrl;
-	
+
 	@Inject
 	private UserService userService;
 
@@ -126,8 +126,8 @@ public class BootstrapCtrl {
 		return cache.loadDomains(name);
 	}
 
-	private String getDomainData(String name, Processor<Domain, JsonDomain> processor) throws JsonProcessingException,
-			IOException {
+	private String getDomainData(String name, Processor<Domain, JsonDomain> processor)
+			throws JsonProcessingException, IOException {
 
 		List<JsonDomain> jsonDomains = new ArrayList<>();
 		List<Domain> domains = getDomainDataRaw(name);
@@ -151,10 +151,11 @@ public class BootstrapCtrl {
 		queryContext.setUserId(authToken.getUserId());
 		queryContext.setUserLanguage(localeCtrl.getLanguage());
 
-		ResourceBundle bundle = ResourceBundle.getBundle("resources/clientMessages", localeCtrl.getLocale());
+		ResourceBundle bundle = ResourceBundle.getBundle("resources/clientMessages",
+				localeCtrl.getLocale());
 		return JsonUtils.write(bundle);
 	}
-	
+
 	public String getUser() throws JsonProcessingException, IOException {
 		HashMap<String, String> map = new HashMap<>();
 		String username = authToken.getUsername();
@@ -163,8 +164,8 @@ public class BootstrapCtrl {
 		}
 		return JsonUtils.write(map);
 	}
-	
-	public List<User> getDonators() {
-		return userService.findDonators();
+
+	public List<UserContribSummary> getContributors() {
+		return userService.findContributors();
 	}
 }

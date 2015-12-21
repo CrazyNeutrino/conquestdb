@@ -19,7 +19,6 @@ import org.meb.conquest.db.model.Deck_;
 import org.meb.conquest.db.model.User;
 import org.meb.conquest.db.model.User_;
 import org.meb.conquest.db.query.DeckQuery;
-import org.meb.conquest.db.query.Query;
 
 public class DeckDao extends JpaDaoAbstract<Deck, DeckQuery> {
 
@@ -28,11 +27,9 @@ public class DeckDao extends JpaDaoAbstract<Deck, DeckQuery> {
 	}
 
 	@Override
-	protected void fetchRelatedEntities(Query<Deck> query, Root<Deck> root) {
-		// root.fetch(Deck_.warlord);
-		// root.fetch(Deck_.user);
+	protected void fetchRelatedEntities(DeckQuery query, Root<Deck> root) {
 		if (query.getExample().getType() == DeckType.SNAPSHOT) {
-			root.fetch(Deck_.snapshotBase); // .fetch(Deck_.warlord);
+			root.fetch(Deck_.snapshotBase);
 		}
 	}
 
@@ -49,8 +46,8 @@ public class DeckDao extends JpaDaoAbstract<Deck, DeckQuery> {
 					typedQuery.setParameter("crstBitmap", query.getCrstBitmap());
 					break;
 				}
-			}			
-		}		
+			}
+		}
 	}
 
 	@Override
@@ -80,7 +77,7 @@ public class DeckDao extends JpaDaoAbstract<Deck, DeckQuery> {
 		}
 
 		Path<Long> crstBitmapPath = null;
-		
+
 		Long crstBitmap = query.getCrstBitmap();
 		if (crstBitmap != null) {
 			ParameterExpression<Long> crstBitmapParameter = cb.parameter(Long.class, "crstBitmap");
@@ -88,8 +85,9 @@ public class DeckDao extends JpaDaoAbstract<Deck, DeckQuery> {
 			if ("exact".equals(query.getCrstMatchMode())) {
 				predicates.add(cb.equal(crstBitmapPath, crstBitmap));
 			} else {
-				Expression<?> function = cb.function("cqp_bitwise_or", Long.class, crstBitmapPath, crstBitmapParameter);
-				predicates.add(cb.equal(function, crstBitmap));				
+				Expression<?> function = cb.function("cqp_bitwise_or", Long.class, crstBitmapPath,
+						crstBitmapParameter);
+				predicates.add(cb.equal(function, crstBitmap));
 			}
 		}
 		if (Boolean.TRUE.equals(query.getCrstSkipCoreSetOnly())) {

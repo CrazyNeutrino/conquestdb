@@ -44,5 +44,4 @@ public class SearchServiceImpl implements SearchService, Serializable {
 		DatabaseUtils.executeSetUserLang(em, queryContext.getUserLanguage());
 		return new JpaDao<T, Query<T>>(em).find(query);
 	}
-
 }

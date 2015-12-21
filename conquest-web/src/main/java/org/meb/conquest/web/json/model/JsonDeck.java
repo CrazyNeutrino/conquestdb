@@ -34,7 +34,7 @@ public class JsonDeck {
 	private String name;
 	private String description;
 	private String username;
-	private Boolean userDonator;
+	private Boolean userContributor;
 	private Date createDate;
 	private Date modifyDate;
 	private Integer configCsQuantity;
@@ -80,7 +80,7 @@ public class JsonDeck {
 		snapshotPublic = deck.getSnapshotPublic();
 		type = deck.getType().toString().toLowerCase();
 		username = deck.getUser().getUsername();
-		userDonator = deck.getUser().getDonator();
+		userContributor = deck.getUser().getUserContribSummary().getContributor();
 		tournamentType = new TournamentTypeConverter()
 				.convertToDatabaseColumn(deck.getTournamentType());
 		tournamentPlace = new TournamentPlaceConverter()

@@ -14,6 +14,7 @@
 		<class>org.meb.conquest.db.model.CardLang</class>
 		<class>org.meb.conquest.db.model.User</class>
 		<class>org.meb.conquest.db.model.UserSession</class>
+		<class>org.meb.conquest.db.model.UserContribSummary</class>
 		<class>org.meb.conquest.db.model.Deck</class>
 		<class>org.meb.conquest.db.model.DeckMember</class>
 		<class>org.meb.conquest.db.model.DeckLink</class>

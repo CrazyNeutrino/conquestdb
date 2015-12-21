@@ -59,7 +59,7 @@ import org.meb.conquest.db.query.DeckCommentQuery;
 import org.meb.conquest.db.query.DeckLinkQuery;
 import org.meb.conquest.db.query.DeckMemberQuery;
 import org.meb.conquest.db.query.DeckQuery;
-import org.meb.conquest.db.query.Query;
+import org.meb.conquest.db.query.UserQuery;
 import org.meb.conquest.db.util.DatabaseUtils;
 import org.meb.conquest.db.util.Transformers;
 import org.meb.conquest.db.util.Utils;
@@ -111,7 +111,7 @@ public class DeckServiceImpl extends SearchServiceImpl implements DeckService, S
 	private DeckMemberDao deckMemberDao;
 	private DeckLinkDao deckLinkDao;
 	private DeckCommentDao deckCommentDao;
-	private JpaDao<User, Query<User>> userDao;
+	private JpaDao<User, UserQuery> userDao;
 
 	@PostConstruct
 	private void initalize() {

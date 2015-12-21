@@ -2,6 +2,8 @@ package org.meb.conquest.service.impl;
 
 import java.io.Serializable;
 import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -22,7 +24,8 @@ import org.jboss.resteasy.util.Hex;
 import org.meb.conquest.core.Constant;
 import org.meb.conquest.core.exception.DeckException;
 import org.meb.conquest.db.model.User;
-import org.meb.conquest.db.query.Query;
+import org.meb.conquest.db.model.UserContribSummary;
+import org.meb.conquest.db.query.UserContribSummaryQuery;
 import org.meb.conquest.service.ExceptionFilter;
 import org.meb.conquest.service.HashHelper;
 import org.meb.conquest.service.RequestContext;
@@ -193,7 +196,8 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 	private void sendActivationMail(String email, String activationLink) throws Exception {
 		if (Constant.MAIL_ACTIVATE) {
 			log.info("sending activation link: {}, to: {}", activationLink, email);
-			sendMail(email, createActivationMailSubject(), createActivationMailContent(activationLink));
+			sendMail(email, createActivationMailSubject(),
+					createActivationMailContent(activationLink));
 		} else {
 			log.info("not sending activation link (disabled): {}, to: {}", activationLink, email);
 		}
@@ -202,9 +206,11 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 	private void sendResetPasswordMail(String email, String resetPasswordLink) throws Exception {
 		if (Constant.MAIL_RESET_PASSWORD) {
 			log.info("sending activation link: {}, to: {}", resetPasswordLink, email);
-			sendMail(email, createResetPasswordMailSubject(), createResetPasswordMailContent(resetPasswordLink));
+			sendMail(email, createResetPasswordMailSubject(),
+					createResetPasswordMailContent(resetPasswordLink));
 		} else {
-			log.info("not sending reset password link (disabled): {}, to: {}", resetPasswordLink, email);
+			log.info("not sending reset password link (disabled): {}, to: {}", resetPasswordLink,
+					email);
 		}
 	}
 
@@ -241,7 +247,8 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 	}
 
 	private String createActivationMailSubject() {
-		return resolver.getBundle(queryContext.getUserLanguage()).getString("mail.activate.subject");
+		return resolver.getBundle(queryContext.getUserLanguage())
+				.getString("mail.activate.subject");
 	}
 
 	private String createActivationMailContent(String activationLink) {
@@ -256,7 +263,8 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 	}
 
 	private String createResetPasswordMailSubject() {
-		return resolver.getBundle(queryContext.getUserLanguage()).getString("mail.resetPassword.subject");
+		return resolver.getBundle(queryContext.getUserLanguage())
+				.getString("mail.resetPassword.subject");
 	}
 
 	private String createResetPasswordMailContent(String resetPasswordLink) {
@@ -269,11 +277,19 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 		message.append(bundle.getString("mail.doNotReply"));
 		return message.toString();
 	}
-	
-	public List<User> findDonators() {
-		Query<User> query = new Query<User>(new User());
-		query.getExample().setDonator(true);
-		query.getSorting().setSortingAsc("username");
-		return find(query);
+
+	public List<UserContribSummary> findContributors() {
+		UserContribSummaryQuery query = new UserContribSummaryQuery(new UserContribSummary());
+		query.getExample().setContributor(true);
+		// query.getSorting().setSortingAsc("username");
+		List<UserContribSummary> contributors = find(query);
+		Collections.sort(contributors, new Comparator<UserContribSummary>() {
+
+			@Override
+			public int compare(UserContribSummary o1, UserContribSummary o2) {
+				return o1.getUser().getUsername().compareTo(o2.getUser().getUsername());
+			}
+		});
+		return contributors;
 	}
 }

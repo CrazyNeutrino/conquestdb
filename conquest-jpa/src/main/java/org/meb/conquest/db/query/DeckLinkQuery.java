@@ -15,10 +15,15 @@ public class DeckLinkQuery extends Query<DeckLink> {
 	private Collection<Long> deckIds;
 	
 	public DeckLinkQuery() {
-		super(new DeckLink(), Mode.AND);
+		this(new DeckLink(), Mode.AND);
 	}
 
 	public DeckLinkQuery(DeckLink example) {
-		super(example, Mode.AND);
+		this(example, Mode.AND);
+	}
+
+	public DeckLinkQuery(DeckLink example, Mode mode) {
+		super(example, mode);
+		getFetchPaths().add("deck");
 	}
 }

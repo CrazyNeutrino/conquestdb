@@ -7,15 +7,15 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.meb.conquest.db.dao.JpaDao;
+import org.meb.conquest.db.model.User;
+import org.meb.conquest.db.query.UserQuery;
+import org.meb.conquest.db.util.DatabaseUtils;
+import org.meb.conquest.service.RequestContext;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-
-import org.meb.conquest.db.dao.JpaDao;
-import org.meb.conquest.db.model.User;
-import org.meb.conquest.db.query.Query;
-import org.meb.conquest.db.util.DatabaseUtils;
-import org.meb.conquest.service.RequestContext;
 
 public class UserCacheManager {
 
@@ -25,7 +25,7 @@ public class UserCacheManager {
 	@Inject
 	private RequestContext requestContext;
 
-	private JpaDao<User, Query<User>> userDao;
+	private JpaDao<User, UserQuery> userDao;
 
 	@PostConstruct
 	private void initialize() {
@@ -41,7 +41,7 @@ public class UserCacheManager {
 				element = cache.get(getUsersKey());
 				if (element == null) {
 					DatabaseUtils.executeSetUserLang(em, requestContext.getUserLanguage());
-					List<User> users = userDao.find(new User());
+					List<User> users = userDao.find(new UserQuery());
 					cache.put(new Element(getUsersKey(), users));
 					for (User user : users) {
 						cache.put(new Element(user.getId(), user));

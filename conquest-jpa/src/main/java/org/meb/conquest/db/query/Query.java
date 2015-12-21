@@ -1,5 +1,8 @@
 package org.meb.conquest.db.query;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ public class Query<T> {
 	private Sorting sorting = new Sorting();
 	private Integer pageNumber;
 	private Integer pageSize;
+	private Set<String> fetchPaths = new HashSet<>();
 	
 	public Query(T example, Mode mode) {
 		this.example = example;
