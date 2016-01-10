@@ -174,6 +174,50 @@ footer.footer > .container > p:first-child {
 }
 
 /**
+ * card search
+ */
+.card-search-list .card > .header a,
+.card-search-list .card > .header a:hover {
+	color: inherit;
+}
+
+.card-search-list .card > .content a,
+.card-search-list .card > .content a:hover {
+	color: black;
+}
+ 
+.card-search-list .card {
+	border: none;
+	background-color: #fff;
+	margin: 10px 0px;
+	border-radius: 2px;	
+}
+
+.card-search-list .card > .header {
+	padding: 8px 10px 6px 10px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+}
+
+.card-search-list .card > .header > .box-left > .db-icon {
+	font-size: 20px; 
+	margin-right: 5px;
+}
+
+.card-search-list .card > .header > .box-center > .primary-text {
+	margin-top: 3px;
+	margin-bottom: 5px;
+}
+
+.card-search-list .card > .content {
+	padding: 5px 10px 5px 10px;
+}
+
+.card-search-list .card > .footer {
+	padding: 5px 10px;
+}
+
+/**
  *
  */
 
@@ -804,6 +848,7 @@ table.table-with-btn > tbody > tr > td {
 .bg-tau { background-color: #4CD0DC !important; color: #000 !important; }
 .bg-tyranid { background-color: #A32618 !important; color: #fff !important; }
 .bg-necron { background-color: #57D8A9 !important; color: #000 !important; }
+.bg-neutral { background-color: #BBB !important; color: #000 !important; }
 
 .bor-astra-militarum { border-color: #3C3C3C !important; }
 .bor-chaos { border-color: #EA5400 !important; }

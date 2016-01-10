@@ -284,64 +284,6 @@ conquest.deck = conquest.deck || {};
 		});
 	};
 
-	_deck.factionColors = [];
-	_deck.factionColors['astra-militarum'] = {
-		bg: '#3C3C3C',
-		fg: '#FFF'
-	};
-	_deck.factionColors['chaos'] = {
-		bg: '#EA5400',
-		fg: '#FFF'
-	};
-	_deck.factionColors['dark-eldar'] = {
-		bg: '#AF4D9D',
-		fg: '#000'
-	};
-	_deck.factionColors['eldar'] = {
-		bg: '#EADA67',
-		fg: '#000'
-	};
-	_deck.factionColors['ork'] = {
-		bg: '#407424',
-		fg: '#FFF'
-	};
-	_deck.factionColors['space-marines'] = {
-		bg: '#095DAD',
-		fg: '#FFF'
-	};
-	_deck.factionColors['tau'] = {
-		bg: '#4CD0DC'
-	};
-	_deck.factionColors['tyranid'] = {
-		bg: '#A32618',
-		fg: '#FFF'
-	};
-	_deck.factionColors['necron'] = {
-		bg: '#57D8A9',
-		fg: '#000'
-	};
-	_deck.factionColors['neutral'] = {
-		bg: '#BBB',
-		fg: '#000'
-	};
-
-	_deck.typeColors = [];
-	_deck.typeColors['army'] = {
-		bg: '#ED2626'
-	};
-	_deck.typeColors['attachment'] = {
-		bg: '#419441'
-	};
-	_deck.typeColors['support'] = {
-		bg: '#3B84CC'
-	};
-	_deck.typeColors['event'] = {
-		bg: '#F0AD36'
-	};
-	_deck.typeColors['synapse'] = {
-		bg: '#B848A3'
-	};
-
 	_deck.PageView = Backbone.View.extend({
 		el: '.content',
 		renderMessages: function(options) {
@@ -1004,7 +946,7 @@ conquest.deck = conquest.deck || {};
 						y: _.reduce(membersByFaction[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
-						color: conquest.deck.factionColors[key].bg
+						color: conquest.ui.colors.factions[key].bg
 					});
 				});
 
@@ -1077,7 +1019,7 @@ conquest.deck = conquest.deck || {};
 						y: _.reduce(membersByType[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
-						color: conquest.deck.typeColors[key].bg
+						color: conquest.ui.colors.types[key].bg
 					});
 				});
 

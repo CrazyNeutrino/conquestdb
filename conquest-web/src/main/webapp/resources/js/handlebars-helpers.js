@@ -191,31 +191,23 @@ Handlebars.registerHelper('na', function(context, options) {
 });
 
 Handlebars.registerHelper('searchLinkFaction', function(card, options) {
-	return new Handlebars.SafeString('<a href="/' + conquest.static.language 
-			+ '/card/search?faction='  + card.faction + '">' + card.factionDisplay + '</a>');
-});
-
-Handlebars.registerHelper('searchLinkSetName', function(card, options) {
-	return new Handlebars.SafeString('<a href="/' + conquest.static.language 
-			+ '/card/search?set='  + card.setTechName + '">' + card.setName + '</a>');
-});
-
-Handlebars.registerHelper('searchLinkTrait', function(card, options) {
-	var result = '';
-	var traits = card.trait.split('. ');
-	_.each(traits, function(trait, index) {
-		trait = s.trim(trait.replace('.', ''));
-		result += '<a href="/' + conquest.static.language + '/card/search?trait=' + trait + '">' + trait + '.</a>';
-		if (index < traits.length - 1) {
-			result += ' ';
-		}
-	});
-	return new Handlebars.SafeString(result);
+	return new Handlebars.SafeString(conquest.ui.toSearchLinkFaction(card));
 });
 
 Handlebars.registerHelper('searchLinkType', function(card, options) {
-	return new Handlebars.SafeString('<a href="/' + conquest.static.language 
-			+ '/card/search?type='  + card.type + '">' + card.typeDisplay + '</a>');
+	return new Handlebars.SafeString(conquest.ui.toSearchLinkType(card));
+});
+
+Handlebars.registerHelper('searchLinkSetName', function(card, options) {
+	return new Handlebars.SafeString(conquest.ui.toSearchLinkSetName(card));
+});
+
+Handlebars.registerHelper('searchLinkTraits', function(card, options) {
+	return new Handlebars.SafeString(conquest.ui.toSearchLinkTraits(card));
+});
+
+Handlebars.registerHelper('searchLinkType', function(card, options) {
+	return new Handlebars.SafeString(conquest.ui.toSearchLinkType(card));
 });
 
 Handlebars.registerHelper('momentFromNow', function(timestamp, options) {
@@ -317,16 +309,6 @@ var translateMap = {
 		'first': 'core.tournament.place.first',
 		'second': 'core.tournament.place.second'
 	},
-	factionColor: {
-		'astra-militarum': '#8A8A8A',
-		'chaos': '#E65B2E',
-		'dark-eldar': '#B965AA',
-		'eldar': '#EADA67',
-		'ork': '#538A34',
-		'pace-marines': '#3173CE',
-		'tau': '#4CD0DC',
-		'tyranid': '#A32618'
-	},
 	interestIconClass: {
 		'favourite-0': 'db-icon db-icon-heart-empty',
 		'favourite-1': 'db-icon db-icon-heart',
@@ -344,9 +326,17 @@ Handlebars.registerHelper('translate', function(value, context, options) {
 	}
 });
 
+Handlebars.registerHelper('factionColor', function(faction, options) {
+	if (faction) {
+		return conquest.ui.colors.factions[faction].bg;
+	} else {
+		return conquest.ui.colors.factions.neutral.bg;
+	}
+});
+
 Handlebars.registerHelper('factionColorStyle', function(faction, options) {	
-	return 'background-color: ' + conquest.deck.factionColors[faction].bg + ' !important; '
-			+ 'color:' + conquest.deck.factionColors[faction].fg + ' !important;';
+	return 'background-color: ' + conquest.ui.colors.faction[faction].bg + ' !important; '
+			+ 'color:' + conquest.ui.colors.factions[faction].fg + ' !important;';
 });
 
 Handlebars.registerHelper('deckBoxShadowStyle', function(color, options) {	
@@ -356,4 +346,8 @@ Handlebars.registerHelper('deckBoxShadowStyle', function(color, options) {
 	var b = parseInt(tmpColor.substr(4, 2), 16);
 	return 'box-shadow: 0 0 2px rgba($r,$g,$b,.6), 0 2px 4px rgba($r,$g,$b,.6)'
 				.replace(/\$r/g, r).replace(/\$g/g, g).replace(/\$b/g, b);
+});
+
+Handlebars.registerHelper('cardTextHtml', function(text, options) {
+	return conquest.ui.toHtml(text);
 });

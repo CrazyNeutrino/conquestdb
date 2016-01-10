@@ -60,7 +60,7 @@ $(function() {
 			} else if (layout === 'grid-3') {
 				templateName = 'card-search-results-grid-3';
 			} else if (layout === 'grid-4') {
-				templateName = 'card-search-results-grid-4';
+				templateName = 'card-search-results-grid-4-text';
 			} else if (layout === 'grid-6') {
 				templateName = 'card-search-results-grid-6';
 			} else {
@@ -125,6 +125,10 @@ $(function() {
 				this.render(filteredCards, {
 					layout: view.config.get('layout')
 				});
+			});
+			
+			conquest.ui.adjustWrapperStyle({
+				backgroundColor: '#f2f2f2'
 			});
 
 			//

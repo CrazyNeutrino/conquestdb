@@ -30,6 +30,12 @@ conquest.dict = conquest.dict || {};
 
 	var GRP_CARD_BY_WARLORD_ID = "ss#warlordId";
 	var groups = {};
+	
+	_dict.reservedWords = {
+			de: [],
+			en: ['Combat Action', 'Deploy Action', 'Action', 'Forced Interrupt', 'Interrupt', 'Forced Reaction', 'Reaction', 'Battle'],
+			pl: ['Akcja Wystawiania', 'Akcja', 'Akcja Walki', 'Wymuszone przerwanie', 'Przerwanie', 'Wymuszona Reakcja', 'Reakcja', 'Bitwa']
+	};
 
 	_dict.initialize = function() {
 		indexes[IDX_SET_BY_ID] = _.indexBy(_dict.sets, function(set) {
@@ -1084,16 +1090,188 @@ conquest.ui = conquest.ui || {};
 		return conquest.static.imagePath + '/card/' + imageBase + '.jpg';
 	};
 	
+	_ui.toSearchLinkFaction = function(card, options) {
+		return '<a href="/' + conquest.static.language 
+				+ '/card/search?faction='  + card.faction + '">' + card.factionDisplay + '</a>';
+	};
+
+	_ui.toSearchLinkType = function(card, options) {
+		return '<a href="/' + conquest.static.language 
+				+ '/card/search?type='  + card.type + '">' + card.typeDisplay + '</a>';
+	};
+
+	_ui.toSearchLinkSetName = function(card, options) {
+		return '<a href="/' + conquest.static.language 
+				+ '/card/search?set='  + card.setTechName + '">' + card.setName + '</a>';
+	};
+
+	_ui.toSearchLinkTraits = function(card, options) {
+		var result = '';
+		var traits = card.trait.split('. ');
+		_.each(traits, function(trait, index) {
+			trait = s.trim(trait.replace('.', ''));
+			result += '<a href="/' + conquest.static.language + '/card/search?trait=' + trait + '">' + trait + '.</a>';
+			if (index < traits.length - 1) {
+				result += ' ';
+			}
+		});
+		return result;
+	};
+	
+	_ui.toSearchLinkTrait = function(trait, options) {
+		return '<a href="/' + conquest.static.language + '/card/search?trait=' + trait + '">' + trait + '</a>';
+	};
+	
+//	_ui.toSearchLinkKeyword = function(card, options) {
+//		return '<a href="/' + conquest.static.language 
+//				+ '/card/search?faction='  + card.faction + '">' + card.factionDisplay + '</a>';
+//	};
+	
 	_ui.toHtml = function(input) {
 		if (_.isUndefined(input)) {
 			return input;
 		}
+		// faction
 		var output = input.replace(/\[([A-Z_\- ]{3,})\]/g, function(g0, g1) {
 			return '<i class="cq-icon cq-icon-' + g1.toLowerCase().replace(/[_\- ]+/, '-') + '"></i>';
 		});
-		output = output.replace(/\[t\]([A-Za-z0-9\-_]+)\[\/t\]/g, '<i><strong>$1</strong></i>');
+		// trait
+		output = output.replace(/\[t\]([A-Za-z0-9\-_]+)\[\/t\]/g, function(g0, g1) {
+			return '<i><strong>' + _ui.toSearchLinkTrait(g1) + '</strong></i>';
+		});
+		// special words
+		var words = conquest.dict.reservedWords[conquest.static.language];
+		if (conquest.static.language !== 'en') {
+			words.concat(conquest.dict.reservedWords['en']);
+		}
+		_.each(words, function(word) {
+			var regexp = new RegExp('(' + word + ': )', 'g');
+			output = output.replace(regexp, '<strong>$1</strong>');
+		});
+		// line breaks
+		output = output.replace(/\n/g, '<br/>');
+		// italics
+		output = output.replace(/\[i\]([^\[]+)\[\/i\]/g, '<i>$1</i>')
 		return output;
 	};
+	
+	_ui.colors = {
+			factions: {
+				'astra-militarum': {
+					bg: '#3C3C3C',
+					fg: '#FFF'
+				},
+				chaos: {
+					bg: '#EA5400',
+					fg: '#FFF'
+				},
+				'dark-eldar': {
+					bg: '#AF4D9D',
+					fg: '#000'
+				},
+				eldar: {
+					bg: '#EADA67',
+					fg: '#000'
+				},
+				ork: {
+					bg: '#407424',
+					fg: '#FFF'
+				},
+				'space-marines': {
+					bg: '#095DAD',
+					fg: '#FFF'
+				},
+				tau: {
+					bg: '#4CD0DC'
+				},
+				tyranid: {
+					bg: '#A32618',
+					fg: '#FFF'
+				},
+				necron: {
+					bg: '#57D8A9',
+					fg: '#000'
+				},
+				neutral: {
+					bg: '#BBB',
+					fg: '#000'
+				}
+			},
+			types: {
+				army: {
+					bg: '#ED2626'
+				},
+				attachment: {
+					bg: '#419441'
+				},
+				event: {
+					bg: '#F0AD36'
+				},
+				support: {
+					bg: '#3B84CC'
+				},
+				synapse: {
+					bg: '#B848A3'
+				}
+			}
+	};
+	
+//	_ui.factionColors['astra-militarum'] = {
+//		bg: '#3C3C3C',
+//		fg: '#FFF'
+//	};
+//	_ui.factionColors['chaos'] = {
+//		bg: '#EA5400',
+//		fg: '#FFF'
+//	};
+//	_ui.factionColors['dark-eldar'] = {
+//		bg: '#AF4D9D',
+//		fg: '#000'
+//	};
+//	_ui.factionColors['eldar'] = {
+//		bg: '#EADA67',
+//		fg: '#000'
+//	};
+//	_ui.factionColors['ork'] = {
+//		bg: '#407424',
+//		fg: '#FFF'
+//	};
+//	_ui.factionColors['space-marines'] = {
+//		bg: '#095DAD',
+//		fg: '#FFF'
+//	};
+//	_ui.factionColors['tau'] = {
+//		bg: '#4CD0DC'
+//	};
+//	_ui.factionColors['tyranid'] = {
+//		bg: '#A32618',
+//		fg: '#FFF'
+//	};
+//	_ui.factionColors['necron'] = {
+//		bg: '#57D8A9',
+//		fg: '#000'
+//	};
+//	_ui.factionColors['neutral'] = {
+//		bg: '#BBB',
+//		fg: '#000'
+//	};
+
+//	_ui.typeColors = [];
+//	_ui.typeColors['army'] = {
+//		bg: '#ED2626'
+//	};
+//	_ui.typeColors['attachment'] = {
+//		bg: '#419441'
+//	};
+//	_ui.typeColors['support'] = {
+//		bg: '#3B84CC'
+//	};
+//	_ui.typeColors['event'] = {
+//		bg: '#F0AD36'
+//	};
+//	_ui.typeColors['synapse'] = {
+//		bg: '#B848A3'
+//	};
 
 	_ui.writeAttr = function(name, value) {
 		return name + '="' + value + '"';
