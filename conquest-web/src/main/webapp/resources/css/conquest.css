@@ -204,9 +204,15 @@ footer.footer > .container > p:first-child {
 	margin-right: 5px;
 }
 
+.card-search-list .card > .header > .box-left > .db-icon.db-icon-unique {
+	font-size: 14px; 
+	margin-top: 1px;
+	margin-right: 5px;
+}
+
 .card-search-list .card > .header > .box-center > .primary-text {
 	margin-top: 3px;
-	margin-bottom: 5px;
+	margin-bottom: 3px;
 }
 
 .card-search-list .card > .content {
@@ -827,6 +833,7 @@ table.table-with-btn > tbody > tr > td {
 .db-icon-star-empty:before { content: '\e816'; }
 .db-icon-comment:before { content: '\e817'; }
 .db-icon-comment-empty:before { content: '\e818'; }
+.db-icon-unique:before { content: '\e81a'; }
 
 .fg-astra-militarum { color: #3C3C3C; }
 .fg-chaos { color: #EA5400; }

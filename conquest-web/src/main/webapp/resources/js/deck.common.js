@@ -876,7 +876,7 @@ conquest.deck = conquest.deck || {};
 			            spacingRight: 0,
 			        },
 			        title: {
-			        	text: 'Cards by cost',
+			        	text: conquest.dict.messages['core.cardsByCost'],
 			            style: {
 			            	fontSize: '12px'
 			            }
@@ -907,7 +907,7 @@ conquest.deck = conquest.deck || {};
 			            }
 			        },
 			        series: [{
-			        	name: "# of cards",
+			        	name: conquest.dict.messages['core.numberOfCards'],
 			        	data: dataByCost,
 			        	showInLegend: false,
 				        pointWidth: 14
@@ -959,7 +959,7 @@ conquest.deck = conquest.deck || {};
 			            spacing: 0
 			        },
 			        title: {
-			            text: 'Cards by faction',
+			            text: conquest.dict.messages['core.cardsByFaction'],
 			            style: {
 			            	fontSize: '12px'
 			            }
@@ -986,7 +986,7 @@ conquest.deck = conquest.deck || {};
 			            }
 			        },
 			        series: [{
-			            name: "# of cards",
+			            name: conquest.dict.messages['core.numberOfCards'],
 			            colorByPoint: true,
 			            data: dataByFaction
 			        }],
@@ -1032,7 +1032,7 @@ conquest.deck = conquest.deck || {};
 			            spacing: 0
 			        },
 			        title: {
-			            text: 'Cards by type',
+			            text: conquest.dict.messages['core.cardsByType'],
 			            style: {
 			            	fontSize: '12px'
 			            }
@@ -1059,7 +1059,7 @@ conquest.deck = conquest.deck || {};
 			            }
 			        },
 			        series: [{
-			            name: "# of cards",
+			            name: conquest.dict.messages['core.numberOfCards'],
 			            colorByPoint: true,
 			            data: dataByType
 			        }],

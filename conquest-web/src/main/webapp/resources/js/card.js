@@ -60,9 +60,13 @@ $(function() {
 			} else if (layout === 'grid-3') {
 				templateName = 'card-search-results-grid-3';
 			} else if (layout === 'grid-4') {
-				templateName = 'card-search-results-grid-4-text';
+				templateName = 'card-search-results-grid-4';
 			} else if (layout === 'grid-6') {
 				templateName = 'card-search-results-grid-6';
+			} else if (layout === 'grid-image-only') {
+				templateName = 'card-search-results-grid-4';
+			} else if (layout === 'grid-text-only') {
+				templateName = 'card-search-results-grid-3-text';
 			} else {
 				// list layout is the default
 				templateName = 'card-search-results-list';
@@ -79,7 +83,7 @@ $(function() {
 
 	var CardSearchView = ViewBase.extend({
 		config: new Backbone.Model({
-			layout: 'grid-4'
+			layout: 'grid-image-only'
 		}),
 		cardsFilter: new conquest.card.CardsFilter(),
 		filteredCards: new conquest.model.Cards(),
@@ -127,9 +131,9 @@ $(function() {
 				});
 			});
 			
-			conquest.ui.adjustWrapperStyle({
-				backgroundColor: '#f2f2f2'
-			});
+//			conquest.ui.adjustWrapperStyle({
+//				backgroundColor: '#f2f2f2'
+//			});
 
 			//
 			// common click handler
@@ -240,6 +244,20 @@ $(function() {
 			var $typeahead = conquest.ui.createTypeahead({
 				selector: selector
 			});
+			var $input = $(selector);
+			
+			if (view.cardsFilter.has('trait')) {
+				$input.val(view.cardsFilter.get('trait'))
+			} else if (view.cardsFilter.has('keyword')) {
+				$input.val(view.cardsFilter.get('keyword'))
+			} else if (view.cardsFilter.has('techName')) {
+				var card = conquest.dict.findCard(view.cardsFilter.get('techName'));
+				if (card) {
+					$input.val(card.name);
+				}
+			} else if (view.cardsFilter.has('text')) {
+				$input.val(view.cardsFilter.get('text'))
+			}
 
 			var setSearchbarFilter = function(options) {
 				if (options) {
@@ -257,7 +275,7 @@ $(function() {
 							obj['keyword'] = suggestion.description;
 						}
 					} else if (text) {
-						if (!(view.cardsFilter.has('techName') || view.cardsFilter.has('trait') || view.cardsFilter.has('keyword'))) {
+						if (!(view.cardsFilter.has('techName') || view.cardsFilter.has('trait') || view.cardsFilter.has('keyword') || view.cardsFilter.has('text'))) {
 							obj['text'] = text;
 						}
 					} else {
@@ -336,6 +354,11 @@ $(function() {
 			$('.sort-control').change(function() {					
 				view.filteredCards.comparator = buildCardsComparator();
 				view.filteredCards.sort();
+				view.filteredCards.trigger('reset', view.filteredCards);
+			});
+			
+			$('.layout-control').change(function(event) {
+				view.config.set('layout', this.value);
 				view.filteredCards.trigger('reset', view.filteredCards);
 			});
 

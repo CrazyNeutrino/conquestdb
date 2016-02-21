@@ -1,0 +1,64 @@
+<div class="row card-search-list card-search-results-grid-3-text">
+	{{#each results.cards}}
+	
+	{{#ifRowBegin @index 3 result.cards.length}}
+	<div class="row">
+	{{/ifRowBegin}}
+	
+	<div class="col-xs-12 col-sm-6 col-md-4">
+		<div class="card">
+			
+			<div class="header bg-{{#ifEqual type 'planet'}}neutral{{else}}{{faction}}{{/ifEqual}}">
+				{{!--
+				{{#if faction}}
+				<div class="box-left">
+					<div class="db-icon db-icon-{{faction}}"></div>
+				</div>
+				{{/if}}
+				--}}
+				{{#smartIf unique}}
+				<div class="box-left">
+					<div class="db-icon db-icon-unique"></div>
+				</div>
+				{{/smartIf}}
+				<div class="box-center">
+					<h4 class="primary-text">
+						<a href="{{cardUrl this}}">{{name}}</a>
+					</h4>
+					{{!--<div class="secondary-text" style="position: relative;">{{warlord.name}}</div>--}}
+				</div>
+			</div>
+			
+			<div class="box-center content">
+				<strong>{{searchLinkType this}}. {{#if faction}}{{searchLinkFaction this}}.{{/if}}</strong><br/>
+				{{#if trait}}<span><i><strong>{{searchLinkTraits this}}</strong></i></span><br/>{{/if}}
+				<span>
+					{{#smartIf cost}}{{loc 'card.cost'}}: <strong>{{cost}}</strong>.{{/smartIf}} 
+					{{#smartIf shield}}{{loc 'card.shieldIcons.sh'}}: <strong>{{shield}}</strong>.{{/smartIf}} 
+					{{#smartIf command}}{{#unlessEqual type 'warlord'}}{{loc 'card.commandIcons.sh'}}: <strong>{{command}}</strong>.{{/unlessEqual}}{{/smartIf}} 
+					{{#smartIf attack}}{{loc 'card.attack.sh'}}: <strong>{{attack}}</strong>.{{/smartIf}} 
+					{{#smartIf hitPoints}}{{loc 'card.hp.sh'}}: <strong>{{hitPoints}}</strong>.{{/smartIf}} 
+					{{#smartIf startingHandSize}}{{loc 'card.startingHandSize.sh'}}: <strong>{{startingHandSize}}</strong>.{{/smartIf}} 
+					{{#smartIf startingResources}}{{loc 'card.startingResources.sh'}}: <strong>{{startingResources}}</strong>.{{/smartIf}}
+					<br/>
+					{{#ifEqual unique true}}{{loc 'card.unique'}}. {{/ifEqual}}
+					{{#ifEqual unique false}}{{loc 'card.nonUnique'}}. {{/ifEqual}}
+					{{#ifEqual loyal true}}{{loc 'card.loyal'}}. {{/ifEqual}}
+					{{#ifEqual loyal false}}{{loc 'card.nonLoyal'}}. {{/ifEqual}}
+					<br/>
+					{{#if warlordId}}{{loc 'card.signatureSquad'}} (<strong><a href="{{cardUrl warlordId}}">{{findCardAttr warlordId 'name'}}</a></strong>).<br/>{{/if}}  
+				</span>
+				{{#unlessEqual type 'planet'}}{{#unlessEqual type 'token'}}<br/>{{/unlessEqual}}{{/unlessEqual}}
+				{{#if text}}{{{htmlText}}}<br/><br/>{{/if}}
+				{{searchLinkSetName this}} #{{number}}
+			</div>
+			
+		</div>	
+	</div>
+	
+	{{#ifRowEnd @index 3 result.cards.length}}
+	</div>
+	{{/ifRowEnd}}
+	
+	{{/each}}
+</div>

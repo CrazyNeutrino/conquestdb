@@ -835,7 +835,7 @@ $(function() {
 					};
 
 					var membersFilter = view.config.get('filter');
-					var attrNames = ['cost', 'shield', 'command', 'attack', 'hitPoints', 'techName', 'trait', 'keyword', 'setTechName'];
+					var attrNames = ['cost', 'shield', 'command', 'attack', 'hitPoints', 'techName', 'trait', 'keyword', 'setTechName', 'text'];
 					_.each(attrNames, function(attrName) {
 						cardsFilterAttrs[attrName] = membersFilter.get(attrName);
 					});
@@ -1268,21 +1268,21 @@ $(function() {
 						var obj = {};
 						if (suggestion && dataset) {
 							if (dataset == 'cards') {
-								obj.techName = suggestion.card.techName;
+								obj['techName'] = suggestion.card.techName;
 							} else if (dataset == 'traits') {
-								obj.trait = suggestion.description;
+								obj['trait'] = suggestion.description;
 							} else if (dataset == 'keywords') {
-								obj.keyword = suggestion.description;
+								obj['keyword'] = suggestion.description;
 							}
 						} else if (text) {
-							if (!(filter.has('techName') || filter.has('trait') || filter.has('keyword'))) {
-								obj.text = text;
+							if (!(filter.has('techName') || filter.has('trait') || filter.has('keyword') || filter.has('text'))) {
+								obj['text'] = text;
 							}
 						} else {
-							obj.techName = undefined;
-							obj.trait = undefined;
-							obj.keyword = undefined;
-							obj.text = undefined;
+							obj['techName'] = undefined;
+							obj['trait'] = undefined;
+							obj['keyword'] = undefined;
+							obj['text'] = undefined;
 						}
 
 						filter.set(obj, {

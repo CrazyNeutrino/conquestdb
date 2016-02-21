@@ -21,6 +21,7 @@ conquest.dict = conquest.dict || {};
 (function(_dict) {
 
 	var IDX_CARD_BY_ID = "card#id";
+	var IDX_CARD_BY_TECH_NAME = "card#techName";
 	var IDX_CARD_BY_NAME = "card#name";
 	var IDX_CARD_BY_SET_NO_CARD_NO = "card#setNumber#cardNumber";
 	var IDX_SET_BY_ID = "set#id";
@@ -33,8 +34,8 @@ conquest.dict = conquest.dict || {};
 	
 	_dict.reservedWords = {
 			de: [],
-			en: ['Combat Action', 'Deploy Action', 'Action', 'Forced Interrupt', 'Interrupt', 'Forced Reaction', 'Reaction', 'Battle'],
-			pl: ['Akcja Wystawiania', 'Akcja', 'Akcja Walki', 'Wymuszone przerwanie', 'Przerwanie', 'Wymuszona Reakcja', 'Reakcja', 'Bitwa']
+			en: ['Combat Reaction', 'Combat Action', 'Deploy Action', 'Action', 'Forced Interrupt', 'Interrupt', 'Forced Reaction', 'Reaction', 'Battle'],
+			pl: ['Akcja Wystawiania', 'Akcja', 'Akcja Walki', 'Wymuszone Przerwanie', 'Przerwanie', 'Wymuszona Reakcja', 'Reakcja', 'Bitwa']
 	};
 
 	_dict.initialize = function() {
@@ -43,6 +44,9 @@ conquest.dict = conquest.dict || {};
 		});
 		indexes[IDX_CARD_BY_ID] = _.indexBy(_dict.cards, function(card) {
 			return card.id;
+		});
+		indexes[IDX_CARD_BY_TECH_NAME] = _.indexBy(_dict.cards, function(card) {
+			return card.techName;
 		});
 		indexes[IDX_CARD_BY_NAME] = _.indexBy(_dict.cards, function(card) {
 			return card.name;
@@ -74,14 +78,25 @@ conquest.dict = conquest.dict || {};
 			card.setTechName = set.techName;
 			card.setNumber = set.number;
 		});
+		
+		_.each(_dict.cards, function(card) {
+			if (card.text) {
+				card.htmlText = conquest.ui.toHtmlText(card.text);
+				card.text = conquest.ui.toPlainText(card.text);
+			}
+		});
 	};
 
 	_dict.findSet = function(id) {
 		return indexes[IDX_SET_BY_ID][id];
 	};
 
-	_dict.findCard = function(id) {
-		return indexes[IDX_CARD_BY_ID][id];
+	_dict.findCard = function(idOrTechName) {
+		if (_.isNumber(idOrTechName)) {
+			return indexes[IDX_CARD_BY_ID][parseInt(idOrTechName)];
+		} else {
+			return indexes[IDX_CARD_BY_TECH_NAME][idOrTechName];
+		}
 	};
 
 	_dict.findCardByName = function(name) {
@@ -615,7 +630,8 @@ conquest.filter = conquest.filter || {};
 	}, {
 		key : 'text',
 		queryStringKey : 'text',
-		type : _filter.FD_TYPE_SIMPLE
+		type : _filter.FD_TYPE_SIMPLE,
+		oper : 'likenocase'
 	}, {
 		key : 'cost',
 		queryStringKey : 'cost',
@@ -1127,22 +1143,22 @@ conquest.ui = conquest.ui || {};
 //				+ '/card/search?faction='  + card.faction + '">' + card.factionDisplay + '</a>';
 //	};
 	
-	_ui.toHtml = function(input) {
+	_ui.toHtmlText = function(input) {
 		if (_.isUndefined(input)) {
 			return input;
 		}
 		// faction
-		var output = input.replace(/\[([A-Z_\- ]{3,})\]/g, function(g0, g1) {
-			return '<i class="cq-icon cq-icon-' + g1.toLowerCase().replace(/[_\- ]+/, '-') + '"></i>';
+		var output = input.replace(/\[(?!Resource)(?!Card)([A-Z_\- ]{3,})\]/gi, function(g0, g1) {
+			return '<i class="db-icon db-icon-' + g1.toLowerCase().replace(/[_\- ]+/, '-') + '"></i>';
 		});
 		// trait
-		output = output.replace(/\[t\]([A-Za-z0-9\-_]+)\[\/t\]/g, function(g0, g1) {
+		output = output.replace(/\[t\]([A-Z0-9\-_]+)\[\/t\]/gi, function(g0, g1) {
 			return '<i><strong>' + _ui.toSearchLinkTrait(g1) + '</strong></i>';
 		});
 		// special words
 		var words = conquest.dict.reservedWords[conquest.static.language];
 		if (conquest.static.language !== 'en') {
-			words.concat(conquest.dict.reservedWords['en']);
+			words = words.concat(conquest.dict.reservedWords['en']);
 		}
 		_.each(words, function(word) {
 			var regexp = new RegExp('(' + word + ': )', 'g');
@@ -1152,6 +1168,19 @@ conquest.ui = conquest.ui || {};
 		output = output.replace(/\n/g, '<br/>');
 		// italics
 		output = output.replace(/\[i\]([^\[]+)\[\/i\]/g, '<i>$1</i>')
+		return output;
+	};
+	
+	_ui.toPlainText = function(input) {
+		if (_.isUndefined(input)) {
+			return input;
+		}
+		// trait
+		output = input.replace(/\[t\]([A-Z0-9\-_]+)\[\/t\]/gi, '$1');
+		// line breaks
+		output = output.replace(/\n/g, ' ');
+		// italics
+		output = output.replace(/\[i\]([^\[]+)\[\/i\]/g, '$1')
 		return output;
 	};
 	
@@ -1334,7 +1363,20 @@ conquest.ui = conquest.ui || {};
 			hint : true,
 			highlight : true,
 			minLength : 1
-		}, {
+		}/*, {
+			name: 'texts',
+			displayKey: function(a) {alert(a);},
+			source: function(query, syncResults) {
+				var results = [];
+				results.push(query);
+				syncResults(results);
+			},
+			templates: {
+				suggestion : function(text) { return text },
+				header: '<div class="tt-multi-header">'
+					+ conquest.dict.messages['core.textSearch'] + '</div>'
+			}
+		}*/, {
 			name : 'cards',
 			displayKey : 'name',
 			source : cards.ttAdapter(),

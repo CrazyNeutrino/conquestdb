@@ -27,7 +27,7 @@ conquest.card = conquest.card || {};
 							lte: value[1]
 						};
 					}
-				} else if (fd.type === conquest.filter.FD_TYPE_SIMPLE && fd.key != 'text') {
+				} else if (fd.type === conquest.filter.FD_TYPE_SIMPLE/* && fd.key != 'anyText'*/) {
 					if (value) {
 						var obj = {};
 						obj[fd.oper] = value;
@@ -36,17 +36,17 @@ conquest.card = conquest.card || {};
 				}
 			});
 
-			var text = this.get('text');
-			if (text && !(query.techName || query.keyword || query.trait)) {
+			/* var anyText = this.get('anyText');
+			if (anyText && !(query.techName || query.keyword || query.trait)) {
 				query2 = [];
-				_.each(['name', 'keyword', 'trait'], function(key) {
+				_.each(['name', 'keyword', 'trait', 'text'], function(key) {
 					var obj = {};
 					obj[key] = { 
-						likenocase: text
+						likenocase: anyText
 					};
 					query2.push(obj);
 				});				
-			}
+			} */
 
 			if (query2) {
 				return db(query, query2).get();

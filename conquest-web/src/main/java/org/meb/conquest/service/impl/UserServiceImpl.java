@@ -2,10 +2,12 @@ package org.meb.conquest.service.impl;
 
 import java.io.Serializable;
 import java.security.SecureRandom;
+import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 
@@ -283,11 +285,16 @@ public class UserServiceImpl extends SearchServiceImpl implements UserService, S
 		query.getExample().setContributor(true);
 		// query.getSorting().setSortingAsc("username");
 		List<UserContribSummary> contributors = find(query);
+		Locale locale = Locale.getDefault();
+		if (queryContext.getUserLanguage() != null) {
+			locale = new Locale(queryContext.getUserLanguage());
+		}
+		final Collator collator = Collator.getInstance();
 		Collections.sort(contributors, new Comparator<UserContribSummary>() {
 
 			@Override
 			public int compare(UserContribSummary o1, UserContribSummary o2) {
-				return o1.getUser().getUsername().compareTo(o2.getUser().getUsername());
+				return collator.compare(o1.getUser().getUsername(), o2.getUser().getUsername());
 			}
 		});
 		return contributors;

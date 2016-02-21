@@ -2,7 +2,7 @@
 	{{#each results.cards}}
 	<div class="col-xs-12 col-sm-6 col-md-4 style="padding-bottom: 10px;">
 		<div class="card">
-			<h4 style="border-color: {{factionColor faction}}" class="bg-{{faction}}">{{name}}</h4>
+			<h4 class="{{#ifEqual type 'planet'}}bg-neutral{{else}}bg-{{faction}}{{/ifEqual}}">{{name}}</h4>
 			<strong>{{searchLinkType this}}. {{#if faction}}{{searchLinkFaction this}}.{{/if}}</strong><br/>
 			{{#if trait}}<span><i><strong>{{searchLinkTraits this}}</strong></i></span><br/>{{/if}}
 			<span>
@@ -14,7 +14,7 @@
 				{{#if startingHandSize}}<strong>{{loc 'card.startingHandSize.sh'}}:</strong> {{startingHandSize}}.{{/if}} 
 				{{#if startingResources}}<strong>{{loc 'card.startingResources.sh'}}:</strong> {{startingResources}}.{{/if}} 
 			</span><br/><br/>
-			{{#if text}}{{{cardTextHtml text}}}<br/><br/>{{/if}}
+			{{#if text}}{{{htmlText}}}<br/><br/>{{/if}}
 			{{searchLinkSetName this}} #{{number}}
 		</div>	
 	</div>

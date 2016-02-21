@@ -19,16 +19,11 @@ Handlebars.registerHelper('table', function(context, cols, options) {
 });
 
 Handlebars.registerHelper('grid', function(context, options) {
-	var cols = 2;
-	for(var i = 0; i < context.length; i += cols) {
+	var cols = 3;
+	for (var i = 0; i < context.length; i += cols) {
 		ret += '<div class="row">';
-		for(var j = 0; j < cols; j++) {			
-			ret += '<div class="col-md">';
-			if (i + j < context.length) {
-				ret += '<td class="members-grid-item" data-card-id="' + member.card.id + '">' + options.fn(member) + '</td>';
-			} else {
-				ret += '<td>&nbsp;</td>';
-			}		
+		for (var j = 0; j < cols; j++) {			
+			ret += options.fn(context);	
 		}
 		ret += '</div>';
 	}
@@ -42,7 +37,7 @@ Handlebars.registerHelper('loc', function(context, options) {
 		ret = context;
 	}
 	if (options.hash.translate == "true") {
-		ret = conquest.ui.toHtml(ret);
+		ret = conquest.ui.toHtmlText(ret);
 	}
 	return ret;
 });
@@ -79,6 +74,10 @@ Handlebars.registerHelper('cardImagePath', function(context, options) {
 
 Handlebars.registerHelper('findCard', function(context, options) {
 	return conquest.dict.findCard(context);
+});
+
+Handlebars.registerHelper('findCardAttr', function(context, attr, options) {
+	return conquest.dict.findCard(context)[attr];
 });
 
 Handlebars.registerHelper('findSet', function(context, options) {
@@ -335,7 +334,7 @@ Handlebars.registerHelper('factionColor', function(faction, options) {
 });
 
 Handlebars.registerHelper('factionColorStyle', function(faction, options) {	
-	return 'background-color: ' + conquest.ui.colors.faction[faction].bg + ' !important; '
+	return 'background-color: ' + conquest.ui.colors.factions[faction].bg + ' !important; '
 			+ 'color:' + conquest.ui.colors.factions[faction].fg + ' !important;';
 });
 
@@ -348,6 +347,18 @@ Handlebars.registerHelper('deckBoxShadowStyle', function(color, options) {
 				.replace(/\$r/g, r).replace(/\$g/g, g).replace(/\$b/g, b);
 });
 
-Handlebars.registerHelper('cardTextHtml', function(text, options) {
-	return conquest.ui.toHtml(text);
+Handlebars.registerHelper('ifRowBegin', function(index, rowMax, max, options) {
+	if (index % rowMax == 0) {
+		return options.fn(this);
+	} else {
+		return options.inverse(this);
+	}
+});
+
+Handlebars.registerHelper('ifRowEnd', function(index, rowMax, max, options) {
+	if (index % rowMax == rowMax - 1 || index == max -1) {
+		return options.fn(this);
+	} else {
+		return options.inverse(this);
+	}
 });
