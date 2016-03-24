@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.meb</groupId>
 		<artifactId>conquest</artifactId>
-		<version>${project.version}</version>
+		<version>1.3.3</version>
 	</parent>
 	<artifactId>conquest-jpa</artifactId>
 </project>
