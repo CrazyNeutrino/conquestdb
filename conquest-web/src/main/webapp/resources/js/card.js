@@ -1,59 +1,283 @@
-$(function() {
+var db = db || {};
+db.card = db.card || {};
 
-	$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-		options.url = conquest.static.restPath + options.url + '?language=' + conquest.static.language;
-	});	
+(function(_card) {
 
-	var ViewBase = Backbone.View.extend({
-		el: '.content',
-		events: {
-			'click a': 'linkClick'
+	/**
+	 * @memberOf _card
+	 */
+	_card.dummy = function() {};
+
+	_card.CardView = db.view.PageView.extend({
+		className: 'card-view',
+			
+		/**
+		 * @memberOf CardView
+		 */
+		initialize: function(options) {
+			options = options || {};
+			
+			this.setNumber = options.setNumber;
+			this.cardNumber = options.cardNumber;
+			this.rebindMenuLinkClickHandler();
 		},
-		linkClick: function(e) {
-			var root = conquest.static.root;
-			var href = $(e.currentTarget).attr('href');
-			if (href.indexOf(root) == 0 && !event.ctrlKey && !event.shiftKey) {
-				e.preventDefault();
-				conquest.router.navigate(href.replace(conquest.static.root, ''), {
-					trigger: true
-				});
-			}
-		},
-		renderMessages: function(options) {
-			if (this.messages) {
-				var $template = $(Handlebars.templates['global-messages']({
-					messages: this.messages
-				}));
-				delete this.messages;
-				this.$el.prepend($template);
-				setTimeout(function() {
-					$template.fadeOut("slow");
-				}, 2000);
-			}
-		}
-	});
-
-	var CardView = ViewBase.extend({
-		render: function(setNumber, cardNumber) {
-			var card = conquest.dict.findCardByNumber(setNumber, cardNumber);			
-			var template = Handlebars.templates['card-view']({
+		
+		render: function() {
+			var card = db.dict.findCardByNumber(this.setNumber, this.cardNumber);			
+			this.$el.html(Handlebars.templates['card-view']({
 				card: card,
-				warlord: conquest.dict.findCard(card.warlordId),
-				signSquadCards: _.filter(conquest.dict.findSignSquadCards(card.warlordId || card.id), function(signSquadCard) {
+				warlord: db.dict.findCard(card.warlordId),
+				signSquadCards: _.filter(db.dict.findSignSquadCards(card.warlordId || card.id), function(signSquadCard) {
 					return card.id !== signSquadCard.id;
 				})
-			});
-			this.$el.html(template);
-			conquest.router.navigate(conquest.ui.toCardRelativeUrl(card));
+			}));
+			
+			return this;
 		}
 	});
 
-	var CardSearchResultsView = ViewBase.extend({
-		el: '.card-search-results-container',
-		render: function(cards, options) {
-			var view = this;
+	_card.CardSearchView = db.view.PageView.extend({
+		className: 'card-search-view',
+		
+		events: function() {
+			return _.extend({
+				'click .select-many .btn':		'onSelectManyFilterClick',
+				'click .filter-faction .btn':	'onFactionFilterClick',
+				'click .filter-card-type .btn':	'onCardTypeFilterClick',
+				'click .filter-quantity .btn':	'onQuantityFilterClick',
+				'change .layout-control':		'onLayoutControlChange',
+				'change .sort-control':			'onSortControlChange',
+				'click #cardSetFilterTrigger':	'openCardSetFilterModal'
+			}, db.view.View.prototype.events.call(this));
+		},
+		
+		/**
+		 * @memberOf CardSearchView
+		 */
+		initialize: function(options) {
+			options = options || {};
+			
+			_.bindAll(this, 'render', 'filterCards', 'sortCards', 'applyStateToUI', 'applyStateToURL');
+			
+			var filterProps = {};
+			var layout = 'grid-image-only';
+			var page = 0;
+			
+			if (options.queryString) {
+				filterProps = db.util.parseQueryString(options.queryString);
+				layout = _.isString(filterProps.layout) ? filterProps.layout : layout;
+				page = _.isString(filterProps.page) ? parseInt(filterProps.page) : page;
+			} else if (options.setTechName) {
+				filterProps.setTechName = options.setTechName;
+			} else if (options.cycleTechName) {
+				filterProps.cycleTechName = options.cycleTechName;
+			}
+			this.config = new Backbone.Model({
+				layout: layout,
+				page: page
+			});
+			this.cardsFilter = new db.card.CardsFilter(db.filter.objectToFilter(filterProps));
+			this.cardsSorter = new Backbone.Model();
+			this.filteredCards = new db.model.Cards();
+			
+			// Listen to card filter change event. Then filter cards and change URL, to
+			// reflect current filter.
+			this.listenTo(this.cardsFilter, 'change', function(cardsFilter) {
+				this.filterCards();
+				this.applyStateToURL();
+			});
+			// Listen to sorter change event. Then sort cards.
+			this.listenTo(this.cardsSorter, 'change', this.sortCards)
+			// Listen to config change event. Then change URL.
+			this.listenTo(this.config, 'change', this.applyStateToURL);
+			
+			this.resultsView = new _card.CardSearchResultsView({
+				filteredCards: this.filteredCards,
+				config: this.config
+			});
+			
+			this.rebindMenuLinkClickHandler();
+		},
+		
+		render: function() {
+			var template = Handlebars.templates['card-search-view']({
+				filter: {
+					factions: db.dict.factions,
+					cardTypes: db.dict.cardTypes
+				},
+				sortItems: db.util.buildCardSortItems()
+			});
 
-			var layout = options.layout;
+			this.$el.html(template);
+			this.$el.find('.card-search-results-view-ctr').empty().append(this.resultsView.render().el);
+			this.renderMessages();
+			
+			this.applyStateToUI(this.cardsFilter.toJSON());
+			this.makeTooltips();
+			
+			//
+			// filter: stats
+			//
+			// TODO
+
+			//
+			// filter: name/trait/keyword/text search bar
+			//
+			var $typeahead = db.ui.buildCardsTypeahead(this.cardsFilter, {
+				selector: '#textFilter input'
+			});
+
+			this.filterCards();
+			
+			return this;
+		},
+		
+		filterCards: function() {
+			this.config.set({
+				page: 0
+			}, {
+				silent: true
+			});
+			var filteredCards = this.cardsFilter.filter(db.dict.getCards());
+			this.filteredCards.comparator = db.util.buildCardsComparator(this.cardsSorter.get('keys'));
+			this.filteredCards.reset(filteredCards);
+		},
+		
+		sortCards: function() {
+			this.filteredCards.comparator = db.util.buildCardsComparator(this.cardsSorter.get('keys'));
+			this.filteredCards.sort();
+			this.filteredCards.trigger('reset', this.filteredCards);
+		},
+		
+		applyStateToUI: function() {
+			var filter = this.cardsFilter.toJSON();
+			this.$el.find('.btn-group-layout .btn').each(function() {
+				var $this = $(this);
+				if (_.contains(filter.layout, $this.data('layout'))) {
+					$this.addClass('active');
+				}
+			});
+			this.$el.find('.btn-group.filter-faction .btn').each(function() {
+				var $this = $(this);
+				if (_.contains(filter.faction, $this.data('faction'))) {
+					$this.addClass('active');
+				}
+			});
+			this.$el.find('.btn-group.filter-card-type .btn').each(function() {
+				var $this = $(this);
+				if (_.contains(filter.type, $this.data('card-type'))) {
+					$this.addClass('active');
+				}
+			});
+			this.$el.find('.btn-group.filter-quantity .btn').each(function() {
+				var $this = $(this);
+				if (_.contains(filter.quantity, $this.data('quantity'))) {
+					$this.addClass('active');
+				}
+			});
+			
+//			this.$el.find('.sort-control').each(function(index) {
+//				if (filter.sorting && filter.sorting.length > index) {
+//					$(this).val(filter.sorting[index]);
+//				}
+//			});
+			
+			this.$el.find('.layout-control').val(this.config.get('layout'));
+		},
+		
+		applyStateToURL: function() {
+			var obj = db.filter.filterToObject(this.cardsFilter.toJSON());
+			obj.layout = this.config.get('layout');
+			obj.page = this.config.get('page');
+			var queryString = db.util.buildQueryString(obj);
+			if (queryString && queryString.length > 0) {
+				queryString = '?' + queryString;
+			} else {
+				queryString = '';
+			}
+			db.router.navigate('card/search' + queryString);
+		},
+		
+		onSelectManyFilterClick: function(event) {
+			var $target = $(event.currentTarget);
+			if (event.ctrlKey) {
+				$target.addClass('active').siblings().removeClass('active');
+			} else {
+				$target.toggleClass('active');
+			}
+		},
+		
+		onFactionFilterClick: function(e) {
+			this.cardsFilter.set({
+				faction: $(e.currentTarget).parent().children().filter('.active').map(function() {
+					return $(this).data('faction');
+				}).get()
+			});
+		},
+		
+		onCardTypeFilterClick: function(e) {
+			this.cardsFilter.set({
+				type: $(e.currentTarget).parent().children().filter('.active').map(function() {
+					return $(this).data('card-type');
+				}).get()
+			});
+		},
+		
+		onQuantityFilterClick: function(e) {
+			this.cardsFilter.set({
+				quantity: $(e.currentTarget).parent().children().filter('.active').map(function() {
+					return $(this).data('quantity');
+				}).get()
+			});
+		},
+		
+		onLayoutControlChange: function(e) {
+			this.config.set({
+				layout: $(e.currentTarget).val()
+			});
+		},
+		
+		onSortControlChange: function(e) {
+			this.cardsSorter.set({
+				keys: db.util.buildSortKeys($('.sort-control'))
+			});
+		},
+		
+		openCardSetFilterModal: function(e) {
+			var view = this;
+			_card.openCardSetFilterModal({
+				sets: this.cardsFilter.get('setTechName'),
+				cycles: this.cardsFilter.get('cycleTechName')
+			}, {
+				applyFilterHandler: function(filter) {
+					view.cardsFilter.set({
+						setTechName: filter.sets,
+						cycleTechName: filter.cycles
+					});
+				}
+			});
+		}
+	});
+	
+	_card.CardSearchResultsView = db.view.View.extend({
+		className: 'card-search-results-view',
+		
+		/**
+		 * @memberOf CardSearchResultsView
+		 */
+		initialize: function(options) {
+			this.filteredCards = options.filteredCards;
+			this.config = options.config;
+			
+			_.bindAll(this, 'render');
+			
+			this.listenTo(this.filteredCards, 'reset', this.render);
+			this.listenTo(this.config, 'change:layout', this.render);
+			this.listenTo(this.config, 'change:page', this.render);
+		},
+		
+		render: function() {
+			var layout = this.config.get('layout');
 			var templateName = undefined;
 			if (layout === 'grid-2') {
 				templateName = 'card-search-results-grid-2';
@@ -71,354 +295,31 @@ $(function() {
 				// list layout is the default
 				templateName = 'card-search-results-list';
 			}
-
-			var template = Handlebars.templates[templateName]({
+			
+			var pg = db.util.buildPagination({
+				total: this.filteredCards.size(),
+				pageNumber: this.config.get('page'),
+				pageSize: 60
+			});
+			
+			var template = Handlebars.templates[templateName]({				
 				results: {
-					cards: cards.toJSON()
-				}
-			});
-			view.$el.html(template);
-		}
-	});
-
-	var CardSearchView = ViewBase.extend({
-		config: new Backbone.Model({
-			layout: 'grid-image-only'
-		}),
-		cardsFilter: new conquest.card.CardsFilter(),
-		filteredCards: new conquest.model.Cards(),
-		render: function(queryString) {
-			var view = this;
-
-			if (queryString) {
-				view.cardsFilter = new conquest.card.CardsFilter(conquest.filter.queryStringToFilter(queryString));
-			}
-
-			var sortItems = [];
-			_.each([
-				['name', 'card.name'],
-				['number', 'card.number'],
-				['factionDisplay', 'card.faction'],
-				['typeDisplay', 'card.type'],
-				['cost', 'card.cost.sh'],
-				['shield', 'card.shieldIcons.sh'],
-				['command', 'card.commandIcons.sh'],
-				['attack', 'card.attack.sh'],
-				['hitPoints', 'card.hp.sh'],
-				['setName', 'core.setName'],
-				['setNumber', 'core.setNumber']
-			], function(arr) {
-				sortItems.push({
-					value: arr[0],
-					label: conquest.dict.messages[arr[1]]
-				})
-			});
-
-			var template = Handlebars.templates['card-search-view']({
-				filter: {
-					factions: conquest.dict.factions,
-					cardTypes: conquest.dict.cardTypes
+					cards: this.filteredCards.toJSON().slice(pg.pageStartIndex, pg.pageEndIndex + 1)
 				},
-				sortItems: sortItems
+				pagination: pg
 			});
-
-			view.$el.html(template);
-			view.renderMessages();
-			view.cardSearchResultsView = new CardSearchResultsView();
-			view.cardSearchResultsView.listenTo(view.filteredCards, 'reset', function(filteredCards) {
-				this.render(filteredCards, {
-					layout: view.config.get('layout')
+			this.$el.html(template);
+			
+			var view = this;
+			this.$el.find('.pagination-container a[data-page-number]').click(function(e) {
+				view.config.set({
+					page: parseInt($(this).data('page-number'))
 				});
+				e.preventDefault();
 			});
 			
-//			conquest.ui.adjustWrapperStyle({
-//				backgroundColor: '#f2f2f2'
-//			});
-
-			//
-			// common click handler
-			//
-			view.$el.find('.btn-group.select-many > .btn').click(function(event) {
-				var $this = $(this);
-				if (event.ctrlKey) {
-					$this.addClass('active').siblings().removeClass('active');
-				} else {
-					$this.toggleClass('active');
-				}
-			});
-
-			//
-			// tooltips
-			//				
-			view.$el.find('[data-toggle="tooltip"]').tooltip({
-				container: 'body'
-			});
-
-			// view.$el.find('.btn-group.btn-group-layout > .btn').click(function() {
-			// 	$(this).addClass('active').siblings().removeClass('active');
-			// 	view.config.set({
-			// 		layout: $(this).data('layout')
-			// 	});
-			// });
-
-			//
-			// filter: factions
-			//
-			var factions = view.cardsFilter.get('faction');
-			var $factions = view.$el.find('#factionFilter > .btn');
-
-			$factions.each(function() {
-				var $this = $(this);
-				if (factions && factions.indexOf($this.data('faction')) > -1) {
-					$this.addClass('active');
-				}
-				$this.click(function(event) {
-					view.cardsFilter.set({
-						faction: $factions.filter('.active').map(function() {
-							return $(this).data('faction');
-						}).get()
-					});
-				});
-			});
-
-			//
-			// filter: types
-			//
-			var types = view.cardsFilter.get('type');
-			var $types = view.$el.find('#cardTypeFilter > .btn');
-
-			$types.each(function() {
-				var $this = $(this);
-				if (types && types.indexOf($this.data('type')) > -1) {
-					$this.addClass('active');
-				}
-				$this.click(function(event) {
-					view.cardsFilter.set({
-						type: $types.filter('.active').map(function() {
-							return $(this).data('type');
-						}).get()
-					});
-				});
-			});
-
-			//
-			// filter: quantities
-			//
-			var quantities = view.cardsFilter.get('quantity');
-			var $quantities = view.$el.find('#quantityFilter > .btn');
-
-			$quantities.each(function() {
-				var $this = $(this);
-				if (quantities && quantities.indexOf($this.data('quantity')) > -1) {
-					$this.addClass('active');
-				}
-				$this.click(function(event) {
-					view.cardsFilter.set({
-						quantity: $quantities.filter('.active').map(function() {
-							return $(this).data('quantity');
-						}).get()
-					});
-				});
-			});
-
-			//
-			// filter: sets
-			// 
-			new conquest.card.CardSetFilterPopoverView({
-				filter: view.cardsFilter,
-				$trigger: view.$el.find('#cardSetfilterTrigger')
-			}).render();
-
-			//
-			// filter: stats
-			// 
-			new conquest.card.CardStatFilterPopoverView({
-				filter: view.cardsFilter,
-				$trigger: view.$el.find('#cardStatfilterTrigger')
-			}).render();
-
-			//
-			// filter: name/trait/keyword search bar
-			//
-			var selector = '#textFilter input';
-			var $typeahead = conquest.ui.createTypeahead({
-				selector: selector
-			});
-			var $input = $(selector);
-			
-			if (view.cardsFilter.has('trait')) {
-				$input.val(view.cardsFilter.get('trait'))
-			} else if (view.cardsFilter.has('keyword')) {
-				$input.val(view.cardsFilter.get('keyword'))
-			} else if (view.cardsFilter.has('techName')) {
-				var card = conquest.dict.findCard(view.cardsFilter.get('techName'));
-				if (card) {
-					$input.val(card.name);
-				}
-			} else if (view.cardsFilter.has('text')) {
-				$input.val(view.cardsFilter.get('text'))
-			}
-
-			var setSearchbarFilter = function(options) {
-				if (options) {
-					var suggestion = options.suggestion;
-					var dataset = options.dataset;
-					var text = options.text;
-
-					var obj = {};
-					if (suggestion && dataset) {
-						if (dataset == 'cards') {
-							obj['techName'] = suggestion.card.techName;
-						} else if (dataset == 'traits') {
-							obj['trait'] = suggestion.description;
-						} else if (dataset == 'keywords') {
-							obj['keyword'] = suggestion.description;
-						}
-					} else if (text) {
-						if (!(view.cardsFilter.has('techName') || view.cardsFilter.has('trait') || view.cardsFilter.has('keyword') || view.cardsFilter.has('text'))) {
-							obj['text'] = text;
-						}
-					} else {
-						obj['techName'] = undefined;
-						obj['trait'] = undefined;
-						obj['keyword'] = undefined;
-						obj['text'] = undefined;
-					}
-
-					view.cardsFilter.set(obj, {
-						silent: true
-					});
-				}
-			};
-
-			$typeahead.on('typeahead:selected', function($event, suggestion, dataset) {
-				console.log('selected' + $event);
-				setSearchbarFilter({
-					suggestion: suggestion,
-					dataset: dataset
-				});
-			}).on('typeahead:autocompleted', function($event, suggestion, dataset) {
-				console.log('autocompleted' + $event);
-				setSearchbarFilter({
-					suggestion: suggestion,
-					dataset: dataset
-				});
-			}).on('typeahead:closed', function($event) {
-				console.log('closed' + $event);
-				setSearchbarFilter({
-					text: $typeahead.typeahead('val')
-				});
-			}).on('typeahead:opened', function($event) {
-				console.log('opened' + $event);
-				setSearchbarFilter({});
-			}).on('keyup', function($event) {
-				if ($event.keyCode == 13) {
-					$typeahead.typeahead('close');
-					view.cardsFilter.trigger('change', view.cardsFilter);
-				}
-			});
-
-			$('#textFilter .btn').click(function() {
-				view.cardsFilter.trigger('change', view.cardsFilter);
-			});
-
-			var buildSortKeys = function() {
-				var sortKeys = [];
-				$('.sort-control').each(function() {
-					var value = $(this).val();
-					if (value) {
-						if (value.indexOf(',') == -1) {
-							sortKeys.push(value);
-						} else {
-							sortKeys.push({
-								property: value.split(',')[0],
-								descending: value.split(',')[1] == 'desc'
-							});
-						}
-					}
-				});
-				return sortKeys;
-			}; // end:buildSortKeys
-
-			var buildCardsComparator = function() {
-				return conquest.util.buildCardsComparator(buildSortKeys(), {
-					resolver: function(card) {
-						return card.attributes;
-					}
-				});
-			}; // end:buildMembersComparator
-
-			//
-			// sorting change
-			//
-			$('.sort-control').change(function() {					
-				view.filteredCards.comparator = buildCardsComparator();
-				view.filteredCards.sort();
-				view.filteredCards.trigger('reset', view.filteredCards);
-			});
-			
-			$('.layout-control').change(function(event) {
-				view.config.set('layout', this.value);
-				view.filteredCards.trigger('reset', view.filteredCards);
-			});
-
-			//
-			// listen to filter change event
-			//
-			view.cardsFilter.listenTo(view.cardsFilter, 'change', function(cardsFilter, options) {
-				view.filteredCards.comparator = buildCardsComparator();
-				view.filteredCards.reset(cardsFilter.filter.call(cardsFilter, conquest.dict.cards));
-				var queryString = conquest.filter.filterToQueryString(cardsFilter.toJSON());
-				if (queryString && queryString.length > 0) {
-					queryString = '?' + queryString;
-				} else {
-					queryString = '';
-				}
-				conquest.router.navigate('search' + queryString);
-			});
-
-			if (view.cardsFilter.isNotEmpty()) {
-				view.cardsFilter.trigger('change', view.cardsFilter, {
-					ga: false
-				});
-			}
+			return this;
 		}
 	});
-
-	var Router = Backbone.Router.extend({
-		routes: {
-			':setNumber/:cardNumber': 'viewCard',
-			'search(?:queryString)': 'searchCards'
-		}
-	});
-
-	conquest.router = new Router();
-	conquest.router.on('route:viewCard', function(setNumber, cardNumber) {
-		var cardView = new CardView();
-		setNumber = parseInt(setNumber);
-		cardNumber = parseInt(cardNumber);
-		cardView.render(setNumber, cardNumber);
-		$('html,body').scrollTop(0);
-
-		var card = conquest.dict.findCardByNumber(setNumber, cardNumber);
-		var url = conquest.ui.toCardRelativeUrl(card);
-		if (_.isUndefined(url)) {
-			url = setNumber + '/' + cardNumber;
-		}
-		ga('set', 'page', conquest.static.root + url);
-		ga('send', 'pageview');
-	}).on('route:searchCards', function(queryString) {
-		var cardSearchView = new CardSearchView();
-		cardSearchView.render(queryString);
-		$('html,body').scrollTop(0);
-		ga('set', 'page', conquest.static.root + 'search');
-		ga('send', 'pageview');
-	});
-
-	conquest.static.root = '/' + conquest.static.language + '/card/';
-
-	Backbone.history.start({
-		pushState: true,
-		root: conquest.static.root
-	});
-});
+	
+})(db.card);

@@ -37,7 +37,7 @@ public class JsonCard {
 	private Long warlordId;
 	private Boolean loyal;
 	private Boolean unique;
-	private Long setId;
+	private Long crstId;
 	private Integer startingHandSize;
 	private Integer startingResources;
 	private String illustrator;
@@ -66,7 +66,7 @@ public class JsonCard {
 		warlordId = card.getWarlordId();
 		loyal = card.getLoyal();
 		unique = card.getUnique();
-		setId = card.getCrstId();
+		crstId = card.getCrstId();
 		startingHandSize = card.getStartingHandSize();
 		startingResources = card.getStartingResources();
 		illustrator = card.getIllustrator();

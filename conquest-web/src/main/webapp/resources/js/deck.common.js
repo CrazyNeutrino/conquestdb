@@ -1,10 +1,10 @@
-var conquest = conquest || {};
-conquest.deck = conquest.deck || {};
+var db = db || {};
+db.deck = db.deck || {};
 
 (function(_deck) {
 
 	$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-		options.url = conquest.static.restPath + options.url + '?language=' + conquest.static.language;
+		options.url = db.static.restPath + options.url + '?language=' + db.static.language;
 		if (options.data) {
 			options.data = options.data.replace(/%5B%5D/g, '');
 		}
@@ -139,7 +139,7 @@ conquest.deck = conquest.deck || {};
 					link.key = 'core.createdWith';
 					link.value = /^(?:http:\/\/)?([^/?]+).*/.exec(document.URL)[1];
 				}
-				var membersGroups = conquest.util.membersGroupBy(deck.get('members'), $modal.data(GK), $modal.data(SK));
+				var membersGroups = db.util.membersGroupBy(deck.get('members'), $modal.data(GK), $modal.data(SK));
 				var plainData = Handlebars.templates['deck-export-plain']({
 					warlord: deck.get('warlord'),
 					membersGroups: membersGroups,
@@ -237,12 +237,12 @@ conquest.deck = conquest.deck || {};
 			delete copy.description;
 			delete copy.snapshotBaseId;
 
-			var copy = new conquest.model.PrivateDeck(copy, {
+			var copy = new db.model.PrivateDeck(copy, {
 				parse: true
 			});
 
 			copy.listenToOnce(copy, 'invalid', function(copy) {
-				conquest.deck.renderMessages({
+				db.deck.renderMessages({
 					$target: $modal.find('.modal-body'),
 					messages: buildErrorMessage({
 						message: copy.validationError
@@ -252,8 +252,8 @@ conquest.deck = conquest.deck || {};
 
 			copy.save(attributes, {
 				success: function(copy, response, options) {
-					// conquest.saveDeck(copy);
-					conquest.deck.renderMessages({
+					// db.saveDeck(copy);
+					db.deck.renderMessages({
 						$target: $modal.find('.modal-body'),
 						messages: _deck.buildSuccessMessage({
 							message: 'ok.deck.oper.save'
@@ -261,7 +261,7 @@ conquest.deck = conquest.deck || {};
 					});
 				},
 				error: function(copy, response, options) {
-					conquest.deck.renderMessages({
+					db.deck.renderMessages({
 						$target: $modal.find('.modal-body'),
 						messages: _deck.buildErrorMessage({
 							error: response.responseJSON,
@@ -294,12 +294,12 @@ conquest.deck = conquest.deck || {};
 			delete this.messages;
 		},
 		viewLinkClickHandler: function(event) {
-			var root = conquest.static.root;
+			var root = db.static.root;
 			var href = $(event.currentTarget).attr('href');
 			if (href && href.indexOf(root) == 0 && !event.ctrlKey && !event.shiftKey) {
 				$(event.currentTarget).tooltip('hide');
 				event.preventDefault();
-				conquest.router.navigate(href.replace(conquest.static.root, ''), {
+				db.router.navigate(href.replace(db.static.root, ''), {
 					trigger: true
 				});
 			}
@@ -350,7 +350,7 @@ conquest.deck = conquest.deck || {};
 				view.sortKey = 'name';
 			}
 
-			var groups = conquest.util.membersGroupBy(members, view.groupKey, view.sortKey);
+			var groups = db.util.membersGroupBy(members, view.groupKey, view.sortKey);
 
 			view.$el.html(Handlebars.templates['members-groups']({
 				membersGroups: groups
@@ -373,7 +373,7 @@ conquest.deck = conquest.deck || {};
 				html: true,
 				trigger: 'hover',
 				content: function() {
-					return conquest.ui.writeCardImgElem($(this).data('image-base'), {
+					return db.ui.writeCardImgElem($(this).data('image-base'), {
 						class: 'card-md'
 					});
 				}
@@ -457,7 +457,7 @@ conquest.deck = conquest.deck || {};
 					value: view.$el.find('#deckCommentTextarea').val()
 				};
 				
-				var deckComment = new conquest.model.DeckComment();
+				var deckComment = new db.model.DeckComment();
 				deckComment.listenToOnce(deckComment, 'invalid', function(dc) {
 					parentView.messages = _deck.buildErrorMessage({
 						message: dc.validationError
@@ -536,7 +536,7 @@ conquest.deck = conquest.deck || {};
 				html: true,
 				trigger: 'hover',
 				content: function() {
-					return conquest.ui.writeCardImgElem($(this).data('image-base'), {
+					return db.ui.writeCardImgElem($(this).data('image-base'), {
 						class: 'card-md'
 					});
 				}
@@ -686,7 +686,7 @@ conquest.deck = conquest.deck || {};
 			var template = Handlebars.templates['deck-list-filter-view']({
 				advanced: view.state.get('advanced'),
 				config: view.config || {},
-				factions: _.filter(conquest.dict.factions, function(faction) {
+				factions: _.filter(db.dict.factions, function(faction) {
 					return faction.techName != 'neutral';
 				})
 			});
@@ -694,7 +694,7 @@ conquest.deck = conquest.deck || {};
 			view.$el.find('.input-daterange').datepicker({
 				autoclose: true,
 				format: 'yyyy-mm-dd',
-				language: conquest.static.language,
+				language: db.static.language,
 				todayHighlight: true
 			});
 			view.$el.find('#moreButton').click(function() {
@@ -721,7 +721,7 @@ conquest.deck = conquest.deck || {};
 			});
 
 			var cardSetFilterTemplate = Handlebars.templates['commons-ul-tree']({
-				tree: conquest.dict.buildCardSetTree()
+				tree: db.dict.buildCardSetTree()
 			});
 			view.$el.find('#cardSetFilter').html(cardSetFilterTemplate);
 			view.$el.find('#cardSetFilter li[data-node-type="cycle"] > input[type="checkbox"]').click(function() {
@@ -730,7 +730,7 @@ conquest.deck = conquest.deck || {};
 			});
 
 			var warlordFilterTemplate = Handlebars.templates['commons-ul-tree']({
-				tree: conquest.dict.buildWarlordTree()
+				tree: db.dict.buildWarlordTree()
 			});
 			view.$el.find('#warlordFilter').html(warlordFilterTemplate);
 
@@ -799,7 +799,7 @@ conquest.deck = conquest.deck || {};
 
 				deckWrappers.push({
 					deck: deck.toJSON(),
-					membersGroups: conquest.util.membersGroupBy(deck.get('members'), 'typeDisplay', 'name'),
+					membersGroups: db.util.membersGroupBy(deck.get('members'), 'typeDisplay', 'name'),
 					totalQuantity: deck.computeTotalQuantity.call(deck),
 					totalCost: deck.computeTotalCost.call(deck),
 					stats: stats,
@@ -876,7 +876,7 @@ conquest.deck = conquest.deck || {};
 			            spacingRight: 0,
 			        },
 			        title: {
-			        	text: conquest.dict.messages['core.cardsByCost'],
+			        	text: db.dict.messages['core.cardsByCost'],
 			            style: {
 			            	fontSize: '12px'
 			            }
@@ -907,7 +907,7 @@ conquest.deck = conquest.deck || {};
 			            }
 			        },
 			        series: [{
-			        	name: conquest.dict.messages['core.numberOfCards'],
+			        	name: db.dict.messages['core.numberOfCards'],
 			        	data: dataByCost,
 			        	showInLegend: false,
 				        pointWidth: 14
@@ -923,7 +923,7 @@ conquest.deck = conquest.deck || {};
 				var deck = decks.findWhere({
 					id: parseInt($(this).data('deck-id'))
 				});
-				var members = conquest.util.toJSON(deck.get('members').filter(function(member) {
+				var members = db.util.toJSON(deck.get('members').filter(function(member) {
 					return member.get('quantity') > 0;
 				}));
 				var membersByFaction = _.groupBy(members, function(member) {
@@ -942,11 +942,11 @@ conquest.deck = conquest.deck || {};
 				});
 				_.each(sortedKeys, function(key) {
 					dataByFaction.push({
-						name: conquest.dict.findFaction(key).name, 
+						name: db.dict.findFaction(key).name, 
 						y: _.reduce(membersByFaction[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
-						color: conquest.ui.colors.factions[key].bg
+						color: db.ui.colors.factions[key].bg
 					});
 				});
 
@@ -959,7 +959,7 @@ conquest.deck = conquest.deck || {};
 			            spacing: 0
 			        },
 			        title: {
-			            text: conquest.dict.messages['core.cardsByFaction'],
+			            text: db.dict.messages['core.cardsByFaction'],
 			            style: {
 			            	fontSize: '12px'
 			            }
@@ -986,7 +986,7 @@ conquest.deck = conquest.deck || {};
 			            }
 			        },
 			        series: [{
-			            name: conquest.dict.messages['core.numberOfCards'],
+			            name: db.dict.messages['core.numberOfCards'],
 			            colorByPoint: true,
 			            data: dataByFaction
 			        }],
@@ -1001,7 +1001,7 @@ conquest.deck = conquest.deck || {};
 				var deck = decks.findWhere({
 					id: parseInt($(this).data('deck-id'))
 				});
-				var members = conquest.util.toJSON(deck.get('members').filter(function(member) {
+				var members = db.util.toJSON(deck.get('members').filter(function(member) {
 					return member.get('quantity') > 0;
 				}));
 				var membersByType = _.groupBy(members, function(member) {
@@ -1015,11 +1015,11 @@ conquest.deck = conquest.deck || {};
 				});
 				_.each(sortedKeys, function(key) {
 					dataByType.push({
-						name: conquest.dict.findCardType(key).name, 
+						name: db.dict.findCardType(key).name, 
 						y: _.reduce(membersByType[key], function(count, member) {
 							return count + member.quantity;
 						}, 0),
-						color: conquest.ui.colors.types[key].bg
+						color: db.ui.colors.types[key].bg
 					});
 				});
 
@@ -1032,7 +1032,7 @@ conquest.deck = conquest.deck || {};
 			            spacing: 0
 			        },
 			        title: {
-			            text: conquest.dict.messages['core.cardsByType'],
+			            text: db.dict.messages['core.cardsByType'],
 			            style: {
 			            	fontSize: '12px'
 			            }
@@ -1059,7 +1059,7 @@ conquest.deck = conquest.deck || {};
 			            }
 			        },
 			        series: [{
-			            name: conquest.dict.messages['core.numberOfCards'],
+			            name: db.dict.messages['core.numberOfCards'],
 			            colorByPoint: true,
 			            data: dataByType
 			        }],
@@ -1105,13 +1105,13 @@ conquest.deck = conquest.deck || {};
 		var traits = new Bloodhound({
 			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('description'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
-			local: conquest.dict.traits
+			local: db.dict.traits
 		});
 
 		var keywords = new Bloodhound({
 			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('description'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
-			local: conquest.dict.keywords
+			local: db.dict.keywords
 		});
 
 		cards.initialize();
@@ -1128,21 +1128,21 @@ conquest.deck = conquest.deck || {};
 			source: cards.ttAdapter(),
 			templates: {
 				suggestion: Handlebars.compile('{{name}}&nbsp;<span class="tt-no-highlight">{{card.setName}} | {{card.factionDisplay}} | {{card.typeDisplay}} | {{card.trait}}</span>'),
-				header: '<div class="tt-multi-header">' + conquest.dict.messages['core.card'] + '</div>'
+				header: '<div class="tt-multi-header">' + db.dict.messages['core.card'] + '</div>'
 			}
 		}, {
 			name: 'traits',
 			displayKey: 'description',
 			source: traits.ttAdapter(),
 			templates: {
-				header: '<div class="tt-multi-header">' + conquest.dict.messages['core.trait'] + '</div>'
+				header: '<div class="tt-multi-header">' + db.dict.messages['core.trait'] + '</div>'
 			}
 		}, {
 			name: 'keywords',
 			displayKey: 'description',
 			source: keywords.ttAdapter(),
 			templates: {
-				header: '<div class="tt-multi-header">' + conquest.dict.messages['core.keyword'] + '</div>'
+				header: '<div class="tt-multi-header">' + db.dict.messages['core.keyword'] + '</div>'
 			}
 		});
 
@@ -1172,4 +1172,4 @@ conquest.deck = conquest.deck || {};
 		});
 	};
 
-})(conquest.deck);
+})(db.deck);

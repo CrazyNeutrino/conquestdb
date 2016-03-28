@@ -20,48 +20,35 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<!-- script>
-		  window.fbAsyncInit = function() {
-		    FB.init({
-		      appId      : '906938232661261',
-		      xfbml      : true,
-		      version    : 'v2.2'
-		    });
-		  };
-		
-		  (function(d, s, id){
-		     var js, fjs = d.getElementsByTagName(s)[0];
-		     if (d.getElementById(id)) {return;}
-		     js = d.createElement(s); js.id = id;
-		     js.src = "//connect.facebook.net/en_US/sdk.js";
-		     fjs.parentNode.insertBefore(js, fjs);
-		   }(document, 'script', 'facebook-jssdk'));
-		</script -->			
 		<h:outputScript library="javax.faces" name="jsf.js" target="head" />
 		<h:outputScript name="js/jquery-ui.min.js" target="head" />
 		<h:outputScript name="js/jquery.ui.touch-punch.min.js" target="head" />
 		<h:outputScript name="js/chart.min.js" target="head" />
 		<h:outputScript name="js/moment-timezone-with-data.js" target="head" />
-		<h:outputScript name="js/conquest.js" target="head" />
+		<h:outputScript name="js/backbone-nested.js" target="head" />
+		<h:outputScript name="js/db.app.js" target="head" />
+		<h:outputScript name="js/db.model.js" target="head" />
+		<h:outputScript name="js/db.view.js" target="head" />
+		<h:outputScript name="js/db.deck.js" target="head" />
 		<h:outputScript name="js/handlebars-helpers.js" target="head" />
 		<h:outputScript name="js/handlebars-templates.js" target="head" />
 		<h:outputScript name="js/card.common.js" target="head" />
 		<h:outputScript name="js/deck.common.js" target="head" />
 		<h:outputScript name="js/deck.public.js" target="head" />
 		<h:outputScript target="head">
-			conquest.static.language = '#{localeCtrl.language}';
-			conquest.static.contextPath = '#{facesContext.externalContext.request.contextPath}';
-			conquest.static.restPath = '#{facesContext.externalContext.request.contextPath}/rest';
-			conquest.static.imagePath = 'http://s3.amazonaws.com/conquestdb2/image';
-			conquest.static.user = #{bootstrapCtrl.user};
-			conquest.dict.messages = #{bootstrapCtrl.messagesData};
-			conquest.dict.cards = #{bootstrapCtrl.cardsData};
-			conquest.dict.sets = #{bootstrapCtrl.cardSetsData};
-			conquest.dict.factions = #{bootstrapCtrl.factionsData};
-			conquest.dict.cardTypes = #{bootstrapCtrl.cardTypesData};
-			conquest.dict.traits = #{bootstrapCtrl.domainTraitData};
-			conquest.dict.keywords = #{bootstrapCtrl.domainKeywordData};
-			conquest.dict.initialize();
+			db.static.language = '#{localeCtrl.language}';
+			db.static.contextPath = '#{facesContext.externalContext.request.contextPath}';
+			db.static.restPath = '#{facesContext.externalContext.request.contextPath}/rest';
+			db.static.imagePath = '/image';
+			db.static.user = #{bootstrapCtrl.user};
+			db.dict.messages = #{bootstrapCtrl.messagesData};
+			db.dict.cards = #{bootstrapCtrl.cardsData};
+			db.dict.sets = #{bootstrapCtrl.cardSetsData};
+			db.dict.factions = #{bootstrapCtrl.factionsData};
+			db.dict.cardTypes = #{bootstrapCtrl.cardTypesData};
+			db.dict.traits = #{bootstrapCtrl.domainTraitData};
+			db.dict.keywords = #{bootstrapCtrl.domainKeywordData};
+			db.dict.initialize();
 		</h:outputScript>						
 	</ui:define>
 

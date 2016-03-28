@@ -1,0 +1,68 @@
+<div class="card text">
+	
+	<div class="header {{cardBgColorClass this}}">
+		{{#smartIf unique}}
+		<div class="box-left">
+			<div class="db-icon db-icon-unique"></div>
+		</div>
+		{{/smartIf}}
+		<div class="box-center">
+			<h4 class="primary-text">
+				<a href="{{cardUrl this}}">{{name}}</a>
+			</h4>
+		</div>
+	</div>
+	
+	<div class="content">
+		{{#if enstTechName}}
+		<img class="icon-encset" src="/image/encset/{{enstTechName}}.png"></img>
+		{{/if}}
+		{{#if sphere}}
+		{{#unlessEqual sphere 'neutral'}}
+		<img class="icon-sphere" src="/image/sphere/{{sphere}}.png"></img>
+		{{/unlessEqual}}
+		{{/if}}
+		{{#smartIf questDeck}}
+		<img class="icon-quest" src="/image/sphere/quest.png"></img>
+		{{/smartIf}}
+		
+		<p class="card-type-block">
+			<strong>{{searchLinkType this}}. {{#if sphere}}{{searchLinkSphere this}}.{{/if}}</strong>
+			{{#if traits}}<br/><span><i><strong>{{searchLinkTraits this}}</strong></i></span>{{/if}}
+		</p>
+		
+		{{#smartIf hasAttrs}}
+		<p class="card-attrs-block">
+			<span class="attrs-line">
+				{{#smartIf threatCost}}<span class="attr-threat-cost">{{escapeAttrX threatCost}}</span>{{/smartIf}}
+				{{#smartIf resourceCost}}<span class="attr-resource-cost">{{escapeAttrX resourceCost}}</span>{{/smartIf}}
+				{{#smartIf engagementCost}}<span class="attr-engagement-cost">{{escapeAttrX engagementCost}}</span>{{/smartIf}}					 
+				{{#smartIf willpower}}<i class="db-icon db-icon-willpower"></i>{{escapeAttrX willpower}}{{/smartIf}}
+				{{#smartIf threat}}<i class="db-icon db-icon-threat"></i>{{escapeAttrX threat}}{{/smartIf}}
+				{{#smartIf attack}}<i class="db-icon db-icon-attack"></i>{{escapeAttrX attack}}{{/smartIf}}
+				{{#smartIf defense}}<i class="db-icon db-icon-defense"></i>{{escapeAttrX defense}}{{/smartIf}} 
+				{{#smartIf hitPoints}}<span class="attr-hit-points">{{escapeAttrX hitPoints}}</span>{{/smartIf}} 
+				
+				{{!--
+				<br/>
+				{{#ifEqual unique true}}{{loc 'card.unique'}}. {{/ifEqual}}
+				{{#ifEqual unique false}}{{loc 'card.nonUnique'}}. {{/ifEqual}}
+				--}}
+				<br/>
+			</span>
+		</p>
+		{{/smartIf}}
+
+		{{#if htmlText}}
+		<div>
+			{{{htmlText}}}
+		</div>
+		{{/if}}
+		
+		<p class="card-sets-block">
+			{{loc 'core.set'}}: <strong>{{searchLinkSetName this.setTechName}}</strong> #{{number}} (x{{quantity}})
+			{{#if enstName}}<br/>{{loc 'core.encounterSet'}}: <strong>{{searchLinkEncounterSetName this}}</strong>{{/if}}
+		</p>
+	</div>
+	
+</div>	

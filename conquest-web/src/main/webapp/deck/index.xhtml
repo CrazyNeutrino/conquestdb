@@ -25,7 +25,11 @@
 		<h:outputScript name="js/jquery.ui.touch-punch.min.js" target="head" />
 		<h:outputScript name="js/chart.min.js" target="head" />
 		<h:outputScript name="js/moment-timezone-with-data.js" target="head" />
-		<h:outputScript name="js/conquest.js" target="head" />
+		<h:outputScript name="js/backbone-nested.js" target="head" />
+		<h:outputScript name="js/db.app.js" target="head" />
+		<h:outputScript name="js/db.model.js" target="head" />
+		<h:outputScript name="js/db.view.js" target="head" />
+		<h:outputScript name="js/db.deck.js" target="head" />
 		<h:outputScript name="js/handlebars-helpers.js" target="head" />
 		<h:outputScript name="js/handlebars-templates.js" target="head" />
 		<h:outputScript name="js/card.common.js" target="head" />
@@ -33,19 +37,19 @@
 		<h:outputScript name="js/deck.private.js" target="head" />
 		<!-- <h:outputStylesheet name="css/bootstrap-slider.css" /> -->		
 		<h:outputScript target="head">
-			conquest.static.language = '#{localeCtrl.language}';
-			conquest.static.contextPath = '#{facesContext.externalContext.request.contextPath}';
-			conquest.static.restPath = '#{facesContext.externalContext.request.contextPath}/rest';
-			conquest.static.imagePath = 'http://s3.amazonaws.com/conquestdb2/image';
-			conquest.static.user = #{bootstrapCtrl.user};
-			conquest.dict.messages = #{bootstrapCtrl.messagesData};
-			conquest.dict.cards = #{bootstrapCtrl.cardsData};
-			conquest.dict.sets = #{bootstrapCtrl.cardSetsData};
-			conquest.dict.factions = #{bootstrapCtrl.factionsData};
-			conquest.dict.cardTypes = #{bootstrapCtrl.cardTypesData};
-			conquest.dict.traits = #{bootstrapCtrl.domainTraitData};
-			conquest.dict.keywords = #{bootstrapCtrl.domainKeywordData};
-			conquest.dict.initialize();
+			db.static.language = '#{localeCtrl.language}';
+			db.static.contextPath = '#{facesContext.externalContext.request.contextPath}';
+			db.static.restPath = '#{facesContext.externalContext.request.contextPath}/rest';
+			db.static.imagePath = '/image';
+			db.static.user = #{bootstrapCtrl.user};
+			db.dict.messages = #{bootstrapCtrl.messagesData};
+			db.dict.cards = #{bootstrapCtrl.cardsData};
+			db.dict.sets = #{bootstrapCtrl.cardSetsData};
+			db.dict.factions = #{bootstrapCtrl.factionsData};
+			db.dict.cardTypes = #{bootstrapCtrl.cardTypesData};
+			db.dict.traits = #{bootstrapCtrl.domainTraitData};
+			db.dict.keywords = #{bootstrapCtrl.domainKeywordData};
+			db.dict.initialize();
 		</h:outputScript>
 			
 		<!-- <h:outputText value="#{bootstrapCtrl.decksBootstrapData}" escape="false" /> -->

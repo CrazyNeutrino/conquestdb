@@ -1,30 +1,41 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:c="http://java.sun.com/jsp/jstl/core" template="/WEB-INF/template/ui.xhtml">
-
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/WEB-INF/template/ui.xhtml">
+	
 	<ui:define name="head">
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.1/backbone.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.min.js"></script>
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.4/typeahead.bundle.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard.min.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/taffydb/2.7.2/taffy-min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/pagedown/1.0/Markdown.Converter.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/pagedown/1.0/Markdown.Sanitizer.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.string/3.0.2/underscore.string.min.js"></script>
-		<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.min.css" />
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.9.1/highcharts.js"></script>
+		
+		<h:outputStylesheet name="css/jquery-ui.min.css" />				
 	</ui:define>
 
-	<ui:define name="content">
+	<ui:define name="content">			
 		<h:outputScript library="javax.faces" name="jsf.js" target="head" />
 		<h:outputScript name="js/jquery-ui.min.js" target="head" />
 		<h:outputScript name="js/jquery.ui.touch-punch.min.js" target="head" />
 		<h:outputScript name="js/backbone-nested.js" target="head" />
-		<h:outputScript name="js/db.app.js" target="head" />
-		<h:outputScript name="js/db.model.js" target="head" />
-		<h:outputScript name="js/db.view.js" target="head" />
-		<h:outputScript name="js/db.deck.js" target="head" />
 		<h:outputScript name="js/handlebars-helpers.js" target="head" />
 		<h:outputScript name="js/handlebars-templates.js" target="head" />
+		<h:outputScript name="js/db.app.js" target="head" />
+		<h:outputScript name="js/db.model.js" target="head" />
+		<h:outputScript name="js/db.ui.js" target="head" />
+		<h:outputScript name="js/db.util.js" target="head" />
+		<h:outputScript name="js/db.view.js" target="head" />
+		<h:outputScript name="js/db.deck.js" target="head" />
 		<h:outputScript name="js/card.js" target="head" />
 		<h:outputScript name="js/card.common.js" target="head" />
+		<h:outputScript name="js/deck.common.js" target="head" />
+		<h:outputScript name="js/deck.private.js" target="head" />
+		<h:outputScript name="js/deck.public.js" target="head" />
 		<h:outputScript target="head">
 			db.static.language = '#{localeCtrl.language}';
 			db.static.contextPath = '#{facesContext.externalContext.request.contextPath}';
@@ -32,9 +43,9 @@
 			db.static.imagePath = '/image';
 			db.dict.messages = #{bootstrapCtrl.messagesData};
 			db.dict.cards = #{bootstrapCtrl.cardsData};
-			db.dict.sets = #{bootstrapCtrl.cardSetsData};
-			db.dict.factions = #{bootstrapCtrl.factionsData};
+			db.dict.cardSets = #{bootstrapCtrl.cardSetsData};
 			db.dict.cardTypes = #{bootstrapCtrl.cardTypesData};
+			db.dict.factions = #{bootstrapCtrl.factionsData};
 			db.dict.traits = #{bootstrapCtrl.domainTraitData};
 			db.dict.keywords = #{bootstrapCtrl.domainKeywordData};
 			db.dict.initialize();

@@ -14,22 +14,32 @@
 
 	<url-mapping id="deck0">
 		<pattern value="/#{ /(en)|(pl)|(de)/ localeCtrl.language }/deck" />
-		<view-id value="/deck/index.jsf" />
+		<view-id value="/app/index.jsf" />
 	</url-mapping>
 
 	<url-mapping id="deck1">
 		<pattern value="/#{ /(en)|(pl)|(de)/ localeCtrl.language }/deck/*" />
-		<view-id value="/deck/index.jsf" />
+		<view-id value="/app/index.jsf" />
 	</url-mapping>
 
 	<url-mapping id="card0">
 		<pattern value="/#{ /(en)|(pl)|(de)/ localeCtrl.language }/card" />
-		<view-id value="/card/index.jsf" />
+		<view-id value="/app/index.jsf" />
 	</url-mapping>
 
 	<url-mapping id="card1">
 		<pattern value="/#{ /(en)|(pl)|(de)/ localeCtrl.language }/card/*" />
-		<view-id value="/card/index.jsf" />
+		<view-id value="/app/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="set0">
+		<pattern value="/#{ /(en)|(pl)|(de)/ localeCtrl.language }/set" />
+		<view-id value="/app/index.jsf" />
+	</url-mapping>
+
+	<url-mapping id="set1">
+		<pattern value="/#{ /(en)|(pl)|(de)/ localeCtrl.language }/set/*" />
+		<view-id value="/app/index.jsf" />
 	</url-mapping>
 
 	<url-mapping id="register">
@@ -54,7 +64,7 @@
 		<view-id value="/index.jsf" />
 		<action onPostback="false">#{accountCtrl.signOutUser}</action>
 	</url-mapping>
-	
+
 	<url-mapping id="contributors">
 		<pattern value="/#{ /(en)|(pl)|(de)/ localeCtrl.language }/contributors" />
 		<view-id value="/contributors/index.jsf" />

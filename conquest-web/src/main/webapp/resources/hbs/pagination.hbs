@@ -1,0 +1,21 @@
+{{#smartUnless pagination.singlePage ~}}
+<div class="pagination-container text-center">
+	<nav>
+		<ul class="pagination">					
+			<li {{#unless pagination.prevPage}}class="disabled"{{/unless}}>
+				<a href="#" aria-label="Previous" {{#if pagination.prevPage}}data-page-number="{{pagination.prevPage.number}}"{{/if}}>
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			{{#each pagination.pages ~}}
+			<li {{#if active}}class="active"{{/if}}><a href="#" data-page-number="{{number}}">{{label}}</a></li>
+			{{/each ~}}
+			<li {{#unless pagination.nextPage}}class="disabled"{{/unless}}>
+				<a href="#" aria-label="Next" {{#if pagination.nextPage}}data-page-number="{{pagination.nextPage.number}}"{{/if}}>
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>
+{{/smartUnless ~}}

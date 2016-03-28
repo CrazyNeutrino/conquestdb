@@ -1,0 +1,30 @@
+{{!--
+
+{{#smartIf multiple ~}}
+<div style="text-align: center;">
+	<div class="btn-group select-one sets-group" style="margin-bottom: 10px;">
+		<label class="btn btn-default active" data-sets-group="regular">{{loc 'core.sets.regular'}}</label>
+		<label class="btn btn-default" data-sets-group="nightmare">{{loc 'core.sets.nightmare'}}</label>
+	</div>
+</div>
+{{/smartIf ~}}
+
+--}}
+
+<div>
+	<div class="sets-group">
+		{{#each trees ~}}
+		{{#ifRowBegin @index 4 ../trees.length ~}}
+		<div class="row">
+		{{/ifRowBegin}}
+		
+			<div class="col-md-3">
+				{{> commons-ul-tree}}
+			</div>
+		
+		{{#ifRowEnd @index 4 ../trees.length ~}}
+		</div>
+		{{/ifRowEnd ~}}
+		{{/each ~}}
+	</div>
+</div>

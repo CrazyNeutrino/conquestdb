@@ -1,6 +1,6 @@
 $(function() {
 
-	var PublicDeckView = conquest.deck.PageView.extend({
+	var PublicDeckView = db.deck.PageView.extend({
 		events: {
 			'click .pub-deck-view a': 'viewLinkClickHandler',
 			'click .pub-deck-view i.favourite': 'markFavouriteClickHandler',
@@ -11,7 +11,7 @@ $(function() {
 			filter: new Backbone.Model()
 		}),
 		markClickHandler: function(url) {
-			if (conquest.static.user.username) {
+			if (db.static.user.username) {
 				var view = this;
 				$.post(url, function(data) {
 					view.deck.set({
@@ -78,13 +78,13 @@ $(function() {
 
 			var renderInternal = function() {
 				var warlordId = view.deck.get('warlord').id;
-				var warlord = conquest.dict.findCard(warlordId);
+				var warlord = db.dict.findCard(warlordId);
 				
-				conquest.ui.adjustWrapperStyle();
+				db.ui.adjustWrapperStyle();
 				
 				var filter = {
-					factions: conquest.deck.getValidDeckFactions(warlordId),
-					cardTypes: conquest.deck.getValidDeckCardTypes(warlordId)
+					factions: db.deck.getValidDeckFactions(warlordId),
+					cardTypes: db.deck.getValidDeckCardTypes(warlordId)
 				};
 				var template = Handlebars.templates['pub-deck-view']({
 					deck: view.deck.toJSON(),
@@ -105,9 +105,9 @@ $(function() {
 				});
 				view.$el.find('.actions-container').append(actionsTemplate);
 
-				view.deckDescriptionView = new conquest.deck.DeckDescriptionView();
+				view.deckDescriptionView = new db.deck.DeckDescriptionView();
 				view.deckDescriptionView.render(view.deck);
-				view.deckCommentsView = new conquest.deck.DeckCommentsView();
+				view.deckCommentsView = new db.deck.DeckCommentsView();
 				view.updateStats();
 				view.renderMessages();
 
@@ -118,7 +118,7 @@ $(function() {
 					html: true,
 					trigger: 'hover',
 					content: function() {
-						return conquest.ui.writeCardImgElem($(this).data('image-base'), {
+						return db.ui.writeCardImgElem($(this).data('image-base'), {
 							class: 'card-md'
 						});
 					}
@@ -182,12 +182,12 @@ $(function() {
 				};
 
 				view.config.get('filter').set({
-					sets: _.pluck(_.where(conquest.dict.sets, {
+					sets: _.pluck(_.where(db.dict.sets, {
 						released: true
 					}), 'techName')
 				});
 
-				view.membersListView = new conquest.deck.MembersListView({
+				view.membersListView = new db.deck.MembersListView({
 					el: '.members-container'
 				});
 				view.membersListView.listenTo(view.deck.get('filteredMembers'), 'reset', function(filteredMembers) {
@@ -196,7 +196,7 @@ $(function() {
 						readOnly: true
 					});
 				});
-				view.groupsView = new conquest.deck.MemberGroupsView({
+				view.groupsView = new db.deck.MemberGroupsView({
 					el: '.mg-container'
 				});
 				view.listenTo(view.config, 'change:layout', function(config) {
@@ -234,14 +234,14 @@ $(function() {
 				// save deck copy
 				//
 				$('a.deck-save-copy').click(function() {
-					conquest.deck.showDeckSaveCopyModal(view.deck);
+					db.deck.showDeckSaveCopyModal(view.deck);
 				});
 
 
 				//
 				// export deck
 				//
-				conquest.deck.prepareExportModalDialog(view.deck);
+				db.deck.prepareExportModalDialog(view.deck);
 
 				//
 				// tooltips
@@ -264,7 +264,7 @@ $(function() {
 
 					var draw = function(quantity) {
 						if (_.isUndefined(view.shuffledCards)) {
-							view.shuffledCards = conquest.util.membersShuffle(view.deck.get('members'));
+							view.shuffledCards = db.util.membersShuffle(view.deck.get('members'));
 							view.shuffledCardsIndex = 0;
 							$drawContainer.empty();
 						}
@@ -275,11 +275,11 @@ $(function() {
 							var attrs = {
 								class: 'card-xs'
 							};
-							$('<a />').data('image-base', imageBase).append(conquest.ui.writeCardImgElem(imageBase, attrs)).popover({
+							$('<a />').data('image-base', imageBase).append(db.ui.writeCardImgElem(imageBase, attrs)).popover({
 								html: true,
 								trigger: 'hover',
 								content: function() {
-									return conquest.ui.writeCardImgElem($(this).data('image-base'), {
+									return db.ui.writeCardImgElem($(this).data('image-base'), {
 										class: 'card-md'
 									});
 								}
@@ -325,13 +325,13 @@ $(function() {
 				var traits = new Bloodhound({
 					datumTokenizer: Bloodhound.tokenizers.obj.whitespace('description'),
 					queryTokenizer: Bloodhound.tokenizers.whitespace,
-					local: conquest.dict.traits
+					local: db.dict.traits
 				});
 
 				var keywords = new Bloodhound({
 					datumTokenizer: Bloodhound.tokenizers.obj.whitespace('description'),
 					queryTokenizer: Bloodhound.tokenizers.whitespace,
-					local: conquest.dict.keywords
+					local: db.dict.keywords
 				});
 
 				cards.initialize();
@@ -348,21 +348,21 @@ $(function() {
 					source: cards.ttAdapter(),
 					templates: {
 						suggestion: Handlebars.compile('{{name}}&nbsp;<span class="tt-no-highlight">{{card.setName}} | {{card.factionDisplay}} | {{card.typeDisplay}} | {{card.trait}}</span>'),
-						header: '<div class="tt-multi-header">' + conquest.dict.messages['core.card'] + '</div>'
+						header: '<div class="tt-multi-header">' + db.dict.messages['core.card'] + '</div>'
 					}
 				}, {
 					name: 'traits',
 					displayKey: 'description',
 					source: traits.ttAdapter(),
 					templates: {
-						header: '<div class="tt-multi-header">' + conquest.dict.messages['core.trait'] + '</div>'
+						header: '<div class="tt-multi-header">' + db.dict.messages['core.trait'] + '</div>'
 					}
 				}, {
 					name: 'keywords',
 					displayKey: 'description',
 					source: keywords.ttAdapter(),
 					templates: {
-						header: '<div class="tt-multi-header">' + conquest.dict.messages['core.keyword'] + '</div>'
+						header: '<div class="tt-multi-header">' + db.dict.messages['core.keyword'] + '</div>'
 					}
 				});
 
@@ -430,7 +430,7 @@ $(function() {
 			if (options.deck) {
 				view.deck = options.deck;
 				view.deck.set({
-					snapshots: new conquest.model.PublicDecks()
+					snapshots: new db.model.PublicDecks()
 				});
 				view.deck.get('snapshots').fetch({
 					data: {
@@ -447,7 +447,7 @@ $(function() {
 				});
 				renderInternal();
 			} else if (options.deckId) {
-				view.deck = new conquest.model.PublicDeck({
+				view.deck = new db.model.PublicDeck({
 					id: options.deckId
 				});
 				view.deck.fetch({
@@ -455,7 +455,7 @@ $(function() {
 						renderInternal();
 					},
 					error: function(deck, response, options) {
-						view.messages = conquest.deck.buildErrorMessage({
+						view.messages = db.deck.buildErrorMessage({
 							error: response.responseJSON,
 							message: 'core.deck.load.error'
 						})
@@ -468,11 +468,11 @@ $(function() {
 		}
 	});
 
-	var PublicDeckListView = conquest.deck.PageView.extend({
+	var PublicDeckListView = db.deck.PageView.extend({
 		events: {
 			'click #publicDeckListView a': 'viewLinkClickHandler'
 		},
-		decks: new conquest.model.PublicDecks(),
+		decks: new db.model.PublicDecks(),
 		filter: {},
 		filterAdvanced: false,
 		render: function(queryString) {
@@ -495,7 +495,7 @@ $(function() {
 			};
 
 			view.unbindMenuLinkClickHandler();
-			conquest.ui.adjustWrapperStyle({
+			db.ui.adjustWrapperStyle({
 				backgroundColor: '#f2f2f2'
 			});
 			
@@ -517,10 +517,10 @@ $(function() {
 			], function(arr) {
 				sortItems.push({
 					value: arr[0],
-					label: conquest.dict.messages[arr[1]]
+					label: db.dict.messages[arr[1]]
 				})
 			});
-			view.deckListFilterView = new conquest.deck.DeckListFilterView({
+			view.deckListFilterView = new db.deck.DeckListFilterView({
 				config: {
 					showPublishDate: true,
 					showModifyDate: true,
@@ -537,7 +537,7 @@ $(function() {
 				advanced: view.filterAdvanced,
 				searchClickHandler: queryDeckList
 			});
-			view.deckListDataView = new conquest.deck.DeckListDataView();
+			view.deckListDataView = new db.deck.DeckListDataView();
 			if (view.decks.length > 0) {
 				view.deckListDataView.render(view.decks, {
 					pageClickHandler: queryDeckList,
@@ -549,45 +549,45 @@ $(function() {
 		}
 	});
 
-	var Router = Backbone.Router.extend({
-		routes: {
-			':deckIdWithName': 'viewPublicDeck',
-			'(?:queryString)': 'viewPublicDeckList',
-		}
-	});
-
-	var publicDeckView = new PublicDeckView();
-	var publicDeckListView = new PublicDeckListView();
-
-	conquest.router = new Router();
-	conquest.router.on('route:viewPublicDeck', function(deckIdWithName) {
-		if (deckIdWithName) {
-			var deckId = /^\w+/.exec(deckIdWithName)[0];
-			if (/^\d+$/.test(deckId)) {
-				deckId = parseInt(deckId);
-			}
-
-			publicDeckView.render({
-				deckId: deckId,
-				deck: publicDeckListView.decks.findWhere({
-					id: deckId
-				})
-			});
-			$('html,body').scrollTop(0);
-			ga('set', 'page', conquest.static.root + deckId);
-			ga('send', 'pageview');
-		}
-	}).on('route:viewPublicDeckList', function(queryString) {
-		publicDeckListView.render(queryString);
-		$('html,body').scrollTop(0);
-		ga('set', 'page', conquest.static.root);
-		ga('send', 'pageview');
-	});
-	
-	conquest.static.root = '/' + conquest.static.language + '/public/deck/';
-
-	Backbone.history.start({
-		pushState: true,
-		root: conquest.static.root
-	});
+//	var Router = Backbone.Router.extend({
+//		routes: {
+//			':deckIdWithName': 'viewPublicDeck',
+//			'(?:queryString)': 'viewPublicDeckList',
+//		}
+//	});
+//
+//	var publicDeckView = new PublicDeckView();
+//	var publicDeckListView = new PublicDeckListView();
+//
+//	db.router = new Router();
+//	db.router.on('route:viewPublicDeck', function(deckIdWithName) {
+//		if (deckIdWithName) {
+//			var deckId = /^\w+/.exec(deckIdWithName)[0];
+//			if (/^\d+$/.test(deckId)) {
+//				deckId = parseInt(deckId);
+//			}
+//
+//			publicDeckView.render({
+//				deckId: deckId,
+//				deck: publicDeckListView.decks.findWhere({
+//					id: deckId
+//				})
+//			});
+//			$('html,body').scrollTop(0);
+//			ga('set', 'page', db.static.root + deckId);
+//			ga('send', 'pageview');
+//		}
+//	}).on('route:viewPublicDeckList', function(queryString) {
+//		publicDeckListView.render(queryString);
+//		$('html,body').scrollTop(0);
+//		ga('set', 'page', db.static.root);
+//		ga('send', 'pageview');
+//	});
+//	
+//	db.static.root = '/' + db.static.language + '/public/deck/';
+//
+//	Backbone.history.start({
+//		pushState: true,
+//		root: db.static.root
+//	});
 });

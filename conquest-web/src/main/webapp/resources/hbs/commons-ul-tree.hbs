@@ -1,10 +1,10 @@
 <ul class="tree-node">
-{{#each tree.nodes}}
+{{#each nodes}}
 	<li {{#if type}}data-node-type="{{type}}"{{/if}}><input type="checkbox" value="{{techName}}" {{#if released}}checked="checked"{{/if}}>{{name}}
 	{{#if nodes}}
 		<ul class="tree-node">
 		{{#each nodes}}
-			<li {{#if type}}data-node-type="{{type}}"{{/if}}><input type="checkbox" value="{{techName}}" {{#if released}}checked="checked"{{/if}}>{{name}}</li>
+			<li {{#if type}}data-node-type="{{type}}"{{/if}}><input type="checkbox" value="{{techName}}" {{#if released}}checked="checked"{{/if}}>{{searchLinkSetName techName}}</li>
 		{{/each}}
 		</ul>
 	{{/if}}
