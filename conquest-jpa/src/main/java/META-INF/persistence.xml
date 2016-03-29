@@ -19,6 +19,7 @@
 		<class>org.meb.conquest.db.model.DeckMember</class>
 		<class>org.meb.conquest.db.model.DeckLink</class>
 		<class>org.meb.conquest.db.model.DeckComment</class>
+		<class>org.meb.conquest.db.model.DeckInterest</class>
 		<class>org.meb.conquest.db.model.loc.Domain</class>
 		<class>org.meb.conquest.db.model.loc.Cycle</class>
 		<class>org.meb.conquest.db.model.loc.CardSet</class>
