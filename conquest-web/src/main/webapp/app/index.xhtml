@@ -23,11 +23,11 @@
 		<h:outputScript name="js/jquery-ui.min.js" target="head" />
 		<h:outputScript name="js/jquery.ui.touch-punch.min.js" target="head" />
 		<h:outputScript name="js/backbone-nested.js" target="head" />
+		<h:outputScript name="js/moment-timezone-with-data.js" target="head" />T
 		<h:outputScript name="js/handlebars-helpers.js" target="head" />
 		<h:outputScript name="js/handlebars-templates.js" target="head" />
 		<h:outputScript name="js/db.app.js" target="head" />
 		<h:outputScript name="js/db.model.js" target="head" />
-		<h:outputScript name="js/db.ui.js" target="head" />
 		<h:outputScript name="js/db.util.js" target="head" />
 		<h:outputScript name="js/db.view.js" target="head" />
 		<h:outputScript name="js/db.deck.js" target="head" />
@@ -35,12 +35,13 @@
 		<h:outputScript name="js/card.common.js" target="head" />
 		<h:outputScript name="js/deck.common.js" target="head" />
 		<h:outputScript name="js/deck.private.js" target="head" />
-		<h:outputScript name="js/deck.public.js" target="head" />
+		<!-- <h:outputScript name="js/deck.public.js" target="head" /> -->
 		<h:outputScript target="head">
 			db.static.language = '#{localeCtrl.language}';
 			db.static.contextPath = '#{facesContext.externalContext.request.contextPath}';
 			db.static.restPath = '#{facesContext.externalContext.request.contextPath}/rest';
 			db.static.imagePath = '/image';
+			db.static.user = #{bootstrapCtrl.user};
 			db.dict.messages = #{bootstrapCtrl.messagesData};
 			db.dict.cards = #{bootstrapCtrl.cardsData};
 			db.dict.cardSets = #{bootstrapCtrl.cardSetsData};

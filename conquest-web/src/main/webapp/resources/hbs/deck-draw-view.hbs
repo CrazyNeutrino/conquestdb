@@ -1,0 +1,21 @@
+<div class="text-center" style="margin-bottom: 10px;">
+	<div class="btn-group draw-group">
+		<label class="btn btn-default draw-hand" data-toggle="tooltip" title="{{loc 'core.draw.startingHand'}}">
+			<span class="glyphicon glyphicon-play"></span>
+		</label>
+		<label class="btn btn-default draw-deck" data-toggle="tooltip" title="{{loc 'core.draw.allCards'}}">
+			<span class="glyphicon glyphicon-forward"></span>
+		</label>
+		<label class="btn btn-default draw-some" data-toggle="tooltip" title="{{loc 'core.draw.nextCard'}}">1</label>
+		<label class="btn btn-default draw-some" data-toggle="tooltip" title="{{loc 'core.draw.next2Cards'}}">2</label>
+		<label class="btn btn-default draw-some" data-toggle="tooltip" title="{{loc 'core.draw.next3Cards'}}">3</label>
+		<label class="btn btn-default draw-some" data-toggle="tooltip" title="{{loc 'core.draw.next4Cards'}}">4</label>
+	</div>
+</div>
+<div class="draw-ctr">
+	{{#each cards ~}}
+	<a data-card-id="{{id}}" class="toggle-popover" data-image-base="{{imageBase}}" style="cursor: pointer;">
+		<img src="{{cardImagePath imageBase}}" class="card-xs" />
+	</a>
+	{{/each ~}}
+</div>

@@ -5,6 +5,11 @@ var db = db || {};
 //
 db.model = db.model || {};
 (function(_model) {
+	
+	/**
+	 * @memberOf _model
+	 */
+	function dummy() {};
 
 	_model.Card = Backbone.Model.extend({
 		urlRoot : '/card',
@@ -16,38 +21,62 @@ db.model = db.model || {};
 	});
 
 	_model.DeckMember = Backbone.Model.extend({
+		/**
+		 * @memberOf DeckMember
+		 */
 		parse : function(response) {
-			response.card = _.clone(db.dict.findCard(parseInt(response.cardId)));
+			response.card = _.clone(db.dict.findCard(response.cardId));
 			response.fixedQuantity = response.card.type === 'warlord'
 					|| _.isNumber(response.card.warlordId);
 			response.fixedMaxQuantity = response.card.type === 'warlord'
 					|| response.card.type === 'synapse' || _.isNumber(response.card.warlordId);
 			return response;
+		},
+		
+		getCard: function() {
+			return this.get('card');
+		},
+		getQuantity: function() {
+			return this.get('quantity');
+		},
+		isWarlord: function() {
+			return this.getCard().type == 'warlord';
+		},
+		isSynapse: function() {
+			return this.getCard().type == 'synapse';
+		},
+		isSignatureSquad: function() {
+			return _.isNumber(this.getCard().warlordId);
+		},
+		isSelected: function() {
+			return this.getQuantity() > 0;
 		}
 	});
 
 	_model.DeckMembers = Backbone.Collection.extend({
 		model : _model.DeckMember,
+		
+		/**
+		 * @memberOf DeckMembers
+		 */
 		computeTotalQuantity : function() {
-			var total = 0;
-			this.each(function(member) {
-				total += member.get('quantity');
-			});
-			return total;
+			return this.reduce(function(total, member) {
+				return total += member.getQuantity(); 
+			}, 0);
 		},
+		
 		computeTotalCost : function() {
-			var total = 0;
-			this.each(function(member) {
-				total += member.get('quantity') * member.get('card').cost;
-			});
-			return total;
+			return this.reduce(function(total, member) {
+				return total += member.getQuantity() * member.getCard().cost; 
+			}, 0);
 		},
-		computeStats : function() {
-			var stats = {};
+		
+		computeStatistics : function() {
+			var statistics = {};
 			var keys = [ 'cost', 'shield', 'command', 'attack', 'hitPoints' ];
 
 			_.each(keys, function(key) {
-				stats[key] = {
+				statistics[key] = {
 					sum : 0,
 					quantity : 0,
 					quantityX : 0
@@ -61,26 +90,26 @@ db.model = db.model || {};
 					_.each(keys, function(key) {
 						if (!_.isUndefined(card[key])) {
 							if (card[key] === -1) {
-								stats[key].quantityX += quantity;
+								statistics[key].quantityX += quantity;
 							} else {
-								stats[key].sum += card[key] * quantity;
-								stats[key].quantity += quantity;
+								statistics[key].sum += card[key] * quantity;
+								statistics[key].quantity += quantity;
 							}
 						}
 					});
 				}
 			});
 
-			_.each(keys,
-					function(key) {
-						if (stats[key].quantity > 0) {
-							stats[key].average = Math.round(stats[key].sum / stats[key].quantity
-									* 100) / 100;
-						}
-					});
+			_.each(keys, function(key) {
+				if (statistics[key].quantity > 0) {
+					statistics[key].average = Math.round(statistics[key].sum / statistics[key].quantity
+							* 100) / 100;
+				}
+			});
 
-			return stats;
+			return statistics;
 		},
+		
 		adjustQuantities : function(csQuantity) {
 			this.each(function(member) {
 				if (member.get('fixedMaxQuantity') === false) {
@@ -95,7 +124,11 @@ db.model = db.model || {};
 					});
 				}
 			});
-		}
+		},
+		
+		canChangeQuantity: function(member, quantity) {
+			return true;
+		},
 	});
 
 	_model.DeckHistoryItem = Backbone.Model;
@@ -116,6 +149,9 @@ db.model = db.model || {};
 	});
 
 	_model.DeckLinks = Backbone.Collection.extend({
+		/**
+		 * @memberOf DeckLinks
+		 */
 		initialize : function(models, options) {
 			this.owner = options.owner;
 		},
@@ -145,6 +181,9 @@ db.model = db.model || {};
 	});
 
 	_model.DeckComments = Backbone.Collection.extend({
+		/**
+		 * @memberOf DeckComments
+		 */
 		initialize : function(models, options) {
 			this.owner = options.owner;
 		},
@@ -158,22 +197,28 @@ db.model = db.model || {};
 
 	_model.Deck = Backbone.Model.extend({
 		history : new _model.DeckHistory(),
+		
+		/**
+		 * @memberOf Deck
+		 */
 		initialize : function(attributes) {
 			attributes.type = attributes.type || 'base';
 		},
-		parse : function(response) {
-			response.warlord = _.clone(db.dict.findCard(parseInt(response.warlordId)));
-			response.createDateMillis = moment.tz(response.createDate, db.static.timezone)
-					.valueOf();
-			response.modifyDateMillis = moment.tz(response.modifyDate, db.static.timezone)
-					.valueOf();
+		
+
+		parse: function(response) {
+			response.warlord = _.clone(db.dict.findCard(response.warlordId));
+			response.createDateMillis = moment.tz(response.createDate, db.static.timezone).valueOf();
+			response.modifyDateMillis = moment.tz(response.modifyDate, db.static.timezone).valueOf();
 			response.members = new _model.DeckMembers(response.members, {
-				parse : true,
-				comparator : db.util.buildMembersDefaultComparator(response.warlord.faction)
+				parse: true,
+				comparator: db.util.buildMembersDefaultComparator(response.warlord.faction)
 			});
+			response.filteredMembers = new _model.DeckMembers();
+			
 			response.links = new _model.DeckLinks(response.links, {
-				parse : true,
-				owner : this
+				parse: true,
+				owner: this
 			});
 			response.links.on('add', function(link) {
 				link.owner = this.owner;
@@ -181,8 +226,8 @@ db.model = db.model || {};
 				link.owner = undefined;
 			});
 			response.comments = new _model.DeckComments(response.comments, {
-				parse : true,
-				owner : this
+				parse: true,
+				owner: this
 			});
 			response.comments.on('add', function(comment) {
 				comment.owner = this.owner;
@@ -201,7 +246,7 @@ db.model = db.model || {};
 					availableQuantity = Math.min(3, cardQuantity * response.configCsQuantity);
 				}
 				member.set({
-					availableQuantity : availableQuantity
+					availableQuantity: availableQuantity
 				});
 			});
 			response.filteredMembers = new _model.DeckMembers();
@@ -209,6 +254,7 @@ db.model = db.model || {};
 
 			return response;
 		},
+		
 		toJSON : function() {
 			var json = _model.Deck.__super__.toJSON.apply(this, arguments);
 			if (json.members instanceof Backbone.Collection) {
@@ -231,46 +277,26 @@ db.model = db.model || {};
 			}
 			return json;
 		},
+		
+		getMembers: function() {
+			return this.get('members');
+		},
+		
+		getFilteredMembers: function() {
+			return this.get('filteredMembers');
+		},
+		
 		validate : function(attributes, options) {
 			var name = $.trim(attributes.name);
 			if (name.length == 0) {
 				return 'error.deck.name.empty';
 			}
-			// if (attributes.type == 'base') {
-			// var other = db.getDeck(name);
-			// var id = attributes.id;
-			// if (other && (_.isUndefined(id) || other.get('id') !==
-			// id)) {
-			// return 'error.deck.name.duplicate';
-			// }
-			// }
 		},
-		computeTotalQuantity : function() {
-			var total = 0;
-			if (this.get('members') instanceof Backbone.Collection) {
-				total = this.get('members').computeTotalQuantity();
-			}
-			return total;
+		
+		adjustMembersQuantities : function() {
+			this.getMembers().adjustQuantities(this.get('coreSetQuantity'));
 		},
-		computeTotalCost : function() {
-			var total = 0;
-			if (this.get('members') instanceof Backbone.Collection) {
-				total = this.get('members').computeTotalCost();
-			}
-			return total;
-		},
-		computeStats : function() {
-			var stats = {};
-			if (this.get('members') instanceof Backbone.Collection) {
-				stats = this.get('members').computeStats();
-			}
-			return stats;
-		},
-		adjustQuantities : function() {
-			if (this.get('members') instanceof Backbone.Collection) {
-				this.get('members').adjustQuantities(this.get('configCsQuantity'));
-			}
-		},
+		
 		getBackupJson : function() {
 			var json = this.toJSON();
 			delete json.techName;
@@ -298,9 +324,13 @@ db.model = db.model || {};
 	});
 
 	_model.Decks = Backbone.Collection.extend({
+		/**
+		 * @memberOf Decks
+		 */
 		initialize : function() {
 			this.config = new Backbone.Model();
 		},
+		
 		parse : function(response) {
 			var decks;
 			if (_.isArray(response)) {
@@ -319,6 +349,10 @@ db.model = db.model || {};
 
 	_model.PublicDeck = _model.Deck.extend({
 		urlRoot : '/deck/public',
+		
+		/**
+		 * @memberOf PublicDeck
+		 */
 		parse : function(response) {
 			var r = _model.PrivateDeck.__super__.parse.apply(this, [ response ]);
 			if (_.isEmpty(r.snapshots)) {
@@ -337,11 +371,20 @@ db.model = db.model || {};
 
 	_model.PublicDecks = _model.Decks.extend({
 		url : '/deck/public',
-		model : _model.PublicDeck
+		model : _model.PublicDeck,
+		
+		/**
+		 * @memberOf PublicDecks
+		 */
+		dummy: function() {}
 	});
 
 	_model.PrivateDeck = _model.Deck.extend({
 		urlRoot : '/deck',
+		
+		/**
+		 * @memberOf PrivateDeck
+		 */
 		sync : function(method, source, options) {
 			console.info('sync: ' + method);
 			var target = source;
@@ -349,6 +392,7 @@ db.model = db.model || {};
 				var sourceJson = source.toJSON();
 
 				delete sourceJson.warlord;
+				delete sourceJson.filteredMembers;
 				delete sourceJson.createDate;
 				delete sourceJson.modifyDate;
 				delete sourceJson.createDateMillis;
@@ -372,6 +416,7 @@ db.model = db.model || {};
 
 			_model.PrivateDeck.__super__.sync.apply(this, [ method, target, options ]);
 		},
+		
 		parse : function(response) {
 			var r = _model.PrivateDeck.__super__.parse.apply(this, [ response ]);
 			if (_.isEmpty(r.snapshots)) {
@@ -390,7 +435,12 @@ db.model = db.model || {};
 
 	_model.PrivateDecks = _model.Decks.extend({
 		url : '/deck',
-		model : _model.PrivateDeck
+		model : _model.PrivateDeck,
+		
+		/**
+		 * @memberOf PrivateDecks
+		 */
+		dummy: function() {}
 	});
 
 })(db.model);

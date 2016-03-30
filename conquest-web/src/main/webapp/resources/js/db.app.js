@@ -33,6 +33,9 @@ db.dict = db.dict || {};
 	var GRP_CARD_BY_WARLORD_ID = "ss#warlordId";
 	var groups = {};
 	
+	var deckCardTypes = [];
+	var deckCards = [];
+	
 	_dict.reservedWords = {
 		de: [],
 		en: ['Combat Reaction', 'Combat Action', 'Deploy Action', 'Action', 'Forced Interrupt', 'Interrupt', 'Forced Reaction', 'Reaction', 'Battle'],
@@ -78,6 +81,8 @@ db.dict = db.dict || {};
 						return card.number;
 					});
 		});
+		
+		var deckCardTypesTN = [ 'army', 'attachment', 'event', 'support', 'synapse' ];
 
 		_.each(_dict.cards, function(card) {
 			var crst = _dict.findCardSet(card.crstId);
@@ -87,9 +92,17 @@ db.dict = db.dict || {};
 			card.cycleTechName = crst.cycleTechName;
 
 			if (card.text) {
-				card.htmlText = db.ui.toHtmlText(card.text);
-				card.text = db.ui.toPlainText(card.text);
+				card.htmlText = db.util.toHtmlText(card.text);
+				card.text = db.util.toPlainText(card.text);
 			}
+			
+			if (_.contains(deckCardTypesTN, card.type)) {
+				deckCards.push(card);
+			}
+		});
+		
+		deckCardTypes = _.filter(_dict.cardTypes, function(cardType) {
+			return _.contains(deckCardTypesTN, cardType);
 		});
 	};
 	
@@ -137,12 +150,20 @@ db.dict = db.dict || {};
 		return _dict.cards;
 	};
 	
+	_dict.getDeckCards = function() {
+		return deckCards;
+	};
+	
 	_dict.getCardTypes = function() {
-		return _.clone(indexes[IDX_CARD_BY_SET_NO_CARD_NO]);
+		return _dict.cardTypes;
+	};
+	
+	_dict.getDeckCardTypes = function() {
+		return deckCardTypes;
 	};
 
 	_dict.getFactions = function() {
-		return _.clone(indexes[IDX_FACTION_BY_TECH_NAME]);
+		return _dict.factions;
 	};
 
 	_dict.buildCardSetTree = function() {
@@ -229,6 +250,9 @@ db.dict = db.dict || {};
 db.filter = db.filter || {};
 
 (function(_filter) {
+	
+	_filter.CARD_ATTRS = [ 'cost', 'shield', 'command', 'attack', 'hitPoints', 'setTechName', 
+	                       'cycleTechName', 'name', 'trait', 'keyword', 'faction', 'type', 'anytext'];
 
 	_filter.FD_TYPE_SET = 'set';
 	_filter.FD_TYPE_SIMPLE = 'simple';
@@ -795,7 +819,7 @@ db.app = db.app || {};
 		var setNumber = parseInt(options.setNumber);
 		var cardNumber = parseInt(options.cardNumber);
 		var card = db.dict.findCardByNumber(setNumber, cardNumber);
-		var url = db.ui.toCardRelativeUrl(card);
+		var url = db.util.toCardRelativeUrl(card);
 		if (_.isUndefined(url)) {
 			url = setNumber + '/' + cardNumber;
 		}

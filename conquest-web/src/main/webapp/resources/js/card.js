@@ -123,7 +123,7 @@ db.card = db.card || {};
 			//
 			// filter: name/trait/keyword/text search bar
 			//
-			var $typeahead = db.ui.buildCardsTypeahead(this.cardsFilter, {
+			var $typeahead = db.util.buildCardsTypeahead(this.cardsFilter, {
 				selector: '#textFilter input'
 			});
 

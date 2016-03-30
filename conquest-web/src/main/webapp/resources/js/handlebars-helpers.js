@@ -37,7 +37,7 @@ Handlebars.registerHelper('loc', function(context, options) {
 		ret = context;
 	}
 	if (options.hash.translate == "true") {
-		ret = db.ui.toHtmlText(ret);
+		ret = db.util.toHtmlText(ret);
 	}
 	return ret;
 });
@@ -51,11 +51,11 @@ Handlebars.registerHelper('for', function(from, to, incr, options) {
 });
 
 Handlebars.registerHelper('factionImagePath', function(context, options) {
-	return db.ui.toFactionImageMd(context);
+	return db.util.toFactionImageMd(context);
 });
 
 Handlebars.registerHelper('factionImagePathLg', function(context, options) {
-	return db.ui.toFactionImageLg(context);
+	return db.util.toFactionImageLg(context);
 });
 
 Handlebars.registerHelper('cardImagePath', function(context, options) {
@@ -69,7 +69,7 @@ Handlebars.registerHelper('cardImagePath', function(context, options) {
 	if (options.hash.bloodied == "true") {
 		imageBase += "-b";
 	}
-	return db.ui.toCardImage(imageBase);
+	return db.util.toCardImage(imageBase);
 });
 
 Handlebars.registerHelper('findCard', function(context, options) {
@@ -101,22 +101,22 @@ Handlebars.registerHelper('restUrl', function(options) {
 });
 
 Handlebars.registerHelper('cardUrl', function(context, options) {
-	return db.ui.toCardUrl(context);
+	return db.util.toCardUrl(context);
 });
 
 Handlebars.registerHelper('cardRelativeUrl', function(context, options) {
-	return db.ui.toCardRelativeUrl(context);
+	return db.util.toCardRelativeUrl(context);
 });
 
 Handlebars.registerHelper('publicDeckUrl', function(id, name, options) {
-	return db.ui.toPublicDeckUrl({
+	return db.util.toPublicDeckUrl({
 		id: id,
 		name: name
 	});
 });
 
 Handlebars.registerHelper('userDeckUrl', function(id, name, options) {
-	return db.ui.toUserDeckUrl({
+	return db.util.toUserDeckUrl({
 		id: id,
 		name: name
 	});
@@ -190,24 +190,24 @@ Handlebars.registerHelper('na', function(context, options) {
 });
 
 Handlebars.registerHelper('searchLinkFaction', function(card, options) {
-	return new Handlebars.SafeString(db.ui.toSearchLinkFaction(card));
+	return new Handlebars.SafeString(db.util.toSearchLinkFaction(card));
 });
 
 Handlebars.registerHelper('searchLinkType', function(card, options) {
-	return new Handlebars.SafeString(db.ui.toSearchLinkType(card));
+	return new Handlebars.SafeString(db.util.toSearchLinkType(card));
 });
 
 Handlebars.registerHelper('searchLinkSetName', function(crstTechName, options) {
 	var crst = db.dict.findCardSet(crstTechName);
-	return new Handlebars.SafeString(db.ui.toSearchLinkSetName(crst));
+	return new Handlebars.SafeString(db.util.toSearchLinkSetName(crst));
 });
 
 Handlebars.registerHelper('searchLinkTraits', function(card, options) {
-	return new Handlebars.SafeString(db.ui.toSearchLinkTraits(card));
+	return new Handlebars.SafeString(db.util.toSearchLinkTraits(card));
 });
 
 Handlebars.registerHelper('searchLinkType', function(card, options) {
-	return new Handlebars.SafeString(db.ui.toSearchLinkType(card));
+	return new Handlebars.SafeString(db.util.toSearchLinkType(card));
 });
 
 Handlebars.registerHelper('momentFromNow', function(timestamp, options) {
@@ -328,15 +328,15 @@ Handlebars.registerHelper('translate', function(value, context, options) {
 
 Handlebars.registerHelper('factionColor', function(faction, options) {
 	if (faction) {
-		return db.ui.colors.factions[faction].bg;
+		return db.util.colors.factions[faction].bg;
 	} else {
-		return db.ui.colors.factions.neutral.bg;
+		return db.util.colors.factions.neutral.bg;
 	}
 });
 
 Handlebars.registerHelper('factionColorStyle', function(faction, options) {	
-	return 'background-color: ' + db.ui.colors.factions[faction].bg + ' !important; '
-			+ 'color:' + db.ui.colors.factions[faction].fg + ' !important;';
+	return 'background-color: ' + db.util.colors.factions[faction].bg + ' !important; '
+			+ 'color:' + db.util.colors.factions[faction].fg + ' !important;';
 });
 
 Handlebars.registerHelper('deckBoxShadowStyle', function(color, options) {	

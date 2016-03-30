@@ -80,7 +80,7 @@ $(function() {
 				var warlordId = view.deck.get('warlord').id;
 				var warlord = db.dict.findCard(warlordId);
 				
-				db.ui.adjustWrapperStyle();
+				db.util.adjustWrapperStyle();
 				
 				var filter = {
 					factions: db.deck.getValidDeckFactions(warlordId),
@@ -118,7 +118,7 @@ $(function() {
 					html: true,
 					trigger: 'hover',
 					content: function() {
-						return db.ui.writeCardImgElem($(this).data('image-base'), {
+						return db.util.writeCardImgElem($(this).data('image-base'), {
 							class: 'card-md'
 						});
 					}
@@ -275,11 +275,11 @@ $(function() {
 							var attrs = {
 								class: 'card-xs'
 							};
-							$('<a />').data('image-base', imageBase).append(db.ui.writeCardImgElem(imageBase, attrs)).popover({
+							$('<a />').data('image-base', imageBase).append(db.util.writeCardImgElem(imageBase, attrs)).popover({
 								html: true,
 								trigger: 'hover',
 								content: function() {
-									return db.ui.writeCardImgElem($(this).data('image-base'), {
+									return db.util.writeCardImgElem($(this).data('image-base'), {
 										class: 'card-md'
 									});
 								}
@@ -495,7 +495,7 @@ $(function() {
 			};
 
 			view.unbindMenuLinkClickHandler();
-			db.ui.adjustWrapperStyle({
+			db.util.adjustWrapperStyle({
 				backgroundColor: '#f2f2f2'
 			});
 			

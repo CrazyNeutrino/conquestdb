@@ -25,7 +25,7 @@
 {{#each members}}
 <div class="members-list-item row" data-card-id="{{card.id}}">
 	<div class="col-xs-4 col-md-2">
-		<div class="btn-group btn-group-qty">
+		<div class="btn-group quantity-group">
 			{{#for 0 availableQuantity 1}}
 			<label class="btn btn-default" {{#smartIf ../../readOnly}}disabled="disabled"{{/smartIf}} data-quantity="{{this}}">{{this}}</label>
 			{{/for}}
@@ -38,7 +38,7 @@
 				<div class="name-col">
 					<a data-card-id="{{cardId}}" data-image-base="{{card.imageBase}}" style="cursor: pointer;">{{card.name}}</a>
 					<br />
-					<span class="secondary-text">{{searchLinkSetName card.setTechName}}&nbsp;|&nbsp;{{searchLinkTraits card}}</span>
+					<span class="secondary-text">{{searchLinkSetName card.setTechName}}</span>
 				</div>				
 			</div>
 			<div class="col-xs-12 col-sm-7">

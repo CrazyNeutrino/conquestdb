@@ -223,21 +223,26 @@ footer.footer > .container > p:first-child {
 	padding: 5px 10px;
 }
 
-/**
- *
- */
+.deck-stats-view-ctr,
+.members-groups-view-ctr,
+.members-charts-view-ctr {
+	margin-bottom: 20px;
+}
 
-.mg-container .mg ul {
+/**
+ * members groups
+ */
+.members-groups-view .mg ul {
 	list-style: none;
 	margin: 5px 0px;
 	padding: 0px;
 }
 
-.mg-container .mg .db-icon {
+.members-groups-view .mg .db-icon {
 	margin: 0px 2px;	
 }
 
-.mg-container .mg .mg-title {
+.members-groups-view .mg .mg-title {
 	font-weight: bold;
 }
 
@@ -275,16 +280,16 @@ footer.footer > .container > p:first-child {
 	margin-bottom: 10px;
 }
 
-.members-grid-item .btn-group.btn-group-qty .btn,
-.members-list-item .btn-group.btn-group-qty .btn {
+.members-grid-item .btn-group.quantity-group .btn,
+.members-list-item .btn-group.quantity-group .btn {
 	padding: 0px 4px;
 }
 
-.btn-group.btn-group-qty .btn.active:first-child { color: white; background-color: #d9534f;	border-color: #d43f3a; }
-.btn-group.btn-group-qty .btn.active:not(:first-child) { color: white; background-color: #5cb85c; border-color: #4cae4c; }
+.btn-group.quantity-group .btn.active:first-child { color: white; background-color: #d9534f;	border-color: #d43f3a; }
+.btn-group.quantity-group .btn.active:not(:first-child) { color: white; background-color: #5cb85c; border-color: #4cae4c; }
 .btn-group.filter-faction .btn { padding: 0px; font-size: 22px; min-width: 2em; }
-.btn-group.btn-group-layout>.btn { padding: 5px 10px 4px; }
-.btn-group.btn-group-layout>.btn>.glyphicon { font-size: 18px; }
+.btn-group.layout-group .btn { padding: 5px 10px 4px; }
+.btn-group.layout-group .btn .glyphicon { font-size: 18px; }
 
 .icon-faction {
 	height: 32px;
@@ -337,7 +342,7 @@ tr.highlight td {
 .members-grid.members-grid-sm .members-grid-item:not(.text) { height: 220px; }
 .members-grid.members-grid-sm .members-grid-item.text { height: 150px; }
 .members-grid .members-grid-item { padding: 0 5px; }
-.members-grid .members-grid-item .btn-group-qty { margin-bottom: 5px; }
+.members-grid .members-grid-item .quantity-group { margin-bottom: 5px; }
 .members-grid .members-grid-item > * { display: table; }
 .members-grid .members-grid-item > table > tbody > tr > td { vertical-align: top; }
 .members-grid .members-grid-item > table > tbody > tr > td:nth-child(2) { padding-left: 5px; }
