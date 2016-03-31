@@ -360,13 +360,13 @@ conquest.deck = conquest.deck || {};
 			view.$el.find('.mg-control-group label').click(function() {
 				$(this).addClass('active').siblings().removeClass('active');
 				view.groupKey = $(this).data('group-key');
-				view.render(members);
+				view.render(members, options);
 			});
 			view.$el.find('.mg-control-sort label[data-sort-key="' + view.sortKey + '"]').addClass('active');
 			view.$el.find('.mg-control-sort label').click(function() {
 				$(this).addClass('active').siblings().removeClass('active');
 				view.sortKey = $(this).data('sort-key');
-				view.render(members);
+				view.render(members, options);
 			});
 
 			var $popovers = view.$el.find('a[data-image-base]').popover({
