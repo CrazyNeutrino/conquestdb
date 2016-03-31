@@ -16,8 +16,15 @@ public class JsonDeckInterest {
 	private Integer superb;
 
 	public JsonDeckInterest(DeckInterest deckInterest) {
-		// this.deckId = deckInterest.getDeckId();
-		this.favourite = deckInterest.getFavourite();
-		this.superb = deckInterest.getSuperb();
+		if (deckInterest == null || deckInterest.getFavourite() == null) {
+			this.favourite = 0;
+		} else {
+			this.favourite = deckInterest.getFavourite();
+		}
+		if (deckInterest == null || deckInterest.getSuperb() == null) {
+			this.superb = 0;
+		} else {
+			this.superb = deckInterest.getSuperb();
+		}
 	}
 }
