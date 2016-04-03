@@ -5,6 +5,7 @@
 	<cache name="cache.card.en" maxEntriesLocalHeap="1000" eternal="true" />
 	<cache name="cache.card.pl" maxEntriesLocalHeap="1000" eternal="true" />
 	<cache name="cache.card.de" maxEntriesLocalHeap="1000" eternal="true" />
+	<cache name="cache.card.fr" maxEntriesLocalHeap="1000" eternal="true" />
 	<cache name="cache.user" maxEntriesLocalHeap="5000" eternal="true" />
 
 </ehcache>

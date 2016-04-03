@@ -66,4 +66,8 @@ public class CardSetBase implements IBase<CardSetLang>{
 		this.techName = techName;
 		langItems = new HashMap<String, CardSetLang>();
 	}
+
+	public CardSetBase cloneWithIdentity() {
+		return new CardSetBase(techName);
+	}
 }

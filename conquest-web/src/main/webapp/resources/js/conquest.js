@@ -11,6 +11,9 @@ conquest.static.format = {
 	},
 	de : {
 		timestamp : "dddd, Do MMMM YYYY, HH:mm:ss"
+	},
+	fr : {
+		timestamp : "dddd, Do MMMM YYYY, HH:mm:ss"
 	}
 };
 
@@ -35,6 +38,7 @@ conquest.dict = conquest.dict || {};
 	_dict.reservedWords = {
 			de: [],
 			en: ['Combat Reaction', 'Combat Action', 'Deploy Action', 'Action', 'Forced Interrupt', 'Interrupt', 'Forced Reaction', 'Reaction', 'Battle'],
+			fr: [],
 			pl: ['Akcja Wystawiania', 'Akcja', 'Akcja Walki', 'Wymuszone Przerwanie', 'Przerwanie', 'Wymuszona Reakcja', 'Reakcja', 'Bitwa']
 	};
 

@@ -29,7 +29,6 @@ public class DomainBase implements IBase<DomainLang> {
 	private String value;
 	private String recordState;
 	private Integer sequence;
-	
 
 	@OneToMany(mappedBy = "base", cascade = CascadeType.ALL)
 	@MapKey(name = "langCode")
@@ -45,5 +44,12 @@ public class DomainBase implements IBase<DomainLang> {
 
 	public DomainBase() {
 		langItems = new HashMap<String, DomainLang>();
+	}
+
+	public DomainBase cloneWithIdentity() {
+		DomainBase db = new DomainBase();
+		db.setDomain(domain);
+		db.setValue(value);
+		return db;
 	}
 }

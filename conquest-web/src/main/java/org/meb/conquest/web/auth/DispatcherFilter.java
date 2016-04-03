@@ -15,8 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebFilter(filterName = "DispatcherFilter", urlPatterns = { "/en/deck/*", "/pl/deck/*", "/de/deck/*", "/en/card/*",
-		"/pl/card/*", "/de/card/*", "/en/public/deck/*", "/pl/public/deck/*", "/de/public/deck/*" })
+@WebFilter(filterName = "DispatcherFilter", urlPatterns = { "/en/deck/*", "/pl/deck/*",
+		"/de/deck/*", "/fr/deck/*", "/en/card/*", "/pl/card/*", "/de/card/*", "/fr/card/*",
+		"/en/public/deck/*", "/pl/public/deck/*", "/de/public/deck/*", "/fr/public/deck/*" })
 public class DispatcherFilter implements Filter {
 
 	private static final Logger log = LoggerFactory.getLogger(DispatcherFilter.class);
@@ -32,8 +33,8 @@ public class DispatcherFilter implements Filter {
 	public void init(FilterConfig arg0) throws ServletException {
 	}
 
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
+			FilterChain chain) throws IOException, ServletException {
 
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;

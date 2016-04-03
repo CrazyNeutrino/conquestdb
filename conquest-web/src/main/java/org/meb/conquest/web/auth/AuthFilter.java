@@ -25,8 +25,8 @@ import com.ocpsoft.pretty.faces.config.PrettyConfigurator;
 import com.ocpsoft.pretty.faces.config.mapping.UrlMapping;
 import com.ocpsoft.pretty.faces.util.PrettyURLBuilder;
 
-@WebFilter(filterName = "AuthFilter", urlPatterns = { "/en/deck", "/pl/deck", "/de/deck", "/en/deck/*", "/pl/deck/*",
-		"/de/deck/*" })
+@WebFilter(filterName = "AuthFilter", urlPatterns = { "/en/deck", "/pl/deck", "/de/deck", "/fr/deck", "/en/deck/*", "/pl/deck/*",
+		"/de/deck/*", "/fr/deck/*" })
 public class AuthFilter implements Filter {
 
 	@SuppressWarnings("unused")
@@ -67,7 +67,7 @@ public class AuthFilter implements Filter {
 
 			PrettyURLBuilder builder = new PrettyURLBuilder();
 			UrlMapping mapping = prettyConfig.getMappingById("signin");
-			Pattern pattern = Pattern.compile("/(en|pl|de)(/.*|$).*", Pattern.CASE_INSENSITIVE);
+			Pattern pattern = Pattern.compile("/(en|pl|de|fr)(/.*|$).*", Pattern.CASE_INSENSITIVE);
 			Matcher matcher = pattern.matcher(origin.toString());
 			String language = null;
 			if (matcher.matches()) {

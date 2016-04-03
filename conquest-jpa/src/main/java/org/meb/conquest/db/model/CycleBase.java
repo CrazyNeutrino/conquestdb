@@ -50,4 +50,13 @@ public class CycleBase implements IBase<CycleLang> {
 		langItems = new HashMap<String, CycleLang>();
 		cardSetBaseItems = new HashSet<CardSetBase>();
 	}
+	
+	public CycleBase(String techName) {
+		this();
+		this.techName = techName;
+	}
+	
+	public CycleBase cloneWithIdentity() {
+		return new CycleBase(techName);
+	}
 }

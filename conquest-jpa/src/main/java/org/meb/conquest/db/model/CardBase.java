@@ -87,4 +87,14 @@ public class CardBase implements IBase<CardLang> {
 	
 	@Version
 	private Long version;
+	
+	public CardBase cloneWithIdentity() {
+		CardBase cb = new CardBase();
+		cb.setTechName(techName);
+		cb.setNumber(number);
+		if (cardSetBase != null) {
+			cb.setCardSetBase(cardSetBase.cloneWithIdentity());
+		}
+		return cb;
+	}
 }

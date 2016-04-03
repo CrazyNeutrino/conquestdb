@@ -28,6 +28,7 @@ public class LocaleCtrl implements Serializable {
 		supportedLanguages.add("pl");
 		supportedLanguages.add("en");
 		supportedLanguages.add("de");
+		supportedLanguages.add("fr");
 	}
 	
 	private Locale locale;
