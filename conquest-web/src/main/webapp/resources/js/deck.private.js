@@ -457,7 +457,8 @@ db.deck = db.deck || {};
 					factions: db.deck.getValidDeckFactions(warlord.id),
 					cardTypes: db.deck.getValidDeckCardTypes(warlord.id)
 				},
-				sortItems: db.util.buildCardSortItems()
+				sortItems: db.util.buildCardSortItems(),
+				faction: warlord.faction
 			});
 			this.$el.html(template);
 			this.makeTooltips();

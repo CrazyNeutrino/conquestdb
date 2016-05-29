@@ -740,6 +740,7 @@ table.table-with-btn > tbody > tr > td {
 .deck-list-filter-container .filter-group, 
 .card-search-filter-container .filter-group,
 .members-list-filter-container .filter-group,
+.members-list-filter-container .layout-group,
 .actions-container > div,
 .actions-container > a {
 	margin-bottom: 5px;
