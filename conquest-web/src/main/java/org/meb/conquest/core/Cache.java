@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.collections4.MapUtils;
@@ -22,7 +21,6 @@ import org.meb.conquest.service.api.CardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SessionScoped
 public class Cache implements Serializable {
 
 	private static final long serialVersionUID = 1139722680017088742L;
@@ -52,7 +50,7 @@ public class Cache implements Serializable {
 		query.getSorting().setSortingAsc("number");
 		return loadList(createLocalizedKey(CARD_LIST_KEY), query);
 	}
-	
+
 	public List<CardSet> loadCardSets() {
 		Query<CardSet> query = new Query<>(new CardSet());
 		query.getSorting().setSortingAsc("sequence");
@@ -101,10 +99,10 @@ public class Cache implements Serializable {
 		} else {
 			key += "all";
 		}
-		
+
 		return createLocalizedKey(key);
 	}
-	
+
 	private String createLocalizedKey(String key) {
 		return queryContext.getUserLanguage() + "#" + key;
 	}

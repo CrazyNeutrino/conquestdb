@@ -12,6 +12,7 @@
 			<base-name>resources.messages</base-name>
 			<var>m</var>
 		</resource-bundle>
+		<message-bundle>resources.application</message-bundle>
 		<locale-config>
 			<default-locale>en</default-locale>
 			<supported-locale>pl</supported-locale>
