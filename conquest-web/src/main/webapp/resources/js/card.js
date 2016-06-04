@@ -6,9 +6,6 @@ $(function() {
 
 	var ViewBase = Backbone.View.extend({
 		el: '.content',
-		events: {
-			'click a': 'linkClick'
-		},
 		linkClick: function(e) {
 			var root = conquest.static.root;
 			var href = $(e.currentTarget).attr('href');
@@ -17,6 +14,8 @@ $(function() {
 				conquest.router.navigate(href.replace(conquest.static.root, ''), {
 					trigger: true
 				});
+				
+				conquest.keepAlive();
 			}
 		},
 		renderMessages: function(options) {
@@ -34,6 +33,12 @@ $(function() {
 	});
 
 	var CardView = ViewBase.extend({
+		events: {
+			'click .card-view a': 'linkClick',
+			'click .card-view .btn' : function() {
+				conquest.keepAlive()
+			}
+		},
 		render: function(setNumber, cardNumber) {
 			var card = conquest.dict.findCardByNumber(setNumber, cardNumber);			
 			var template = Handlebars.templates['card-view']({
@@ -50,6 +55,12 @@ $(function() {
 
 	var CardSearchResultsView = ViewBase.extend({
 		el: '.card-search-results-container',
+//		events: {
+//			'click .card-search-results-container a': 'linkClick',
+//			'click .card-search-results-container .btn' : function() {
+//				conquest.keepAlive()
+//			}
+//		},
 		render: function(cards, options) {
 			var view = this;
 
@@ -82,6 +93,12 @@ $(function() {
 	});
 
 	var CardSearchView = ViewBase.extend({
+		events: {
+			'click .card-search-view a': 'linkClick',
+			'click .card-search-view .btn' : function() {
+				conquest.keepAlive()
+			}
+		},
 		config: new Backbone.Model({
 			layout: 'grid-image-only'
 		}),
@@ -394,10 +411,13 @@ $(function() {
 
 	conquest.router = new Router();
 	conquest.router.on('route:viewCard', function(setNumber, cardNumber) {
-		var cardView = new CardView();
+		if (conquest.view) {
+			conquest.view.undelegateEvents();
+		}
+		conquest.view = new CardView();
 		setNumber = parseInt(setNumber);
 		cardNumber = parseInt(cardNumber);
-		cardView.render(setNumber, cardNumber);
+		conquest.view.render(setNumber, cardNumber);
 		$('html,body').scrollTop(0);
 
 		var card = conquest.dict.findCardByNumber(setNumber, cardNumber);
@@ -408,8 +428,11 @@ $(function() {
 		ga('set', 'page', conquest.static.root + url);
 		ga('send', 'pageview');
 	}).on('route:searchCards', function(queryString) {
-		var cardSearchView = new CardSearchView();
-		cardSearchView.render(queryString);
+		if (conquest.view) {
+			conquest.view.undelegateEvents();
+		}
+		conquest.view = new CardSearchView();
+		conquest.view.render(queryString);
 		$('html,body').scrollTop(0);
 		ga('set', 'page', conquest.static.root + 'search');
 		ga('send', 'pageview');

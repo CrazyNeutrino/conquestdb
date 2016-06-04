@@ -4,7 +4,10 @@ $(function() {
 		events: {
 			'click .pub-deck-view a': 'viewLinkClickHandler',
 			'click .pub-deck-view i.favourite': 'markFavouriteClickHandler',
-			'click .pub-deck-view i.superb': 'markSuperbClickHandler'
+			'click .pub-deck-view i.superb': 'markSuperbClickHandler',
+			'click .pub-deck-view .btn' : function() {
+				conquest.keepAlive()
+			}
 		},
 		config: new Backbone.Model({
 			layout: 'list',
@@ -470,7 +473,10 @@ $(function() {
 
 	var PublicDeckListView = conquest.deck.PageView.extend({
 		events: {
-			'click #publicDeckListView a': 'viewLinkClickHandler'
+			'click #publicDeckListView a': 'viewLinkClickHandler',
+			'click #publicDeckListView .btn' : function() {
+				conquest.keepAlive()
+			}
 		},
 		decks: new conquest.model.PublicDecks(),
 		filter: {},
