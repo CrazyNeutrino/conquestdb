@@ -339,6 +339,11 @@ conquest.deck = conquest.deck || {};
 
 	_deck.MemberGroupsView = Backbone.View.extend({
 		el: '.mg-container',
+		events: {
+			'click .mg-container .btn' : function() {
+				conquest.keepAlive()
+			}
+		},
 		render: function(members, options) {
 			options = options || {};
 

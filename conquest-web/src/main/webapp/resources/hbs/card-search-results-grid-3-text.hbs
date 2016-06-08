@@ -33,7 +33,7 @@
 				<strong>{{searchLinkType this}}. {{#if faction}}{{searchLinkFaction this}}.{{/if}}</strong><br/>
 				{{#if trait}}<span><i><strong>{{searchLinkTraits this}}</strong></i></span><br/>{{/if}}
 				<span>
-					{{#smartIf cost}}{{loc 'card.cost'}}: <strong>{{cost}}</strong>.{{/smartIf}} 
+					{{#smartIf cost}}{{loc 'card.cost'}}: <strong>{{encodeCost cost}}</strong>.{{/smartIf}} 
 					{{#smartIf shield}}{{loc 'card.shieldIcons.sh'}}: <strong>{{shield}}</strong>.{{/smartIf}} 
 					{{#smartIf command}}{{#unlessEqual type 'warlord'}}{{loc 'card.commandIcons.sh'}}: <strong>{{command}}</strong>.{{/unlessEqual}}{{/smartIf}} 
 					{{#smartIf attack}}{{loc 'card.attack.sh'}}: <strong>{{attack}}</strong>.{{/smartIf}} 

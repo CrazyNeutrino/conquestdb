@@ -242,6 +242,8 @@ conquest.model = conquest.model || {};
 						if (!_.isUndefined(card[key])) {
 							if (card[key] === -1) {
 								stats[key].quantityX += quantity;
+							} else if (card[key] === -2) {
+								// no op
 							} else {
 								stats[key].sum += card[key] * quantity;
 								stats[key].quantity += quantity;
@@ -251,13 +253,12 @@ conquest.model = conquest.model || {};
 				}
 			});
 
-			_.each(keys,
-					function(key) {
-						if (stats[key].quantity > 0) {
-							stats[key].average = Math.round(stats[key].sum / stats[key].quantity
-									* 100) / 100;
-						}
-					});
+			_.each(keys, function(key) {
+				if (stats[key].quantity > 0) {
+					stats[key].average = Math.round(stats[key].sum / stats[key].quantity
+							* 100) / 100;
+				}
+			});
 
 			return stats;
 		},
@@ -1738,4 +1739,8 @@ conquest.deck = conquest.deck || {};
 //
 (function(_conquest) {	
 
+	_conquest.keepAlive = _.throttle(function() {
+		$.post('/keepalive');
+	}, 10 * 60 * 1000)
+	
 })(conquest);

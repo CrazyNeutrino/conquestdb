@@ -133,6 +133,8 @@ $(function() {
 				conquest.router.navigate(href.replace(conquest.static.root, ''), {
 					trigger: true
 				});
+				
+				conquest.keepAlive();
 			}
 		},
 		renderMessages: function(options) {
@@ -178,7 +180,10 @@ $(function() {
 
 	var UserDeckListView = ViewBase.extend({
 		events: {
-			'click .user-deck-list-view a': 'viewLinkClickHandler'
+			'click .user-deck-list-view a': 'viewLinkClickHandler',
+			'click .user-deck-list-view .btn' : function() {
+				conquest.keepAlive()
+			}
 		},
 		decks: new conquest.model.PrivateDecks(),
 		filter: {},
@@ -271,7 +276,10 @@ $(function() {
 
 	var UserDeckImportView = ViewBase.extend({
 		events: {
-			'click .user-deck-import-view a': 'viewLinkClickHandler'
+			'click .user-deck-import-view a': 'viewLinkClickHandler',
+			'click .user-deck-import-view .btn' : function() {
+				conquest.keepAlive()
+			}
 		},
 		render: function(id) {
 			var view = this;
@@ -426,7 +434,10 @@ $(function() {
 
 	var UserDeckCreateView = ViewBase.extend({
 		events: {
-			'click .user-deck-create-view a': 'viewLinkClickHandler'
+			'click .user-deck-create-view a': 'viewLinkClickHandler',
+			'click .user-deck-create-view .btn' : function() {
+				conquest.keepAlive()
+			}
 		},
 		render: function() {
 			this.unbindMenuLinkClickHandler();
@@ -477,7 +488,10 @@ $(function() {
 
 	var UserDeckEditView = ViewBase.extend({
 		events: {
-			'click .user-deck-edit-view a': 'viewLinkClickHandler'
+			'click .user-deck-edit-view a': 'viewLinkClickHandler',
+			'click .user-deck-edit-view .btn' : function() {
+				conquest.keepAlive()
+			}
 		},
 		initialize: function() {
 			this.config = new Backbone.Model({
@@ -513,6 +527,8 @@ $(function() {
 				} else {
 					navigateHandler();
 				}
+				
+				conquest.keepAlive();
 			}
 		},
 		updateStats: function() {

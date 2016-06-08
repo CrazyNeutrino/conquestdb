@@ -362,3 +362,13 @@ Handlebars.registerHelper('ifRowEnd', function(index, rowMax, max, options) {
 		return options.inverse(this);
 	}
 });
+
+Handlebars.registerHelper('encodeCost', function(value, options) {
+	if (value == -1) {
+		return 'X';
+	} else if (value == -2){
+		return new Handlebars.SafeString('&#8211;');
+	} else {
+		return value;
+	}
+});
