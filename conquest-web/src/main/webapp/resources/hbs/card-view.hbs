@@ -89,8 +89,9 @@
 							<span class="key">{{loc 'card.signatureSquad'}}:</span>				
 							<span class="value">{{#if warlordId}}{{loc 'core.yes'}}{{else}}{{loc 'core.no'}}{{/if}}</span>
 							{{/unless}}								
+							<br />							
 							<br />
-							<br />
+							{{#if text}}{{{htmlText}}}<br/><br/>{{/if}}
 							<span class="key">{{loc 'card.set'}}:</span>
 							<span class="value">{{searchLinkSetName this}}</span>
 							<br />

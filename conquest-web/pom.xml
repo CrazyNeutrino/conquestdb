@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.meb</groupId>
 		<artifactId>conquest</artifactId>
-		<version>1.3.6</version>
+		<version>1.3.7</version>
 	</parent>
 
 	<properties>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.meb</groupId>
 			<artifactId>conquest-jpa</artifactId>
-			<version>1.3.3</version>
+			<version>1.3.7</version>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>

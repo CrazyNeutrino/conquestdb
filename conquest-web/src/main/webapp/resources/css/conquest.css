@@ -416,11 +416,11 @@ label.required:after {
 	margin-right: 5px;
 }
 
-.card-view .panel-body {
+.card-info .panel-body {
 	font-size: 0.9em;
 }
 
-.card-view .panel-body .key {
+.card-info .panel-body .key {
 	font-weight: bold;
 }
 

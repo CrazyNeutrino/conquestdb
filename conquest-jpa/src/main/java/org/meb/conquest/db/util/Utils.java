@@ -15,8 +15,10 @@ public class Utils {
 	private static final Logger log = LoggerFactory.getLogger(Utils.class);
 
 	public static String toTechName(String name) {
-		String techName = Normalizer.normalize(name, Form.NFD).replaceAll("[^\\p{ASCII}\\p{Digit}]", "");
-		techName = techName.replaceAll("[^\\p{Alnum} \\-]", "").replace(' ', '-').replaceAll("\\-+", "-");
+		String techName = Normalizer.normalize(name, Form.NFD).replaceAll("[^\\p{ASCII}\\p{Digit}]",
+				"");
+		techName = techName.replaceAll("[^\\p{Alnum} \\-]", "").replace(' ', '-').replaceAll("\\-+",
+				"-");
 		techName = StringUtils.removeStart(techName, "-");
 		techName = StringUtils.removeEnd(techName, "-");
 		techName = techName.toLowerCase().trim();
@@ -41,7 +43,7 @@ public class Utils {
 		StringBuilder builder = new StringBuilder();
 
 		if (card.getImageLangCode() == null) {
-			builder.append("no-card-image.png");
+			builder.append("no-card-image");
 		} else {
 			builder.append(card.getImageLangCode());
 			builder.append("/");
