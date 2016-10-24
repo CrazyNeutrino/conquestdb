@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -18,6 +19,7 @@ import lombok.ToString;
 @ToString(exclude = { "base" })
 @Entity
 @Table(name = "cqt_domain_l")
+@NoArgsConstructor
 public class DomainLang implements ILang<DomainBase> {
 
 	private String description;
@@ -35,4 +37,7 @@ public class DomainLang implements ILang<DomainBase> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	public DomainLang(String langCode) {
+		this.langCode = langCode;
+	}
 }
